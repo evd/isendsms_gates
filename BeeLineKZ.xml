@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BeelineKZ</name>
+	<caption>БиЛайн Казахстан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 777"/>
+		<prefix start="+7 705"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.beeline.kz/sms/index.wbp</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.beeline.kz/mybeeline/sms.wbp</pageurl>
+		<imageurl>http://www.beeline.kz/mybeeline/mamimg.aspx</imageurl>
+		<posturl>http://www.beeline.kz/mybeeline/sms.wbp</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('send','');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('smstoprefix',SMS['Phone_County'] + SMS['Phone_Def']);
+							PostData.Add('smsto',SMS['Phone_Number']);
+							PostData.Add('dirtysmstext',SMS['Text']);
+							PostData.Add('translit',iff(IsAscii(SMS['Text']),'off','on'));
+							PostData.Add('mlength',SMS['LeaveSymbols']);
+							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
+							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('x','51');
+							PostData.Add('y','9');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;center style=&quot;margin-bottom: 30&quot;&gt;(.*?)&lt;/center&gt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;',1);
+					end;		
+					)</error>
+	</classprops>
+</gate>

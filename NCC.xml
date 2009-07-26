@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>NCC</name>
+	<caption>НСС</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90204"/>
+		<prefix start="+7 902287" end="+7 902288"/>
+		<prefix start="+7 90230"/>
+		<prefix start="+7 902666" end="+7 902669"/>
+		<prefix start="+7 90268"/>
+		<prefix start="+7 90278"/>
+		<prefix start="+7 904240" end="+7 904244"/>
+		<prefix start="+7 904263" end="+7 904269"/>
+		<prefix start="+7 90466" end="+7 90467"/>
+		<prefix start="+7 90476"/>
+		<prefix start="+7 90478" end="+7 90479"/>
+		<prefix start="+7 904850" end="+7 904855"/>
+		<prefix start="+7 90490" end="+7 90492"/>
+		<prefix start="+7 90830"/>
+		<prefix start="+7 90855"/>
+		<prefix start="+7 90872" end="+7 90876"/>
+		<prefix start="+7 95031" end="+7 95032"/>
+		<prefix start="+7 95034" end="+7 95037"/>
+		<prefix start="+7 95105" end="+7 95106"/>
+		<prefix start="+7 951340" end="+7 951343"/>
+		<prefix start="+7 95188" end="+7 95191"/>
+		<prefix start="+7 95202" end="+7 95204"/>
+		<prefix start="+7 95207"/>
+		<prefix start="+7 95246" end="+7 95247"/>
+		<prefix start="+7 953410"/>
+		<prefix start="+7 953413" end="+7 953415"/>
+		<prefix start="+7 9534444" end="+7 9534479"/>
+		<prefix start="+7 95363"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.nnov.ncc-volga.ru/services/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.nnov.ncc-volga.ru/services/sms/</pageurl>
+		<imageurl>eval('http://www.nnov.ncc-volga.ru/bitrix/tools/captcha.php?captcha_sid='+Html.RegExp('id=&quot;captcha_img&quot; src=&quot;/bitrix/tools/captcha\.php\?captcha_sid=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.nnov.ncc-volga.ru/services/sms/?action=send</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('code',SMS['Phone_Def']);
+						PostData.Add('number',SMS['Phone_Number']);
+						PostData.Add('text',SMS['Text']);
+						PostData.Add('captcha_sid',HTML.RegExp('id=&quot;captcha_sid&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha',SMS['Code']);
+					end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('Сообщение успешно отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;font class=&quot;errortext&quot;&gt;(.*?)&lt;/font&gt;',1))</error>
+	</classprops>
+</gate>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Smarts</name>
+	<caption>Смартс</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 902241" end="+7 902243"/>
+		<prefix start="+7 90229"/>
+		<prefix start="+7 902315" end="+7 902324"/>
+		<prefix start="+7 902335" end="+7 902339"/>
+		<prefix start="+7 90237"/>
+		<prefix start="+7 90271"/>
+		<prefix start="+7 902746" end="+7 902749"/>
+		<prefix start="+7 904700" end="+7 904727"/>
+		<prefix start="+7 9047295" end="+7 9047298"/>
+		<prefix start="+7 90473" end="+7 90474"/>
+		<prefix start="+7 90833" end="+7 90843"/>
+		<prefix start="+7 90856"/>
+		<prefix start="+7 950665" end="+7 950669"/>
+		<prefix start="+7 95088"/>
+		<prefix start="+7 950930" end="+7 950944"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://samara.smarts.ru</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://samara.smarts.ru/files/sms.htm</pageurl>
+		<posturl>http://samara.smarts.ru</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('object','smssender');
+						PostData.Add('mode','send_sms');
+						PostData.Add('phone',SMS['Phone']);
+						if SMS['Flash'] then
+							PostData.Add('flash','ON');
+						PostData.Add('sendtext',SMS['Text']);
+						PostData.Add('chars','&lt;font color=''green''&gt;' + VarToStr(Length(SMS['Text'])) + '&lt;/font&gt;');
+					end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('Сообщение отправлено!'))</success>
+		<error>eval(Html.RegExp('&lt;p style=&quot;margin: 0 0 5 0; font: 70% Tahoma&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
+	</classprops>
+</gate>

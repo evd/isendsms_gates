@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BeelineUA</name>
+	<caption>БиЛайн Украина</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+380 39" format="3.2.7"/>
+		<prefix start="+380 63" format="3.2.7"/>
+		<prefix start="+380 67" end="+380 68" format="3.2.7"/>
+		<prefix start="+380 93" format="3.2.7"/>
+		<prefix start="+380 96" end="+380 98" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://beeline.ua/sms.wbp</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://beeline.ua/sms.wbp</pageurl>
+		<imageurl>http://beeline.ua/mamimg1.aspx</imageurl>
+		<posturl>http://beeline.ua/sms.wbp</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('send','');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('smsid','');
+							PostData.Add('smstoprefix',SMS['Phone_Country'] + SMS['Phone_Def']);
+							PostData.Add('smsto',SMS['Phone_Number']);
+							PostData.Add('dirtysmstext',SMS['Text']);
+							PostData.Add('translit',iff(IsAscii(SMS['Text']),'off','on'));
+							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
+							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('x','51');
+							PostData.Add('y','9');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Повідомлення поставлено в чергу'))</success>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;center style=&quot;margin-bottom: 30&quot;&gt;(.*?)&lt;/center&gt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;',1);
+					end;		
+					)</error>
+	</classprops>
+</gate>

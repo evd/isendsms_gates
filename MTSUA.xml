@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MTSUA</name>
+	<caption>МТС Украина</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+380 50" format="3.2.7"/>
+		<prefix start="+380 66" format="3.2.7"/>
+		<prefix start="+380 95" format="3.2.7"/>
+		<prefix start="+380 99" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>128</maxsymbols>
+		<maxunicodesymbols>38</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.mts.com.ua/rus/sendsms.php</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.mts.com.ua/rus/sendsms.php</pageurl>
+		<imageurl>eval('http://www.mts.com.ua/back/modules/golden/captcha.php?PHPSESSID='+HTML.RegExp('captcha.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.mts.com.ua/back/modules/sms/db_sms.php</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('script','/rus/sendsms.php');
+							PostData.Add('sms_tag_id','3');
+							PostData.Add('network1',SMS['Phone_Country'] + SMS['Phone_Def']);
+							PostData.Add('phone1',SMS['Phone_Number']);
+							PostData.Add('message',SMS['Text']);
+							PostData.Add('lang',iff(IsAscii(SMS['Text']),'lat','cyr'));
+							PostData.Add('captcha',SMS['Code']);
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше SMS-сообщение отослано.'))</success>
+		<error>eval(Html.RegExp('ОШИБКА!&lt;/b&gt;&lt;br&gt;- (.*?)&lt;/p&gt;',1))</error>
+	</classprops>
+</gate>

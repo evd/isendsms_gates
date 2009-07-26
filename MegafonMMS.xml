@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MegafonMMS</name>
+	<caption>Мегафон ММС</caption>
+	<type>MMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="7 920" end="7 929"/>
+		<prefix start="7 931"/>
+		<prefix start="7 937" end="7 938"/>
+		<prefix start="7 812"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>1000</maxsymbols>
+		<maxunicodesymbols>1000</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sendmms.megafon.ru</gateurl>
+		<supportmultimedia>1</supportmultimedia>
+		<supportaudio>1</supportaudio>
+		<supportimage>1</supportimage>
+		<multimediacount>1</multimediacount>
+		<maxmultimediasize>102400</maxmultimediasize>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<multipart>1</multipart>
+		<pageurl>http://sendmms.megafon.ru</pageurl>
+		<imageurl>eval('http://sendmms.megafon.ru/captcha/' + HTML.RegExp('src=&quot;/captcha/(.*?)&quot;',1))</imageurl>
+		<posturl>http://sendmms.megafon.ru/action.phtml</posturl>
+		<handleredirects>0</handleredirects>
+		<postdata>eval(
+					begin
+						PostData.Add('selectedTab','dir-image');
+						PostData.Add('selImage','-1');
+						PostData.Add('selVideo','-1');
+						PostData.Add('selAudio','-1');
+						PostData.Add('preview','');
+						PostData.Add('delete_img','');
+						PostData.Add('area','mms');
+						PostData.Add('action','submitmms');
+						PostData.Add('charcheck','йцукен');
+						PostData.Add('def',MMS['Phone_Def']);
+						PostData.Add('number',MMS['Phone_Number']);
+						PostData.Add('subject',MMS['Subject']);
+						PostData.Add('body',MMS['Text']);
+						PostData.Add('imagetext','');
+						PostData.Add('fontsize','9');
+						PostData.Add('fontcolor','Черный');
+						PostData.Add('MAX_FILE_SIZE','4000000');
+						if Assigned(MMS['MultiMedia']) then
+							PostData.AddData('uploaded_file',MMS['MultiMedia']);
+						PostData.Add('imageSize','0');
+						PostData.Add('captcha_key',HTML.RegExp('name=&quot;captcha_key&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha',MMS['Code']);
+					end;
+					)
+		</postdata>
+		<success>eval(Pos('view=sent',HTTP['Location'])>0)</success>
+		<error>eval(
+				begin
+					if Pos('captcha',HTTP['error'])>0 then
+						Result:='Неправильный код потверждения'
+					else if Pos('msisdn',HTTP['error'])>0 then
+						Result:='Неверный номер получателя'
+					else if Pos('size',HTTP['error'])>0 then
+						Result:='Общий вес сообщения не должен превышать 100Кбайт'
+					else if Pos('file',HTTP['error'])>0 then
+						Result:='Данный файл не может быть отправлен'
+					else
+						Result:='Неизвестная ошибка отправки';
+				end;
+				)
+				</error>
+	</classprops>
+</gate>

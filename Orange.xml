@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Orange</name>
+	<caption>Orange</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+373 68" end="+373 69" format="3.2.6"/>
+		<prefix start="+373 60" format="3.2.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>137</maxsymbols>
+		<maxunicodesymbols>51</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>https://www.orangetext.md/Default.aspx?lang=ru</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<sendinit>eval(begin HTTP['Referer']:='http://www.orange.md'; Result:=true; end;)</sendinit>
+		<pageurl>https://www.orangetext.md/Default.aspx?lang=ru</pageurl>
+		<imageurl>eval('https://www.orangetext.md/CaptchaImage.axd?guid=' + HTML.RegExp('CaptchaImage.axd\?guid=(.*?)&quot;',1))</imageurl>
+		<posturl>https://www.orangetext.md/Default.aspx?lang=ru</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('edtFrom','issms');
+						PostData.Add('prefix',SMS['Phone_Def']);
+						PostData.Add('edtMsisdn',SMS['Phone_Number']);
+						PostData.Add('rest',SMS['LeaveSymbols']);
+						PostData.Add('edtMsg',SMS['Text']);
+						PostData.Add('edRandNumber',SMS['Code']);
+						PostData.Add('btnOK','отправь смс');
+						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение отослано успешно'))</success>
+		<error>eval(Html.RegExp('style=&quot;color:#ff5500; padding:5px;  font-size:14px; &quot;&gt;(.*?)&lt;',1))</error>
+	</classprops>
+</gate>

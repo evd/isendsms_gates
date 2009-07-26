@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MegafonCenter</name>
+	<caption>Мегафон Центр</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<prefixlist>
+		<prefix start="7 9200"/>
+		<prefix start="7 920111"/>
+		<prefix start="7 92025" end="7 92029"/>
+		<prefix start="7 92060" end="7 92063"/>
+		<prefix start="7 9207" end="7 9209"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>68</maxsymbols>
+		<maxunicodesymbols>68</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.megafoncenter.ru/center/sms_gate/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.megafoncenter.ru/center/sms_gate/</pageurl>
+		<imageurl>http://www.megafoncenter.ru/info.php</imageurl>
+		<posturl>http://www.megafoncenter.ru/</posturl>
+		<postdata>eval(
+			begin
+				PostData.Add('PHPSESSID',HTML.RegExp('name=&quot;PHPSESSID&quot; value=&quot;(.*?)&quot;',1));
+				PostData.Add('id',HTML.RegExp('name=''id'' value=''(.*?)''',1));
+				PostData.Add('action','submit');
+				PostData.Add('Prefix','');
+				PostData.Add('Address','+'+SMS['Phone']);
+				PostData.Add('code',SMS['Code']);
+				PostData.Add('Message',SMS['Text']);
+				PostData.Add('Submit','Отправить');
+				if (SMS['Flash']) then
+					PostData.Add('Flashsm','');
+			end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('SMSC '))</success>
+		<error>eval(Html.RegExp('&lt;h1&gt;Отправить SMS&lt;/h1&gt;.*?&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+	</classprops>
+</gate>

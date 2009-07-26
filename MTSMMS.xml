@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MTSMMS</name>
+	<caption>МТС ММС</caption>
+	<type>MMS</type>
+	<class>HTTP</class>
+	<version>2</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90259"/>
+		<prefix start="+7 90425"/>
+		<prefix start="+7 910000" end="+7 912065"/>
+		<prefix start="+7 912068" end="+7 914014"/>
+		<prefix start="+7 91402" end="+7 91411"/>
+		<prefix start="+7 91415" end="+7 91429"/>
+		<prefix start="+7 91431"/>
+		<prefix start="+7 91438" end="+7 91442"/>
+		<prefix start="+7 914538"/>
+		<prefix start="+7 91454" end="+7 91479"/>
+		<prefix start="+7 91481"/>
+		<prefix start="+7 91483" end="+7 91498"/>
+		<prefix start="+7 91500" end="+7 91872"/>
+		<prefix start="+7 91874" end="+7 91883"/>
+		<prefix start="+7 91885" end="+7 91912"/>
+		<prefix start="+7 919139" end="+7 919411"/>
+		<prefix start="+7 91942" end="+7 91977"/>
+		<prefix start="+7 919784"/>
+		<prefix start="+7 919786"/>
+		<prefix start="+7 919790" end="+7 919970"/>
+		<prefix start="+7 91998" end="+7 91999"/>
+		<prefix start="+7 95095"/>
+		<prefix start="+7 98030" end="+7 98037"/>
+		<prefix start="+7 980500" end="+7 980504"/>
+		<prefix start="+7 980510" end="+7 980514"/>
+		<prefix start="+7 98054"/>
+		<prefix start="+7 980640" end="+7 980644"/>
+		<prefix start="+7 980650" end="+7 980664"/>
+		<prefix start="+7 980670" end="+7 980680"/>
+		<prefix start="+7 981440" end="+7 981444"/>
+		<prefix start="+7 98145"/>
+		<prefix start="+7 98150"/>
+		<prefix start="+7 981650" end="+7 981654"/>
+		<prefix start="+7 9817"/>
+		<prefix start="+7 98230" end="+7 98232"/>
+		<prefix start="+7 98240" end="+7 98241"/>
+		<prefix start="+7 98250" end="+7 98253"/>
+		<prefix start="+7 98260"/>
+		<prefix start="+7 98290"/>
+		<prefix start="+7 98295"/>
+		<prefix start="+7 9831"/>
+		<prefix start="+7 98340" end="+7 98342"/>
+		<prefix start="+7 985"/>
+		<prefix start="+7 98725"/>
+		<prefix start="+7 98729" end="+7 98732"/>
+		<prefix start="+7 98734"/>
+		<prefix start="+7 98759"/>
+		<prefix start="+7 98762"/>
+		<prefix start="+7 98764" end="+7 98766"/>
+		<prefix start="+7 98769" end="+7 98770"/>
+		<prefix start="+7 98782" end="+7 98786"/>
+		<prefix start="+7 98794" end="+7 98797"/>
+		<prefix start="+7 98799"/>
+		<prefix start="+7 98814" end="+7 98818"/>
+		<prefix start="+7 98823" end="+7 98825"/>
+		<prefix start="+7 98828"/>
+		<prefix start="+7 98831" end="+7 98841"/>
+		<prefix start="+7 988425"/>
+		<prefix start="+7 988460" end="+7 988464"/>
+		<prefix start="+7 988470" end="+7 988473"/>
+		<prefix start="+7 988486"/>
+		<prefix start="+7 98849" end="+7 98851"/>
+		<prefix start="+7 988523"/>
+		<prefix start="+7 98853" end="+7 98854"/>
+		<prefix start="+7 988557"/>
+		<prefix start="+7 988560" end="+7 988600"/>
+		<prefix start="+7 988602"/>
+		<prefix start="+7 988622"/>
+		<prefix start="+7 988652"/>
+		<prefix start="+7 988666"/>
+		<prefix start="+7 988674"/>
+		<prefix start="+7 98868"/>
+		<prefix start="+7 98870" end="+7 98875"/>
+		<prefix start="+7 988762"/>
+		<prefix start="+7 988765"/>
+		<prefix start="+7 988769" end="+7 988770"/>
+		<prefix start="+7 98881" end="+7 98885"/>
+		<prefix start="+7 98888" end="+7 98893"/>
+		<prefix start="+7 988953"/>
+		<prefix start="+7 988966"/>
+		<prefix start="+7 98995"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>1000</maxsymbols>
+		<maxunicodesymbols>1000</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.mms.mts.ru/send.html</gateurl>
+		<supportmultimedia>1</supportmultimedia>
+		<supportaudio>0</supportaudio>
+		<supportimage>1</supportimage>
+		<maxmultimediacount>1</maxmultimediacount>
+		<maxmultimediasize>307200</maxmultimediasize>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</pageurl>
+		<imageurl>eval('http://www.mts.ru/LanapCaptcha.aspx'+Html.RegExp('LanapCaptcha.aspx(.*?)''',1))</imageurl>
+		<multipart>1</multipart>
+		<posturl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('currentID','-1');
+							PostData.Add('ddlDefCode',MMS['Phone_Def']);
+							PostData.Add('tbPhone',MMS['Phone_Number']);
+							PostData.Add('ddlTopic','0');
+							PostData.Add('tbTopic',MMS['Subject']);
+							PostData.Add('tbMessage',MMS['Text']);
+							PostData.AddData('fileUpload',MMS['Multimedia']);
+							PostData.Add('tbCode',MMS['Code']);
+							PostData.Add('btnSend.x','140');
+							PostData.Add('btnSend.y','33');
+						end;
+					)
+		</postdata>
+		 
+		<success>eval(Html.ExistsStr('Проверить статус доставки'))</success>
+		<error>eval(HTML.RegExp('&lt;span id=&quot;lblError&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
+		
+		<checkdelivery>1</checkdelivery>
+		<cd_method>POST</cd_method>
+		<cd_posturl>eval(begin
+							Result:='http://www.mts.ru/checkStatusFreeWithLinks.aspx';
+							if HTML.ExistsStr('|updatePanel|') then
+								Result:=Result + HTML.RegExp('\|checkStatusFreeWithLinks.aspx(.*?)\|',1)
+							else	
+								Result:=Result+Html.RegExp('checkStatusFreeWithLinks\.aspx(.*?)&quot;',1);
+						end;
+							)
+		</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('scriptManagerId','AJAXUpdatePanel|StatusLink');
+							PostData.Add('__EVENTTARGET','StatusLink');
+							PostData.Add('__EVENTARGUMENT','');
+							if HTML.ExistsStr('|updatePanel|') then
+							begin
+								PostData.Add('__VIEWSTATE',HTML.RegExp('__VIEWSTATE\|(.*?)\|',1));
+								PostData.Add('__EVENTVALIDATION',HTML.RegExp('__EVENTVALIDATION\|(.*?)\|',1));
+							end else
+							begin
+								PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+							end;	
+							PostData.Add('__ASYNCPOST','true');
+						end;
+					)
+		</cd_postdata>
+		<cd_success>eval(
+							begin
+								if HTML.ExistsStr('В очереди.') then
+									Result:='WAIT'
+								else Result:=HTML.ExistsStr('Доставлено.');
+							end;
+						)
+		</cd_success>
+		<cd_error>eval(Html.RegExp('Cтатус MMS: &lt;b&gt;(.*?)&lt;b/&gt;',1))</cd_error>
+	</classprops>
+</gate>

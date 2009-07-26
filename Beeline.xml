@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Beeline</name>
+	<caption>БиЛайн</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>3</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 9017"/>
+		<prefix start="+7 903"/>
+		<prefix start="+7 90435"/>
+		<prefix start="+7 90465"/>
+		<prefix start="+7 905" end="+7 906"/>
+		<prefix start="+7 90854"/>
+		<prefix start="+7 909"/>
+		<prefix start="+7 95021" end="+7 95022"/>
+		<prefix start="+7 95110" end="+7 95112"/>
+		<prefix start="+7 95173" end="+7 95175"/>
+		<prefix start="+7 95226" end="+7 95228"/>
+		<prefix start="+7 9600" end="+7 9620"/>
+		<prefix start="+7 962130" end="+7 962151"/>
+		<prefix start="+7 962155" end="+7 962413"/>
+		<prefix start="+7 962420" end="+7 962460"/>
+		<prefix start="+7 96247" end="+7 96257"/>
+		<prefix start="+7 962582" end="+7 963288"/>
+		<prefix start="+7 96329" end="+7 96355"/>
+		<prefix start="+7 963562" end="+7 963568"/>
+		<prefix start="+7 963570" end="+7 963738"/>
+		<prefix start="+7 963740" end="+7 964042"/>
+		<prefix start="+7 964047" end="+7 964074"/>
+		<prefix start="+7 964080" end="+7 964094"/>
+		<prefix start="+7 964100" end="+7 964137"/>
+		<prefix start="+7 964140" end="+7 964231"/>
+		<prefix start="+7 964240" end="+7 964688"/>
+		<prefix start="+7 964690" end="+7 964824"/>
+		<prefix start="+7 964830" end="+7 965864"/>
+		<prefix start="+7 495" />
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.beeline.ru/sms/index.wbp</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.beeline.ru/sms/index.wbp</pageurl>
+		<imageurl>http://www.beeline.ru/sms/mamimg.aspx</imageurl>
+		<posturl>http://www.beeline.ru/sms/index.wbp</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('send','');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('smstoprefix',SMS['Phone_Def']);
+							PostData.Add('smsto',SMS['Phone_Number']);
+							PostData.Add('dirtysmstext',SMS['Text']);
+							PostData.Add('translit',iff(IsAscii(SMS['Text']),'off','on'));
+							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
+							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('x','51');
+							PostData.Add('y','9');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
+		<error>eval(HTML.RegExp('CLASS=&quot;err&quot;&gt;(.*?)&lt;/DIV&gt;',1))</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://www.beeline.ru/sms/index.wbp</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
+							PostData.Add('x','75');
+							PostData.Add('y','10');
+						end;
+					)
+		</cd_postdata>
+		<cd_success>eval(HTML.ExistsStr('Сообщение отправлено'))</cd_success>
+		<cd_error>Ошибка подтверждения доставки</cd_error>
+	</classprops>
+</gate>

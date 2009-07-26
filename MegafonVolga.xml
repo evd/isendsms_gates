@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MegafonVolga</name>
+	<caption>Мегафон Волга</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 92253" end="+7 92255"/>
+		<prefix start="+7 92262"/>
+		<prefix start="+7 9228"/>
+		<prefix start="+7 927"/>
+		<prefix start="+7 9297"/>
+		<prefix start="+7 93711" end="+7 93749"/>
+		<prefix start="+7 93751" end="+7 93759"/>
+		<prefix start="+7 937610" end="+7 937752"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.megafonvolga.ru/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.megafonvolga.ru/sms/</pageurl>
+		<imageurl>eval('http://www.megafonvolga.ru/includes/sms_code_new.php?'+Html.RegExp('/includes/sms_code_new.php\?(.*?)''',1))</imageurl>
+		<posturl>http://www.megafonvolga.ru/sms/send/</posturl>
+		<multipart>1</multipart>
+		<postdata>eval(
+			begin
+				PostData.Add('flash',iff(SMS['Flash'],'1','0'));
+				PostData.Add('svalue','1');
+				PostData.Add('pref',Copy(SMS['Phone'],1,3));
+				PostData.Add('Addr',Copy(SMS['Phone'],4,8));
+				PostData.Add('smbody',SMS['Text']);
+				if SMS['Delivery'] then
+				begin
+					PostData.Add('delay','1');
+					PostData.Add('day',FormatDateTime('dd',SMS['DeliveryTime']));
+					PostData.Add('month',FormatDateTime('mm',SMS['DeliveryTime']));
+					PostData.Add('hour',FormatDateTime('hh',SMS['DeliveryTime']));
+					PostData.Add('min',FormatDateTime('nn',SMS['DeliveryTime']));
+				end;
+				PostData.Add('year',FormatDateTime('yyyy',SMS['DeliveryTime']));
+				PostData.Add('secretcode',SMS['Code']);
+			end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('сообщение поставлено в очередь на отправку'))</success>
+		<error>eval(Html.RegExp('&lt;font color=red&gt;.*?Ошибка!(.*?)&lt;script',1))</error>
+	</classprops>
+</gate>
