@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -19,9 +19,7 @@
 		<prefix start="+7 91454" end="+7 91479"/>
 		<prefix start="+7 91481"/>
 		<prefix start="+7 91483" end="+7 91498"/>
-		<prefix start="+7 91500" end="+7 91872"/>
-		<prefix start="+7 91874" end="+7 91883"/>
-		<prefix start="+7 91885" end="+7 91912"/>
+		<prefix start="+7 91500" end="+7 91912"/>
 		<prefix start="+7 919139" end="+7 919411"/>
 		<prefix start="+7 91942" end="+7 91977"/>
 		<prefix start="+7 919784"/>
@@ -61,12 +59,7 @@
 		<prefix start="+7 98794" end="+7 98797"/>
 		<prefix start="+7 98799"/>
 		<prefix start="+7 98814" end="+7 98818"/>
-		<prefix start="+7 98823" end="+7 98825"/>
-		<prefix start="+7 98828"/>
-		<prefix start="+7 98831" end="+7 98841"/>
-		<prefix start="+7 988425"/>
-		<prefix start="+7 988460" end="+7 988464"/>
-		<prefix start="+7 988470" end="+7 988473"/>
+		<prefix start="+7 988200" end="+7 988473"/>
 		<prefix start="+7 988486"/>
 		<prefix start="+7 98849" end="+7 98851"/>
 		<prefix start="+7 988523"/>
@@ -75,14 +68,13 @@
 		<prefix start="+7 988560" end="+7 988600"/>
 		<prefix start="+7 988602"/>
 		<prefix start="+7 988622"/>
-		<prefix start="+7 988652"/>
+		<prefix start="+7 988630" end="+7 988655"/>
 		<prefix start="+7 988666"/>
 		<prefix start="+7 988674"/>
-		<prefix start="+7 98868"/>
-		<prefix start="+7 98870" end="+7 98875"/>
+		<prefix start="+7 98868" end="+7 98875"/>
 		<prefix start="+7 988762"/>
 		<prefix start="+7 988765"/>
-		<prefix start="+7 988769" end="+7 988770"/>
+		<prefix start="+7 988769" end="+7 988799"/>
 		<prefix start="+7 98881" end="+7 98885"/>
 		<prefix start="+7 98888" end="+7 98893"/>
 		<prefix start="+7 988953"/>
