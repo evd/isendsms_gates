@@ -4,7 +4,7 @@
 	<caption>Мегафон Волга</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 92253" end="+7 92255"/>
@@ -23,13 +23,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.megafonvolga.ru/sms/</gateurl>
+		<gateurl>http://volga.megafon.ru/sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.megafonvolga.ru/sms/</pageurl>
-		<imageurl>eval('http://www.megafonvolga.ru/includes/sms_code_new.php?'+Html.RegExp('/includes/sms_code_new.php\?(.*?)''',1))</imageurl>
-		<posturl>http://www.megafonvolga.ru/sms/send/</posturl>
+		<pageurl>http://volga.megafon.ru/sms/</pageurl>
+		<imageurl>eval('http://volga.megafon.ru/includes/sms_code_new.php?'+Html.RegExp('/includes/sms_code_new.php\?(.*?)''',1))</imageurl>
+		<posturl>http://volga.megafon.ru/sms/send/</posturl>
 		<multipart>1</multipart>
 		<postdata>eval(
 			begin
@@ -52,6 +52,32 @@
 		)
 		</postdata>
 		<success>eval(Html.ExistsStr('сообщение поставлено в очередь на отправку'))</success>
-		<error>eval(Html.RegExp('&lt;font color=red&gt;.*?Ошибка!(.*?)&lt;script',1))</error>
+		<error>eval(
+						begin
+							Result:=Html.RegExp('&lt;font color=red&gt;.*?Ошибка!(.*?)&lt;script',1);
+							if Result='' then
+								Result:=Html.RegExp('&lt;font color=red&gt;&lt;b&gt;Внимание!&lt;/b&gt;&lt;/font&gt;&lt;br&gt;&lt;br&gt;(.*?)&lt;br&gt;&lt;br&gt;',1);
+						end;	
+						)	
+		</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>POST</cd_method>
+		<cd_multipart>1</cd_multipart>
+		<cd_posturl>http://volga.megafon.ru/sms/status/</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('id',Html.RegExp('name=id value=(.*?)&gt;',1));
+						end;
+					)
+		</cd_postdata>			
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Сообщение еще не доставлено') then
+								Result:='WAIT'
+							else Result:=Html.ExistsStr('Сообщение доставлено');
+						end;
+					)
+		</cd_success>
+		<cd_error>Ошибка подтверждения доставки</cd_error>
 	</classprops>
 </gate>
