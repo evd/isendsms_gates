@@ -4,7 +4,7 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 921"/>
@@ -18,13 +18,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.megafonnw.ru/info/rus/sms</gateurl>
+		<gateurl>http://spb.megafon.ru/info/rus/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.megafonnw.ru/info/rus/sms</pageurl>
-		<imageurl>eval('http://www.megafonnw.ru' + HTML.RegExp('&lt;img src=&quot;(/info/plain/smspic\?code=(.*?))&quot;',1))</imageurl>
-		<posturl>http://www.megafonnw.ru/info/rus/sms</posturl>
+		<pageurl>http://spb.megafon.ru/info/rus/sms</pageurl>
+		<imageurl>eval('http://spb.megafon.ru' + HTML.RegExp('&lt;img src=&quot;(/info/plain/smspic\?code=(.*?))&quot;',1))</imageurl>
+		<posturl>http://spb.megafon.ru/info/rus/sms</posturl>
 		<postdata>eval(
 						begin
 							PostData.Add('prefix',SMS['Phone_Def']);
