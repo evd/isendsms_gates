@@ -1,43 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
-	<name>MegafonCenterAlt</name>
+	<name>MegafonCenterAlt1</name>
 	<caption>Мегафон Центр 1</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 92020" end="7 92024"/>
 		<prefix start="7 92047" end="7 92059"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>160</maxunicodesymbols>
-		<supportflash>1</supportflash>
-		<supportdtdelivery>0</supportdtdelivery>
+		<maxsymbols>300</maxsymbols>
+		<maxunicodesymbols>300</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.megafoncenter.ru/bel/sms_gate/</gateurl>
+		<gateurl>http://www.megafonkavkaz.ru/sms</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.megafoncenter.ru/bel/sms_gate/</pageurl>
-		<imageurl>http://www.megafoncenter.ru/info.php</imageurl>
-		<posturl>http://www.megafoncenter.ru/</posturl>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.megafonkavkaz.ru/sms</pageurl>
+		<imageurl>eval('http://www.megafonkavkaz.ru/svg-images/'+Html.RegExp('src=&quot;svg-images/(.*?).png\?&quot;&gt;',1)+'.png')</imageurl>
+		<posturl>http://www.megafonkavkaz.ru/sms</posturl>
 		<postdata>eval(
 			begin
-				PostData.Add('id',HTML.RegExp('name=''id'' value=''(.*?)''',1));
-				PostData.Add('action','submit');
-				PostData.Add('Address','+'+SMS['Phone']);
-				PostData.Add('code',SMS['Code']);
-				PostData.Add('Message',SMS['Text']);
-				PostData.Add('Submit','Отправить');
-				if (SMS['Flash']) then
-					PostData.Add('Flashsm','');
+				PostData.Add('phone_number',SMS['Phone_Def']+SMS['Phone_Number']);
+				PostData.Add('msg',SMS['Text']);
+				PostData.Add('sender','');
+				if SMS['Delivery'] then
+				begin
+					PostData.Add('day',FormatDateTime('dd',SMS['DeliveryTime']));
+					PostData.Add('month',FormatDateTime('mm',SMS['DeliveryTime']));
+					PostData.Add('hours',FormatDateTime('hh',SMS['DeliveryTime']));
+					PostData.Add('minutes',FormatDateTime('nn',SMS['DeliveryTime']));
+				end else
+				begin
+					PostData.Add('day','');
+					PostData.Add('month','');
+					PostData.Add('hours','');
+					PostData.Add('minutes','');
+				end;	
+				PostData.Add('passwd',SMS['Code']);
 			end;
 		)
 		</postdata>
-		<success>eval(Html.ExistsStr('SMSC принял сообщение'))</success>
-		<error>eval(Html.RegExp('&lt;h1&gt;Отправить SMS&lt;/h1&gt;.*?&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;font color=&quot;red&quot;&gt;(.*?)&lt;/font&gt;',1))</error>
 	</classprops>
 </gate>
