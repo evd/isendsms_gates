@@ -4,7 +4,7 @@
 	<caption>Мегафон Урал</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 92200" end="+7 92252"/>
@@ -21,13 +21,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.megafonural.ru/sms/</gateurl>
+		<gateurl>http://ural.megafon.ru/sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.megafonural.ru/sms/</pageurl>
-		<imageurl>eval('http://www.megafonural.ru/images/sms/sms.gif?s='+Html.RegExp('/images/sms/sms.gif\?s=(.*?)&quot;',1))</imageurl>
-		<posturl>http://www.megafonural.ru/sms/?s</posturl>
+		<pageurl>http://ural.megafon.ru/sms/</pageurl>
+		<imageurl>eval('http://ural.megafon.ru/images/sms/sms.gif?s='+Html.RegExp('/images/sms/sms.gif\?s=(.*?)&quot;',1))</imageurl>
+		<posturl>http://ural.megafon.ru/sms/?s</posturl>
 		<postdata>eval(
 			begin
 				PostData.Add('cc',Html.RegExp('name=&quot;cc&quot; value=&quot;(.*?)&quot;',1));
