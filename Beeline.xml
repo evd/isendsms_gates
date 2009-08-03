@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 9017"/>
@@ -79,7 +79,14 @@
 						end;
 					)
 		</cd_postdata>
-		<cd_success>eval(HTML.ExistsStr('Сообщение отправлено'))</cd_success>
-		<cd_error>Ошибка подтверждения доставки</cd_error>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Сообщение помещено в очередь отправки') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Сообщение отправлено');
+						end;	
+					   )
+		</cd_success>
+		<cd_error>Ошибка подверждения доставки</cd_error>
 	</classprops>
 </gate>
