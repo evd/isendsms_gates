@@ -4,37 +4,44 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 9017"/>
+		<prefix start="+7 902152" end="+7 902154"/>
+		<prefix start="+7 902280"/>
+		<prefix start="+7 902289"/>
+		<prefix start="+7 902414" end="+7 902417"/>
+		<prefix start="+7 902419"/>
+		<prefix start="+7 902580" end="+7 902581"/>
 		<prefix start="+7 903"/>
 		<prefix start="+7 90435"/>
 		<prefix start="+7 90465"/>
 		<prefix start="+7 905" end="+7 906"/>
+		<prefix start="+7 908027" end="+7 908029"/>
+		<prefix start="+7 908035" end="+7 908039"/>
 		<prefix start="+7 90854"/>
+		<prefix start="+7 908694" end="+7 908698"/>
 		<prefix start="+7 909"/>
 		<prefix start="+7 95021" end="+7 95022"/>
 		<prefix start="+7 95110" end="+7 95112"/>
 		<prefix start="+7 95173" end="+7 95175"/>
 		<prefix start="+7 95226" end="+7 95228"/>
-		<prefix start="+7 9600" end="+7 9620"/>
-		<prefix start="+7 962130" end="+7 962151"/>
-		<prefix start="+7 962155" end="+7 962413"/>
-		<prefix start="+7 962420" end="+7 962460"/>
-		<prefix start="+7 96247" end="+7 96257"/>
-		<prefix start="+7 962582" end="+7 963288"/>
-		<prefix start="+7 96329" end="+7 96355"/>
+		<prefix start="+7 960000" end="+7 962417"/>
+		<prefix start="+7 962419" end="+7 962460"/>
+		<prefix start="+7 96247" end="+7 96355"/>
 		<prefix start="+7 963562" end="+7 963568"/>
 		<prefix start="+7 963570" end="+7 963738"/>
 		<prefix start="+7 963740" end="+7 964042"/>
 		<prefix start="+7 964047" end="+7 964074"/>
-		<prefix start="+7 964080" end="+7 964094"/>
+		<prefix start="+7 964078" end="+7 964094"/>
 		<prefix start="+7 964100" end="+7 964137"/>
 		<prefix start="+7 964140" end="+7 964231"/>
 		<prefix start="+7 964240" end="+7 964688"/>
 		<prefix start="+7 964690" end="+7 964824"/>
 		<prefix start="+7 964830" end="+7 965864"/>
+		<prefix start="+7 965870" end="+7 965876"/>
+		<prefix start="+7 96588" end="+7 96591"/>
 		<prefix start="+7 495" />
 	</prefixlist>
 	<info>

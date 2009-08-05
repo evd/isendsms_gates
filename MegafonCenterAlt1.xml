@@ -4,7 +4,7 @@
 	<caption>Мегафон Центр 1</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 92020" end="7 92024"/>
@@ -17,13 +17,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.megafonkavkaz.ru/sms</gateurl>
+		<gateurl>http://kavkaz.megafon.ru/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.megafonkavkaz.ru/sms</pageurl>
-		<imageurl>eval('http://www.megafonkavkaz.ru/svg-images/'+Html.RegExp('src=&quot;svg-images/(.*?).png\?&quot;&gt;',1)+'.png')</imageurl>
-		<posturl>http://www.megafonkavkaz.ru/sms</posturl>
+		<pageurl>http://kavkaz.megafon.ru/sms</pageurl>
+		<imageurl>eval('http://kavkaz.megafon.ru/svg-images/'+Html.RegExp('src=&quot;svg-images/(.*?).png\?&quot;&gt;',1)+'.png')</imageurl>
+		<posturl>http://kavkaz.megafon.ru/sms</posturl>
 		<postdata>eval(
 			begin
 				PostData.Add('phone_number',SMS['Phone_Def']+SMS['Phone_Number']);
