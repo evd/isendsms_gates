@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -98,25 +98,43 @@
 		<posturl>http://sms.mts.ru/live/smsxtra.aspx?region=msk</posturl>
 		<postdata>eval(
 					begin
-							PostData.Add('__EVENTTARGET','');
-							PostData.Add('__EVENTARGUMENT','');
-							PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha',Html.RegExp('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',SMS['Phone_Def']);
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$txtMsisdn',SMS['Phone_Number']);
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbLen',Length(SMS['Text']));
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$lblMax',SMS['MaxSymbols']);
-							if SMS['Flash'] then
-								PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbFlashSMS','on');
-							if SMS['Delivery'] then
-								PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbForCalendar','on');
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$dpDate',FormatDateTime('yyyymmdd',SMS['DeliveryTime']));
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$dpDate_string',FormatDateTime('mm/dd/yyyy',SMS['DeliveryTime']));
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbCode',SMS['Code']);
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','96');
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','12');
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
+						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTARGUMENT','');
+						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha',Html.RegExp('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',SMS['Phone_Def']);
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;text&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;enabled&quot;:true}');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$txtMsisdn',SMS['Phone_Number']);
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbLen',Length(SMS['Text']));
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$lblMax',SMS['MaxSymbols']);
+						if SMS['Flash'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbFlashSMS','on');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbCode',SMS['Code']);
+						if SMS['Delivery'] then
+						begin
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbForCalendar','on');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbDay',FormatDateTime('dd',SMS['DeliveryTime']));
+						end;	
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbDay_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',SMS['DeliveryTime'])+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',SMS['DeliveryTime'])+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbMonth',GetMonthLongRus(SMS['DeliveryTime'],true,false));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbMonth_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('m',SMS['DeliveryTime'])+'&quot;,&quot;text&quot;:&quot;'+GetMonthLongRus(SMS['DeliveryTime'],true,false)+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbYear',FormatDateTime('yyyy',SMS['DeliveryTime']));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbYear_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('yyyy',SMS['DeliveryTime'])+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('yyyy',SMS['DeliveryTime'])+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbHour',FormatDateTime('hh',SMS['DeliveryTime']));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbHour_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('h',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbMinutes',FormatDateTime('nn',SMS['DeliveryTime']));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbMinutes_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;enabled&quot;:false}');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','114');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','22');
+
 					end;
 					)
 		</postdata>
@@ -129,7 +147,7 @@
 					end;
 					)
 		</error>
-		<checkdelivery>1</checkdelivery>
+		<checkdelivery>0</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>http://sms.mts.ru/live/smsxtra.aspx?region=msk</cd_posturl>
 		<cd_postdata>eval(
@@ -167,6 +185,15 @@
 							end;
 						)
 		</cd_success>
-		<cd_error>eval(HTML.RegExp('cтатус сообщения:&lt;b/&gt;(.*?)&lt;b/&gt;',1))</cd_error>
+		<cd_error>eval(
+						begin
+							Result:=HTML.RegExp('cтатус сообщения:&lt;b/&gt;(.*?)&lt;b/&gt;',1);
+							if Result='' then
+								Result:=HTML.RegExp('style=&quot;color:Red;&quot;&gt;(.*?)&lt;/span&gt;',1);
+							if Result='' then
+								Result:='Ошибка подтверждения доставки';
+						end;
+						)
+		</cd_error>
 	</classprops>
 </gate>
