@@ -4,7 +4,7 @@
 	<caption>U-Tel</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 351"/>
@@ -54,13 +54,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.u-tel.ru/facilities/sms</gateurl>
+		<gateurl>http://perm.u-tel.ru/facilities/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://u-tel.ru/facilities/sms</pageurl>
-		<imageurl>eval('http://u-tel.ru/pages/apps/captcha.jsp?c=' + HTML.RegExp('captcha.jsp\?c=(.*?)&quot;',1))</imageurl>
-		<posturl>http://u-tel.ru/facilities/sms</posturl>
+		<pageurl>http://perm.u-tel.ru/facilities/sms</pageurl>
+		<imageurl>eval('http://perm.u-tel.ru/pages/apps/captcha.jsp?c=' + HTML.RegExp('captcha.jsp\?c=(.*?)&quot;',1))</imageurl>
+		<posturl>http://perm.u-tel.ru/facilities/sms</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('action','ins');
