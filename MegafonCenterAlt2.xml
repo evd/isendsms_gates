@@ -4,7 +4,7 @@
 	<caption>Мегафон Центр 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 920100"/>
@@ -44,8 +44,8 @@
 				PostData.Add('sms_hour',FormatDateTime('hh',SMS['DeliveryTime']));
 				PostData.Add('sms_minute',FormatDateTime('nn',SMS['DeliveryTime']));
 				PostData.Add('prefix','920');
-				PostData.Add('send_sms.x',Random(100));
-				PostData.Add('send_sms.y',Random(50));
+				PostData.Add('send_sms.x','20');
+				PostData.Add('send_sms.y','50');
 			end;
 		)
 		</postdata>
