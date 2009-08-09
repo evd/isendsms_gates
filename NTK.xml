@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>NTK</name>
+	<caption>НТК</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90205" end="+7 90207"/>
+		<prefix start="+7 90252"/>
+		<prefix start="+7 902553" end="+7 902557"/>
+		<prefix start="+7 902559"/>
+		<prefix start="+7 90462"/>
+		<prefix start="+7 908440" end="+7 908464"/>
+		<prefix start="+7 90896" end="+7 90899"/>
+		<prefix start="+7 95100" end="+7 95102"/>
+		<prefix start="+7 95320" end="+7 95322"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.vntc.ru/index.php?topic=102</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.vntc.ru/index.php?topic=102</pageurl>
+		<imageurl>eval('http://www.vntc.ru/kcaptcha/index.php?PHPSESSID=' + HTML.RegExp('kcaptcha/index.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://vntc.ru/berkut/indexntc103.php?sub=1</posturl>
+		<postdata>eval(
+					begin
+							PostData.Add('PHPSESSID',Html.RegExp('name=&quot;PHPSESSID&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('Prefix',Copy(SMS['Phone'],1,7));
+							PostData.Add('Address',Copy(SMS['Phone'],8,4));
+							PostData.Add('keystring',SMS['Code']);
+							if SMS['Flash'] then
+								PostData.Add('Flashsm','');
+							PostData.Add('Message',SMS['Text']);
+							PostData.Add('Submit','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('SMSC присвоил сообщению номер'))</success>
+		<error>eval(Html.RegExp('SMSC не принял сообщение. &lt;B&gt;(.*?)&lt;/B&gt;',1))</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://vntc.ru/berkut/Query.php</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('Identity',Html.RegExp('name=&quot;?Identity&quot;? value=(.*?) ?&gt;',1));
+							PostData.Add('Submit','Проверить');
+						end;
+						)
+		</cd_postdata>				
+		<cd_success>eval(
+							begin
+								if HTML.ExistsStr('идет попытка доставки') then
+									Result:='WAIT'
+								else Result:=HTML.ExistsStr('доставлено');	
+							end;
+						)
+		</cd_success>
+		<cd_error>Невозможно доставить</cd_error>
+	</classprops>
+</gate>
