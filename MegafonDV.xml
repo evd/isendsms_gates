@@ -4,7 +4,7 @@
 	<caption>Мегафон Дальный Восток</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 924"/>
@@ -16,13 +16,13 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.megafondv.ru/prim/sms/</gateurl>
+		<gateurl>http://prim.megafon.ru/sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.megafondv.ru/prim/sms/</pageurl>
-		<imageurl>eval('http://www.megafondv.ru/prim/sms/code/?hash='+Html.RegExp('&lt;img src=&quot;code/\?hash=(.*?)&quot; ',1))</imageurl>
-		<posturl>http://www.megafondv.ru/prim/sms/post/</posturl>
+		<pageurl>http://prim.megafon.ru/sms/</pageurl>
+		<imageurl>eval('http://prim.megafon.ru/sms/code/?hash='+Html.RegExp('&lt;img src=&quot;code/\?hash=(.*?)&quot; ',1))</imageurl>
+		<posturl>http://prim.megafon.ru/sms/post/</posturl>
 		<postdata>eval(
 			begin
 				PostData.Add('phone',SMS['Phone_Number']);

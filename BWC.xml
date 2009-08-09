@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BWC</name>
+	<caption>Байкалвестком</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 9016300" end="+7 9016344"/>
+		<prefix start="+7 901640" end="+7 901641"/>
+		<prefix start="+7 901650" end="+7 901654"/>
+		<prefix start="+7 90217"/>
+		<prefix start="+7 902510" end="+7 902516"/>
+		<prefix start="+7 902519"/>
+		<prefix start="+7 90254"/>
+		<prefix start="+7 902560" end="+7 902561"/>
+		<prefix start="+7 902566" end="+7 902569"/>
+		<prefix start="+7 902576" end="+7 902579"/>
+		<prefix start="+7 90276"/>
+		<prefix start="+7 90411" end="+7 90415"/>
+		<prefix start="+7 90864" end="+7 90866"/>
+		<prefix start="+7 95005" end="+7 95014"/>
+		<prefix start="+7 95261" end="+7 95263"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.bwc.ru/cgi-bin/smssend.cgi</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.bwc.ru/cgi-bin/smssend.cgi</pageurl>
+		<imageurl>eval('http://www.bwc.ru/cgi-bin/img2img.cgi?img=' + HTML.RegExp('img2img.cgi\?img=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.bwc.ru/cgi-bin/smssend.cgi</posturl>
+		<postdata>eval(
+					var
+						DT: TDateTime;
+					begin
+						DT:=SMS['DeliveryTime']+(540-TimeZoneBias)*OneMinute;
+						PostData.Add('phone_type',SMS['Phone_Def']);
+						PostData.Add('phone_number',SMS['Phone_Number']);
+						PostData.Add('communication',SMS['Text']);
+						PostData.Add('defhours',FormatDateTime('hh',DT));
+						PostData.Add('defmin',FormatDateTime('nn',DT));
+						PostData.Add('defdate',FormatDateTime('dd.mm.yyyy',DT));
+						if SMS['Flash'] then
+							PostData.Add('send_to_screen','on');
+						PostData.Add('code',SMS['Code']);
+						PostData.Add('sid',Html.RegExp('name=&quot;sid&quot; value=&quot;(.*?)&quot;',1));
+						
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение отправлено.'))</success>
+		<error>eval(HTML.RegExp('&lt;font color=&quot;?red&quot;?&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+	</classprops>
+</gate>
