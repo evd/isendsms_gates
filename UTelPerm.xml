@@ -4,7 +4,7 @@
 	<caption>U-Tel Пермь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>20</priority>
 	<prefixlist>
 		<prefix start="+7 901265" end="+7 901269"/>
@@ -27,13 +27,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://perm.u-tel.ru/Mobile/smssend</gateurl>
+		<gateurl>http://www.u-tel.ru/facilities/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://perm.u-tel.ru/Mobile/smssend</pageurl>
-		<imageurl>eval('http://perm.u-tel.ru/ctrlimg/?c=' + HTML.RegExp('ctrlimg/\?c=(.*?)&quot;',1))</imageurl>
-		<posturl>http://perm.u-tel.ru/Mobile/smssend</posturl>
+		<pageurl>http://perm.u-tel.ru/facilities/sms</pageurl>
+		<imageurl>eval('http://perm.u-tel.ru/pages/apps/captcha.jsp?c=' + HTML.RegExp('captcha.jsp\?c=(.*?)&quot;',1))</imageurl>
+		<posturl>http://perm.u-tel.ru/facilities/sms</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('action','ins');
@@ -46,20 +46,18 @@
 						PostData.Add('offset_time',-TimeZoneBias);
 						PostData.Add('message_text_trans','');
 						PostData.Add('subsc_pwd','');
-						PostData.Add('phone_prefix','');
 						PostData.Add('phone_number_list','');
 						PostData.Add('phone_number',SMS['Phone']);
+						PostData.Add('phone_prefix',SMS['Phone_Country']+SMS['Phone_Def']);
+						PostData.Add('phone_post_number',SMS['Phone_Number']);
 						PostData.Add('message_text',SMS['Text']);
+						PostData.Add('confirm_code',SMS['Code']);
 						if SMS['Delivery'] then
 							PostData.Add('delay_send','1');
 						PostData.Add('send_hour',FormatDateTime('h',SMS['DeliveryTime']));
 						PostData.Add('send_minute',FormatDateTime('n',SMS['DeliveryTime']));
 						PostData.Add('send_day',FormatDateTime('d',SMS['DeliveryTime']));
 						PostData.Add('send_month',FormatDateTime('m',SMS['DeliveryTime'])-1);
-						PostData.Add('send_year',FormatDateTime('yyyy',SMS['DeliveryTime'])-1);
-						PostData.Add('subsc_name','');
-						PostData.Add('subsc_passwd','');
-						PostData.Add('confirm_code',SMS['Code']);
 					end;
 					)
 		</postdata>
