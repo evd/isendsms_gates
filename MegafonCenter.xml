@@ -4,7 +4,7 @@
 	<caption>Мегафон Центр</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<prefixlist>
 		<prefix start="7 9200"/>
 		<prefix start="7 920111"/>
@@ -13,8 +13,8 @@
 		<prefix start="7 9207" end="7 9209"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>68</maxsymbols>
-		<maxunicodesymbols>68</maxunicodesymbols>
+		<maxsymbols>150</maxsymbols>
+		<maxunicodesymbols>150</maxunicodesymbols>
 		<supportflash>1</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
