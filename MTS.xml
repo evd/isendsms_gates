@@ -4,17 +4,16 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
 		<prefix start="+7 90425"/>
 		<prefix start="+7 910000" end="+7 912065"/>
 		<prefix start="+7 912068" end="+7 914014"/>
-		<prefix start="+7 91402" end="+7 91411"/>
-		<prefix start="+7 91415" end="+7 91429"/>
+		<prefix start="+7 91402" end="+7 91429"/>
 		<prefix start="+7 91431"/>
-		<prefix start="+7 91438" end="+7 91442"/>
+		<prefix start="+7 91438" end="+7 91452"/>
 		<prefix start="+7 914538"/>
 		<prefix start="+7 91454" end="+7 91479"/>
 		<prefix start="+7 91481"/>
@@ -22,6 +21,7 @@
 		<prefix start="+7 91500" end="+7 91912"/>
 		<prefix start="+7 919139" end="+7 919411"/>
 		<prefix start="+7 91942" end="+7 91977"/>
+		<prefix start="+7 919780"/>
 		<prefix start="+7 919784"/>
 		<prefix start="+7 919786"/>
 		<prefix start="+7 919790" end="+7 919970"/>
@@ -97,7 +97,19 @@
 		<imageurl>eval('http://sms.mts.ru/live/' + HTML.RegExp('(LanapCaptcha.aspx.*?)''',1))</imageurl>
 		<posturl>http://sms.mts.ru/live/smsxtra.aspx?region=msk</posturl>
 		<postdata>eval(
+					var
+						DT,DTClient: TDateTime;
 					begin
+						DTClient:=SMS['DeliveryTime'];
+						DT:=SMS['DeliveryTime'];
+						if SMS['Delivery'] then
+						begin	
+							if (DT-Now)&lt;5*OneMinute then
+							begin
+								DT:=DT+5*OneMinute;
+								DTClient:=DTClient+5*OneMinute;	
+							end;	
+						end;
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
@@ -117,21 +129,21 @@
 						if SMS['Delivery'] then
 						begin
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbForCalendar','on');
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbDay',FormatDateTime('dd',SMS['DeliveryTime']));
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbDay',FormatDateTime('dd',DT));
 						end;	
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbDay_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',SMS['DeliveryTime'])+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',SMS['DeliveryTime'])+'&quot;,&quot;enabled&quot;:false}');
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbDay_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbMonth',GetMonthLongRus(SMS['DeliveryTime'],true,false));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbMonth_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('m',SMS['DeliveryTime'])+'&quot;,&quot;text&quot;:&quot;'+GetMonthLongRus(SMS['DeliveryTime'],true,false)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbMonth',GetMonthLongRus(DT,true,false));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbMonth_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('m',DTClient)+'&quot;,&quot;text&quot;:&quot;'+GetMonthLongRus(DTClient,true,false)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbYear',FormatDateTime('yyyy',SMS['DeliveryTime']));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbYear_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('yyyy',SMS['DeliveryTime'])+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('yyyy',SMS['DeliveryTime'])+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbYear',FormatDateTime('yyyy',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbYear_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbHour',FormatDateTime('hh',SMS['DeliveryTime']));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbHour_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('h',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbHour',FormatDateTime('hh',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbHour_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbMinutes',FormatDateTime('nn',SMS['DeliveryTime']));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbMinutes_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',SMS['DeliveryTime']-5*OneMinute)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbMinutes',FormatDateTime('nn',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbMinutes_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','114');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','22');
 
