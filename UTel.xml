@@ -4,7 +4,7 @@
 	<caption>U-Tel</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 351"/>
@@ -59,7 +59,7 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://perm.u-tel.ru/facilities/sms</pageurl>
-		<imageurl>eval('http://perm.u-tel.ru/pages/apps/captcha.jsp?c=' + HTML.RegExp('captcha.jsp\?c=(.*?)&quot;',1))</imageurl>
+		<imageurl>eval('http://perm.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1))</imageurl>
 		<posturl>http://perm.u-tel.ru/facilities/sms</posturl>
 		<postdata>eval(
 					begin
