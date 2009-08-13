@@ -4,10 +4,11 @@
 	<caption>МТС Беларусь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
-		<prefix start="+375 29" format="3.2.7"/>
+		<prefix start="+375 295" format="3.2.7"/>
+		<prefix start="+375 297" end="+375 298" format="3.2.7"/>
 		<prefix start="+375 33" format="3.2.7"/>
 	</prefixlist>
 	<info>
@@ -25,7 +26,10 @@
 		<imageurl>eval('http://freesms.mts.by/cgi-bin/cgi.exe?function=sms_show_antispam_image&amp;ImageNumber='+HTML.RegExp('ImageNumber=(.*?)&quot;',1))</imageurl>
 		<posturl>http://freesms.mts.by/cgi-bin/cgi.exe?function=sms_send</posturl>
 		<postdata>eval(
+						var
+							DT: TDateTime;
 						begin
+							DT:=SMS['DeliveryTime']+(300-TimeZoneBias)*OneMinute;
 							PostData.Add('MMObjectType','0');
 							PostData.Add('isFree','1');
 							PostData.Add('MMObjectID','');
@@ -37,11 +41,11 @@
 							PostData.Add('mobnum',SMS['Phone_Number']);
 							PostData.Add('Msg',SMS['Text']);
 							PostData.Add('count',Length(SMS['Text']));
-							PostData.Add('Hour',FormatDateTime('hh',SMS['DeliveryTime']));
-							PostData.Add('Min',FormatDateTime('nn',SMS['DeliveryTime']));
-							PostData.Add('Day',FormatDateTime('dd',SMS['DeliveryTime']));
-							PostData.Add('Mon',FormatDateTime('mm',SMS['DeliveryTime']));
-							PostData.Add('Year',FormatDateTime('yyyy',SMS['DeliveryTime']));
+							PostData.Add('Hour',FormatDateTime('hh',DT));
+							PostData.Add('Min',FormatDateTime('nn',DT));
+							PostData.Add('Day',FormatDateTime('dd',DT));
+							PostData.Add('Mon',FormatDateTime('mm',DT));
+							PostData.Add('Year',FormatDateTime('yyyy',DT));
 						end;
 					)
 		</postdata>
