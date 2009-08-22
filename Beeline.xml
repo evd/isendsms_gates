@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 9017"/>
@@ -46,7 +46,7 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>70</maxunicodesymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
@@ -65,7 +65,7 @@
 							PostData.Add('smstoprefix',SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
-							PostData.Add('translit',iff(IsAscii(SMS['Text']),'off','on'));
+							PostData.Add('translit','off');
 							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
 							PostData.Add('confirmcode',SMS['Code']);
 							PostData.Add('x','51');
