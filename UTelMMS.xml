@@ -4,7 +4,7 @@
 	<caption>U-Tel ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 351"/>
@@ -64,66 +64,19 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://u-tel.ru/facilities/mms</pageurl>
-		<imageurl>eval('http://u-tel.ru/pages/apps/captcha.jsp?c=' + HTML.RegExp('captcha.jsp\?c=(.*?)&quot;',1))</imageurl>
+		<imageurl>eval(begin
+						Result:='http://mmsuser.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1);
+						Stored['SavedCookie']:=Cookies['JSESSIONID'];
+					end;
+					)
+		</imageurl>
 		<multipart>1</multipart>
-		<uploadmultimedia>1</uploadmultimedia>
-		<mu_multipart>1</mu_multipart>
-		<mu_posturl>http://u-tel.ru/facilities/mms</mu_posturl>
-		<mu_postdata>eval(
-						var
-							MC: TMMSContentData;
-						begin
-							PostData.Add('owner_site_id',Html.RegExp('name=&quot;owner_site_id&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('control_id',Html.RegExp('name=&quot;control_id&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('owner_site_hash',Html.RegExp('name=&quot;owner_site_hash&quot; value=&quot;(.*?)&quot;',1));
-							MC:=TMMSContentData(MMS['MultiMedia']);
-							if MC['Type']=mtImage then
-								PostData.Add('action','add_img')
-							else
-								PostData.Add('action','add_snd');
-							PostData.Add('mode','');
-							PostData.Add('page','');
-							PostData.Add('delay_time','');
-							PostData.Add('offset_time','');
-							PostData.Add('message_text_trans','');
-							PostData.Add('subsc_pwd','');
-							PostData.Add('phone_prefix','');
-							PostData.Add('phone_number_list','');
-							PostData.Add('images','');
-							PostData.Add('sounds','');
-							PostData.Add('user_img','');
-							PostData.Add('user_snd','');
-							PostData.Add('confirm_code',Html.RegExp('name=&quot;confirm_code&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('phone_number','');
-							PostData.Add('message_text','');
-							if MMS['Delivery'] then
-								PostData.Add('delay_send','1');
-							PostData.Add('send_hour',FormatDateTime('h',MMS['DeliveryTime']));
-							PostData.Add('send_minute',FormatDateTime('n',MMS['DeliveryTime']));
-							PostData.Add('send_day',FormatDateTime('d',MMS['DeliveryTime']));
-							PostData.Add('send_month',FormatDateTime('m',MMS['DeliveryTime'])-1);
-							PostData.Add('send_year',FormatDateTime('yyyy',MMS['DeliveryTime']));
-							PostData.Add('subsc_name','');
-							PostData.Add('subsc_passwd','');
-							PostData.Add('captcha_code','');
-							if MC['Type']=mtAudio then
-								PostData.AddData('sound_path',MMS['MultiMedia'])
-							else
-								PostData.AddData('sound_path','');
-							PostData.Add('melodies','0');
-							if MC['Type']=mtImage then
-								PostData.AddData('image_path',MMS['MultiMedia'])
-							else
-								PostData.AddData('image_path','');
-						end;
-						(
-		</mu_postdata>
-		<mu_success>1</mu_success>
 		<posturl>http://u-tel.ru/facilities/mms</posturl>
 		<postdata>eval(
 						var
 							MC: TMMSContentData;
 						begin
+							Cookies['JSESSIONID']:=Stored['SavedCookie'];
 							PostData.Add('owner_site_id',Html.RegExp('name=&quot;owner_site_id&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('control_id',Html.RegExp('name=&quot;control_id&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('owner_site_hash',Html.RegExp('name=&quot;owner_site_hash&quot; value=&quot;(.*?)&quot;',1));
@@ -140,13 +93,17 @@
 							PostData.Add('subsc_pwd','');
 							PostData.Add('phone_prefix','');
 							PostData.Add('phone_number_list','');
-							PostData.Add('images',iff(MC['Type']=mtImage,MC['FileName'],''));
-							PostData.Add('sounds',iff(MC['Type']=mtAudio,MC['FileName'],''));
-							PostData.Add('user_img',iff(MC['Type']=mtImage,'1',''));
-							PostData.Add('user_snd',iff(MC['Type']=mtAudio,'1',''));
-							PostData.Add('confirm_code',Html.RegExp('name=&quot;confirm_code&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('images','');
+							PostData.Add('sounds','');
+							PostData.Add('user_img','');
+							PostData.Add('user_snd','');
+							PostData.Add('painter_img','');
 							PostData.Add('phone_number',MMS['Phone']);
+							PostData.Add('pfx',MMS['Phone_Country']+MMS['Phone_Def']);
+							PostData.Add('phone_num',MMS['Phone_Number']);
+							PostData.AddData('image_path',MMS['MultiMedia']);
 							PostData.Add('message_text',MMS['Text']);
+							PostData.Add('confirm_code',Html.RegExp('name=&quot;confirm_code&quot; value=&quot;(.*?)&quot;',1));
 							if MMS['Delivery'] then
 								PostData.Add('delay_send','1');
 							PostData.Add('send_hour',FormatDateTime('h',MMS['DeliveryTime']));
@@ -154,12 +111,6 @@
 							PostData.Add('send_day',FormatDateTime('d',MMS['DeliveryTime']));
 							PostData.Add('send_month',FormatDateTime('m',MMS['DeliveryTime'])-1);
 							PostData.Add('send_year',FormatDateTime('yyyy',MMS['DeliveryTime']));
-							PostData.Add('subsc_name','');
-							PostData.Add('subsc_passwd','');
-							PostData.Add('captcha_code',MMS['Code']);
-							PostData.AddData('sound_path','');
-							PostData.Add('melodies','0');
-							PostData.AddData('image_path','');
 						end;
 					)
 		</postdata>
@@ -168,7 +119,7 @@
 		<error>eval(begin
 						Result:=Html.RegExp('&lt;script type=&quot;text/javascript&quot;&gt;alert\(&quot;(.*?)&quot;\);&lt;/script&gt;',1);
 						if Result='' then
-							Result:=Html.RegExp('&lt;br/&gt;&lt;font color=&quot;red&quot;&gt;(.*?)&lt;br/&gt;&lt;/font&gt;&lt;',1);
+							Result:=Html.RegExp('&lt;font color=&quot;.*?&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1);
 					end;	
 					)
 		</error>
