@@ -4,17 +4,16 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
 		<prefix start="+7 90425"/>
 		<prefix start="+7 910000" end="+7 912065"/>
 		<prefix start="+7 912068" end="+7 914014"/>
-		<prefix start="+7 91402" end="+7 91411"/>
-		<prefix start="+7 91415" end="+7 91429"/>
+		<prefix start="+7 91402" end="+7 91429"/>
 		<prefix start="+7 91431"/>
-		<prefix start="+7 91438" end="+7 91442"/>
+		<prefix start="+7 91438" end="+7 91452"/>
 		<prefix start="+7 914538"/>
 		<prefix start="+7 91454" end="+7 91479"/>
 		<prefix start="+7 91481"/>
@@ -22,6 +21,7 @@
 		<prefix start="+7 91500" end="+7 91912"/>
 		<prefix start="+7 919139" end="+7 919411"/>
 		<prefix start="+7 91942" end="+7 91977"/>
+		<prefix start="+7 919780"/>
 		<prefix start="+7 919784"/>
 		<prefix start="+7 919786"/>
 		<prefix start="+7 919790" end="+7 919970"/>
