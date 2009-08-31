@@ -4,7 +4,7 @@
 	<caption>U-Tel ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 351"/>
@@ -103,7 +103,7 @@
 							PostData.Add('phone_num',MMS['Phone_Number']);
 							PostData.AddData('image_path',MMS['MultiMedia']);
 							PostData.Add('message_text',MMS['Text']);
-							PostData.Add('confirm_code',Html.RegExp('name=&quot;confirm_code&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('confirm_code',MMS['Code']);
 							if MMS['Delivery'] then
 								PostData.Add('delay_send','1');
 							PostData.Add('send_hour',FormatDateTime('h',MMS['DeliveryTime']));
