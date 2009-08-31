@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 925"/>
@@ -22,53 +22,44 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://sms.megafonmoscow.ru/</pageurl>
-		<multipart>1</multipart>
+		<pageurl>http://sms.megafonmoscow.ru/?from=first</pageurl>
+		<multipart>0</multipart>
 		<imageurl>eval('http://sms.megafonmoscow.ru/image.phtml?k=' + Html.RegExp('/image\.phtml\?k=(.*?)&quot; ',1))</imageurl>
 		<posturl>http://sms.megafonmoscow.ru/sms.action</posturl>
 		<postdata>eval(
 			begin
-				PostData.Add('codekey',HTML.RegExp('name=&quot;codekey&quot;.*?value=&quot;(.*?)&quot;',1));
-				PostData.Add('charcheck',HTML.RegExp('name=&quot;charcheck&quot;.*?value=&quot;(.*?)&quot;',1));
-				PostData.Add('lang',HTML.RegExp('name=&quot;lang&quot;.*?value=&quot;(.*?)&quot;',1));
-				PostData.Add('codevalue',SMS['Code']);
-				PostData.Add('prefix',SMS['Phone_Country']+SMS['Phone_Def']);
-				PostData.Add('addr',SMS['Phone_Number']);
-				PostData.Add('message',SMS['Text']);
-				PostData.Add('messlen',SMS['LeaveSymbols']);
-				PostData.Add('go','Отправить сейчас');
-				if (SMS['Delivery']) then
-					PostData.Add('send_after_flag','on');
-				PostData.Add('send_day',FormatDateTime('dd',SMS['DeliveryTime']));
-				PostData.Add('send_month',FormatDateTime('mm',SMS['DeliveryTime']));
-				PostData.Add('send_hour',FormatDateTime('hh',SMS['DeliveryTime']));
-				PostData.Add('send_minute',FormatDateTime('nn',SMS['DeliveryTime']));
-				PostData.Add('send_year',FormatDateTime('yyyy',SMS['DeliveryTime']));
+				Result:='';
+				Result:=Result+'codekey='+ HTML.RegExp('name=&quot;codekey&quot;.*?value=&quot;(.*?)&quot;',1);
+				Result:=Result+'&amp;charcheck='+ConvertToEncoding('йцукен','UTF-8');
+				Result:=Result+'&amp;codevalue='+SMS['Code'];
+				Result:=Result+'&amp;prefix='+SMS['Phone_Country']+SMS['Phone_Def'];
+				Result:=Result+'&amp;addr='+SMS['Phone_Number'];
+				Result:=Result+'&amp;translitarate=on';
+				Result:=Result+'&amp;message='+ConvertToEncoding(SMS['Text'],'UTF-8');
+				Result:=Result+'&amp;messlen=150';
+				Result:=Result+'&amp;go='+ConvertToEncoding('Отправить сейчас','UTF-8');
+				Result:=Result+'&amp;send_day=1';
+				Result:=Result+'&amp;send_month=2';
+				Result:=Result+'&amp;send_hour=1';
+				Result:=Result+'&amp;send_minute=1';
+				Result:=Result+'&amp;send_year=2009';
 			end;
 		)
 		</postdata>
-		<handleredirects>0</handleredirects>
-		<success>eval(Pos('/send/',HTTP['Location'])>0)</success>
+		<handleredirects>1</handleredirects>
+		<success>eval(Html.ExistsStr('Проверить статус'))</success>
 		<error>eval(
 				begin
-					if Pos('/invalid_key',HTTP['Location'])>0 then
+					if Pos('/invalid_key',HTTP['URL'])>0 then
 						Result:='Неверный код'
-					else if Pos('/min_time_interval',HTTP['Location'])>0 then
+					else if Pos('/min_time_interval',HTTP['URL'])>0 then
 						Result:='Сообщение можно отправлять только через 60 секунд после предыдущего'
 					else Result:='Неизвестная ошибка';
 				end;		
 			)</error>
-		<checkdelivery>1</checkdelivery>
+		<checkdelivery>0</checkdelivery>
 		<cd_method>GET</cd_method>
-		<cd_url>eval(
-					begin
-						if HTTP.Exists('Location') then
-							Result:='http://sms.megafonmoscow.ru/send/status/'+ StrBetween(HTTP['Location'],'/send/','')
-						else
-							Result:=HTTP['URL'];
-					end;
-					)
-		</cd_url>
+		<cd_url>eval('http://sms.megafonmoscow.ru/send/status/'+Html.RegExp('&lt;a href=&quot;/send/status/(.*?)&quot;',1))</cd_url>
 		<cd_success>eval(
 							begin
 								if HTML.ExistsStr('Сообщение в процессе доставки') then
