@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>yargsm</name>
+	<caption>Ярославль-GSM</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90222"/>
+		<prefix start="+7 902330" end="+7 902334"/>
+		<prefix start="+7 95128"/>
+	</prefixlist>	
+	<info>
+		<maxsymbols>155</maxsymbols>
+		<maxunicodesymbols>65</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.yargsm.ru/go/pages/services/online/sendsms/index.html</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl></pageurl>
+		<imageurl>eval(
+						begin
+							PostData.Add('phone',SMS['Phone']);
+							HTTP.HTTPMethod('POST','http://www.yargsm.ru/go/pages/services/online/sendsms/index.html');
+							Result:='http://www.yargsm.ru/images/numbers/'+Html.RegExp('images/numbers/(.*?\.jpg)',1);
+						end;
+					)
+		</imageurl>				
+		<posturl>http://www.yargsm.ru/go/pages/services/online/sendsms/index.html</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('col','155');
+						PostData.Add('phone',SMS['Phone']);
+						PostData.Add('code',SMS['Code']);
+						PostData.Add('uname','828b235f202be341f046434220bf12c8');
+						PostData.Add('message',SMS['Text']);
+						if SMS['Flash'] then
+							PostData.Add('flash','on');
+						if SMS['Delivery'] then
+						begin
+							PostData.Add('cb','on');
+							PostData.Add('day',FormatDateTime('dd',SMS['DeliveryTime']));
+							PostData.Add('month',FormatDateTime('mm',SMS['DeliveryTime']));
+							PostData.Add('year',FormatDateTime('yy',SMS['DeliveryTime']));
+							PostData.Add('hour',FormatDateTime('hh',SMS['DeliveryTime']));
+							PostData.Add('minut',FormatDateTime('nn',SMS['DeliveryTime']));
+						end;
+						PostData.Add('count',SMS['LeaveSymbols']);
+						PostData.Add('acttime','60');
+						PostData.Add('Submit','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('принято к отправке.'))</success>
+		<error>eval(Html.RegExp('&lt;font color=#FF0000&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+	</classprops>
+</gate>
