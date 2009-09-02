@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>UUCN</name>
+	<caption>Улан-Удэнская Сотовая Сеть</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90216"/>
+		<prefix start="+7 90245"/>
+		<prefix start="+7 90253"/>
+		<prefix start="+7 902562" end="+7 902565"/>
+		<prefix start="+7 90859"/>
+		<prefix start="+7 95038" end="+7 95039"/>
+		<prefix start="+7 95162" end="+7 95163"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</pageurl>
+		<posturl>http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_send</posturl>
+		<postdata>eval(
+						var
+							MaxDate,DeliverDate: TDateTime;
+						begin
+							MaxDate:=Now+8*OneHour;
+							DeliverDate:=SMS['DeliveryTime']+8*OneHour;
+							PostData.Add('MMObjectType','0');
+							PostData.Add('isFree','1');
+							PostData.Add('MMObjectID','');
+							PostData.Add('To',SMS['Phone']);
+							PostData.Add('Msg',SMS['Text']);
+							PostData.Add('count',Length(SMS['Text']));
+							PostData.Add('Day',FormatDateTime('dd',MaxDate));
+							PostData.Add('Mon',FormatDateTime('mm',MaxDate));
+							PostData.Add('Year',FormatDateTime('yyyy',MaxDate));
+							PostData.Add('Hour',FormatDateTime('hh',MaxDate));
+							PostData.Add('Min',FormatDateTime('nn',MaxDate));
+							if SMS['Delivery'] then
+								PostData.Add('delay','1');
+							PostData.Add('DelayDay',FormatDateTime('dd',DeliverDate));
+							PostData.Add('DelayMon',FormatDateTime('mm',DeliverDate));
+							PostData.Add('DelayYear',FormatDateTime('yyyy',DeliverDate));
+							PostData.Add('DelayHour',FormatDateTime('hh',DeliverDate));
+							PostData.Add('DelayMin',FormatDateTime('nn',DeliverDate));
+							PostData.Add('x','29');
+							PostData.Add('y','13');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение отправлен'))</success>
+		<error>Ваше сообщение не смогло быть доставлено</error>
+	</classprops>
+</gate>

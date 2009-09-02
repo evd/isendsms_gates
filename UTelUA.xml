@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>UtelUA</name>
+	<caption>U-Tel Украина</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+380 91" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://utel.ua/sms.php</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://utel.ua/sms.php</pageurl>
+		<imageurl>eval('http://utel.ua/captcha?PHPSESSID='+HTML.RegExp('captcha\?PHPSESSID=(.*?)&quot;>',1))</imageurl>
+		<posturl>http://utel.ua/sms.php</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('network1',Copy(SMS['Phone'],3,3));
+							PostData.Add('phone1',SMS['Phone_Number']);
+							PostData.Add('keystring',SMS['Code']);
+							PostData.Add('message',SMS['Text']);
+							PostData.Add('lang',SMS['Text']);
+							PostData.Add('lang',iff(IsAscii(SMS['Text']),'lat','cyr'));
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('повiдомлення було прийнято'))</success>
+		<error>eval(Html.RegExp('style=&quot;color: #c00; font-weight: bold;&quot;&gt;(.*?)&lt;br&gt;',1))</error>
+		<checkdelivery>0</checkdelivery>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://utel.ua/sms.php?askstatus='+Html.RegExp('askstaus=(.*?)"',1))</cd_url>
+		<cd_success>eval(
+					begin
+						Result:=false;
+					end;
+					)
+		</cd_success>
+		<cd_error>Ошибка подтверждения доставки</cd_error>
+	</classprops>
+</gate>

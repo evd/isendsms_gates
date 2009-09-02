@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BWCMMS</name>
+	<caption>Байкалвестком ММС</caption>
+	<type>MMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 9016300" end="+7 9016344"/>
+		<prefix start="+7 901640" end="+7 901641"/>
+		<prefix start="+7 901650" end="+7 901654"/>
+		<prefix start="+7 90217"/>
+		<prefix start="+7 902510" end="+7 902516"/>
+		<prefix start="+7 902519"/>
+		<prefix start="+7 90254"/>
+		<prefix start="+7 902560" end="+7 902561"/>
+		<prefix start="+7 902566" end="+7 902569"/>
+		<prefix start="+7 902576" end="+7 902579"/>
+		<prefix start="+7 90276"/>
+		<prefix start="+7 90411" end="+7 90415"/>
+		<prefix start="+7 90864" end="+7 90866"/>
+		<prefix start="+7 95005" end="+7 95014"/>
+		<prefix start="+7 95261" end="+7 95263"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>1000</maxsymbols>
+		<maxunicodesymbols>1000</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.bwc.ru/cgi-bin/mmssend.cgi</gateurl>
+		<supportmultimedia>1</supportmultimedia>
+		<supportaudio>1</supportaudio>
+		<supportimage>1</supportimage>
+		<maxmultimediacount>1</maxmultimediacount>
+		<maxmultimediasize>204800</maxmultimediasize>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.bwc.ru/cgi-bin/mmssend.cgi</pageurl>
+		<imageurl>eval('http://www.bwc.ru/cgi-bin/img2img.cgi?img=' + HTML.RegExp('img2img.cgi\?img=(.*?)&quot;',1))</imageurl>
+		<multipart>1</multipart>
+		<uploadmultimedia>eval(
+						var
+							MC: TMultimediaContent;
+						begin
+							MC:=MMS['Multimedia'];
+							Result:=MC['Type']=mtImage;
+						end;
+						)
+		</uploadmultimedia>
+		<mu_posturl>http://www.bwc.ru/cgi-bin/mmssend.cgi</mu_posturl>
+		<mu_multipart>1</mu_multipart>
+		<mu_postdata>eval(
+					begin
+						PostData.AddData('ximage',MMS['Multimedia']);	
+					end;
+					)
+		</mu_postdata>
+		<mu_dontloadresult>1</mu_dontloadresult>
+		<mu_success>1</mu_success>
+		<posturl>http://www.bwc.ru/cgi-bin/mmssend.cgi</posturl>
+		<postdata>eval(
+						var
+							MC: TMMSContentData;
+						begin
+							PostData.Add('phone_type',MMS['Phone_Def']);
+							PostData.Add('phone_number',MMS['Phone_Number']);
+							PostData.Add('communication',MMS['Text']);
+							MC:=MMS['Multimedia'];
+							if MC['Type']=mtAudio then
+								PostData.AddData('xaudio',MMS['Multimedia'])
+							else
+								PostData.AddData('xaudio',nil);
+							PostData.Add('code',MMS['Code']);
+							PostData.Add('sid',Html.RegExp('name=&quot;sid&quot; value=&quot;(.*?)&quot;',1));
+						end;
+					)
+		</postdata>
+		 
+		<success>eval(HTML.ExistsStr('Сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;font color=&quot;red&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+	</classprops>
+</gate>
