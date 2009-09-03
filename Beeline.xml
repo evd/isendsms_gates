@@ -4,10 +4,11 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 9017"/>
+		<prefix start="+7 901802" end="+7 901803"/>
 		<prefix start="+7 902152" end="+7 902154"/>
 		<prefix start="+7 902280"/>
 		<prefix start="+7 902289"/>
