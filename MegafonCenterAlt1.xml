@@ -4,11 +4,11 @@
 	<caption>Мегафон Центр 1</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 92020" end="7 92024"/>
-		<prefix start="7 92047" end="7 92059"/>
+		<prefix start="7 92040" end="7 92059"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>300</maxsymbols>
