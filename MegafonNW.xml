@@ -4,11 +4,20 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
-		<prefix start="7 921"/>
-		<prefix start="7 931"/>
+		<prefix start="+7 920100" end="+7 920110"/>
+		<prefix start="+7 920112" end="+7 920199"/>
+		<prefix start="+7 9203"/>
+		<prefix start="+7 92064" end="+7 92069"/>
+		<prefix start="+7 921"/>
+		<prefix start="+7 929075" end="+7 929199"/>
+		<prefix start="+7 93120" end="+7 93124"/>
+		<prefix start="+7 93140" end="+7 93141"/>
+		<prefix start="+7 93150" end="+7 93151"/>
+		<prefix start="+7 93160"/>
+		<prefix start="+7 93170"/>
 		<prefix start="7 812"/>
 	</prefixlist>
 	<info>
