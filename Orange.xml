@@ -4,7 +4,7 @@
 	<caption>Orange</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+373 68" end="+373 69" format="3.2.6"/>
@@ -21,7 +21,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<sendinit>eval(begin HTTP['Referer']:='http://www.orange.md'; Result:=true; end;)</sendinit>
+		<sendinit>eval(begin HTTP.Referer:='http://www.orange.md'; Result:=true; end;)</sendinit>
 		<pageurl>https://www.orangetext.md/Default.aspx?lang=ru</pageurl>
 		<imageurl>eval('https://www.orangetext.md/CaptchaImage.axd?guid=' + HTML.RegExp('CaptchaImage.axd\?guid=(.*?)&quot;',1))</imageurl>
 		<posturl>https://www.orangetext.md/Default.aspx?lang=ru</posturl>
