@@ -98,7 +98,30 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</pageurl>
-		<imageurl>eval('http://www.mts.ru/LanapCaptcha.aspx'+Html.RegExp('LanapCaptcha.aspx(.*?)''',1))</imageurl>
+		<imageurl>eval(begin
+							PostData.Multipart:=true;
+							PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('currentID','-1');
+							PostData.Add('ddlDefCode',MMS['Phone_Def']);
+							PostData.Add('tbPhone','');
+							PostData.Add('ddlTopic','0');
+							PostData.Add('tbTopic','');
+							PostData.Add('tbMessage','');
+							PostData.AddData('fileUpload',MMS['Multimedia']);
+							PostData.Add('btnUpload.x','41');
+							PostData.Add('btnUpload.y','15');
+							PostData.Add('tbCode','');
+							HTTP.HTTPMethod('POST','http://www.mts.ru/FreeSendWithLinks.aspx?region=msk');
+							PostData.Clear;
+						
+						Result:='http://www.mts.ru/LanapCaptcha.aspx'+ReplaceStr(Html.RegExp('LanapCaptcha.aspx(.*?)''',1),'&amp;'+'amp;','&amp;');
+					end;	
+					)
+		</imageurl>
 		<multipart>1</multipart>
 		<posturl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</posturl>
 		<postdata>eval(
@@ -108,13 +131,13 @@
 							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('currentID','-1');
+							PostData.Add('currentID','0');
 							PostData.Add('ddlDefCode',MMS['Phone_Def']);
 							PostData.Add('tbPhone',MMS['Phone_Number']);
 							PostData.Add('ddlTopic','0');
 							PostData.Add('tbTopic',MMS['Subject']);
 							PostData.Add('tbMessage',MMS['Text']);
-							PostData.AddData('fileUpload',MMS['Multimedia']);
+							PostData.AddData('fileUpload',nil);
 							PostData.Add('tbCode',MMS['Code']);
 							PostData.Add('btnSend.x','140');
 							PostData.Add('btnSend.y','33');
