@@ -4,7 +4,7 @@
 	<caption>Ульяновск-GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<prefixlist>
 		<prefix start="7 902 00"/>
 		<prefix start="7 902 120" end="7 902 123"/>
@@ -25,6 +25,7 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
+		<gateurl>http://www.ul-gsm.ru/sms.php</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
