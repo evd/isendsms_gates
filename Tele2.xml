@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90213"/>
@@ -22,8 +22,7 @@
 		<prefix start="+7 90436" end="+7 90437"/>
 		<prefix start="+7 90439"/>
 		<prefix start="+7 90444"/>
-		<prefix start="+7 90450" end="+7 90451"/>
-		<prefix start="+7 90452" end="+7 90453"/>
+		<prefix start="+7 90450" end="+7 90453"/>
 		<prefix start="+7 90455"/>
 		<prefix start="+7 90457" end="+7 90458"/>
 		<prefix start="+7 90460" end="+7 90461"/>
@@ -65,6 +64,7 @@
 		<prefix start="+7 95144" end="+7 95161"/>
 		<prefix start="+7 95164" end="+7 95172"/>
 		<prefix start="+7 95176" end="+7 95187"/>
+		<prefix start="+7 95210"/>
 		<prefix start="+7 95220" end="+7 95222"/>
 		<prefix start="+7 95223" end="+7 95225"/>
 		<prefix start="+7 95229" end="+7 95230"/>
@@ -78,6 +78,9 @@
 		<prefix start="+7 95330"/>
 		<prefix start="+7 95334" end="+7 95335"/>
 		<prefix start="+7 95339"/>
+		<prefix start="+7 953419" end="+7 953443"/>
+		<prefix start="+7 95361" end="+7 95362"/>
+		<prefix start="+7 95370" end="+7 95372"/>
 		<prefix start="+7 95375"/>
 		<prefix start="+7 95390"/>
 	</prefixlist>
