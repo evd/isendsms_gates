@@ -4,20 +4,26 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
 		<prefix start="+7 90425"/>
 		<prefix start="+7 910000" end="+7 912065"/>
 		<prefix start="+7 912068" end="+7 914014"/>
-		<prefix start="+7 91402" end="+7 91429"/>
+		<prefix start="+7 91402" end="+7 91404"/>
+		<prefix start="+7 91405" tag="1"/>
+		<prefix start="+7 91406" end="+7 91429"/>
 		<prefix start="+7 91431"/>
 		<prefix start="+7 91438" end="+7 91452"/>
 		<prefix start="+7 914538"/>
-		<prefix start="+7 91454" end="+7 91479"/>
+		<prefix start="+7 91454" end="+7 91462"/>
+		<prefix start="+7 91463" tag="1"/>
+		<prefix start="+7 91464" end="+7 91479"/>
 		<prefix start="+7 91481"/>
-		<prefix start="+7 91483" end="+7 91498"/>
+		<prefix start="+7 91483" tag="1"/>
+		<prefix start="+7 91484" end="+7 91497"/>
+		<prefix start="+7 91498" tag="1"/>
 		<prefix start="+7 91500" end="+7 91912"/>
 		<prefix start="+7 919139" end="+7 919411"/>
 		<prefix start="+7 91942" end="+7 91977"/>
@@ -46,7 +52,8 @@
 		<prefix start="+7 98290"/>
 		<prefix start="+7 98295"/>
 		<prefix start="+7 9831"/>
-		<prefix start="+7 98340" end="+7 98342"/>
+		<prefix start="+7 98340" end="+7 98341"/>
+		<prefix start="+7 98342" end="+7 98343" tag="1"/>
 		<prefix start="+7 985"/>
 		<prefix start="+7 98725"/>
 		<prefix start="+7 98729" end="+7 98732"/>
@@ -93,9 +100,18 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<handleredirects>0</handleredirects>
-		<pageurl>http://sms.mts.ru/live/smsxtra.aspx?region=msk</pageurl>
+		<pageurl>eval(
+					begin
+						if SMS['Phone_tag']=1 then
+							Stored['region']:='buryatia'
+						else
+							Stored['region']:='msk';
+						Result:='http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'];
+					end;
+					)
+		</pageurl>
 		<imageurl>eval('http://sms.mts.ru/live/' + HTML.RegExp('(LanapCaptcha.aspx.*?)''',1))</imageurl>
-		<posturl>http://sms.mts.ru/live/smsxtra.aspx?region=msk</posturl>
+		<posturl>eval('http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</posturl>
 		<postdata>eval(
 					var
 						DT,DTClient: TDateTime;
@@ -163,7 +179,7 @@
 		</error>
 		<checkdelivery>0</checkdelivery>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://sms.mts.ru/live/smsxtra.aspx?region=msk</cd_posturl>
+		<cd_posturl>eval('http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							if HTML.ExistsStr('|updatePanel|') then
