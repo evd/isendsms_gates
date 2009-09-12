@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 777"/>
@@ -28,17 +28,18 @@
 						begin
 							Cookies['lasturl']:='/mybeeline/sms.wbp';
 							Cookies['lastid']:=Html.RegExp('cookieValue=escape\(''(.*?)''\);.*?\SetCookie\(&quot;lastid&quot;',1);
+							Cookies['regid']:=Cookies['lastid'];
 							PostData.Add('send','');
 							PostData.Add('smstext',SMS['Text']);
-							PostData.Add('smstoprefix',SMS['Phone_County'] + SMS['Phone_Def']);
+							PostData.Add('smstoprefix',SMS['Phone_Country'] + SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
 							PostData.Add('translit',iff(IsAscii(SMS['Text']),'off','on'));
 							PostData.Add('mlength',SMS['LeaveSymbols']);
 							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
 							PostData.Add('confirmcode',SMS['Code']);
-							PostData.Add('x','51');
-							PostData.Add('y','9');
+							PostData.Add('x',VarToStr(RandomInt(70)));
+							PostData.Add('y',VarToStr(RandomInt(15)));
 						end;
 					)
 		</postdata>
@@ -51,6 +52,9 @@
 					)</error>
 		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
+		<cd_delay>7000</cd_delay>
+		<cd_delta>3000</cd_delta>
+		<cd_maxcheckdelivery>20</cd_maxcheckdelivery>
 		<cd_posturl>http://www.beeline.kz/mybeeline/sms.wbp</cd_posturl>
 		<cd_postdata>eval(
 						begin
