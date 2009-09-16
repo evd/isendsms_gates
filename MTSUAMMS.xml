@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MTSUAMMS</name>
+	<caption>МТС Украина ММС</caption>
+	<type>MMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+380 50" format="3.2.7"/>
+		<prefix start="+380 66" format="3.2.7"/>
+		<prefix start="+380 95" format="3.2.7"/>
+		<prefix start="+380 99" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>1000</maxsymbols>
+		<maxunicodesymbols>1000</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://mms.mts.com.ua/</gateurl>
+		<supportmultimedia>1</supportmultimedia>
+		<supportaudio>0</supportaudio>
+		<supportimage>1</supportimage>
+		<maxmultimediacount>1</maxmultimediacount>
+		<maxmultimediasize>307200</maxmultimediasize>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://mms.mts.com.ua/</pageurl>
+		<imageurl>eval(begin
+							PostData.Multipart:=true;
+							PostData.Add('img','');
+							PostData.Add('MAX_FILE_SIZE','3145728');
+							PostData.Add('ndc',MMS['Phone_Country']+MMS['Phone_Def']);
+							PostData.Add('number','');
+							PostData.Add('subj','');
+							PostData.Add('txtpart','');
+							PostData.Add('security_code','');
+							PostData.AddData('users_img',MMS['Multimedia']);
+							PostData.Add('user_upload','завантажити');
+							HTTP.HTTPMethod('POST','http://mms.mts.com.ua/');
+							PostData.Clear;
+						
+							Result:='http://mms.mts.com.ua/captcha/CaptchaSecurityImages.php?'+Html.RegExp('CaptchaSecurityImages.php?(.*?)&quot;',1);
+					end;	
+					)
+		</imageurl>
+		<multipart>1</multipart>
+		<posturl>http://mms.mts.com.ua/</posturl>
+		<postdata>eval(
+						begin
+							PostData.Multipart:=true;
+							PostData.Add('img',Html.RegExp('name=&quot;img&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('MAX_FILE_SIZE','3145728');
+							PostData.Add('ndc',MMS['Phone_Country']+MMS['Phone_Def']);
+							PostData.Add('number',MMS['Phone_Number']);
+							PostData.Add('subj',MMS['Subject']);
+							PostData.Add('txtpart',MMS['Text']);
+							PostData.Add('security_code',MMS['Code']);
+							PostData.AddData('users_img',nil);
+						end;
+					)
+		</postdata>
+		 
+		<success>eval(Html.ExistsStr('Ваше повідомлення поставлено в чергу для відправки.'))</success>
+		<error>eval(HTML.RegExp('&lt;div id=&quot;error_list&quot;&gt;(.*?)&lt;/div&gt;',1))</error>
+	</classprops>
+</gate>

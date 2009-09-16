@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>VolgoGSM</name>
+	<caption>Волгоград-GSM</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90209"/>
+		<prefix start="+7 902310" end="+7 902314"/>
+		<prefix start="+7 902360" end="+7 902364"/>
+		<prefix start="+7 90238"/>
+		<prefix start="+7 90265"/>
+		<prefix start="+7 90440" end="+7 90443"/>
+		<prefix start="+7 9047285" end="+7 9047289"/>
+		<prefix start="+7 90475"/>
+		<prefix start="+7 90477"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</pageurl>
+		<imageurl>eval('https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_show_antispam_image&amp;ImageNumber='+Html.RegExp('sms_show_antispam_image&amp;ImageNumber=(.*?)&quot;',1))</imageurl>
+		<posturl>https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_send</posturl>
+		<postdata>eval(
+						var
+							MaxDate: TDateTime;
+						begin
+							MaxDate:=Now+1;
+							PostData.Add('MMObjectType','0');
+							PostData.Add('isFree','1');
+							PostData.Add('MMObjectID','');
+							PostData.Add('Layer','');
+							PostData.Add('antispamText',SMS['Code']);
+							PostData.Add('textTableRecordId',Html.RegExp('name=&quot;textTableRecordId&quot; type=&quot;hidden&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('To',SMS['Phone']);
+							PostData.Add('Msg',SMS['Text']);
+							PostData.Add('count',Length(SMS['Text']));
+							PostData.Add('Day',FormatDateTime('dd',MaxDate));
+							PostData.Add('Mon',FormatDateTime('mm',MaxDate));
+							PostData.Add('Year',FormatDateTime('yyyy',MaxDate));
+							PostData.Add('Hour',FormatDateTime('hh',MaxDate));
+							PostData.Add('Min',FormatDateTime('nn',MaxDate));
+							PostData.Add('x','26');
+							PostData.Add('y','8');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;center class=error&gt;&lt;font class=small&gt;(.*?)&lt;/font&gt;',1))</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_status'+HTML.RegExp('cgi.exe\?function=sms_status(.*?)&quot;',1))</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Ваше сообщение отправлено') then
+								Result:='WAIT'
+							else	
+								Result:=HTML.ExistsStr('Ваше сообщение успешно доставлено');
+						end;
+						)
+		</cd_success>
+		<cd_error>eval(
+					begin
+						Result:=Html.RegExp('&lt;FONT class=default&gt;(.*?)&lt;/FONT&gt;',1);
+						if Result='' then
+							Result:='Ваше сообщение не смогло быть доставлено';
+					end;
+					)
+		</cd_error>
+	</classprops>
+</gate>
