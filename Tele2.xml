@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90213"/>
@@ -14,7 +14,7 @@
 		<prefix start="+7 902403" end="+7 902408"/>
 		<prefix start="+7 902504"/>
 		<prefix start="+7 902507"/>
-		<prefix start="+7 90404" end="+7 90410"/>
+		<prefix start="+7 90400" end="+7 90410"/>
 		<prefix start="+7 904200" end="+7 904214"/>
 		<prefix start="+7 904218" end="+7 904239"/>
 		<prefix start="+7 904245" end="+7 904249"/>
@@ -73,8 +73,9 @@
 		<prefix start="+7 95248" end="+7 95260"/>
 		<prefix start="+7 95276" end="+7 95278"/>
 		<prefix start="+7 95280" end="+7 95294"/>
+		<prefix start="+7 95296"/>
 		<prefix start="+7 95299"/>
-		<prefix start="+7 95326"/>
+		<prefix start="+7 95326" end="+7 95329"/>
 		<prefix start="+7 95330"/>
 		<prefix start="+7 95334" end="+7 95335"/>
 		<prefix start="+7 95339"/>
