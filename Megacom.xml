@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Megacom</name>
+	<caption>Megacom</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+996 55" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>120</maxsymbols>
+		<maxunicodesymbols>60</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://megacom.kg/our_services/send_sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://megacom.kg/our_services/send_sms/</pageurl>
+		<imageurl>eval('http://megacom.kg/mod/sendsms/captcha/image.php?rand='+Html.RegExp('image.php\?rand=(.*?)\?',1))</imageurl>
+		<posturl>http://megacom.kg/our_services/send_sms</posturl>
+		<postdata>eval(
+						var
+							DT: TDateTime;
+							Code: integer;
+						begin
+							DT:=SMS['DeliveryTime'];
+							DT:=DT+2*OneHour;
+							Code:=Copy(SMS['Phone_Def'],3,1);
+							if Code&lt;5 then
+								Code:=Code+2
+							else if Code;gt;5 then
+								Code:=Code+1
+							else	
+								Code:=1;
+							PostData.Add('captcha',SMS['Code']);
+							PostData.Add('destCode',VarToStr(Code));
+							PostData.Add('dest',SMS['Phone_Number']);
+							PostData.Add('smska',SMS['Text']);
+							PostData.Add('time','0');
+							PostData.Add('hh',FormatDateTime('h',DT));
+							PostData.Add('ii',FormatDateTime('n',DT));
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение принято к доставке!'))</success>
+		<error>eval(Html.RegExp('&lt;strong&gt;Ошибка:&lt;/strong&gt;(.*?)&lt;/div&gt;',1))</error>
+	</classprops>
+</gate>
