@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Fonex</name>
+	<caption>Fonex</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+996 543" format="3.3.6"/>
+		<prefix start="+996 545" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>120</maxsymbols>
+		<maxunicodesymbols>60</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.cdma.kg/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.cdma.kg/</pageurl>
+		<imageurl>eval('http://sms.cdma.kg/cgi-bin/img.pl?id='+Html.RegExp('/img.pl\?id=(.*?)&quot;',1))</imageurl>
+		<posturl>http://sms.cdma.kg/cgi-bin/sms.pl?sms=send</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('dest',SMS['Phone_Number']);
+							PostData.Add('id',HTML.RegExp('name=&quot;id&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('code',SMS['Code']);
+							PostData.Add('smsbody',SMS['Text']);
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('/ok.html'))</success>
+		<error>eval(begin
+						Result:=HTML.Text;
+						if Pos('code error',Result)>0 then
+							Result:='Неправильный код потверждения';
+					end;	
+					)
+		</error>
+	</classprops>
+</gate>
