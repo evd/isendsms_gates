@@ -4,7 +4,7 @@
 	<caption>Мегафон Поволжье</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 92253" end="+7 92255"/>
@@ -60,7 +60,7 @@
 						end;	
 						)	
 		</error>
-		<checkdelivery>1</checkdelivery>
+		<checkdelivery>0</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_multipart>1</cd_multipart>
 		<cd_posturl>http://volga.megafon.ru/sms/status/</cd_posturl>
