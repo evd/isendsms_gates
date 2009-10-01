@@ -87,6 +87,29 @@
 		<prefix start="+7 988953"/>
 		<prefix start="+7 988966"/>
 		<prefix start="+7 98995"/>
+		
+		<prefix start="+7 495 101" end="+7 495 108"/>
+		<prefix start="+7 495 139"/>
+		<prefix start="+7 495 231"/>
+		<prefix start="+7 495 233"/>
+		<prefix start="+7 495 25802" end="+7 495 25803"/>
+		<prefix start="+7 495 364"/>
+		<prefix start="+7 495 410" end="+7 495 411"/>
+		<prefix start="+7 495 76"/>
+		<prefix start="+7 495 773" end="+7 495 776"/>
+		<prefix start="+7 495 784" end="+7 495 768"/>
+		<prefix start="+7 495 913 0" end="+7 495 913 1"/>
+		<prefix start="+7 495 920" end="+7 495 922"/>
+		<prefix start="+7 495 960 0" end="+7 495 960 0"/>
+		<prefix start="+7 495 960 4" end="+7 495 960 4"/>
+		<prefix start="+7 495 967 2" end="+7 495 967 2"/>
+		<prefix start="+7 495 967 4" end="+7 495 967 5"/>
+		<prefix start="+7 495 969 65" end="+7 495 969 99"/>
+		<prefix start="+7 495 970"/>
+		<prefix start="+7 495 991"/>
+		<prefix start="+7 495 997" end="+7 495 999"/>
+
+		<prefix start="+7 812 92"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>135</maxsymbols>
@@ -115,6 +138,7 @@
 		<postdata>eval(
 					var
 						DT,DTClient: TDateTime;
+						PhoneDef: string;
 					begin
 						DTClient:=SMS['DeliveryTime']-5*OneMinute;
 						DT:=SMS['DeliveryTime'];
@@ -126,6 +150,9 @@
 								DTClient:=DTClient+5*OneMinute;	
 							end;	
 						end;
+						if SMS['Phone_Def']='495' then
+							PhoneDef:='985'
+						else PhoneDef:=SMS['Phone_Def'];	
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
@@ -133,7 +160,7 @@
 						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
 						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',SMS['Phone_Def']);
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',PhoneDef);
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;text&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;enabled&quot;:true}');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$txtMsisdn',SMS['Phone_Number']);
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
