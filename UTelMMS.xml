@@ -4,7 +4,7 @@
 	<caption>U-Tel ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 351"/>
@@ -71,6 +71,50 @@
 					)
 		</imageurl>
 		<multipart>1</multipart>
+		<uploadmultimedia>1</uploadmultimedia>
+		<mu_posturl>http://u-tel.ru/facilities/mms</mu_posturl>
+		<mu_postdata>eval(
+						var
+							MC: TMMSContentData;
+						begin
+							Cookies['JSESSIONID']:=Stored['SavedCookie'];
+							PostData.Add('owner_site_id',Html.RegExp('name=&quot;owner_site_id&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('control_id',Html.RegExp('name=&quot;control_id&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('owner_site_hash',Html.RegExp('name=&quot;owner_site_hash&quot; value=&quot;(.*?)&quot;',1));
+							MC:=TMMSContentData(MMS['MultiMedia']);
+							PostData.Add('action','addimg');
+							PostData.Add('mode','');
+							PostData.Add('page','');
+							PostData.Add('delay_time','');
+							PostData.Add('offset_time','');
+							PostData.Add('message_text_trans','');
+							PostData.Add('subsc_pwd','');
+							PostData.Add('phone_prefix','');
+							PostData.Add('phone_number_list','');
+							PostData.Add('images','');
+							PostData.Add('sounds','');
+							PostData.Add('user_img','');
+							PostData.Add('user_snd','');
+							PostData.Add('painter_img','');
+							PostData.Add('phone_number',MMS['Phone']);
+							PostData.Add('pfx',MMS['Phone_Country']+MMS['Phone_Def']);
+							PostData.Add('phone_num','');
+							PostData.AddData('image_path',MMS['MultiMedia']);
+							PostData.Add('message_text','');
+							PostData.Add('confirm_code','');
+							if MMS['Delivery'] then
+								PostData.Add('delay_send','1');
+							PostData.Add('send_hour',FormatDateTime('h',MMS['DeliveryTime']));
+							PostData.Add('send_minute',FormatDateTime('n',MMS['DeliveryTime']));
+							PostData.Add('send_day',FormatDateTime('d',MMS['DeliveryTime']));
+							PostData.Add('send_month',FormatDateTime('m',MMS['DeliveryTime'])-1);
+							PostData.Add('send_year',FormatDateTime('yyyy',MMS['DeliveryTime']));
+						end;
+					)
+		</mu_postdata>
+		<mu_success>1</mu_success>
+		<mu_dontloadresult>1</mu_dontloadresult>
+		<multipart>1</multipart>
 		<posturl>http://u-tel.ru/facilities/mms</posturl>
 		<postdata>eval(
 						var
@@ -93,15 +137,15 @@
 							PostData.Add('subsc_pwd','');
 							PostData.Add('phone_prefix','');
 							PostData.Add('phone_number_list','');
-							PostData.Add('images','');
+							PostData.Add('images',MC['FileName']);
 							PostData.Add('sounds','');
-							PostData.Add('user_img','');
+							PostData.Add('user_img','1');
 							PostData.Add('user_snd','');
 							PostData.Add('painter_img','');
 							PostData.Add('phone_number',MMS['Phone']);
 							PostData.Add('pfx',MMS['Phone_Country']+MMS['Phone_Def']);
 							PostData.Add('phone_num',MMS['Phone_Number']);
-							PostData.AddData('image_path',MMS['MultiMedia']);
+							PostData.Add('image_path','');
 							PostData.Add('message_text',MMS['Text']);
 							PostData.Add('confirm_code',MMS['Code']);
 							if MMS['Delivery'] then
