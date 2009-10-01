@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 9017"/>
@@ -43,7 +43,6 @@
 		<prefix start="+7 964830" end="+7 965864"/>
 		<prefix start="+7 965870" end="+7 965876"/>
 		<prefix start="+7 96588" end="+7 96591"/>
-		<prefix start="+7 495" />
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
@@ -75,7 +74,13 @@
 					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
-		<error>eval(HTML.RegExp('CLASS=&quot;err&quot;&gt;(.*?)&lt;/DIV&gt;',1))</error>
+		<error>eval(begin
+						Result:=HTML.RegExp('CLASS=&quot;err&quot;&gt;(.*?)&lt;/',1);
+						if Result='' then
+							Result:=HTML.RegExp('class=&quot;err&quot;&gt;&lt;b&gt;(.*?)&lt;/',1);
+					end;		
+					)
+		</error>
 		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>http://www.beeline.ru/sms/index.wbp</cd_posturl>
