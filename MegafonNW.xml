@@ -4,7 +4,7 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 920100" end="+7 920110"/>
@@ -18,7 +18,9 @@
 		<prefix start="+7 93150" end="+7 93151"/>
 		<prefix start="+7 93160"/>
 		<prefix start="+7 93170"/>
-		<prefix start="7 812"/>
+		<prefix start="+7 812 90" end="+7 812 91"/>
+		<prefix start="+7 812 93" end="+7 812 96"/>
+		<prefix start="+7 812 99" />
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
