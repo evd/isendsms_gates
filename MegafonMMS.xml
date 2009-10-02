@@ -4,13 +4,19 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 920" end="7 929"/>
 		<prefix start="7 931"/>
 		<prefix start="7 937" end="7 938"/>
-		<prefix start="7 812"/>
+		<prefix start="+7 812 90" end="+7 812 91"/>
+		<prefix start="+7 812 93" end="+7 812 96"/>
+		<prefix start="+7 812 99" />
+		<prefix start="7 495 500" end="7 495 507"/>
+		<prefix start="7 495 51"/>
+		<prefix start="7 495 543"/>
+		<prefix start="7 495 771" end="7 495 772"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>1000</maxsymbols>
