@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -80,6 +80,30 @@
 		<prefix start="+7 988953"/>
 		<prefix start="+7 988966"/>
 		<prefix start="+7 98995"/>
+		
+		<prefix start="+7 495 101" end="+7 495 108"/>
+		<prefix start="+7 495 139"/>
+		<prefix start="+7 495 231"/>
+		<prefix start="+7 495 233"/>
+		<prefix start="+7 495 25802" end="+7 495 25803"/>
+		<prefix start="+7 495 364"/>
+		<prefix start="+7 495 410" end="+7 495 411"/>
+		<prefix start="+7 495 76"/>
+		<prefix start="+7 495 773" end="+7 495 776"/>
+		<prefix start="+7 495 784" end="+7 495 768"/>
+		<prefix start="+7 495 913 0" end="+7 495 913 1"/>
+		<prefix start="+7 495 920" end="+7 495 922"/>
+		<prefix start="+7 495 960 0" end="+7 495 960 0"/>
+		<prefix start="+7 495 960 4" end="+7 495 960 4"/>
+		<prefix start="+7 495 967 2" end="+7 495 967 2"/>
+		<prefix start="+7 495 967 4" end="+7 495 967 5"/>
+		<prefix start="+7 495 969 65" end="+7 495 969 99"/>
+		<prefix start="+7 495 970"/>
+		<prefix start="+7 495 991"/>
+		<prefix start="+7 495 997" end="+7 495 999"/>
+
+		<prefix start="+7 812 92"/>
+		
 	</prefixlist>
 	<info>
 		<maxsymbols>1000</maxsymbols>
@@ -92,31 +116,43 @@
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>0</supportaudio>
 		<supportimage>1</supportimage>
+		<sendwomultimedia>1</sendwomultimedia>
 		<maxmultimediacount>1</maxmultimediacount>
 		<maxmultimediasize>307200</maxmultimediasize>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</pageurl>
-		<imageurl>eval(begin
-							PostData.Multipart:=true;
-							PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('currentID','-1');
-							PostData.Add('ddlDefCode',MMS['Phone_Def']);
-							PostData.Add('tbPhone','');
-							PostData.Add('ddlTopic','0');
-							PostData.Add('tbTopic','');
-							PostData.Add('tbMessage','');
-							PostData.AddData('fileUpload',MMS['Multimedia']);
-							PostData.Add('btnUpload.x','41');
-							PostData.Add('btnUpload.y','15');
-							PostData.Add('tbCode','');
-							HTTP.HTTPMethod('POST','http://www.mts.ru/FreeSendWithLinks.aspx?region=msk');
-							PostData.Clear;
+		<imageurl>eval(
+						var
+							MM: TMMSContentData;
+							PhoneDef: string;
+						begin
+							MM:=MMS['Multimedia'];
+							if MM['Stream']&lt;&gt;nil then
+							begin
+								PostData.Multipart:=true;
+								PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('currentID','-1');
+								if SMS['Phone_Def']='495' then
+									PhoneDef:='985'
+								else PhoneDef:=SMS['Phone_Def'];	
+								PostData.Add('ddlDefCode',PhoneDef);
+								PostData.Add('tbPhone','');
+								PostData.Add('ddlTopic','0');
+								PostData.Add('tbTopic','');
+								PostData.Add('tbMessage','');
+								PostData.AddData('fileUpload',MMS['Multimedia']);
+								PostData.Add('btnUpload.x','41');
+								PostData.Add('btnUpload.y','15');
+								PostData.Add('tbCode','');
+								HTTP.HTTPMethod('POST','http://www.mts.ru/FreeSendWithLinks.aspx?region=msk');
+								PostData.Clear;
+							end;	
 						
 						Result:='http://www.mts.ru/LanapCaptcha.aspx'+ReplaceStr(Html.RegExp('LanapCaptcha.aspx(.*?)''',1),'&amp;'+'amp;','&amp;');
 					end;	
@@ -125,14 +161,24 @@
 		<multipart>1</multipart>
 		<posturl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</posturl>
 		<postdata>eval(
+						var
+							MM: TMMSConentData;
+							PhoneDef: string;
 						begin
 							PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('currentID','0');
-							PostData.Add('ddlDefCode',MMS['Phone_Def']);
+							MM:=MMS['MultiMedia'];
+							if MM['Stream'] &lt;&gt; nil then
+								PostData.Add('currentID','0')
+							else
+								PostData.Add('currentID','-1');
+							if SMS['Phone_Def']='495' then
+								PhoneDef:='985'
+							else PhoneDef:=SMS['Phone_Def'];	
+							PostData.Add('ddlDefCode',PhoneDef);
 							PostData.Add('tbPhone',MMS['Phone_Number']);
 							PostData.Add('ddlTopic','0');
 							PostData.Add('tbTopic',MMS['Subject']);
