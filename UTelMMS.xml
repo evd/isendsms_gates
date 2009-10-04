@@ -4,7 +4,7 @@
 	<caption>U-Tel ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 351"/>
@@ -73,6 +73,7 @@
 		<multipart>1</multipart>
 		<uploadmultimedia>1</uploadmultimedia>
 		<mu_posturl>http://u-tel.ru/facilities/mms</mu_posturl>
+		<mu_multipart>1</mu_multipart>
 		<mu_postdata>eval(
 						var
 							MC: TMMSContentData;
@@ -82,7 +83,7 @@
 							PostData.Add('control_id',Html.RegExp('name=&quot;control_id&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('owner_site_hash',Html.RegExp('name=&quot;owner_site_hash&quot; value=&quot;(.*?)&quot;',1));
 							MC:=TMMSContentData(MMS['MultiMedia']);
-							PostData.Add('action','addimg');
+							PostData.Add('action','add_img');
 							PostData.Add('mode','');
 							PostData.Add('page','');
 							PostData.Add('delay_time','');
@@ -144,7 +145,7 @@
 							PostData.Add('painter_img','');
 							PostData.Add('phone_number',MMS['Phone']);
 							PostData.Add('pfx',MMS['Phone_Country']+MMS['Phone_Def']);
-							PostData.Add('phone_num',MMS['Phone_Number']);
+							PostData.Add('phone_num',MMS['Phone']);
 							PostData.Add('image_path','');
 							PostData.Add('message_text',MMS['Text']);
 							PostData.Add('confirm_code',MMS['Code']);
