@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Cheb</name>
+	<caption>Шупашкар-GSM</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 902240"/>
+		<prefix start="+7 902249"/>
+		<prefix start="+7 902327" end="+7 902328"/>
+		<prefix start="+7 902359"/>
+		<prefix start="+7 902660" end="+7 902663"/>
+		<prefix start="+7 902665"/>
+		<prefix start="+7 9047290" end="+7 9047294"/>
+		<prefix start="+7 908840" end="+7 908851"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>318</maxsymbols>
+		<maxunicodesymbols>318</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.cheb.ru/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.cheb.ru/sms/</pageurl>
+		<imageurl>http://www.cheb.ru/sms/captcha.php</imageurl>
+		<posturl>http://www.cheb.ru/sms/index.php</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('code',SMS['Code']);
+						PostData.Add('Submit2','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.RegExp('Сообщение на номер.*?отправлено',0)&lt;&gt;'')</success>
+		<error>eval(HTML.RegExp('&lt;font color=''red''&gt;(.*?)&lt;',1))</error>
+	</classprops>
+</gate>

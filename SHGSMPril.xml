@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>SHGSMPril</name>
+	<caption>Шупашкар-GSM Prilavok21</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>20</priority>
+	<prefixlist>
+		<prefix start="+7 902240"/>
+		<prefix start="+7 902249"/>
+		<prefix start="+7 902327" end="+7 902328"/>
+		<prefix start="+7 902359"/>
+		<prefix start="+7 902660" end="+7 902663"/>
+		<prefix start="+7 902665"/>
+		<prefix start="+7 9047290" end="+7 9047294"/>
+		<prefix start="+7 908840" end="+7 908851"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>318</maxsymbols>
+		<maxunicodesymbols>318</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.prilavok21.ru/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.prilavok21.ru/sms</pageurl>
+		<imageurl>eval('http://www.prilavok21.ru/sms_service/captcha.php?PHPSESSID=' + HTML.RegExp('captcha.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.prilavok21.ru/sms?act=send</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('PHPSESSID',Html.RegExp('name=&quot;PHPSESSID&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('captcha',SMS['Code']);
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение успешно отправлено!'))</success>
+		<error>eval(HTML.RegExp('&lt;font color=&quot;?red&quot;?&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://www.prilavok21.ru/sms?act=status</cd_posturl>
+		<cd_postdata>eval(
+				begin
+					PostData.Add('msg_id',Html.RegExp('name=&quot;msg_id&quot; value=&quot;(.*?)&quot;',1));
+				end;
+				)
+		</cd_postdata>
+		<cd_success>eval(
+				begin
+					//if Html.ExistsStr('sms-сообщение доставлено') then
+					//	Result:='WAIT'
+					//else
+						Result:=Html.ExistsStr('sms-сообщение доставлено');
+				end;
+				)
+		</cd_success>
+		<cd_error>eval(Html.RegExp('Статус sms-сообщения: &lt;b&gt;(.*?)&lt;/b&gt;',1))</cd_error>
+	</classprops>
+</gate>
