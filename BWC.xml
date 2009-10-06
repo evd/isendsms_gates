@@ -4,7 +4,7 @@
 	<caption>Байкалвестком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 9016300" end="+7 9016344"/>
@@ -33,7 +33,7 @@
 		<gateurl>http://www.bwc.ru/cgi-bin/smssend.cgi</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
+		<encoding>UTF-8</encoding>
 		<pageurl>http://www.bwc.ru/cgi-bin/smssend.cgi</pageurl>
 		<imageurl>eval('http://www.bwc.ru/cgi-bin/img2img.cgi?img=' + HTML.RegExp('img2img.cgi\?img=(.*?)&quot;',1))</imageurl>
 		<posturl>http://www.bwc.ru/cgi-bin/smssend.cgi</posturl>
