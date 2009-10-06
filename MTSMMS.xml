@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -138,9 +138,9 @@
 								PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
 								PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
 								PostData.Add('currentID','-1');
-								if SMS['Phone_Def']='495' then
+								if MMS['Phone_Def']='495' then
 									PhoneDef:='985'
-								else PhoneDef:=SMS['Phone_Def'];	
+								else PhoneDef:=MMS['Phone_Def'];	
 								PostData.Add('ddlDefCode',PhoneDef);
 								PostData.Add('tbPhone','');
 								PostData.Add('ddlTopic','0');
@@ -175,9 +175,9 @@
 								PostData.Add('currentID','0')
 							else
 								PostData.Add('currentID','-1');
-							if SMS['Phone_Def']='495' then
+							if MMS['Phone_Def']='495' then
 								PhoneDef:='985'
-							else PhoneDef:=SMS['Phone_Def'];	
+							else PhoneDef:=MMS['Phone_Def'];	
 							PostData.Add('ddlDefCode',PhoneDef);
 							PostData.Add('tbPhone',MMS['Phone_Number']);
 							PostData.Add('ddlTopic','0');
