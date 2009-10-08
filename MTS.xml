@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>14</version>
+	<version>15</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -140,7 +140,7 @@
 						DT,DTClient: TDateTime;
 						PhoneDef: string;
 					begin
-						DTClient:=SMS['DeliveryTime']+5*OneMinute;
+						DTClient:=SMS['DeliveryTime'];
 						DT:=SMS['DeliveryTime'];
 						if SMS['Delivery'] then
 						begin	
@@ -198,10 +198,9 @@
 						if HTML.ExistsStr('smsExtraRedirect.htm') then
 							Result:='SMS-сообщение можно отправлять не чаще одного раза в 30 секунд'
 						else 	
-							Result:=Html.RegExp('style=&quot;color: Red; font-weight: bold&quot; id=&quot;atantion&quot;&gt;(.*?)&lt;/p&gt;',1);
-						if Result='' then
 							Result:=HTML.RegExp('ctl00_ctl00_ctl00_SMSSendControl_lbError&quot;&gt;(.*?)&lt;/span&gt;',1);
-					end;
+					end;		
+							
 					)
 		</error>
 		<checkdelivery>1</checkdelivery>
