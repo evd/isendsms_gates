@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>12</version>
+	<version>14</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -140,7 +140,7 @@
 						DT,DTClient: TDateTime;
 						PhoneDef: string;
 					begin
-						DTClient:=SMS['DeliveryTime'];
+						DTClient:=SMS['DeliveryTime']+5*OneMinute;
 						DT:=SMS['DeliveryTime'];
 						if SMS['Delivery'] then
 						begin	
