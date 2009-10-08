@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -140,7 +140,7 @@
 						DT,DTClient: TDateTime;
 						PhoneDef: string;
 					begin
-						DTClient:=SMS['DeliveryTime']-5*OneMinute;
+						DTClient:=SMS['DeliveryTime'];
 						DT:=SMS['DeliveryTime'];
 						if SMS['Delivery'] then
 						begin	
@@ -204,7 +204,7 @@
 					end;
 					)
 		</error>
-		<checkdelivery>0</checkdelivery>
+		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>eval('http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
 		<cd_postdata>eval(
