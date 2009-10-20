@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Aquafon</name>
+	<caption>Аквафон</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+9954421" format="3.2.6"/>
+		<prefix start="+9954427" format="3.2.6"/>
+		<prefix start="+99544250" format="3.2.6"/>
+		<prefix start="+99544253" format="3.2.6"/>
+		<prefix start="+99544258" end="+99544259" format="3.2.6"/>
+		<prefix start="+995446" format="3.2.6"/>
+		<prefix start="+995449" format="3.2.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.aquafon.com/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.aquafon.com/sms</pageurl>
+		<imageurl>eval('http://www.aquafon.com/_captcha/' + HTML.RegExp('_captcha/(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.aquafon.com/sms</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('code',SMS['Phone_Country']+SMS['Phone_Def']);
+						PostData.Add('__form_msg_state','process');
+						PostData.Add('number',SMS['Phone_Number']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('captcha',SMS['Code']);
+						PostData.Add('sendMsg','');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение успешно отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;span style=&quot;font-size:smaller;color:#cc0000&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
+	</classprops>
+</gate>
