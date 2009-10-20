@@ -4,7 +4,7 @@
 	<caption>НТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90205" end="+7 90207"/>
@@ -29,14 +29,15 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://www.vntc.ru/mobile/gsm/sms.php</pageurl>
-		<imageurl>eval('http://www.vntc.ru/kcaptcha/index.php?PHPSESSID=' + HTML.RegExp('kcaptcha/index.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
-		<posturl>http://vntc.ru/berkut/indexntc103.php?sub=1</posturl>
+		<imageurl>eval('http://www.old.vntc.ru/kcaptcha/index.php?PHPSESSID=' + HTML.RegExp('kcaptcha/index.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://old.vntc.ru/berkut/indexb.php?sub=1</posturl>
 		<postdata>eval(
 					begin
 							PostData.Add('PHPSESSID',Html.RegExp('name=&quot;PHPSESSID&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('Prefix',Copy(SMS['Phone'],1,7));
-							PostData.Add('Address',Copy(SMS['Phone'],8,4));
-							PostData.Add('keystring',SMS['Code']);
+							PostData.Add('Prefix','+7902065');
+							PostData.Add('Address','');
+							PostData.ADd('Address22',SMS['Phone_Def']+SMS['Phone_Number']);
+							PostData.Add('keystring2',SMS['Code']);
 							if SMS['Flash'] then
 								PostData.Add('Flashsm','');
 							PostData.Add('Message',SMS['Text']);
@@ -48,7 +49,7 @@
 		<error>eval(Html.RegExp('SMSC не принял сообщение. &lt;B&gt;(.*?)&lt;/B&gt;',1))</error>
 		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://vntc.ru/berkut/Query.php</cd_posturl>
+		<cd_posturl>http://old.vntc.ru/berkut/Queryb.php</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('Identity',Html.RegExp('name=&quot;?Identity&quot;? value=(.*?) ?&gt;',1));
