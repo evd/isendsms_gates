@@ -4,7 +4,7 @@
 	<caption>Мегафон Урал</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 92200" end="+7 92252"/>
@@ -15,8 +15,8 @@
 		<prefix start="+7 92925" end="+7 92929"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>280</maxsymbols>
-		<maxunicodesymbols>280</maxunicodesymbols>
+		<maxsymbols>210</maxsymbols>
+		<maxunicodesymbols>210</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
