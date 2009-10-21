@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>AKOS</name>
+	<caption>Акос</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 90248"/>
+		<prefix start="+7 902505" end="+7 902506"/>
+		<prefix start="+7 95028" end="+7 95029"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://akos.ru/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://akos.ru/sms</pageurl>
+		<imageurl>eval('http://akos.ru/cgi-bin/cgi.exe?function=sms_show_antispam_image&amp;ImageNumber='+Html.RegExp('sms_show_antispam_image&amp;ImageNumber=(.*?)&quot;',1))</imageurl>
+		<posturl>http://akos.ru/cgi-bin/cgi.exe?function=sms_send</posturl>
+		<postdata>eval(
+						var
+							DT: TDateTime;
+						begin
+							DT:=SMS['DeliveryTime']+1;
+							PostData.Add('MMObjectType','0');
+							PostData.Add('isFree','1');
+							PostData.Add('MMObjectID','');
+							PostData.Add('Layer','');
+							PostData.Add('antispamText',SMS['Code']);
+							PostData.Add('textTableRecordId',Html.RegExp('name=&quot;textTableRecordId&quot; type=&quot;hidden&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('To',SMS['Phone']);
+							PostData.Add('Msg',SMS['Text']);
+							PostData.Add('count',SMS['LeaveSymbols']);
+							PostData.Add('Day',FormatDateTime('dd',DT));
+							PostData.Add('Mon',FormatDateTime('mm',DT));
+							PostData.Add('Year',FormatDateTime('yyyy',DT));
+							PostData.Add('Hour',FormatDateTime('hh',DT));
+							PostData.Add('Min',FormatDateTime('nn',DT));
+							PostData.Add('DelayDay','');
+							PostData.Add('DelayMon','');
+							PostData.Add('DelayYear','');
+							PostData.Add('DelayHour','');
+							PostData.Add('DelayMin','');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>Ошибка при отправке сообщения, возможно введен неверный код</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://akos.ru/cgi-bin/cgi.exe?function=sms_status'+HTML.RegExp('cgi.exe\?function=sms_status(.*?)&quot;',1))</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('function=sms_status') then
+								Result:='WAIT'
+							else	
+								Result:=HTML.ExistsStr('Ваше сообщение успешно доставлено');
+						end;
+						)
+		</cd_success>
+		<cd_error>Ваше сообщение не смогло быть доставлено</cd_error>
+	</classprops>
+</gate>
