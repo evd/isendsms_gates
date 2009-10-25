@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 920" end="7 929"/>
@@ -21,6 +21,7 @@
 	<info>
 		<maxsymbols>1000</maxsymbols>
 		<maxunicodesymbols>1000</maxunicodesymbols>
+		<maxsubjectsymbols>30</maxsubjectsymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
