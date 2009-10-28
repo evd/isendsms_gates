@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>OrenburgGSM</name>
+	<caption>Оренбург-GSM</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<prefixlist>
+		<prefix start="+7 902247" end="+7 902248"/>
+		<prefix start="+7 902365" end="+7 902366"/>
+		<prefix start="+7 908320" end="+7 908324"/>
+		<prefix start="+7 95018"/>
+		<prefix start="+7 95103"/>
+		<prefix start="+7 95345"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.orenburg-gsm.ru/pages/smssend/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.orenburg-gsm.ru/pages/smssend/</pageurl>
+		<imageurl>eval('http://sms.orenburg-gsm.ru/files/site_checkpic/' + HTML.RegExp('/site_checkpic/(.*?)&quot;',1))</imageurl>
+		<posturl>http://sms.orenburg-gsm.ru/pages/smssend_result/</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('Select','Шаблоны');
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('sign','');
+						PostData.Add('checknum',SMS['Code']);
+						PostData.Add('Submit','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('сообщение помещено в очередь'))</success>
+		<error>eval(Html.RegExp('&lt;strong class=&quot;error&quot;&gt;Ошибка:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;(.*?)&lt;/td&gt;',1))</error>
+		<checkdelivery>1</checkdelivery>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://sms.orenburg-gsm.ru/pages/smssend_result/t='+Html.RegExp('smssend_result/t=(.*?)&quot;',1))</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Сообщение ожидает отправки в очереди сервис центра') then
+								Result:='WAIT'
+							else Result:=Html.ExistsStr('Сообщение доставлено');
+						end;
+					)	
+		</cd_success>
+		<cd_error>eval(HTML.RegExp('&lt;strong&gt;Результат:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;(.*?)&lt;/td&gt;',1))</cd_error>
+	</classprops>
+</gate>
