@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 920" end="7 929"/>
@@ -78,6 +78,8 @@
 						Result:='Общий вес сообщения не должен превышать 100Кбайт'
 					else if Pos('file',HTTP['error'])>0 then
 						Result:='Данный файл не может быть отправлен'
+					else if Pos('ip',HTTP['error'])>0 then
+						Result:='Вы превысили допустимый лимит на отправку сообщений (одно сообщение в минуту; десять сообщений в час)'
 					else
 						Result:='Неизвестная ошибка отправки';
 				end;
