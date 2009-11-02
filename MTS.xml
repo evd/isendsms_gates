@@ -4,12 +4,18 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>15</version>
+	<version>20</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
 		<prefix start="+7 90425"/>
-		<prefix start="+7 910000" end="+7 912065"/>
+		<prefix start="+7 910000" end="+7 911069"/>
+		<prefix start="+7 911070" end="+7 911074" tag="2"/>
+		<prefix start="+7 911075" end="+7 911449"/>
+		<prefix start="+7 91145" end="+7 91149" tag="2"/>
+		<prefix start="+7 91150" end="+7 91184"/>
+		<prefix start="+7 91185" end="+7 91186" tag="2"/>
+		<prefix start="+7 911870" end="+7 912065"/>
 		<prefix start="+7 912068" end="+7 914014"/>
 		<prefix start="+7 91402" end="+7 91404"/>
 		<prefix start="+7 91405" tag="1"/>
@@ -41,7 +47,7 @@
 		<prefix start="+7 980650" end="+7 980664"/>
 		<prefix start="+7 980670" end="+7 980680"/>
 		<prefix start="+7 981440" end="+7 981444"/>
-		<prefix start="+7 98145"/>
+		<prefix start="+7 98145" tag="2"/>
 		<prefix start="+7 98150"/>
 		<prefix start="+7 981650" end="+7 981654"/>
 		<prefix start="+7 9817"/>
@@ -118,7 +124,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://sms.mts.ru/</gateurl>
+		<gateurl>http://www.mts.ru/messaging/sendsms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
@@ -127,14 +133,16 @@
 					begin
 						if SMS['Phone_tag']=1 then
 							Stored['region']:='buryatia'
+						else if SMS['Phone_tag']=2 then
+							Stored['region']:='kaliningrad'
 						else
 							Stored['region']:='msk';
-						Result:='http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'];
+						Result:='http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'];
 					end;
 					)
 		</pageurl>
-		<imageurl>eval('http://sms.mts.ru/live/' + HTML.RegExp('(LanapCaptcha.aspx.*?)''',1))</imageurl>
-		<posturl>eval('http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</posturl>
+		<imageurl>eval('http://www.mts.ru/live/' + HTML.RegExp('(LanapCaptcha.aspx.*?)''',1))</imageurl>
+		<posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</posturl>
 		<postdata>eval(
 					var
 						DT,DTClient: TDateTime;
@@ -205,7 +213,7 @@
 		</error>
 		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
-		<cd_posturl>eval('http://sms.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
+		<cd_posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							if HTML.ExistsStr('|updatePanel|') then
