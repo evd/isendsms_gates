@@ -4,12 +4,11 @@
 	<caption>Golden Telecom</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>20</priority>
 	<prefixlist>
 		<prefix start="+380 39" format="3.2.7"/>
 		<prefix start="+380 63" format="3.2.7"/>
-		<prefix start="+380 67" end="+380 68" format="3.2.7"/>
 		<prefix start="+380 93" format="3.2.7"/>
 		<prefix start="+380 96" end="+380 98" format="3.2.7"/>
 	</prefixlist>
