@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -112,7 +112,7 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.mms.mts.ru/send.html</gateurl>
+		<gateurl>http://www.mts.ru/messaging/sendmms/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>0</supportaudio>
 		<supportimage>1</supportimage>
@@ -122,71 +122,48 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</pageurl>
-		<imageurl>eval(
-						var
-							MM: TMMSContentData;
-							PhoneDef: string;
-						begin
-							MM:=MMS['Multimedia'];
-							if MM['Stream']&lt;&gt;nil then
-							begin
-								PostData.Multipart:=true;
-								PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('currentID','-1');
-								if MMS['Phone_Def']='495' then
-									PhoneDef:='985'
-								else PhoneDef:=MMS['Phone_Def'];	
-								PostData.Add('ddlDefCode',PhoneDef);
-								PostData.Add('tbPhone','');
-								PostData.Add('ddlTopic','0');
-								PostData.Add('tbTopic','');
-								PostData.Add('tbMessage','');
-								PostData.AddData('fileUpload',MMS['Multimedia']);
-								PostData.Add('btnUpload.x','41');
-								PostData.Add('btnUpload.y','15');
-								PostData.Add('tbCode','');
-								HTTP.HTTPMethod('POST','http://www.mts.ru/FreeSendWithLinks.aspx?region=msk');
-								PostData.Clear;
-							end;	
-						
-						Result:='http://www.mts.ru/LanapCaptcha.aspx'+ReplaceStr(Html.RegExp('LanapCaptcha.aspx(.*?)''',1),'&amp;'+'amp;','&amp;');
-					end;	
-					)
-		</imageurl>
-		<multipart>1</multipart>
-		<posturl>http://www.mts.ru/FreeSendWithLinks.aspx?region=msk</posturl>
+		<pageurl>http://www.mts.ru/ND_FreeSend.aspx?region=msk</pageurl>
+		<imageurl>eval('http://www.mts.ru/LanapCaptcha.aspx'+Html.RegExp('LanapCaptcha.aspx(.*?)''',1))</imageurl>
+		<uploadmultimedia>1</uploadmultimedia>
+		<mu_posturl>http://www.mts.ru/uploadF.aspx</mu_posturl>
+		<mu_multipart>1</mu_multipart>
+		<mu_postdata>eval
+				var
+					MC: TMultimediaContent;
+				begin
+					MC:=MMS['Multimedia'];
+					PostData.Add('Filename',MC['FileName']);
+					PostData.Add('ASPSESSID',Html.RegExp('&quot;ASPSESSID&quot;: &quot;(.*?)&quot;',1));
+					PostData.AddData('Filedata',MC);
+					PostData.Add('Upload','Submit Query');
+				end;
+				)
+		</mu_postdata>
+		<mu_success>1</mu_success>
+		<mu_dontloadresult>1</mu_dontloadresult>
+		<posturl>http://www.mts.ru/ND_FreeSend.aspx?region=msk</posturl>
 		<postdata>eval(
-						var
-							MM: TMMSConentData;
-							PhoneDef: string;
 						begin
-							PostData.Add('LBD_VCT_freesendwithlinks_captcha',Html.RegExp('id=&quot;LBD_VCT_freesendwithlinks_captcha&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
+							PostData.Add('LBD_VCT_nd_freesend_captcha',Html.RegExp('id=&quot;LBD_VCT_nd_freesend_captcha&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							MM:=MMS['MultiMedia'];
-							if MM['Stream'] &lt;&gt; nil then
-								PostData.Add('currentID','0')
-							else
-								PostData.Add('currentID','-1');
-							if MMS['Phone_Def']='495' then
-								PhoneDef:='985'
-							else PhoneDef:=MMS['Phone_Def'];	
-							PostData.Add('ddlDefCode',PhoneDef);
+							PostData.Add('RadFormDecorator1_ClientState','');
+							PostData.Add('currentID','-1');
+							PostData.Add('useUploadedImgID','1');
+							PostData.Add('ddlDefCode',MMS['Phone_Def']);
+							PostData.Add('ddlDefCode_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+'Выберите заголовок...'+'&quot;,&quot;text&quot;:&quot;'+MMS['Phone_Def']+'&quot;,&quot;enabled&quot;:true}');
 							PostData.Add('tbPhone',MMS['Phone_Number']);
-							PostData.Add('ddlTopic','0');
+							PostData.Add('ddlTopic',MMS['Subject']);
+							PostData.Add('ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;'+'Выберите заголовок...'+'&quot;,&quot;enabled&quot;:true}');
 							PostData.Add('tbTopic',MMS['Subject']);
 							PostData.Add('tbMessage',MMS['Text']);
-							PostData.AddData('fileUpload',nil);
 							PostData.Add('tbCode',MMS['Code']);
-							PostData.Add('btnSend.x','140');
-							PostData.Add('btnSend.y','33');
+							PostData.Add('btnSend.x','131');
+							PostData.Add('btnSend.y','17');
+						
 						end;
 					)
 		</postdata>
@@ -197,13 +174,12 @@
 		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>eval(begin
-							Result:='http://www.mts.ru/checkStatusFreeWithLinks.aspx';
-							if HTML.ExistsStr('|updatePanel|') then
-								Result:=Result + HTML.RegExp('\|checkStatusFreeWithLinks.aspx(.*?)\|',1)
-							else	
-								Result:=Result+Html.RegExp('checkStatusFreeWithLinks\.aspx(.*?)&quot;',1);
+							Result:=Html.RegExp('\|ND_checkStatusFree.aspx(.*?)\|',1);
+							if Result='' then
+								Result:=Html.RegExp('ND_checkStatusFree.aspx(.*?)&quot;',1);
+							Result:='http://www.mts.ru/ND_checkStatusFree.aspx'+Result;
 						end;
-							)
+						)
 		</cd_posturl>
 		<cd_postdata>eval(
 						begin
