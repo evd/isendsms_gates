@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -203,7 +203,7 @@
 							begin
 								if HTML.ExistsStr('В очереди.') then
 									Result:='WAIT'
-								else Result:=HTML.ExistsStr('Доставлено.');
+								else Result:=HTML.ExistsStr('Отправлено.');
 							end;
 						)
 		</cd_success>
