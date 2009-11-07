@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 777"/>
@@ -16,6 +16,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.beeline.kz/mybeeline/sms.wbp</gateurl>
 	</info>
@@ -50,7 +51,6 @@
 							Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;',1);
 					end;		
 					)</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_delay>7000</cd_delay>
 		<cd_delta>3000</cd_delta>

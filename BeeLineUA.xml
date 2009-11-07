@@ -4,7 +4,7 @@
 	<caption>БиЛайн Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+380 39" format="3.2.7"/>
@@ -26,6 +26,7 @@
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://beeline.ua/sms.wbp</pageurl>
 		<imageurl>http://beeline.ua/mamimg1.aspx</imageurl>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<posturl>http://beeline.ua/sms.wbp</posturl>
 		<postdata>eval(
 						begin
@@ -53,7 +54,6 @@
 					end;		
 					)
 		</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_delay>3000</cd_delay>
 		<cd_delta>3000</cd_delta>

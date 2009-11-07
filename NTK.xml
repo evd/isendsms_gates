@@ -4,7 +4,7 @@
 	<caption>НТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90205" end="+7 90207"/>
@@ -23,6 +23,7 @@
 		<supportflash>1</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.vntc.ru/mobile/gsm/sms.php</gateurl>
 	</info>
@@ -47,7 +48,6 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('SMSC присвоил сообщению номер'))</success>
 		<error>eval(Html.RegExp('SMSC не принял сообщение. &lt;B&gt;(.*?)&lt;/B&gt;',1))</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>http://old.vntc.ru/berkut/Queryb.php</cd_posturl>
 		<cd_postdata>eval(

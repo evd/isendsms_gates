@@ -4,7 +4,7 @@
 	<caption>Мегафон Дальный Восток</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 924"/>
@@ -15,6 +15,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://prim.megafon.ru/sms/</gateurl>
 	</info>
@@ -37,7 +38,6 @@
 		</postdata>
 		<success>eval(Html.ExistsStr('Ваше сообщение помещено в очередь на отправку'))</success>
 		<error>eval(Html.RegExp('&lt;p class=&quot;error&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>GET</cd_method>
 		<cd_url>eval(HTTP['Url'])</cd_url>
 		<cd_success>eval(

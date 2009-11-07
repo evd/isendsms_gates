@@ -4,7 +4,7 @@
 	<caption>Оренбург-GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 902247" end="+7 902248"/>
@@ -20,6 +20,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://sms.orenburg-gsm.ru/pages/smssend/</gateurl>
 	</info>
@@ -41,7 +42,6 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('сообщение помещено в очередь'))</success>
 		<error>eval(Html.RegExp('&lt;strong class=&quot;error&quot;&gt;Ошибка:&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;(.*?)&lt;/td&gt;',1))</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://sms.orenburg-gsm.ru/pages/smssend_result/t='+Html.RegExp('smssend_result/t=(.*?)&quot;',1))</cd_url>
 		<cd_success>eval(

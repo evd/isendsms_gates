@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>20</version>
+	<version>21</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -123,6 +123,7 @@
 		<supportflash>1</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.mts.ru/messaging/sendsms/</gateurl>
 	</info>
@@ -211,7 +212,6 @@
 							
 					)
 		</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
 		<cd_postdata>eval(

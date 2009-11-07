@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -111,6 +111,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.mts.ru/messaging/sendmms/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
@@ -171,7 +172,6 @@
 		<success>eval(Html.ExistsStr('Проверить статус доставки'))</success>
 		<error>eval(HTML.RegExp('&lt;span id=&quot;lblError&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
-		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>eval(begin
 							Result:=Html.RegExp('\|ND_checkStatusFree.aspx(.*?)\|',1);

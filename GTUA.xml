@@ -4,7 +4,7 @@
 	<caption>Golden Telecom</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>20</priority>
 	<prefixlist>
 		<prefix start="+380 39" format="3.2.7"/>
@@ -19,6 +19,7 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>0</captcha>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<gateurl>http://sms.gt.com.ua/</gateurl>
 	</info>
 	<classprops>
@@ -43,7 +44,6 @@
 					end;
 					)
 		</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://sms.gt.com.ua:8080/CheckDS.htm?'+Html.RegExp('CheckDS.htm\?(.*?)&quot;',1))</cd_url>
 		<cd_success>eval

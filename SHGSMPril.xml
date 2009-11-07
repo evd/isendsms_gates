@@ -4,7 +4,7 @@
 	<caption>Шупашкар-GSM Prilavok21</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>20</priority>
 	<prefixlist>
 		<prefix start="+7 902240"/>
@@ -22,6 +22,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.prilavok21.ru/sms</gateurl>
 	</info>
@@ -41,7 +42,6 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('Ваше сообщение успешно отправлено!'))</success>
 		<error>eval(HTML.RegExp('&lt;font color=&quot;?red&quot;?&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
-		<checkdelivery>1</checkdelivery>
 		<cd_method>POST</cd_method>
 		<cd_posturl>http://www.prilavok21.ru/sms?act=status</cd_posturl>
 		<cd_postdata>eval(

@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 925"/>
@@ -20,6 +20,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://sms.megafonmoscow.ru/</gateurl>
 	</info>
@@ -60,7 +61,6 @@
 					else Result:='Неизвестная ошибка';
 				end;		
 			)</error>
-		<checkdelivery>0</checkdelivery>
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://sms.megafonmoscow.ru/send/status/'+Html.RegExp('&lt;a href=&quot;/send/status/(.*?)&quot;',1))</cd_url>
 		<cd_success>eval(
