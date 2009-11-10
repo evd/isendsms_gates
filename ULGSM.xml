@@ -4,7 +4,8 @@
 	<caption>Ульяновск-GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
+	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 902 00"/>
 		<prefix start="7 902 120" end="7 902 123"/>

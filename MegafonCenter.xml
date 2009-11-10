@@ -4,7 +4,8 @@
 	<caption>Мегафон Центр</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
+	<priority>10</priority>
 	<prefixlist>
 		<prefix start="7 9200"/>
 		<prefix start="7 920111"/>
