@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>21</version>
+	<version>22</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -30,7 +30,7 @@
 		<prefix start="+7 91483" tag="1"/>
 		<prefix start="+7 91484" end="+7 91497"/>
 		<prefix start="+7 91498" tag="1"/>
-		<prefix start="+7 91500" end="+7 91912"/>
+		<prefix start="+7 915000" end="+7 919136"/>
 		<prefix start="+7 919139" end="+7 919411"/>
 		<prefix start="+7 91942" end="+7 91977"/>
 		<prefix start="+7 919780"/>
@@ -39,10 +39,13 @@
 		<prefix start="+7 919790" end="+7 919970"/>
 		<prefix start="+7 91998" end="+7 91999"/>
 		<prefix start="+7 95095"/>
+		<prefix start="+7 980250" end="+7 980253"/>
 		<prefix start="+7 98030" end="+7 98037"/>
 		<prefix start="+7 980500" end="+7 980504"/>
 		<prefix start="+7 980510" end="+7 980514"/>
+		<prefix start="+7 98052"/>
 		<prefix start="+7 98054"/>
+		<prefix start="+7 98063"/>
 		<prefix start="+7 980640" end="+7 980644"/>
 		<prefix start="+7 980650" end="+7 980664"/>
 		<prefix start="+7 980670" end="+7 980680"/>
@@ -58,18 +61,21 @@
 		<prefix start="+7 98290"/>
 		<prefix start="+7 98295"/>
 		<prefix start="+7 9831"/>
+		<prefix start="+7 98321" end="+7 98322"/>
+		<prefix start="+7 98325" end="+7 98326"/>
+		<prefix start="+7 98328" end="+7 98329"/>
+		<prefix start="+7 983325" end="+7 983329"/>
+		<prefix start="+7 98334"/>
 		<prefix start="+7 98340" end="+7 98341"/>
 		<prefix start="+7 98342" end="+7 98343" tag="1"/>
 		<prefix start="+7 985"/>
-		<prefix start="+7 98725"/>
-		<prefix start="+7 98729" end="+7 98732"/>
-		<prefix start="+7 98734"/>
-		<prefix start="+7 98759"/>
-		<prefix start="+7 98762"/>
-		<prefix start="+7 98764" end="+7 98766"/>
-		<prefix start="+7 98769" end="+7 98770"/>
+		<prefix start="+7 98723" end="+7 98732"/>
+		<prefix start="+7 98734" end="+7 98739"/>
+		<prefix start="+7 98759" end="+7 98766"/>
+		<prefix start="+7 987670" end="+7 987684"/>
+		<prefix start="+7 98769" end="+7 98771"/>
 		<prefix start="+7 98782" end="+7 98786"/>
-		<prefix start="+7 98794" end="+7 98797"/>
+		<prefix start="+7 98791" end="+7 98797"/>
 		<prefix start="+7 98799"/>
 		<prefix start="+7 98814" end="+7 98818"/>
 		<prefix start="+7 988200" end="+7 988473"/>
@@ -89,7 +95,7 @@
 		<prefix start="+7 988765"/>
 		<prefix start="+7 988769" end="+7 988799"/>
 		<prefix start="+7 98881" end="+7 98885"/>
-		<prefix start="+7 98888" end="+7 98893"/>
+		<prefix start="+7 98887" end="+7 98893"/>
 		<prefix start="+7 988953"/>
 		<prefix start="+7 988966"/>
 		<prefix start="+7 98995"/>
@@ -103,7 +109,7 @@
 		<prefix start="+7 495 410" end="+7 495 411"/>
 		<prefix start="+7 495 76"/>
 		<prefix start="+7 495 773" end="+7 495 776"/>
-		<prefix start="+7 495 784" end="+7 495 768"/>
+		<prefix start="+7 495 784" end="+7 495 786"/>
 		<prefix start="+7 495 913 0" end="+7 495 913 1"/>
 		<prefix start="+7 495 920" end="+7 495 922"/>
 		<prefix start="+7 495 960 0" end="+7 495 960 0"/>
