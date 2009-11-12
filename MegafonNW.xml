@@ -4,7 +4,7 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 920100" end="+7 920110"/>
@@ -47,11 +47,11 @@
 							PostData.Add('message',SMS['Text']);
 							if not isAscii(SMS['Text']) then PostData.Add('russian','on');
 							if SMS['Flash'] then PostData.Add('show','on');
-							PostData.Add('sms_day',FormatDateTime('dd',DT);
-							PostData.Add('sms_month',FormatDateTime('mm',DT);
-							PostData.Add('sms_year',FormatDateTime('yy',DT);
-							PostData.Add('sms_hour',FormatDateTime('hh',DT);
-							PostData.Add('sms_minute',FormatDateTime('nn',DT);
+							PostData.Add('sms_day',FormatDateTime('dd',DT));
+							PostData.Add('sms_month',FormatDateTime('mm',DT));
+							PostData.Add('sms_year',FormatDateTime('yy',DT));
+							PostData.Add('sms_hour',FormatDateTime('hh',DT));
+							PostData.Add('sms_minute',FormatDateTime('nn',DT));
 							PostData.Add('code',SMS['Code']);
 						end;
 					)
