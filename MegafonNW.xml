@@ -4,7 +4,7 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 920100" end="+7 920110"/>
@@ -40,7 +40,7 @@
 						var
 							DT: TDateTime;
 						begin
-							DT:=AdjustTimeZone(SMS['DeliveryTime'],-240,true);
+							DT:=SMS['DeliveryTime']-(TimeZoneBias-180)*OneMinute;
 							PostData.Add('prefix',SMS['Phone_Def']);
 							PostData.Add('msisdn',SMS['Phone_Number']);
 							PostData.Add('symbols_num',iff(isAscii(SMS['Text']),GateInfo['MaxSymbols'],GateInfo['MaxUnicodeSymbols'])-Length(SMS['Text']));
