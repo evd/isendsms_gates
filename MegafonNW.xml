@@ -4,7 +4,7 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 920100" end="+7 920110"/>
@@ -37,18 +37,21 @@
 		<imageurl>eval('http://spb.megafon.ru' + HTML.RegExp('&lt;img src=&quot;(/info/plain/smspic\?code=(.*?))&quot;',1))</imageurl>
 		<posturl>http://spb.megafon.ru/info/rus/sms</posturl>
 		<postdata>eval(
+						var
+							DT: TDateTime;
 						begin
+							DT:=AdjustTimeZone(SMS['DeliveryTime'],-240,true);
 							PostData.Add('prefix',SMS['Phone_Def']);
 							PostData.Add('msisdn',SMS['Phone_Number']);
 							PostData.Add('symbols_num',iff(isAscii(SMS['Text']),GateInfo['MaxSymbols'],GateInfo['MaxUnicodeSymbols'])-Length(SMS['Text']));
 							PostData.Add('message',SMS['Text']);
 							if not isAscii(SMS['Text']) then PostData.Add('russian','on');
 							if SMS['Flash'] then PostData.Add('show','on');
-							PostData.Add('sms_day',FormatDateTime('dd',SMS['DeliveryTime']));
-							PostData.Add('sms_month',FormatDateTime('mm',SMS['DeliveryTime']));
-							PostData.Add('sms_year',FormatDateTime('yy',SMS['DeliveryTime']));
-							PostData.Add('sms_hour',FormatDateTime('hh',SMS['DeliveryTime']));
-							PostData.Add('sms_minute',FormatDateTime('nn',SMS['DeliveryTime']));
+							PostData.Add('sms_day',FormatDateTime('dd',DT);
+							PostData.Add('sms_month',FormatDateTime('mm',DT);
+							PostData.Add('sms_year',FormatDateTime('yy',DT);
+							PostData.Add('sms_hour',FormatDateTime('hh',DT);
+							PostData.Add('sms_minute',FormatDateTime('nn',DT);
 							PostData.Add('code',SMS['Code']);
 						end;
 					)
