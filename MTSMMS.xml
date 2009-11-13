@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -147,7 +147,7 @@
 		<uploadmultimedia>1</uploadmultimedia>
 		<mu_posturl>http://www.mts.ru/uploadF.aspx</mu_posturl>
 		<mu_multipart>1</mu_multipart>
-		<mu_postdata>eval
+		<mu_postdata>eval(
 				var
 					MC: TMultimediaContent;
 				begin
