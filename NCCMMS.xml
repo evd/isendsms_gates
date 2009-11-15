@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -44,7 +44,7 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://u-tel.ru/facilities/mms</gateurl>
+		<gateurl>http://www.nnov.ncc-volga.ru/services/mms/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>0</supportaudio>
 		<supportimage>1</supportimage>

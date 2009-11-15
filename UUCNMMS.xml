@@ -4,7 +4,7 @@
 	<caption>Улан-Удэнская Сотовая Сеть MMS</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -23,7 +23,7 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://mms.mts.com.ua/</gateurl>
+		<gateurl>http://www.uucn.ru/abonents/mms/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>0</supportaudio>
 		<supportimage>1</supportimage>
