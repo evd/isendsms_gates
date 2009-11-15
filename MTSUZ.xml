@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>1</version>
 	<priority>10</priority>
+	<country>Узбекистан</country>
 	<prefixlist>
 		<prefix start="+998 61" end="+998 62" format="3.2.7"/>
 		<prefix start="+998 65" end="+998 67" format="3.2.7"/>

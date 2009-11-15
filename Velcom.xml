@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>3</version>
 	<priority>10</priority>
+	<country>Беларусь</country>
 	<prefixlist>
 		<prefix start="375 291" format="3.2.7"/>
 		<prefix start="375 293" format="3.2.7"/>

@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>1</version>
 	<priority>10</priority>
+	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 902240"/>
 		<prefix start="+7 902249"/>

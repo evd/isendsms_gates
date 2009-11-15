@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>1</version>
 	<priority>10</priority>
+	<country>Чешская Республика</country>
 	<prefixlist>
 		<prefix start="+420 601" end="+420 608" format="3.3.6"/>
 		<prefix start="+420 72" end="+420 73" format="3.3.6"/>

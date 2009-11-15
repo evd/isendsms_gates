@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>7</version>
 	<priority>10</priority>
+	<country>Беларусь</country>
 	<prefixlist>
 		<prefix start="+375 295" format="3.2.7"/>
 		<prefix start="+375 297" end="+375 298" format="3.2.7"/>

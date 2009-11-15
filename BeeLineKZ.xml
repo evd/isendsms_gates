@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>5</version>
 	<priority>10</priority>
+	<country>Казахстан</country>
 	<prefixlist>
 		<prefix start="+7 777"/>
 		<prefix start="+7 705"/>

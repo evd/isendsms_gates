@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>1</version>
 	<priority>10</priority>
+	<country>Кыргызстан</country>
 	<prefixlist>
 		<prefix start="+996 55" format="3.3.6"/>
 	</prefixlist>

@@ -5,6 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>1</version>
+	<country>Россия</country>
 	<priority>10</priority>
 	<prefixlist>
 		<prefix start="+7 902140" end="+7 902146"/>

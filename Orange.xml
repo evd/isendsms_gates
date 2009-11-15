@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>2</version>
 	<priority>10</priority>
+	<country>Молдавия</country>
 	<prefixlist>
 		<prefix start="+373 68" end="+373 69" format="3.2.6"/>
 		<prefix start="+373 60" format="3.2.6"/>

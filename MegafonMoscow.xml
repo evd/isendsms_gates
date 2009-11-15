@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>6</version>
 	<priority>10</priority>
+	<country>Россия</country>
 	<prefixlist>
 		<prefix start="7 925"/>
 		<prefix start="7 926"/>

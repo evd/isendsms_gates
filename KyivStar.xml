@@ -6,6 +6,7 @@
 	<class>HTTP</class>
 	<version>1</version>
 	<priority>30</priority>
+	<country>Украина</country>
 	<prefixlist>
 		<prefix start="+380 39" format="3.2.7"/>
 		<prefix start="+380 67" end="+380 68" format="3.2.7"/>
