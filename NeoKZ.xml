@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>NeoKZ</name>
+	<caption>Neo Казахстан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Казахстан</country>
+	<prefixlist>
+		<prefix start="+7 707"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>110</maxsymbols>
+		<maxunicodesymbols>110</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://sms.neogsm.kz/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.neogsm.kz/</pageurl>
+		<imageurl>http://sms.neogsm.kz/kcaptcha/index.php</imageurl>
+		<posturl>http://sms.neogsm.kz/server.php</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('action','sendsms');
+							PostData.Add('msisdn_to',SMS['Phone_Number']);
+							PostData.Add('sms_text',SMS['Text']);
+							PostData.Add('lang',iff(isAscii(SMS['Text']),'tran','rus'));
+							PostData.Add('cal','no');
+							PostData.Add('keystring',SMS['Code']);
+							PostData.Add('flash','0');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('&lt;error_code&gt;0&lt;/error_code&gt;'))</success>
+		<error>eval(
+					var
+						Code: string;
+					begin
+						Code:=Html.RegExp('&lt;error_code&gt;(.*?)&lt;/error_code&gt;',1);
+						if Code='1' then
+							Result:='Неверный пароль'
+						else if Code='2' then
+							Result:='Неверный номер абонента'
+						else if Code='3' then
+							Result:='Ошибка аутентификации'
+						else if Code='4' then
+							Result:='Ошибка отправки смс, попробуйте позже'
+						else if Code='5' then
+							Result:='Исчерпано количество смс'
+						else if Code='8' then
+							Result:='Ваше сообщение не может быть отправлено, т.к. абонент запретил доставку сообщений с сайта'
+						else if Code='9' then
+							Result:='Неправильный код из картинки'
+						else Result:='Неизвестная ошибка';	
+					end;		
+					)
+		</error>
+	</classprops>
+</gate>
