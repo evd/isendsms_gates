@@ -5,7 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>22</version>
-	<priority>10</priority>
+	<priority>11</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -166,6 +166,8 @@
 								DTClient:=DTClient+5*OneMinute;	
 							end;	
 						end;
+						DT:=DT+(180-TimeZoneBias)*OneMinute;
+						DTClient:=DTClient+(180-TimeZoneBias)*OneMinute;
 						if SMS['Phone_Def']='495' then
 							PhoneDef:='985'
 						else PhoneDef:=SMS['Phone_Def'];	

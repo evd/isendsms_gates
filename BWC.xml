@@ -5,7 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>3</version>
-	<priority>10</priority>
+	<priority>11</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 9016300" end="+7 9016344"/>
@@ -44,7 +44,7 @@
 						SendDate: string;
 						M: string;
 					begin
-						DT:=SMS['DeliveryTime']+(540-TimeZoneBias)*OneMinute;
+						DT:=SMS['DeliveryTime']+(480-TimeZoneBias)*OneMinute;
 						SendDate:=FormatDateTime('dd.',DT);
 						M:=VarToStr(VarAsType(FormatDateTime('mm',DT),varInteger)-1);
 						if Length(M)=1 then M:='0'+M;
