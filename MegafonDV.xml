@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
 	<name>MegafonDV</name>
-	<caption>Мегафон Дальный Восток</caption>
+	<caption>Мегафон Дальний Восток</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>4</version>
