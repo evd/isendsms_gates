@@ -4,8 +4,8 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>22</version>
-	<priority>11</priority>
+	<version>23</version>
+	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90259"/>
