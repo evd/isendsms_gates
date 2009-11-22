@@ -4,17 +4,18 @@
 	<caption>Аквафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Абхазия</country>
 	<prefixlist>
-		<prefix start="+9954421" format="3.2.6"/>
-		<prefix start="+9954427" format="3.2.6"/>
-		<prefix start="+99544250" format="3.2.6"/>
-		<prefix start="+99544253" format="3.2.6"/>
-		<prefix start="+99544258" end="+99544259" format="3.2.6"/>
-		<prefix start="+995446" format="3.2.6"/>
-		<prefix start="+995449" format="3.2.6"/>
+		<prefix start="+7 940 921" format="1.3.7"/>
+		<prefix start="+7 940 9250" format="1.3.7"/>
+		<prefix start="+7 940 9253" format="1.3.7"/>
+		<prefix start="+7 940 9258" format="1.3.7"/>
+		<prefix start="+7 940 9259" format="1.3.7"/>
+		<prefix start="+7 940 927" format="1.3.7"/>
+		<prefix start="+7 940 96" format="1.3.7"/>
+		<prefix start="+7 940 99" format="1.3.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
