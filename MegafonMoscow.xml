@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -55,7 +55,10 @@
 		<success>eval(Html.ExistsStr('Проверить статус'))</success>
 		<error>eval(
 				begin
-					Result:=Html.RegExp('li class=&quot;current&quot;&gt;(.*?)&lt;/li&gt;',1);
+					if Pos('/invalid_key',HTTP['URL'])>0 then
+						Result:='Неверный код'
+					else
+						Result:=Html.RegExp('li class=&quot;current&quot;&gt;(.*?)&lt;/li&gt;',1);
 					if Result='' then
 						Result:='Неизвестная ошибка';
 				end;		
