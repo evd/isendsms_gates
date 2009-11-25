@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -21,7 +21,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://sms.megafonmoscow.ru/</gateurl>
 	</info>
@@ -55,11 +55,9 @@
 		<success>eval(Html.ExistsStr('Проверить статус'))</success>
 		<error>eval(
 				begin
-					if Pos('/invalid_key',HTTP['URL'])>0 then
-						Result:='Неверный код'
-					else if Pos('/min_time_interval',HTTP['URL'])>0 then
-						Result:='Сообщение можно отправлять только через 60 секунд после предыдущего'
-					else Result:='Неизвестная ошибка';
+					Result:=Html.RegExp('li class=&quot;current&quot;&gt;(.*?)&lt;/li&gt;',1);
+					if Result='' then
+						Result:='Неизвестная ошибка';
 				end;		
 			)</error>
 		<cd_method>GET</cd_method>
