@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -29,7 +29,7 @@
 		<encoding>UTF-8</encoding>
 		<pageurl>http://sms.megafonmoscow.ru/?from=first</pageurl>
 		<multipart>0</multipart>
-		<imageurl>eval('http://sms.megafonmoscow.ru/image.phtml?k=' + Html.RegExp('/image\.phtml\?k=(.*?)&quot; ',1))</imageurl>
+		<imageurl>eval('http://sms.megafonmoscow.ru/captcha/' + Html.RegExp('captcha/(.*?)&quot; ',1))</imageurl>
 		<posturl>http://sms.megafonmoscow.ru/sms.action</posturl>
 		<postdata>eval(
 			begin
