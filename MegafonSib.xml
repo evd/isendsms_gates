@@ -4,7 +4,7 @@
 	<caption>Мегафон Сибирь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -35,6 +35,6 @@
 		)
 		</postdata>
 		<success>eval(Html.ExistsStr('принято к отправке'))</success>
-		<error>eval(Html.RegExp('&lt;font color=red&gt;(.*?)&lt;br&gt;',1))</error>
+		<error>eval(Html.RegExp('&lt;font color=red&gt;(.*?)&lt;',1))</error>
 	</classprops>
 </gate>
