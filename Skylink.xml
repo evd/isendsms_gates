@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
 	<name>Skylink</name>
-	<caption>Скайлинк Москва</caption>
+	<caption>Скайлинк</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -16,6 +16,10 @@
 		<prefix start="+7 9015"/>
 		<prefix start="+7 90190"/>
 		<prefix start="+7 901982" end="+7 901983"/>
+		<prefix start="+7 901191" tag="1" />
+		<prefix start="+7 901192" tag="1" />
+		<prefix start="+7 901194" tag="1" />
+		<prefix start="+7 901992" tag="1" />
 	</prefixlist>	
 <info>
 		<maxsymbols>126</maxsymbols>
@@ -28,9 +32,18 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.skylink.ru/pages/sms.aspx?&amp;r=77</pageurl>
+		<sendinit>eval(
+			begin
+				if SMS['Phone_Tag']=1 then
+					Stored['Region']:='33'
+				else
+					Stored['Region']:='77';
+			end;
+		)
+		</sendinit>
+		<pageurl>eval('http://www.skylink.ru/pages/sms.aspx?&amp;r='+Stored['Region'])</pageurl>
 		<imageurl>eval('http://www.skylink.ru/pages/img_gen.ashx?text='+HTML.RegExp('img_gen.ashx\?text=(.*?)&quot;',1))</imageurl>
-		<posturl>http://www.skylink.ru/pages/sms.aspx?&amp;r=77</posturl>
+		<posturl>eval('http://www.skylink.ru/pages/sms.aspx?&amp;r='+Stored['Region'])</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('__EVENTTARGET','');
