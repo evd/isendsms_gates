@@ -3,3 +3,4 @@ MegafonCenterAlt2,MegafonNW
 MegafonCenterAlt,MegafonKavkaz
 BeelineUA,KyivStar
 UTelPerm,UTel
+GTUA
