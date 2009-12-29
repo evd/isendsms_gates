@@ -1,6 +1,5 @@
 MegafonCenterAlt1,MegafonKavkaz
 MegafonCenterAlt2,MegafonNW
 MegafonCenterAlt,MegafonKavkaz
-BeelineUA,KyivStar
 UTelPerm,UTel
-GTUA
+GTUA,KyivStar
