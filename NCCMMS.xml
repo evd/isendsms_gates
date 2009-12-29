@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -137,9 +137,9 @@
 						Result:=Result+'ru.emms.donatta.web.client.PageContent/145761047'+EndStr;
 						Result:=Result+MMS['Code']+EndStr;
 						Result:=Result+'http://ncc.opt-share.ru/sendmms/images/captchas/'+Stored['CaptchaFile']+EndStr;
-						Result:=Result+MMS['Subject']+EndStr;
-						Result:=Result+MMS['Text']+EndStr;
-						Result:=Result+'http://ncc.opt-share.ru/sendmms/images/userimages/'+Stored['ImageFile']+EndStr;
+						Result:=Result+ConvertToEncoding(MMS['Subject'],'UTF-8')+EndStr;
+						Result:=Result+ConvertToEncoding(MMS['Text'],'UTF-8')+EndStr;
+						Result:=Result+'http://ncc.opt-share.ru/sendmms/pictures/userimages/'+Stored['ImageFile']+EndStr;
 						Result:=Result+'+'+MMS['Phone']+EndStr;
 						Result:=Result+'1'+EndStr;
 						Result:=Result+'2'+EndStr;
