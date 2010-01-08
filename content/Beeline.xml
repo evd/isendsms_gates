@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -44,6 +44,19 @@
 		<prefix start="+7 964830" end="+7 965864"/>
 		<prefix start="+7 965870" end="+7 965876"/>
 		<prefix start="+7 96588" end="+7 96591"/>
+		<prefix start="+7 967000" end="+7 967337"/>
+		<prefix start="+7 967340" end="+7 967354"/>
+		<prefix start="+7 967360" end="+7 967424"/>
+		<prefix start="+7 967430" end="+7 967434"/>
+		<prefix start="+7 967440" end="+7 967444"/>
+		<prefix start="+7 967450" end="+7 967454"/>
+		<prefix start="+7 967460" end="+7 967474"/>
+		<prefix start="+7 967480" end="+7 967492"/>
+		<prefix start="+7 96750"/>
+		<prefix start="+7 967580" end="+7 967582"/>
+		<prefix start="+7 967590" end="+7 967625"/>
+		<prefix start="+7 967630" end="+7 967674"/>
+		<prefix start="+7 967680" end="+7 967684"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
