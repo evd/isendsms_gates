@@ -4,13 +4,14 @@
 	<caption>Мегафон Северный Кавказ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 92020" end="+7 92024"/>
 		<prefix start="+7 9204" end="+7 9205"/>
 		<prefix start="+7 928000" end="+7 929020"/>
+		<prefix start="+7 929000" end="+7 929020"/>
 		<prefix start="+7 9298"/>
 		<prefix start="+7 9974450" end="+7 9974456"/>
 	</prefixlist>
