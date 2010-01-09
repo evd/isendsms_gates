@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>UTEL</name>
+	<caption>U-Tel</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>4</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 351"/>
+		<prefix start="+7 901265" end="+7 901269"/>
+		<prefix start="+7 901954" end="+7 901955"/>
+		<prefix start="+7 902150" end="+7 902151"/>
+		<prefix start="+7 902155" end="+7 902156"/>
+		<prefix start="+7 902188"/>
+		<prefix start="+7 902253" end="+7 902279"/>
+		<prefix start="+7 902400"/>
+		<prefix start="+7 902409" end="+7 902410"/>
+		<prefix start="+7 90244"/>
+		<prefix start="+7 90247"/>
+		<prefix start="+7 902500" end="+7 902503"/>
+		<prefix start="+7 902509"/>
+		<prefix start="+7 902583" end="+7 902587"/>
+		<prefix start="+7 90260" end="+7 90264"/>
+		<prefix start="+7 902690" end="+7 902694"/>
+		<prefix start="+7 90279" end="+7 90280"/>
+		<prefix start="+7 902812" end="+7 902820"/>
+		<prefix start="+7 902824" end="+7 902839"/>
+		<prefix start="+7 90285" end="+7 90286"/>
+		<prefix start="+7 90289"/>
+		<prefix start="+7 90445" end="+7 90449"/>
+		<prefix start="+7 90480" end="+7 90481"/>
+		<prefix start="+7 90484"/>
+		<prefix start="+7 90487" end="+7 90488"/>
+		<prefix start="+7 90493" end="+7 90494"/>
+		<prefix start="+7 90800"/>
+		<prefix start="+7 90807" end="+7 90809"/>
+		<prefix start="+7 90824" end="+7 90827"/>
+		<prefix start="+7 908497" end="+7 908499"/>
+		<prefix start="+7 90881" end="+7 90883"/>
+		<prefix start="+7 908852" end="+7 908899"/>
+		<prefix start="+7 950440" end="+7 950564"/>
+		<prefix start="+7 95123" end="+7 95127"/>
+		<prefix start="+7 95143"/>
+		<prefix start="+7 951920" end="+7 951996"/>
+		<prefix start="+7 952315" end="+7 952349"/>
+		<prefix start="+7 952640" end="+7 952664"/>
+		<prefix start="+7 952670" end="+7 952724"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>300</maxsymbols>
+		<maxunicodesymbols>300</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://perm.u-tel.ru/facilities/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://perm.u-tel.ru/facilities/sms</pageurl>
+		<imageurl>eval('http://perm.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1))</imageurl>
+		<posturl>http://perm.u-tel.ru/facilities/sms</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('action','ins');
+						PostData.Add('mode','insSms');
+						PostData.Add('page','');
+						if SMS['Delivery'] then
+							PostData.Add('delay_time',(DateTimeToUnix(SMS['DeliveryTime'])-DateTimeToUnix(Now))*1000)
+						else
+							PostData.Add('delay_time','');
+						PostData.Add('offset_time',-TimeZoneBias);
+						PostData.Add('message_text_trans','');
+						PostData.Add('subsc_pwd','');
+						PostData.Add('phone_number_list','');
+						PostData.Add('phone_number',SMS['Phone']);
+						PostData.Add('phone_prefix',SMS['Phone_Country']+SMS['Phone_Def']);
+						PostData.Add('phone_post_number',SMS['Phone_Number']);
+						PostData.Add('message_text',SMS['Text']);
+						PostData.Add('confirm_code',SMS['Code']);
+						if SMS['Delivery'] then
+							PostData.Add('delay_send','1');
+						PostData.Add('send_hour',FormatDateTime('h',SMS['DeliveryTime']));
+						PostData.Add('send_minute',FormatDateTime('n',SMS['DeliveryTime']));
+						PostData.Add('send_day',FormatDateTime('d',SMS['DeliveryTime']));
+						PostData.Add('send_month',FormatDateTime('m',SMS['DeliveryTime'])-1);
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение принято к отправке'))</success>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;script&gt;alert\(&quot;(.*?)&quot;\);&lt;/script&gt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;br/&gt;&lt;font color=&quot;red&quot;&gt;(.*?)&lt;br/&gt;&lt;/font&gt;&lt;',1);
+					end;	
+					)
+		</error>
+	</classprops>
+</gate>

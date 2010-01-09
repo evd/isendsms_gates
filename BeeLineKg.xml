@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BeelineKg</name>
+	<caption>БиЛайн Кыргызстан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Кыргызстан</country>
+	<prefixlist>
+		<prefix start="+996 770" format="3.3.6"/>
+		<prefix start="+996 772" end="+996 773" format="3.3.6"/>
+		<prefix start="+996 775" format="3.3.6"/>
+		<prefix start="+996 777" end="+996 778" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>110</maxsymbols>
+		<maxunicodesymbols>110</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.beeline.kg</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.beeline.kg/</pageurl>
+		<imageurl>eval('http://sms.beeline.kg/capcha/CaptchaImage.php?uid='+DecodeFormElem(Html.RegExp('CaptchaImage.php\?uid=(.*?)&quot;',1)))</imageurl>
+		<posturl>http://sms.beeline.kg/</posturl>
+		<postdata>eval(
+						var
+							DT: TDateTime;
+						begin
+							DT:=SMS['DeliveryTime'];
+							DT:=DT+2*OneHour;
+							PostData.Add('code',SMS['Phone_Def']);
+							PostData.Add('phone',SMS['Phone_Number']);
+							PostData.Add('uid',SMS['Code']);
+							PostData.Add('date',FormatDateTime('dd"."mm"."yyyy',DT));
+							PostData.Add('hour',FormatDateTime('h',DT));
+							PostData.Add('minute',FormatDateTime('n',DT));
+							PostData.Add('message1',SMS['Text']);
+							PostData.Add('message2',SMS['Text']);
+							PostData.Add('message',SMS['Text']);
+							PostData.Add('cid',HTML.RegExp('name=&quot;cid&quot; value=&quot;(.*?)&quot;',1));
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше соообщение отправлено.'))</success>
+		<error>eval(Html.RegExp('&lt;div id=msage&gt;(.*?)&lt;/div&gt;',1))</error>
+	</classprops>
+</gate>

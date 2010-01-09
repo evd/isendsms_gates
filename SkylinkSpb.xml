@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>SkylinkSpb</name>
+	<caption>Скайлинк Санкт-Петербург</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 812 715" end="+7 812 716" />
+		<prefix start="+7 812 970" />
+		<prefix start="+7 812 973" />
+		<prefix start="+7 812 974" />
+
+		<prefix start="+7 901 30" end="+7 901 32" />
+		<prefix start="+7 901 37" />
+		<prefix start="+7 901 97" />
+	</prefixlist>
+	<info>
+		<maxsymbols>122</maxsymbols>
+		<maxunicodesymbols>122</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://app.spb.skylink.ru:7771/my_service/sms.jsp?r=78</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://app.spb.skylink.ru:7771/my_service/sms.jsp?r=78</pageurl>
+		<imageurl>eval('http://app.spb.skylink.ru:7771/my_service/sms.jsp?code_image='+Html.RegExp('code_image=(.*?)&quot;',1))</imageurl>
+		<posturl>http://app.spb.skylink.ru:7771/my_service/sms.jsp?r=78</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('code',SMS['Code']);
+							PostData.Add('phone','8'+SMS['Phone_Def']+SMS['Phone_Number']);
+							PostData.Add('smsbody',SMS['Text']);
+					end;		
+					)
+		</postdata>
+		<success>eval(HTML.RegExp('Ваше сообщение(.*?)было отправлено абоненту',0)&lt;&gt;'')</success>
+		<error>eval(Html.RegExp('&lt;h3&gt;(.*?)&lt;/h3&gt;',1))</error>
+	</classprops>
+</gate>

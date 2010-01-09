@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BeelineUZ</name>
+	<caption>БиЛайн Узбекистан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Узбекистан</country>
+	<prefixlist>
+		<prefix start="+998 90" end="+998 91" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>53</maxsymbols>
+		<maxunicodesymbols>53</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.beeline.uz/sms/sms.php</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://mobile.beeline.uz/sms/sms.php</pageurl>
+		<imageurl>eval('http://mobile.beeline.uz/sms/count.php?text='+Html.RegExp('count.php\?text=(.*?)&quot;',1))</imageurl>
+		<posturl>http://mobile.beeline.uz/sms/sms.php</posturl>
+		<postdata>eval(
+						begin
+							Cookies['lasturl']:='/mybeeline/sms.wbp';
+							Cookies['lastid']:=Html.RegExp('cookieValue=escape\(''(.*?)''\);.*?\SetCookie\(&quot;lastid&quot;',1);
+							PostData.Add('deferto','');
+							PostData.Add('adv_year','');
+							PostData.Add('send','');
+							PostData.Add('op','send_sms');
+							PostData.Add('dlina','123');
+							PostData.Add('lg','latrus');
+							PostData.Add('phone_prefix',SMS['Phone_Country']+SMS['Phone_Def']);
+							PostData.Add('phone_num',SMS['Phone_Number']);
+							PostData.Add('text_message',SMS['Text']);
+							PostData.Add('message_limit',SMS['LeaveSymbols']);
+							PostData.Add('confirm_key','');
+							PostData.Add('code_form',SMS['Code']);
+							PostData.Add('x','15');
+							PostData.Add('y','10');
+					end;		
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение отправлено!'))</success>
+		<error>eval(Html.RegExp('&lt;span class=&quot;bigger&quot;&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+	</classprops>
+</gate>

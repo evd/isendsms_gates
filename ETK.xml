@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>ETK</name>
+	<caption>ЕТК</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>2</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 901111"/>
+		<prefix start="+7 901240" end="+7 901241"/>
+		<prefix start="+7 901621"/>
+		<prefix start="+7 901646" end="+7 901647"/>
+		<prefix start="+7 901911"/>
+		<prefix start="+7 902010" end="+7 902014"/>
+		<prefix start="+7 902467" end="+7 902468"/>
+		<prefix start="+7 902550" end="+7 902552"/>
+		<prefix start="+7 90291" end="+7 90292"/>
+		<prefix start="+7 902940" end="+7 902952"/>
+		<prefix start="+7 902956" end="+7 902982"/>
+		<prefix start="+7 902990" end="+7 902992"/>
+		<prefix start="+7 902996"/>
+		<prefix start="+7 90489"/>
+		<prefix start="+7 908010" end="+7 908026"/>
+		<prefix start="+7 908030" end="+7 908034"/>
+		<prefix start="+7 908200" end="+7 908224"/>
+		<prefix start="+7 908325" end="+7 908327"/>
+		<prefix start="+7 950302" end="+7 950307"/>
+		<prefix start="+7 95040" end="+7 95043"/>
+		<prefix start="+7 950964" end="+7 950968"/>
+		<prefix start="+7 95097" end="+7 95099"/>
+		<prefix start="+7 952745" end="+7 952749"/>
+		<prefix start="+7 953255" end="+7 953259"/>
+		<prefix start="+7 95358" end="+7 95359"/>
+	</prefixlist>	
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://www.etk.ru/etc_send_sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.etk.ru/etc_send_sms</pageurl>
+		<imageurl>eval('http://www.etk.ru/pictures/etc_captchas/'+Html.RegExp('pictures/etc_captchas/(.*?\.png)',1))</imageurl>
+		<posturl>http://www.etk.ru/scripts/sms_send_new.cgi</posturl>
+		<handleredirects>1</handleredirects>
+		<postdata>eval(
+					begin
+						PostData.Add('to',Copy(SMS['Phone'],2,10));
+						PostData.Add('message',SMS['Text']);
+						if SMS['Delivery'] then
+							PostData.Add('send_date',FormatDateTime('yyyy-mm-dd hh:nn',SMS['DeliveryTime']))
+						else
+							PostData.Add('send_date','');
+						PostData.Add('captcha_code',Html.RegExp('name=&quot;captcha_code&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_text',SMS['Code']);
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Введите номер сообщения'))</success>
+		<error>eval(begin
+						Result:=HTML.RegExp('&lt;font color=&quot;red&quot;&gt;(.*?)&lt;/font&gt;',1);
+						Result:=DecodeFormElem(Result);
+						Result:=DecodeFormElem(Result);
+					end;
+					)
+		</error>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://www.etk.ru/etc_check_sms?sms_id='+Html.RegExp('name=&quot;sms_id&quot; value=&quot;(.*?)&quot;',1))</cd_url>;
+		<cd_success>eval(begin
+							if Html.ExistsStr('Введите номер сообщения') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('');	
+						end;
+					)
+		</cd_success>
+		<cd_error>Ошибка подтверждения доставки</cd_error>
+	</classprops>
+</gate>

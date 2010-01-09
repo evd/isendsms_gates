@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Tele2</name>
+	<caption>Теле2</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>10</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 90213"/>
+		<prefix start="+7 902147" end="+7 902149"/>
+		<prefix start="+7 90219"/>
+		<prefix start="+7 902281" end="+7 902286"/>
+		<prefix start="+7 902403" end="+7 902408"/>
+		<prefix start="+7 902504"/>
+		<prefix start="+7 902507"/>
+		<prefix start="+7 90400" end="+7 90410"/>
+		<prefix start="+7 904200" end="+7 904214"/>
+		<prefix start="+7 904218" end="+7 904239"/>
+		<prefix start="+7 904245" end="+7 904249"/>
+		<prefix start="+7 904260" end="+7 904261"/>
+		<prefix start="+7 90427" end="+7 90434"/>
+		<prefix start="+7 90436" end="+7 90437"/>
+		<prefix start="+7 90439"/>
+		<prefix start="+7 90444"/>
+		<prefix start="+7 90450" end="+7 90453"/>
+		<prefix start="+7 90455"/>
+		<prefix start="+7 90457" end="+7 90461"/>
+		<prefix start="+7 90463" end="+7 90464"/>
+		<prefix start="+7 90468" end="+7 90469"/>
+		<prefix start="+7 90482" end="+7 90483"/>
+		<prefix start="+7 904857" end="+7 904859"/>
+		<prefix start="+7 90486"/>
+		<prefix start="+7 904955" end="+7 904959"/>
+		<prefix start="+7 90496" end="+7 90497"/>
+		<prefix start="+7 90499"/>
+		<prefix start="+7 90804" end="+7 90806"/>
+		<prefix start="+7 9081"/>
+		<prefix start="+7 908225" end="+7 908226"/>
+		<prefix start="+7 90823"/>
+		<prefix start="+7 90828"/>
+		<prefix start="+7 908291" end="+7 908295"/>
+		<prefix start="+7 90831"/>
+		<prefix start="+7 908328" end="+7 908329"/>
+		<prefix start="+7 90850" end="+7 90851"/>
+		<prefix start="+7 90857" end="+7 90858"/>
+		<prefix start="+7 908605" end="+7 908607"/>
+		<prefix start="+7 908670" end="+7 908693"/>
+		<prefix start="+7 908715" end="+7 908719"/>
+		<prefix start="+7 90878" end="+7 90880"/>
+		<prefix start="+7 90894" end="+7 90895"/>
+		<prefix start="+7 95000" end="+7 95004"/>
+		<prefix start="+7 95015" end="+7 95017"/>
+		<prefix start="+7 95026" end="+7 95027"/>
+		<prefix start="+7 950308"/>
+		<prefix start="+7 95033"/>
+		<prefix start="+7 950565" end="+7 950629"/>
+		<prefix start="+7 950660" end="+7 950661"/>
+		<prefix start="+7 95070" end="+7 95087"/>
+		<prefix start="+7 950962" end="+7 950963"/>
+		<prefix start="+7 95107" end="+7 95108"/>
+		<prefix start="+7 95113" end="+7 95121"/>
+		<prefix start="+7 951295" end="+7 951297"/>
+		<prefix start="+7 95130" end="+7 95133"/>
+		<prefix start="+7 95140" end="+7 95142"/>
+		<prefix start="+7 95144" end="+7 95161"/>
+		<prefix start="+7 95164" end="+7 95172"/>
+		<prefix start="+7 95176" end="+7 95187"/>
+		<prefix start="+7 95210"/>
+		<prefix start="+7 95220" end="+7 95222"/>
+		<prefix start="+7 95223" end="+7 95225"/>
+		<prefix start="+7 95229" end="+7 95230"/>
+		<prefix start="+7 95235" end="+7 95239"/>
+		<prefix start="+7 95240" end="+7 95245"/>
+		<prefix start="+7 95248" end="+7 95260"/>
+		<prefix start="+7 95276" end="+7 95278"/>
+		<prefix start="+7 95280" end="+7 95294"/>
+		<prefix start="+7 95296" end="+7 95299"/>
+		<prefix start="+7 95326" end="+7 95329"/>
+		<prefix start="+7 95330" end="+7 95335"/>
+		<prefix start="+7 95339"/>
+		<prefix start="+7 953419" end="+7 953443"/>
+		<prefix start="+7 953500" end="+7 953524"/>
+		<prefix start="+7 95361" end="+7 95362"/>
+		<prefix start="+7 95364" end="+7 95375"/>
+		<prefix start="+7 95390"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>140</maxsymbols>
+		<maxunicodesymbols>140</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.tele2.ru</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.tele2.ru</pageurl>
+		<imageurl>http://sms.tele2.ru/controls/ImageCode.aspx</imageurl>
+		<posturl>http://sms.tele2.ru/Default.aspx</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('__VIEWSTATE',HTML.RegExp('name=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('PrePhone',SMS['Phone_Def']);
+							PostData.Add('phoneNumber',SMS['Phone_Number']);
+							PostData.Add('smsText',SMS['Text']);
+							PostData.Add('code',SMS['Code']);
+							PostData.Add('Button1','Отправить');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.RegExp('Спасибо, Ваше сообщение успешно отправлено',0))</success>
+		<error>eval(HTML.RegExp('&lt;span id=&quot;message&quot;&gt;&lt;a style=''color:red;''&gt;(.*?)&lt;/a&gt;&lt;/span&gt;',1))</error>
+	</classprops>
+</gate>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>LifeBy</name>
+	<caption>Life:) Беларусь</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Беларусь</country>
+	<prefixlist>
+		<prefix start="+375 25" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.life.com.by/ru/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.life.com.by/ru/</pageurl>
+		<imageurl>http://sms.life.com.by/images/captcha.php</imageurl>
+		<posturl>http://sms.life.com.by/ru/</posturl>
+		<postdata>eval(
+				var
+					DT: TDateTime;
+				begin
+					DT:=SMS['DeliveryTime'];
+					PostData.Add('secure',SMS['Code']);
+					PostData.Add('number',SMS['Phone_Number']);
+					PostData.Add('message',SMS['Text']);
+					PostData.Add('send_hour','-');
+					PostData.Add('send_min','-');
+					PostData.Add('send_day','-');
+					PostData.Add('send_month','-');
+					PostData.Add('send_year','-');
+					if SMS['Delivery'] then
+					begin
+					end
+					else
+					begin
+						PostData.Add('delayed_hour',FormatDateTime('h',DT));
+						PostData.Add('delayed_min',FormatDateTime('n',DT));
+						PostData.Add('delayed_day',FormatDateTime('d',DT));
+						PostData.Add('delayed_month',FormatDateTime('m',DT));
+						PostData.Add('delayed_year',FormatDateTime('yyyy',DT));
+					end;
+				end;)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Спасибо, Ваше сообщение отправлено!'))</success>
+		<error>eval(Html.RegExp('color:#CC0033;&quot;&gt;(Сообщение не отправлено:)?(.*?)&lt;/div&gt;',2))</error>
+	</classprops>
+</gate>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MTS</name>
+	<caption>МТС</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>24</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 90259"/>
+		<prefix start="+7 90425"/>
+		<prefix start="+7 910000" end="+7 911069"/>
+		<prefix start="+7 911070" end="+7 911074" tag="2"/>
+		<prefix start="+7 911075" end="+7 911449"/>
+		<prefix start="+7 91145" end="+7 91149" tag="2"/>
+		<prefix start="+7 91150" end="+7 91184"/>
+		<prefix start="+7 91185" end="+7 91186" tag="2"/>
+		<prefix start="+7 911870" end="+7 912065"/>
+		<prefix start="+7 912068" end="+7 914014"/>
+		<prefix start="+7 91402" end="+7 91404"/>
+		<prefix start="+7 91405" tag="1"/>
+		<prefix start="+7 91406" end="+7 91429"/>
+		<prefix start="+7 91431"/>
+		<prefix start="+7 91438" end="+7 91452"/>
+		<prefix start="+7 914538"/>
+		<prefix start="+7 91454" end="+7 91462"/>
+		<prefix start="+7 91463" tag="1"/>
+		<prefix start="+7 91464" end="+7 91479"/>
+		<prefix start="+7 91481"/>
+		<prefix start="+7 91483" tag="1"/>
+		<prefix start="+7 91484" end="+7 91497"/>
+		<prefix start="+7 91498" tag="1"/>
+		<prefix start="+7 915000" end="+7 919136"/>
+		<prefix start="+7 919139" end="+7 919411"/>
+		<prefix start="+7 91942" end="+7 91977"/>
+		<prefix start="+7 919780"/>
+		<prefix start="+7 919784"/>
+		<prefix start="+7 919786"/>
+		<prefix start="+7 919790" end="+7 919970"/>
+		<prefix start="+7 91998" end="+7 91999"/>
+		<prefix start="+7 95095"/>
+		<prefix start="+7 980250" end="+7 980253"/>
+		<prefix start="+7 98030" end="+7 98037"/>
+		<prefix start="+7 980500" end="+7 980504"/>
+		<prefix start="+7 980510" end="+7 980514"/>
+		<prefix start="+7 98052"/>
+		<prefix start="+7 98054"/>
+		<prefix start="+7 98063"/>
+		<prefix start="+7 980640" end="+7 980644"/>
+		<prefix start="+7 980650" end="+7 980664"/>
+		<prefix start="+7 980670" end="+7 980680"/>
+		<prefix start="+7 981440" end="+7 981444"/>
+		<prefix start="+7 98145" tag="2"/>
+		<prefix start="+7 98150"/>
+		<prefix start="+7 981650" end="+7 981654"/>
+		<prefix start="+7 9817"/>
+		<prefix start="+7 98230" end="+7 98232"/>
+		<prefix start="+7 98240" end="+7 98241"/>
+		<prefix start="+7 98250" end="+7 98253"/>
+		<prefix start="+7 98260"/>
+		<prefix start="+7 98290"/>
+		<prefix start="+7 98295"/>
+		<prefix start="+7 9831"/>
+		<prefix start="+7 98321" end="+7 98322"/>
+		<prefix start="+7 98325" end="+7 98326"/>
+		<prefix start="+7 98328" end="+7 98329"/>
+		<prefix start="+7 983325" end="+7 983329"/>
+		<prefix start="+7 98334"/>
+		<prefix start="+7 98340" end="+7 98341"/>
+		<prefix start="+7 98342" end="+7 98343" tag="1"/>
+		<prefix start="+7 985"/>
+		<prefix start="+7 98723" end="+7 98732"/>
+		<prefix start="+7 98734" end="+7 98739"/>
+		<prefix start="+7 98759" end="+7 98766"/>
+		<prefix start="+7 987670" end="+7 987684"/>
+		<prefix start="+7 98769" end="+7 98771"/>
+		<prefix start="+7 98782" end="+7 98786"/>
+		<prefix start="+7 98791" end="+7 98797"/>
+		<prefix start="+7 98799"/>
+		<prefix start="+7 98814" end="+7 98818"/>
+		<prefix start="+7 988200" end="+7 988473"/>
+		<prefix start="+7 988486"/>
+		<prefix start="+7 98849" end="+7 98851"/>
+		<prefix start="+7 988523"/>
+		<prefix start="+7 98853" end="+7 98854"/>
+		<prefix start="+7 988557"/>
+		<prefix start="+7 988560" end="+7 988600"/>
+		<prefix start="+7 988602"/>
+		<prefix start="+7 988622"/>
+		<prefix start="+7 988630" end="+7 988655"/>
+		<prefix start="+7 988665" end="+7 988666"/>
+		<prefix start="+7 988674"/>
+		<prefix start="+7 98868" end="+7 98875"/>
+		<prefix start="+7 988762"/>
+		<prefix start="+7 988765"/>
+		<prefix start="+7 988769" end="+7 988799"/>
+		<prefix start="+7 98880" end="+7 98885"/>
+		<prefix start="+7 98887" end="+7 98893"/>
+		<prefix start="+7 988953"/>
+		<prefix start="+7 988966"/>
+		<prefix start="+7 98995"/>
+		
+		<prefix start="+7 495 101" end="+7 495 108"/>
+		<prefix start="+7 495 139"/>
+		<prefix start="+7 495 231"/>
+		<prefix start="+7 495 233"/>
+		<prefix start="+7 495 25802" end="+7 495 25803"/>
+		<prefix start="+7 495 364"/>
+		<prefix start="+7 495 410" end="+7 495 411"/>
+		<prefix start="+7 495 76"/>
+		<prefix start="+7 495 773" end="+7 495 776"/>
+		<prefix start="+7 495 784" end="+7 495 786"/>
+		<prefix start="+7 495 913 0" end="+7 495 913 1"/>
+		<prefix start="+7 495 920" end="+7 495 922"/>
+		<prefix start="+7 495 960 0" end="+7 495 960 0"/>
+		<prefix start="+7 495 960 4" end="+7 495 960 4"/>
+		<prefix start="+7 495 967 2" end="+7 495 967 2"/>
+		<prefix start="+7 495 967 4" end="+7 495 967 5"/>
+		<prefix start="+7 495 969 65" end="+7 495 969 99"/>
+		<prefix start="+7 495 970"/>
+		<prefix start="+7 495 991"/>
+		<prefix start="+7 495 997" end="+7 495 999"/>
+
+		<prefix start="+7 812 92"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>135</maxsymbols>
+		<maxunicodesymbols>60</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://www.mts.ru/messaging/sendsms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<handleredirects>0</handleredirects>
+		<pageurl>eval(
+					begin
+						if SMS['Phone_tag']=1 then
+							Stored['region']:='buryatia'
+						else if SMS['Phone_tag']=2 then
+							Stored['region']:='kaliningrad'
+						else
+							Stored['region']:='msk';
+						Result:='http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'];
+					end;
+					)
+		</pageurl>
+		<imageurl>eval('http://www.mts.ru/live/' + HTML.RegExp('(LanapCaptcha.aspx.*?)''',1))</imageurl>
+		<posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</posturl>
+		<postdata>eval(
+					var
+						DT,DTClient: TDateTime;
+						PhoneDef: string;
+					begin
+						DTClient:=SMS['DeliveryTime'];
+						DT:=SMS['DeliveryTime'];
+						if SMS['Delivery'] then
+						begin	
+							if (DT-Now)&lt;5*OneMinute then
+							begin
+								DT:=DT+5*OneMinute;
+								DTClient:=DTClient+5*OneMinute;	
+							end;	
+						end;
+						DT:=DT+(180-TimeZoneBias)*OneMinute;
+						DTClient:=DTClient+(180-TimeZoneBias)*OneMinute;
+						if SMS['Phone_Def']='495' then
+							PhoneDef:='985'
+						else PhoneDef:=SMS['Phone_Def'];	
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
+						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTARGUMENT','');
+						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha',Html.RegExp('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',PhoneDef);
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;text&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;enabled&quot;:true}');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$txtMsisdn',SMS['Phone_Number']);
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbLen',Length(SMS['Text']));
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$lblMax',SMS['MaxSymbols']);
+						if SMS['Flash'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbFlashSMS','on');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbCode',SMS['Code']);
+						if SMS['Delivery'] then
+						begin
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbForCalendar','on');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbDay',FormatDateTime('dd',DT));
+						end;	
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbDay_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbMonth',GetMonthLongRus(DT,true,false));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbMonth_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('m',DTClient)+'&quot;,&quot;text&quot;:&quot;'+GetMonthLongRus(DTClient,true,false)+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbYear',FormatDateTime('yyyy',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbYear_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbHour',FormatDateTime('hh',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbHour_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+						if SMS['Delivery'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbMinutes',FormatDateTime('nn',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbMinutes_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','114');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','22');
+
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.RegExp('Проверить статус доставки',0))</success>
+		<error>eval(begin
+						if HTML.ExistsStr('smsExtraRedirect.htm') then
+							Result:='SMS-сообщение можно отправлять не чаще одного раза в 30 секунд'
+						else 	
+							Result:=HTML.RegExp('ctl00_ctl00_ctl00_SMSSendControl_lbError&quot;&gt;(.*?)&lt;/span&gt;',1);
+					end;		
+							
+					)
+		</error>
+		<cd_method>POST</cd_method>
+		<cd_posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							if HTML.ExistsStr('|updatePanel|') then
+							begin
+								PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$AJAXUpdatePanel|ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
+								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
+								PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
+								PostData.Add('__EVENTARGUMENT',HTML.RegExp('__EVENTARGUMENT\|(.*?)\|',1));
+								PostData.Add('__VIEWSTATE',HTML.RegExp('__VIEWSTATE\|(.*?)\|',1));
+								PostData.Add('__EVENTVALIDATION',HTML.RegExp('__EVENTVALIDATION\|(.*?)\|',1));
+								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
+								PostData.Add('__ASYNCPOST','true');
+							end else
+							begin
+								Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
+								PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$AJAXUpdatePanel|ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
+								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
+								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
+								PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
+								PostData.Add('__EVENTARGUMENT',HTML.RegExp('__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__VIEWSTATE',HTML.RegExp('__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__EVENTVALIDATION',HTML.RegExp('__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+								PostData.Add('__ASYNCPOST','true');
+							end;							
+						end;
+						)
+		</cd_postdata>				
+		<cd_success>eval(
+							begin
+								if HTML.ExistsStr('cообщение находится в очереди') then
+									Result:='WAIT'
+								else Result:=HTML.ExistsStr('сообщение доставлено');	
+							end;
+						)
+		</cd_success>
+		<cd_error>eval(
+						begin
+							Result:=HTML.RegExp('cтатус сообщения:&lt;b/&gt;(.*?)&lt;b/&gt;',1);
+							if Result='' then
+								Result:=HTML.RegExp('style=&quot;color:Red;&quot;&gt;(.*?)&lt;/span&gt;',1);
+							if Result='' then
+								Result:='Ошибка подтверждения доставки';
+						end;
+						)
+		</cd_error>
+	</classprops>
+</gate>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MegafonNW</name>
+	<caption>Мегафон Северо-Запад</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>7</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 920100" end="+7 920110"/>
+		<prefix start="+7 920112" end="+7 920199"/>
+		<prefix start="+7 9203"/>
+		<prefix start="+7 92064" end="+7 92069"/>
+		<prefix start="+7 921"/>
+		<prefix start="+7 929075" end="+7 929199"/>
+		<prefix start="+7 93120" end="+7 93124"/>
+		<prefix start="+7 93140" end="+7 93141"/>
+		<prefix start="+7 93150" end="+7 93151"/>
+		<prefix start="+7 93160"/>
+		<prefix start="+7 93170"/>
+		<prefix start="+7 812 90" end="+7 812 91"/>
+		<prefix start="+7 812 93" end="+7 812 96"/>
+		<prefix start="+7 812 99" />
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://spb.megafon.ru/info/rus/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://spb.megafon.ru/info/rus/sms</pageurl>
+		<imageurl>eval('http://spb.megafon.ru' + HTML.RegExp('&lt;img src=&quot;(/info/plain/smspic\?code=(.*?))&quot;',1))</imageurl>
+		<posturl>http://spb.megafon.ru/info/rus/sms</posturl>
+		<postdata>eval(
+						var
+							DT: TDateTime;
+						begin
+							DT:=SMS['DeliveryTime']-(TimeZoneBias-180)*OneMinute;
+							PostData.Add('prefix',SMS['Phone_Def']);
+							PostData.Add('msisdn',SMS['Phone_Number']);
+							PostData.Add('symbols_num',iff(isAscii(SMS['Text']),GateInfo['MaxSymbols'],GateInfo['MaxUnicodeSymbols'])-Length(SMS['Text']));
+							PostData.Add('message',SMS['Text']);
+							if not isAscii(SMS['Text']) then PostData.Add('russian','on');
+							if SMS['Flash'] then PostData.Add('show','on');
+							PostData.Add('sms_day',FormatDateTime('dd',DT));
+							PostData.Add('sms_month',FormatDateTime('mm',DT));
+							PostData.Add('sms_year',FormatDateTime('yy',DT));
+							PostData.Add('sms_hour',FormatDateTime('hh',DT));
+							PostData.Add('sms_minute',FormatDateTime('nn',DT));
+							PostData.Add('code',SMS['Code']);
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.RegExp('Спасибо за то, что Вы решили воспользоваться нашим сервисом.',0))</success>
+		<error>eval(HTML.RegExp('&lt;td class=&quot;c7&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;&lt;/td&gt;',1))</error>
+	</classprops>
+</gate>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Velcom</name>
+	<caption>Velcom</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>3</version>
+	<priority>10</priority>
+	<country>Беларусь</country>
+	<prefixlist>
+		<prefix start="375 291" format="3.2.7"/>
+		<prefix start="375 293" format="3.2.7"/>
+		<prefix start="375 296" format="3.2.7"/>
+		<prefix start="375 299" format="3.2.7"/>
+		<prefix start="375 447" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://websms.velcom.by/ru/services/web-sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://websms.velcom.by/ru/services/web-sms/</pageurl>
+		<imageurl>http://websms.velcom.by/sitehtml/killbot.php</imageurl>
+		<posturl>http://websms.velcom.by/ru/services/web-sms/</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('send','1');
+						PostData.Add('sms',Html.RegExp('name=&quot;sms&quot; value=''(.*?)''',1));
+						PostData.Add('gp',Html.RegExp('name=&quot;gp&quot; value=''(.*?)''',1));
+						PostData.Add('_en',Html.RegExp('name=&quot;_en&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('_by',Html.RegExp('name=&quot;_by&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('nat',SMS['Phone_Def']);
+						PostData.Add('phone',SMS['Phone_Number']);
+						PostData.Add('smslang',iff(IsAscii(SMS['Text']),'lat','rus'));
+						PostData.Add('SM',SMS['Text']);
+						PostData.Add('num',SMS['LeaveSymbols']);
+						PostData.Add('m1',SMS['Code']);
+					end;			
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('Сообщение принято к отправке'))</success>
+		<error>eval(Html.RegExp('&lt;p class=dt2&gt;(.*?)&lt;/p&gt;',1))</error>
+	</classprops>
+</gate>

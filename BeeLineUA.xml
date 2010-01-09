@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BeelineUA</name>
+	<caption>БиЛайн Украина</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>7</version>
+	<priority>10</priority>
+	<country>Украина</country>
+	<prefixlist>
+		<prefix start="+380 39" format="3.2.7"/>
+		<prefix start="+380 63" format="3.2.7"/>
+		<prefix start="+380 67" end="+380 68" format="3.2.7"/>
+		<prefix start="+380 93" format="3.2.7"/>
+		<prefix start="+380 96" end="+380 98" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://mobile.beeline.ua/ru/sms/send.wbp</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://mobile.beeline.ua/ru/sms/send.wbp</pageurl>
+		<imageurl>http://mobile.beeline.ua/ru/sms/mamimg1.aspx</imageurl>
+		<posturl>http://mobile.beeline.ua/ru/sms/send.wbp</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('send','');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('smstoprefix',SMS['Phone_Country'] + SMS['Phone_Def']);
+							PostData.Add('smsto',SMS['Phone_Number']);
+							PostData.Add('dirtysmstext',SMS['Text']);
+							if isAscii(SMS['Text']) then
+								PostData.Add('translit','on');
+							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
+							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('x','51');
+							PostData.Add('y','9');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Вы отправляете сообщения слишком часто'))</success>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;center style=&quot;margin-bottom: 30&quot;&gt;(.*?)&lt;/center&gt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;',1);
+					end;		
+					)
+		</error>
+		<cd_method>POST</cd_method>
+		<cd_delay>3000</cd_delay>
+		<cd_delta>3000</cd_delta>
+		<cd_posturl>http://beeline.ua/sms.wbp</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
+							PostData.Add('x','75');
+							PostData.Add('y','10');
+						end;
+					)
+		</cd_postdata>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Повідомлення поставлено в чергу') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Повідомлення відправлено');
+						end;	
+					   )
+		</cd_success>
+		<cd_error>Ошибка подверждения доставки</cd_error>
+	</classprops>
+</gate>
