@@ -4,7 +4,7 @@
 	<caption>Улан-Удэнская Сотовая Сеть</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -18,7 +18,7 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>70</maxunicodesymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
