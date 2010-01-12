@@ -4,7 +4,7 @@
 	<caption>Мегафон Урал</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -24,6 +24,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<gateurl>http://ural.megafon.ru/sms/</gateurl>
 	</info>
 	<classprops>
@@ -56,5 +57,16 @@
 		</postdata>
 		<success>eval(Html.ExistsStr('Сообщение отправлено.'))</success>
 		<error>eval(Html.RegExp('&lt;div class=&quot;ztxt&quot; style=&quot;font-size: 14px&quot;&gt;Ошибка:(.*?)&lt;',1))</error>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://ural.megafon.ru/sms/?info='+Html.RegExp('id=&quot;check_sms&quot; value=&quot;(.*?)&quot;',1))</cd_url>
+		<cd_success>eval(
+						begin
+							if HTML.ExistsStr('Сообщение ожидает доставки') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Сообщение доставлено адресату');
+						end;	
+						)
+		</cd_success>
+		<cd_error>Ошибка подтверждения доставки</cd_error>
 	</classprops>
 </gate>
