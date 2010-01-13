@@ -4,7 +4,7 @@
 	<caption>O! Кыргызстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -36,7 +36,7 @@
 							bTrans:=IsAscii(SMS['Text']);
 							s1:=Translit(SMS['Text']);
 							for i:=1 to Length(s1) do
-								s:=s+Iff(bTrans,s1[i],'&'+s1[i]+';');
+								s:=s+Iff(bTrans,s1[i],'&amp;'+s1[i]+';');
 							
 							PostData.Add('sid3',Html.RegExp(' name=&quot;sid3&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('user_input_timestamp',VarToStr(DT));
