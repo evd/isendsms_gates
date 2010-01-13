@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>OKg</name>
+	<caption>O! Кыргызстан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Кыргызстан</country>
+	<prefixlist>
+		<prefix start="+996 70" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>135</maxsymbols>
+		<maxunicodesymbols>60</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.o.kg/pages/show/?id=306</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://mediadelivery.o.kg:82/portal/work.html</pageurl>
+		<imageurl>eval('http://mediadelivery.o.kg:82/portal/Common/img/secretImage.jpg?sid3='+Html.RegExp('secretImage.jpg\?sid3=(.*?)&quot;',1))</imageurl>
+		<posturl>http://mediadelivery.o.kg:82/portal/work.html</posturl>
+		<multipart>1</multipart>
+		<postdata>eval(
+						var
+							DT: Int64;
+							i: integer;
+							bTrans: boolean;
+							s,s1: string;
+						begin
+							DT:=DateTimeToUnix(Now())*1000;
+							bTrans:=IsAscii(SMS['Text']);
+							s1:=Translit(SMS['Text']);
+							for i:=1 to Length(s1) do
+								s:=s+Iff(bTrans,s1[i],'&'+s1[i]+';');
+							
+							PostData.Add('sid3',Html.RegExp(' name=&quot;sid3&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('user_input_timestamp',VarToStr(DT));
+							PostData.Add('user_input_0','_next');
+							PostData.Add('user_input_1','0'+SMS['Phone_Def']);
+							PostData.Add('user_input_2',SMS['Phone_Number']);
+							PostData.Add('replaced_input_3',SMS['Text']);
+							PostData.Add('user_input_3',s);
+							PostData.Add('user_input_SecretImage',SMS['Code']);
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('успешно отправлено'))</success>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;div class=&quot;splashtext&quot;&gt;(.*?)&lt;/div&gt;',1);
+						if Result='' then
+							Result:='Ошибка отправки, возможно введен неверно код указанный на картинке';
+					end;)
+		</error>
+	</classprops>
+</gate>
