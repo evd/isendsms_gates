@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Eventis</name>
+	<caption>Eventis</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Молдавия</country>
+	<prefixlist>
+		<prefix start="+373 65" format="3.3.5"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://eventis.md/index.php?option=com_eventisforms&amp;Itemid=140</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://eventis.md/index.php?option=com_eventisforms&amp;Itemid=140</pageurl>
+		<imageurl>eval('http://eventis.md/components/com_eventisforms/tmp/' + HTML.RegExp('com_eventisforms/tmp/(.*?)&quot;',1))</imageurl>
+		<posturl>http://eventis.md/index.php?option=com_eventisforms&amp;Itemid=140</posturl>
+		<postdata>eval(
+					begin
+						Cookies['mbfcookie[lang]']:='ru';
+						PostData.Add('public_key',Html.RegExp('name=&quot;public_key&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('private_key',SMS['Code']);
+						PostData.Add('phonecode','1');
+						PostData.Add('msisdn',Copy(SMS['Phone'],6,6));
+						PostData.Add('body',SMS['Text']);
+						if SMS['Delivery'] then
+						begin
+							PostData.Add('when','attime');
+							PostData.Add('selectDay',VarToStr((DateOf(Now())-DateOf(SMS['DeliveryTime']))+1));
+							PostData.Add('selectHour',FormatDateTime('hh',SMS['DeliveryTime']));
+							PostData.Add('selectMin',FormatDateTime('nn',SMS['DeliveryTime']));
+						end else
+							PostData.Add('when','now');
+						PostData.Add('web_form_submit','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше SMS сообщениe поставлено в очередь на отправку'))</success>
+		<error>eval(Html.RegExp('&lt;ul style=&quot;color: red;&quot;&gt;&lt;li&gt;(.*?)&lt;/li&gt;',1))</error>
+	</classprops>
+</gate>
