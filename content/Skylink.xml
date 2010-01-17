@@ -4,7 +4,7 @@
 	<caption>Скайлинк</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -20,6 +20,9 @@
 		<prefix start="+7 901192" tag="1" />
 		<prefix start="+7 901194" tag="1" />
 		<prefix start="+7 901992" tag="1" />
+		<prefix start="+7 901130" tag="2" />
+		<prefix start="+7 901930" tag="2" />
+		
 	</prefixlist>	
 <info>
 		<maxsymbols>126</maxsymbols>
@@ -35,9 +38,11 @@
 		<sendinit>eval(
 			begin
 				if SMS['Phone_Tag']=1 then
-					Stored['Region']:='33'
-				else
-					Stored['Region']:='77';
+					Stored['Region']:='33' //Владимир
+				else if SMS['Phone_Tag']=2 then
+					Stored['Region']:='27' //Хабаровский край
+				else	
+					Stored['Region']:='77'; //Москва
 			end;
 		)
 		</sendinit>
