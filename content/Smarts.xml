@@ -4,7 +4,7 @@
 	<caption>Смартс</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -31,16 +31,17 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>0</captcha>
-		<gateurl>http://samara.smarts.ru</gateurl>
+		<gateurl>http://www.smarts.ru/help/send_sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://samara.smarts.ru/files/sms.htm</pageurl>
-		<posturl>http://samara.smarts.ru</posturl>
+		<pageurl>http://www.smarts.ru/help/send_sms/</pageurl>
+		<posturl>http://www.smarts.ru/help/send_sms/</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('object','smssender');
 						PostData.Add('mode','send_sms');
+						PostData.Add('chars','0');
 						PostData.Add('phone',SMS['Phone']);
 						if SMS['Flash'] then
 							PostData.Add('flash','ON');
@@ -50,6 +51,6 @@
 		)
 		</postdata>
 		<success>eval(Html.ExistsStr('Сообщение отправлено!'))</success>
-		<error>eval(Html.RegExp('&lt;p style=&quot;margin: 0 0 5 0; font: 70% Tahoma&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
+		<error>eval(Html.RegExp('&lt;p class=&quot;form-error&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
 	</classprops>
 </gate>
