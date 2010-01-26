@@ -4,8 +4,8 @@
 	<caption>Мегафон Урал</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
-	<priority>10</priority>
+	<version>6</version>
+	<priority>15</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 92200" end="+7 92252"/>
@@ -16,6 +16,9 @@
 		<prefix start="+7 929202" end="+7 929240"/>
 		<prefix start="+7 92925" end="+7 92927"/>
 		<prefix start="+7 929285" end="+7 929299"/>
+		<prefix start="+7 9295"/>
+		<prefix start="+7 9296"/>
+		<prefix start="+7 9299"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>210</maxsymbols>
