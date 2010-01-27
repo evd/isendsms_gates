@@ -4,7 +4,7 @@
 	<caption>Мегафон Урал</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>15</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -33,11 +33,11 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://ural.megafon.ru/sms/</pageurl>
-		<imageurl>eval('http://ural.megafon.ru/images/sms/sms.gif?s='+Html.RegExp('/images/sms/sms.gif\?s=(.*?)&quot;',1))</imageurl>
-		<posturl>http://ural.megafon.ru/sms/?s</posturl>
+		<imageurl>http://ural.megafon.ru/include/imgcode.php</imageurl>
+		<posturl>http://ural.megafon.ru/sms/</posturl>
 		<postdata>eval(
 			begin
-				PostData.Add('cc',Html.RegExp('name=&quot;cc&quot; value=&quot;(.*?)&quot;',1));
+				PostData.Add('cc',Html.RegExp('type=hidden value=(.*?) ',1));
 				PostData.Add('prefix',SMS['Phone_Def']);
 				PostData.Add('Addr',SMS['Phone_Number']);
 				PostData.Add('txtSM',SMS['Text']);
@@ -53,8 +53,8 @@
 				end
 				else PostData.Add('send_time','now');
 				PostData.Add('vixod',SMS['Code']);
-				PostData.Add('image.x','63');
-				PostData.Add('image.y','10');
+				PostData.Add('BSendSms.x','63');
+				PostData.Add('BSendSms.y','10');
 			end;
 		)
 		</postdata>
