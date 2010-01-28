@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>DalSv</name>
+	<caption>Дальсвязь</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 902461" end="+7 902464"/>
+		<prefix start="+7 902518"/>
+		<prefix start="+7 908495" end="+7 908496"/>
+		<prefix start="+7 951290" end="+7 951291"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://sms.kamchatka.ru/index.php?page=smssend&amp;type=1</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.kamchatka.ru/index.php?page=smssend&amp;type=1</pageurl>
+		<imageurl>eval('http://sms.kamchatka.ru/?page=site_checkpic&amp;t='+Html.RegExp('site_checkpic&amp;t=(.*?)&quot;',1))</imageurl>
+		<posturl>http://sms.kamchatka.ru/index.php?page=smssend_result</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('Num2',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('Select','Шаблоны');
+						PostData.Add('Msg2',SMS['Text']);
+						PostData.Add('AbSignDef','');
+						PostData.Add('UN',SMS['Code']);
+						PostData.Add('Submit2','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь'))</success>
+		<error>eval(HTML.RegExp('&lt;strong&gt;Ошибка -&lt;/strong&gt;(.*?)&lt;/td&gt;',1))</error>
+		<cd_method>GET</cd_method>
+		<cd_url>http://sms.kamchatka.ru/index.php?page=smssend_result</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Идет отправка сообщения') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Сообщение доставлено');
+						end;
+						)
+		</cd_success>
+		<cd_error>eval(Html.RegExp('&lt;strong&gt;Результат -&lt;/strong&gt;(.*?)&lt;/td&gt;',1))</cd_error>
+	</classprops>
+</gate>
