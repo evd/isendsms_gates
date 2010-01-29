@@ -4,11 +4,12 @@
 	<caption>Мегафон Сибирь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<prefix start="7 923"/>
+		<prefix start="+7 923"/>
+		<prefix start="+7 9293"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
@@ -26,6 +27,7 @@
 		<posturl>http://sibir.megafon.ru/sendsms/</posturl>
 		<postdata>eval(
 			begin
+				PostData.Add('def',SMS['Phone_Def']);
 				PostData.Add('tll',SMS['Phone_Number']);
 				PostData.Add('txt',SMS['Text']);
 				PostData.Add('keystring',SMS['Code']);
