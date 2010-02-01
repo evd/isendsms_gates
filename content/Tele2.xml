@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -93,25 +93,29 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://sms.tele2.ru</gateurl>
+		<gateurl>http://www.spb.tele2.ru/send_sms.html</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://sms.tele2.ru</pageurl>
-		<imageurl>http://sms.tele2.ru/controls/ImageCode.aspx</imageurl>
-		<posturl>http://sms.tele2.ru/Default.aspx</posturl>
+		<pageurl>http://www.spb.tele2.ru/send_sms.html</pageurl>
+		<imageurl>eval('http://tools.tele2.ru/get_rni.php?public_key='+Html.RegExp('id=''public_key'' value=''(.*?)''',1))</imageurl>
+		<posturl>http://www.spb.tele2.ru/send_sms.html</posturl>
 		<postdata>eval(
 						begin
-							PostData.Add('__VIEWSTATE',HTML.RegExp('name=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('PrePhone',SMS['Phone_Def']);
-							PostData.Add('phoneNumber',SMS['Phone_Number']);
-							PostData.Add('smsText',SMS['Text']);
-							PostData.Add('code',SMS['Code']);
-							PostData.Add('Button1','Отправить');
+							PostData.Add('do','send');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('phone_code',SMS['Phone_Def']);
+							PostData.Add('number',SMS['Phone_Number']);
+							PostData.Add('sms_text',SMS['Text']);
+							if IsAscii(SMS['Text']) then
+								PostData.Add('translit','1');
+							PostData.Add('private_key',SMS['Code']);
+							PostData.Add('public_key',Html.RegExp('id=''public_key'' value=''(.*?)''',1));
+							PostData.Add('submit','');
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.RegExp('Спасибо, Ваше сообщение успешно отправлено',0))</success>
-		<error>eval(HTML.RegExp('&lt;span id=&quot;message&quot;&gt;&lt;a style=''color:red;''&gt;(.*?)&lt;/a&gt;&lt;/span&gt;',1))</error>
+		<success>eval(HTML.ExistsStr('Спасибо, Ваше сообщение принято'))</success>
+		<error>eval(HTML.RegExp('&lt;p class=&quot;error&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
 	</classprops>
 </gate>
