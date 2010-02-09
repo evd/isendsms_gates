@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -80,7 +80,8 @@
 							PostData.Add('smstoprefix',SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
-							PostData.Add('translit','off');
+							if IsAscii(SMS['Text']) then
+								PostData.Add('translit','on');
 							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
 							PostData.Add('confirmcode',SMS['Code']);
 							PostData.Add('x','51');
