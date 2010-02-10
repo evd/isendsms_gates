@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -116,6 +116,6 @@
 					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('Спасибо, Ваше сообщение принято'))</success>
-		<error>eval(HTML.RegExp('&lt;p class=&quot;error&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+		<error>eval(HTML.RegExp('&lt;span class=&quot;error&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 	</classprops>
 </gate>
