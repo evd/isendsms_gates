@@ -4,7 +4,7 @@
 	<caption>Волгоград-GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -30,6 +30,7 @@
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
+		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</pageurl>
 		<imageurl>eval('https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_show_antispam_image&amp;ImageNumber='+Html.RegExp('sms_show_antispam_image&amp;ImageNumber=(.*?)&quot;',1))</imageurl>
 		<posturl>https://80.69.146.12/issa/cgi-bin/cgi.exe?function=sms_send</posturl>
