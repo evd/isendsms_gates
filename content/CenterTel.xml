@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>CenterTel</name>
+	<caption>Центртелеком Тамбов</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 902720" end="+7 902734"/>
+		<prefix start="+7 902935" end="+7 902939"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://www.tmb.ru/gsm/sms_form.phtml</gateurl>
+	</info>
+	<classprops>
+		<encoding>KOI8-R</encoding>
+		<pageurl>http://www.tmb.ru/gsm/sms_form.phtml</pageurl>
+		<posturl>http://www.tmb.ru/gsm/sms_send.phtml</posturl>
+		<postdata>eval(
+					var
+						DT: TDateTime;
+					begin
+						DT:=Now()+2;
+						PostData.Add('codepage','koi8_ПрОвЕрКа');
+						PostData.Add('abonent_address',SMS['Phone']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('msglen',Length(SMS['Text']));
+						PostData.Add('send_hour',FormatDateTime('hh',DT));
+						PostData.Add('send_minute',FormatDateTime('nn',DT));
+						PostData.Add('send_day',FormatDateTime('dd',DT));
+						PostData.Add('send_mounth',GetMonthLongRus(DT,false,false));
+						PostData.Add('send_year',FormatDateTime('yyyy',DT));
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение доставлено'))</success>
+		<error>eval(HTML.RegExp('&lt;strong&gt;Ошибка -&lt;/strong&gt;(.*?)&lt;/td&gt;',1))</error>
+	</classprops>
+</gate>
