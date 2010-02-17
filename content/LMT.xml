@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>LMT</name>
+	<caption>LMT Латвия</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Латвия</country>
+	<prefixlist>
+		<prefix start="+371 202" format="3.3.5"/>
+		<prefix start="+371 2200" end="+371 2204" format="3.3.5"/>
+		<prefix start="+371 224" format="3.3.5"/>
+		<prefix start="+371 2556" end="+371 2559" format="3.3.5"/>
+		<prefix start="+371 261" end="+371 265" format="3.3.5"/>
+		<prefix start="+371 278" format="3.3.5"/>
+		<prefix start="+371 283" format="3.3.5"/>
+		<prefix start="+371 2849" format="3.3.5"/>
+		<prefix start="+371 286" format="3.3.5"/>
+		<prefix start="+371 287" format="3.3.5"/>
+		<prefix start="+371 291" end="+371 294" format="3.3.5"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>143</maxsymbols>
+		<maxunicodesymbols>143</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<gateurl>http://www.lmt.lv/rus/sakumlapa</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.lmt.lv/rus/sakumlapa</pageurl>
+		<imageurl>eval('http://www.lmt.lv/smuksimg.php?'+Html.RegExp('smuksimg.php\?(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.lmt.lv/sms.inc.php</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('ajax','1');
+						PostData.Add('number',SMS['Phone']);
+						PostData.Add('text',SMS['Text']);
+						PostData.Add('hash',SMS['Code']);
+						PostData.Add('img','');
+						PostData.Add('who','sms');
+					end;
+					)
+		</postdata>
+		<success>eval(VarAsType(Html.Text,varInteger)=0)</success>
+		<error>eval(
+					var	
+						Code: integer;
+					begin
+						Code:=VarAsType(Html.Text,varInteger);
+						case Code of
+							1: Result:='Введи номер или идентификатор!';
+							2: Result:='Введи текст!';
+							3: Result:='Введи код!';
+							4: Result:='Введи корректный код!';
+							5: Result:='Введённый текст слишком длинный!';
+							6: Result:='Системная ошибка! Неправильные настройки!';
+							7: Result:='Отправленное SMS не будет получено, так как услуга отправки SMS временно недоступна.';
+							8: Result:='Отправленное SMS не будет получено, так как запрещён доступ к отправке SMS.';
+							9: Result:='Отправленное SMS не будет получено, так как указан неправильный номер телефона или идентификатор.';
+							10: Result:='Отправленное SMS не будет получено, так как использовано максимальное количество отправленных SMS.';
+							11: Result:='Отправленное SMS не будет получено, так как адресат не активизировал возможность получения SMS с сайта LMT.';
+							12: Result:='Отправленное SMS не будет получено, так как адресат достиг максимального лимита SMS.';
+							13: Result:='Выберите изображение!');
+						else
+							Result:='Неизвестная ошибка';
+						end;
+					end;
+					)
+		</error>
+	</classprops>
+</gate>
