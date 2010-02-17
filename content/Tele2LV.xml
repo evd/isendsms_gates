@@ -4,11 +4,19 @@
 	<caption>Tele2 Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Латвия</country>
 	<prefixlist>
-		<prefix start="+371 2" format="3.1.7"/>
+		<prefix start="+371 200" format="3.3.5"/>
+		<prefix start="+371 259" format="3.3.5"/>
+		<prefix start="+371 260" format="3.3.5"/>
+		<prefix start="+371 267" end="+371 271" format="3.3.5"/>
+		<prefix start="+371 282" format="3.3.5"/>
+		<prefix start="+371 288" format="3.3.5"/>
+		<prefix start="+371 295" end="+371 299" format="3.3.5"/>
+		<prefix start="+371 2230" end="+371 2238" format="3.3.5"/>
+		<prefix start="+371 2844" end="+371 2248" format="3.3.5"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>143</maxsymbols>
