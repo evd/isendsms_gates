@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Bite</name>
+	<caption>Bite Латвия</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Латвия</country>
+	<prefixlist>
+		<prefix start="+371 221" format="3.3.5"/>
+		<prefix start="+371 225" format="3.3.5"/>
+		<prefix start="+371 273" end="+371 275" format="3.3.5"/>
+		<prefix start="+371 277" format="3.3.5"/>
+		<prefix start="+371 279" format="3.3.5"/>
+		<prefix start="+371 2205" end="+371 2209" format="3.3.5"/>
+		<prefix start="+371 2239" format="3.3.5"/>
+		<prefix start="+371 2280" end="+371 2284" format="3.3.5"/>
+		<prefix start="+371 2550" end="+371 2555" format="3.3.5"/>
+		<prefix start="+371 2585" end="+371 2588" format="3.3.5"/>
+		<prefix start="+371 2720" end="+371 2729" format="3.3.5"/>
+		<prefix start="+371 2760" end="+371 2267" format="3.3.5"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>322</maxsymbols>
+		<maxunicodesymbols>322</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<gateurl>http://www.bite.lv/ru/send_sms?</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.bite.lv/ru/send_sms?</pageurl>
+		<imageurl>eval(
+					begin
+						HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+						Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
+						Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+					end;)
+		</imageurl>
+		<posturl>eval('http://www.bite.lv/ru/send_sms/send/?'+VarToStr(DateTimeToUnix(Now()))+RandomString('0123456789',4))</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('data[recipient]',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('data[message]',SMS['Text']);
+						PostData.Add('data[captcha]',SMS['Code']);
+						PostData.Add('data[challenge]',Stored['challenge']);
+					end;
+					)
+		</postdata>
+		<success>eval(Html.ExistsStr('1'))</success>
+		<error>eval(
+					begin
+						if Html.ExistsStr('3') then
+							Result:='Неверно введены символы с картинки.'
+						else
+							Result:='Сообщение не отправлено';
+					end;
+					)
+		</error>
+	</classprops>
+</gate>
