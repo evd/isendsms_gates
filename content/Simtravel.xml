@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Simtravel</name>
+	<caption>Simtravel</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Эстония</country>
+	<prefixlist>
+		<prefix start="+372 5" format="3.3.5"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>143</maxsymbols>
+		<maxunicodesymbols>143</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<gateurl>http://www.simtravel.ru/mobile/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.simtravel.ru/mobile/sms/</pageurl>
+		<imageurl>http://www.simtravel.ru/antispam.php</imageurl>
+		<posturl>http://www.simtravel.ru/index.php</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('_URI','mobile/sms/');
+						PostData.Add('send','1');
+						PostData.Add('sms_sim_code','(372)');
+						PostData.Add('sms_sim_phone',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('sms_message',SMS['Text']);
+						PostData.Add('sms_lenght',SMS['LeaveSymbols']);
+						PostData.Add('sms_scode',SMS['Code']);
+						PostData.Add('send_btt','+++Отправить+++');
+					end;
+					)
+		</postdata>
+		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;ul style=&quot;color: red;&quot;&gt;&lt;li&gt;(.*?)&lt;/li&gt;',1))</error>
+	</classprops>
+</gate>
