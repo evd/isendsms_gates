@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>IDC</name>
+	<caption>Интерднестрком</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Молдавия</country>
+	<prefixlist>
+		<prefix start="+373 562" format="3.3.5"/>
+		<prefix start="+373 774" format="3.3.5"/>
+		<prefix start="+373 777" end="+373 779" format="3.3.5"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.idknet.com/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.idknet.com/</pageurl>
+		<imageurl>http://sms.idknet.com/code.php</imageurl>
+		<posturl>http://sms.idknet.com/sms.php</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('prefix',SMS['Phone_Def']);
+						PostData.Add('txtAddr',SMS['Phone_Number']);
+						PostData.Add('sum',SMS['LeaveSymbols']);
+						PostData.Add('txtSM',SMS['Text']);
+						PostData.Add('code',SMS['Code']);
+						PostData.Add('Submit2.x','46');
+						PostData.Add('Submit2.y','16');
+						PostData.Add('Submit2','Отправить');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('ОТПРАВЛЕНО'))</success>
+		<error>eval(Html.RegExp('&lt;/h1&gt;(.*?)&lt;br&gt;',1))</error>
+	</classprops>
+</gate>

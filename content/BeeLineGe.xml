@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BeelineGE</name>
+	<caption>БиЛайн Грузия</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Грузия</country>
+	<prefixlist>
+		<prefix start="+995 71" format="3.2.6"/>
+		<prefix start="+995 74" format="3.2.6"/>
+		<prefix start="+995 79" format="3.2.6"/>
+		<prefix start="+995 92" format="3.2.6"/>
+		<prefix start="+995 97" format="3.2.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>100</maxsymbols>
+		<maxunicodesymbols>44</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://rus.beeline.ge/mybeeline/smssend.wbp</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://rus.beeline.ge/mybeeline/smssend.wbp</pageurl>
+		<imageurl>http://rus.beeline.ge/mybeeline/mamimg.aspx</imageurl>
+		<posturl>http://rus.beeline.ge/mybeeline/smssend.wbp</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('send','');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('smstoprefix',SMS['Phone_Country']+SMS['Phone_Def']);
+							PostData.Add('smsto',SMS['Phone_Number']);
+							PostData.Add('dirtysmstext',SMS['Text']);
+							if IsAscii(SMS['Text']) then
+								PostData.Add('translit','on');
+							PostData.Add('mlength',SMS['LeaveSymbols']);
+							PostData.Add('confirm_key','');
+							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('x','35');
+							PostData.Add('y','15');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;center style=&quot;margin-bottom: 30&quot;&gt;(.*?)&lt;/center&gt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;',1);
+					end;		
+					)</error>
+		<cd_method>POST</cd_method>
+		<cd_delay>7000</cd_delay>
+		<cd_delta>3000</cd_delta>
+		<cd_maxcheckdelivery>20</cd_maxcheckdelivery>
+		<cd_posturl>http://rus.beeline.ge/mybeeline/smssend.wbp</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
+							PostData.Add('x','75');
+							PostData.Add('y','10');
+						end;
+					)
+		</cd_postdata>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Сообщение помещено в очередь отправки') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Сообщение отправлено');
+						end;	
+					   )
+		</cd_success>
+		<cd_error>Ошибка подтверждения доставки</cd_error>
+	</classprops>
+</gate>
