@@ -4,7 +4,7 @@
 	<caption>Ульяновск-GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -25,7 +25,7 @@
 		<maxunicodesymbols>160</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
-		<supportunicode>0</supportunicode>
+		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
 		<gateurl>http://www.ulgsm-ncc.ru/sms.php</gateurl>
 	</info>
