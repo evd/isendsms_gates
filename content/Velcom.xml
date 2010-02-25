@@ -4,7 +4,7 @@
 	<caption>Velcom</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Беларусь</country>
 	<prefixlist>
@@ -12,7 +12,7 @@
 		<prefix start="375 293" format="3.2.7"/>
 		<prefix start="375 296" format="3.2.7"/>
 		<prefix start="375 299" format="3.2.7"/>
-		<prefix start="375 447" format="3.2.7"/>
+		<prefix start="375 44" format="3.2.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
