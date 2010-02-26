@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>DalSvMag</name>
+	<caption>Дальсвязь Магадан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 902508"/>
+		<prefix start="+7 908227"/>
+		<prefix start="+7 908603"/>
+		<prefix start="+7 9086080" end="+7 9086084"/>
+		<prefix start="+7 951292" end="+7 951294"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>https://icm.magadan.ru/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>https://icm.magadan.ru/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</pageurl>
+		<imageurl>eval('https://icm.magadan.ru/cgi-bin/cgi.exe?function=sms_show_antispam_image&amp;ImageNumber='+Html.RegExp('sms_show_antispam_image&amp;ImageNumber=(.*?)"',1))</imageurl>
+		<posturl>https://icm.magadan.ru/cgi-bin/cgi.exe?function=sms_send</posturl>
+		<postdata>eval(
+				var
+					MaxDate,DeliverDate: TDateTime;
+				begin
+					MaxDate:=AdjustTimeZone(Now,780,true)+22*OneHour;
+					DeliverDate:= AdjustTimeZone(SMS['DeliveryTime'],780,true);
+
+					PostData.Add('MMObjectType','0');
+					PostData.Add('isFree','1');
+					PostData.Add('MMObjectID','');
+					PostData.Add('antispamText',SMS['Code']);
+					PostData.Add('textTableRecordId',Html.RegExp('name="textTableRecordId" type="hidden" value="(.*?)"',1));
+					PostData.Add('To',SMS['Phone']);
+					PostData.Add('Msg',SMS['Text']);
+					PostData.Add('count',Length(SMS['Text']));
+					PostData.Add('Day',FormatDateTime('dd',MaxDate));
+					PostData.Add('Mon',FormatDateTime('mm',MaxDate));
+					PostData.Add('Year',FormatDateTime('yyyy',MaxDate));
+					PostData.Add('Hour',FormatDateTime('hh',MaxDate));
+					PostData.Add('Min',FormatDateTime('nn',MaxDate));
+					if SMS['Delivery'] then
+						PostData.Add('delay','1');
+					PostData.Add('DelayDay',FormatDateTime('dd',DeliverDate));
+					PostData.Add('DelayMon',FormatDateTime('mm',DeliverDate));
+					PostData.Add('DelayYear',FormatDateTime('yyyy',DeliverDate));
+					PostData.Add('DelayHour',FormatDateTime('hh',DeliverDate));
+					PostData.Add('DelayMin',FormatDateTime('nn',DeliverDate));
+					PostData.Add('x','26');
+					PostData.Add('y','8');
+				end;
+			)
+		</postdata>	
+		<success>eval(HTML.ExistsStr('Отправить еще одно сообщение'))</success>
+		<error>Ошибка отправки, возможно введен неверный код подтверждения</error>
+	</classprops>
+</gate>
