@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>14</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -32,12 +32,18 @@
 		<imageurl>eval('http://sms.megafonmoscow.ru/image.phtml?k=' + Html.RegExp('/image\.phtml\?k=(.*?)&quot;',1))</imageurl>
 		<posturl>http://sms.megafonmoscow.ru/sms.action</posturl>
 		<postdata>eval(
+			var
+				PhoneDef: string;
 			begin
+				if SMS['Phone_Def']='495' then
+					PhoneDef:='925'
+				else
+					PhoneDef:=SMS['Phone_Def'];
 				Result:='';
 				Result:=Result+'codekey='+ HTML.RegExp('name=&quot;codekey&quot;.*?value=&quot;(.*?)&quot;',1);
 				Result:=Result+'&amp;charcheck='+ConvertToEncoding('йцукен','UTF-8');
 				Result:=Result+'&amp;codevalue='+SMS['Code'];
-				Result:=Result+'&amp;prefix='+SMS['Phone_Country']+SMS['Phone_Def'];
+				Result:=Result+'&amp;prefix='+SMS['Phone_Country']+PhoneDef;
 				Result:=Result+'&amp;addr='+SMS['Phone_Number'];
 				Result:=Result+'&amp;translitarate=on';
 				Result:=Result+'&amp;message='+ConvertToEncoding(SMS['Text'],'UTF-8');
