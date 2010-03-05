@@ -4,7 +4,7 @@
 	<caption>НТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -20,7 +20,7 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>70</maxunicodesymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
 		<supportflash>1</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
