@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -19,29 +19,26 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.beeline.kz/mybeeline/sms.wbp</gateurl>
+		<gateurl>http://mobile.beeline.kz/ru/aktobe/sms/send.wbp</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.beeline.kz/mybeeline/sms.wbp</pageurl>
-		<imageurl>http://www.beeline.kz/mybeeline/mamimg.aspx</imageurl>
-		<posturl>http://www.beeline.kz/mybeeline/sms.wbp</posturl>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://mobile.beeline.kz/ru/aktobe/sms/send.wbp</pageurl>
+		<imageurl>http://mobile.beeline.kz/ru/aktobe/sms/mamimg.aspx</imageurl>
+		<posturl>http://mobile.beeline.kz/ru/aktobe/sms/send.wbp</posturl>
 		<postdata>eval(
 						begin
-							Cookies['lasturl']:='/mybeeline/sms.wbp';
-							Cookies['lastid']:=Html.RegExp('cookieValue=escape\(''(.*?)''\);.*?\SetCookie\(&quot;lastid&quot;',1);
-							Cookies['regid']:=Cookies['lastid'];
 							PostData.Add('send','');
 							PostData.Add('smstext',SMS['Text']);
-							PostData.Add('smstoprefix',SMS['Phone_Country'] + SMS['Phone_Def']);
+							PostData.Add('smstoprefix',SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
-							PostData.Add('translit',iff(IsAscii(SMS['Text']),'off','on'));
-							PostData.Add('mlength',SMS['LeaveSymbols']);
+							if isAscii(SMS['Text']) then
+								PostData.Add('translit','on');
 							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
 							PostData.Add('confirmcode',SMS['Code']);
-							PostData.Add('x',VarToStr(RandomInt(70)));
-							PostData.Add('y',VarToStr(RandomInt(15)));
+							PostData.Add('x','51');
+							PostData.Add('y','9');
 						end;
 					)
 		</postdata>
@@ -56,7 +53,7 @@
 		<cd_delay>7000</cd_delay>
 		<cd_delta>3000</cd_delta>
 		<cd_maxcheckdelivery>20</cd_maxcheckdelivery>
-		<cd_posturl>http://www.beeline.kz/mybeeline/sms.wbp</cd_posturl>
+		<cd_posturl>http://mobile.beeline.kz/ru/aktobe/sms/send.wbp</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
