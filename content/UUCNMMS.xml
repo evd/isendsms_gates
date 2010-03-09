@@ -4,7 +4,7 @@
 	<caption>Улан-Удэнская Сотовая Сеть MMS</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -28,7 +28,7 @@
 		<supportaudio>1</supportaudio>
 		<supportimage>1</supportimage>
 		<maxmultimediacount>1</maxmultimediacount>
-		<maxmultimediasize>51200</maxmultimediasize>
+		<maxmultimediasize>100000</maxmultimediasize>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
