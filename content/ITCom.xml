@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>ITCom</name>
+	<caption>Интертелеком</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Украина</country>
+	<prefixlist>
+		<prefix start="+380 47" end="+380 48" format="3.2.7"/>
+		<prefix start="+380 94" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>115</maxsymbols>
+		<maxunicodesymbols>115</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://www.intertelecom.ua/ru/sendsms</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.intertelecom.ua/ru/sendsms</pageurl>
+		<posturl>http://www.intertelecom.ua/ru/sendsms</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('phone',Copy(SMS['Phone'],4,9));
+						PostData.Add('msg',SMS['Text']);
+						PostData.Add('tolik','');
+						PostData.Add('js','1');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>Ошибка при отправке сообщения</error>
+	</classprops>
+</gate>
