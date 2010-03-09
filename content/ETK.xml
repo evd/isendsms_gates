@@ -4,7 +4,7 @@
 	<caption>ЕТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -40,7 +40,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.etk.ru/etc_send_sms</gateurl>
 	</info>
@@ -74,12 +74,17 @@
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://www.etk.ru/etc_check_sms?sms_id='+Html.RegExp('name=&quot;sms_id&quot; value=&quot;(.*?)&quot;',1))</cd_url>;
 		<cd_success>eval(begin
-							if Html.ExistsStr('Введите номер сообщения') then
+							if Html.ExistsStr('Ваше сообщение находится в очереди') then
 								Result:='WAIT'
-							else Result:=HTML.ExistsStr('');	
+							else Result:=HTML.ExistsStr('Ваше сообщение успешно доставлено');	
 						end;
 					)
 		</cd_success>
-		<cd_error>Ошибка подтверждения доставки</cd_error>
+		<cd_error>eval(begin
+						Result:=Html.RegExp('отложено: (.*?)&lt;',1);
+						if Result='' then
+							Result:='Ошибка подтверждения доставки';
+					end;)
+		</cd_error>
 	</classprops>
 </gate>
