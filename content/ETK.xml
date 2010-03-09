@@ -4,7 +4,7 @@
 	<caption>ЕТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -35,8 +35,8 @@
 		<prefix start="+7 95358" end="+7 95359"/>
 	</prefixlist>	
 	<info>
-		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>160</maxunicodesymbols>
+		<maxsymbols>459</maxsymbols>
+		<maxunicodesymbols>201</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
