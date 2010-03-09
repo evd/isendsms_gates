@@ -4,7 +4,7 @@
 	<caption>Скайлинк</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -22,6 +22,10 @@
 		<prefix start="+7 901992" tag="1" />
 		<prefix start="+7 901130" tag="2" />
 		<prefix start="+7 901930" tag="2" />
+		<prefix start="+7 901417" tag="3" />
+		<prefix start="+7 901477" tag="3" />
+		<prefix start="+7 901801" tag="3" />
+		<prefix start="+7 901870" tag="3" />
 		
 	</prefixlist>	
 <info>
@@ -41,6 +45,8 @@
 					Stored['Region']:='33' //Владимир
 				else if SMS['Phone_Tag']=2 then
 					Stored['Region']:='27' //Хабаровский край
+				else if SMS['Phone_Tag']=3 then
+					Stored['Region']:='52' //Нижний Новгород
 				else	
 					Stored['Region']:='77'; //Москва
 			end;
