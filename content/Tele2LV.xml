@@ -4,8 +4,8 @@
 	<caption>Tele2 Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
-	<priority>10</priority>
+	<version>3</version>
+	<priority>20</priority>
 	<country>Латвия</country>
 	<prefixlist>
 		<prefix start="+371 200" format="3.3.5"/>
