@@ -4,7 +4,7 @@
 	<caption>Байкалвестком ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -52,7 +52,7 @@
 						end;
 						)
 		</uploadmultimedia>
-		<mu_posturl>http://www.bwc.ru/cgi-bin/mmssend.cgi</mu_posturl>
+		<mu_posturl>http://www.bwc.ru/cgi-bin/mmsframe.cgi</mu_posturl>
 		<mu_multipart>1</mu_multipart>
 		<mu_postdata>eval(
 					begin
