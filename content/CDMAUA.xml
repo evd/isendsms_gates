@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>CDMAUA</name>
+	<caption>CDMA Ukraine</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Украина</country>
+	<prefixlist>
+		<prefix start="+380 31" end="+380 36" format="3.2.7"/>
+		<prefix start="+380 38" format="3.2.7"/>
+		<prefix start="+380 41" format="3.2.7"/>
+		<prefix start="+380 43" end="+380 48" format="3.2.7"/>
+		<prefix start="+380 51" end="+380 55" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>100</maxsymbols>
+		<maxunicodesymbols>100</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://cdmaua.com/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://cdmaua.com/sms/</pageurl>
+		<imagedescription>eval('Введите номера '+Html.RegExp('укажите(.*?)картинки с изображением транспорта',1)+' картинок с изображением транспорта')</imagedescription>
+		<imageurl>eval('http://cdmaua.com/upload/tmp/'+Html.RegExp('\.smsCodeImage \{background-image:url\(\/upload\/tmp\/(.*?)\)',1))</imageurl>
+		<proccessimage>eval(
+							var
+								x,y,srcy: integer;
+							begin
+								Img.SetSize(350,140);
+								for y:=0 to 1 do
+									for x:=0 to 4 do
+									begin
+										if srcy&gt;=630 then break;
+										Img.CopyRect(x*70,y*70,Bounds(0,srcy,70,70));
+										Img.TextOut(x*70+5,y*70+5,VarToStr(5*y+x));
+										srcy:=srcy+70;
+									end;
+							end;
+						)
+		</proccessimage>
+		<posturl>http://cdmaua.com/sms/</posturl>
+		<postdata>eval(
+						var
+							i: integer;
+							TCode: string;
+						begin
+							TCode:=Copy(SMS['Code'],1,1);
+							for i:=2 to Length(SMS['Code']) do
+								TCode:=TCode+','+Copy(SMS['Code'],i,1);
+							PostData.Add('imgSelected',TCode);
+							PostData.Add('CODE','0'+SMS['Phone_Def']);
+							PostData.Add('NUMBER',SMS['Phone_Number']);
+							PostData.Add('MESSAGE',SMS['Text']);
+							PostData.Add('submit','Отправить');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение принято и поставлено в очередь'))</success>
+		<error>eval(Html.RegExp('&lt;p class=&quot;error&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://cdmaua.com/sms/</cd_posturl>
+		<cd_postdata>eval(
+					begin
+						PostData.Add('check','1');
+					end;)
+		</cd_postdata>			
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Сообщение отправленно адресату') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Сообщение доставлено адресату');
+						end;	
+					   )
+		</cd_success>
+		<cd_error>Ошибка подверждения доставки</cd_error>
+	</classprops>
+</gate>
