@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -95,7 +95,9 @@
 		<cd_url>http://sendmms.megafon.ru/?view=status</cd_url>
 		<cd_success>eval(
 							begin
-								if HTML.ExistsStr('Сообщение в процессе доставки') then
+								if HTML.ExistsStr('Сообщение поставлено в очередь') then
+									Result:='WAIT'
+								else if HTML.ExistsStr('Сообщение в процессе доставки') then
 									Result:='WAIT'
 								else Result:=HTML.ExistsStr('Сообщение доставлено');
 							end;
