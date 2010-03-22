@@ -4,7 +4,7 @@
 	<caption>Мегафон Урал</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>15</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -59,7 +59,7 @@
 		)
 		</postdata>
 		<success>eval(Html.ExistsStr('Сообщение отправлено.'))</success>
-		<error>eval(Html.RegExp('&lt;div class=&quot;ztxt&quot; style=&quot;font-size: 14px&quot;&gt;Ошибка:(.*?)&lt;',1))</error>
+		<error>eval(Html.RegExp('&lt;div ID=&quot;mess_error_green&quot;&gt;Ошибка: (.*?)&lt;/div&gt;',1))</error>
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://ural.megafon.ru/sms/?info='+Html.RegExp('id=&quot;check_sms&quot; value=&quot;(.*?)&quot;',1))</cd_url>
 		<cd_success>eval(
