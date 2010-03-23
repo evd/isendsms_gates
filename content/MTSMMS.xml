@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>18</version>
+	<version>19</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -221,10 +221,10 @@
 							begin
 								if HTML.ExistsStr('В очереди.') then
 									Result:='WAIT'
-								else Result:=HTML.ExistsStr('Отправлено.');
+								else Result:=HTML.ExistsStr('Доставлено');
 							end;
 						)
 		</cd_success>
-		<cd_error>eval(Html.RegExp('Cтатус MMS: &lt;b&gt;(.*?)&lt;b/&gt;',1))</cd_error>
+		<cd_error>eval(Html.RegExp('Статус MMS: &lt;b&gt;(.*?)&lt;b/&gt;',1))</cd_error>
 	</classprops>
 </gate>
