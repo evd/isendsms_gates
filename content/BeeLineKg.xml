@@ -4,7 +4,7 @@
 	<caption>БиЛайн Кыргызстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -46,7 +46,7 @@
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Ваше соообщение отправлено.'))</success>
+		<success>eval(HTML.ExistsStr('Ваше сообщение отправлено'))</success>
 		<error>eval(Html.RegExp('&lt;div id=msage&gt;(.*?)&lt;/div&gt;',1))</error>
 	</classprops>
 </gate>
