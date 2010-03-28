@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>29</version>
+	<version>31</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -21,7 +21,7 @@
 		<prefix start="+7 91402" end="+7 91404"/>
 		<prefix start="+7 91405" tag="1"/>
 		<prefix start="+7 91406" end="+7 91429"/>
-		<prefix start="+7 91431"/>
+		<prefix start="+7 91431" end="+7 91433"/>
 		<prefix start="+7 91438" end="+7 91452"/>
 		<prefix start="+7 914538"/>
 		<prefix start="+7 91454" end="+7 91462"/>
@@ -164,8 +164,8 @@
 								DTClient:=DTClient+5*OneMinute;	
 							end;	
 						end;
-						DT:=DT+(180-TimeZoneBias)*OneMinute;
-						DTClient:=DTClient+(180-TimeZoneBias)*OneMinute;
+						DT:=AdjustTimeZone(DT,180,true);
+						DTClient:=AdjustTimeZone(DT,180,true);
 						if SMS['Phone_Def']='495' then
 							PhoneDef:='985'
 						else PhoneDef:=SMS['Phone_Def'];	
