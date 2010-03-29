@@ -3,3 +3,4 @@ MegafonCenterAlt2,MegafonNW
 MegafonCenterAlt,MegafonKavkaz
 UTelPerm,UTel
 GTUA,KyivStar
+SHGSMPril,Cheb
