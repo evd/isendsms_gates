@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>O2CZ</name>
+	<caption>O2 CZ</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Чешская Республика</country>
+	<prefixlist>
+		<prefix start="+420 601" end="+420 602" format="3.3.6"/>
+		<prefix start="+420 606" end="+420 607" format="3.3.6"/>
+		<prefix start="+420 72" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>60</maxsymbols>
+		<maxunicodesymbols>60</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.1188.cz/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.1188.cz/</pageurl>
+		<imageurl>eval('http://sms.1188.cz/images/smscode.php?'+Html.RegExp('smscode.php\?(.*?)&quot;',1))</imageurl>
+		<posturl>http://sms.1188.cz/</posturl>
+		<postdata>eval(
+					begin
+						Cookies['1118_sms_text']:=SMS['Text'];
+						Cookies['1118_sms_adress']:='+'+SMS['Phone'];
+						Cookies['1118_sms_replyEmail']:='noreply@example.org';
+						PostData.Add(Html.RegExp('&lt;input type=&quot;hidden&quot; name=&quot;(.*?)&quot;',1),'1');
+						PostData.Add('adress','+'+SMS['Phone']);
+						PostData.Add('code',SMS['Code']);
+						PostData.Add('replyEmail','noreply@example.org');
+						PostData.Add('text',SMS['Text']);
+						PostData.Add('send','ODESLAT');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('&lt;div id=&quot;info&quot; class=&quot;box&quot;&gt;'))</success>
+		<error>eval(HTML.RegExp('&lt;div class=&quot;messages&quot;&gt;.*?&lt;p&gt;(.*?)&lt;/p&gt;',1))</error>
+	</classprops>
+</gate>
