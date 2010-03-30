@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>TMobileCZ</name>
+	<caption>T-Mobile CZ</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Чешская Республика</country>
+	<prefixlist>
+		<prefix start="+420 603" end="+420 605" format="3.3.6"/>
+		<prefix start="+420 73" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://sms.t-zones.cz/open.jsp</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.t-zones.cz/open.jsp</pageurl>
+		<imageurl>http://sms.t-zones.cz/open/captcha.jpg</imageurl>
+		<posturl>http://sms.t-zones.cz/open.jsp</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('counter',Html.RegExp('name=&quot;counter&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('recipient','+'+SMS['Phone']);
+						PostData.Add('mtype',iff(SMS['Flash'],'1','0'));
+						PostData.Add('text',SMS['Text']);
+						PostData.Add('cntr2',Length(SMS['Text']));
+						PostData.Add('cntr1',SMS['LeaveSymbols']);
+						PostData.Add('captcha',SMS['Code']);
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('SMS was sent'))</success>
+		<error>eval(HTML.RegExp('&lt;div id=&quot;gt-errorWindow&quot;&gt;.*?&lt;ul&gt;.*?&lt;li&gt;(.*?)&lt;/li&gt;',1))</error>
+	</classprops>
+</gate>
