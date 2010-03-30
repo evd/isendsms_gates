@@ -4,13 +4,12 @@
 	<caption>Vodafone</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
-		<prefix start="+420 601" end="+420 608" format="3.3.6"/>
-		<prefix start="+420 72" end="+420 73" format="3.3.6"/>
-		<prefix start="+420 773" end="+420 777" format="3.3.6"/>
+		<prefix start="+420 608" format="3.3.6"/>
+		<prefix start="+420 72" format="3.3.6"/>
 		<prefix start="+420 79" format="3.3.6"/>
 	</prefixlist>
 	<info>
