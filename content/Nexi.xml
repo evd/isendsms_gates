@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Nexi</name>
+	<caption>Nexi</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Кыргызстан</country>
+	<prefixlist>
+		<prefix start="+996 577" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.nexi.kg/send_sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.nexi.kg/send_sms/</pageurl>
+		<imageurl>eval('http://www.nexi.kg/img.php?id='+Html.RegExp('img.php\?id=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.nexi.kg/send_sms/</posturl>
+		<multipart>1</multipart>
+		<postdata>eval(
+						var
+							DT: TDateTime;
+						begin
+							DT:=SMS['DeliveryTime'];
+							DT:=AdjustTimeZone(DT,300,true);
+							PostData.Add('pref',SMS['Phone_Def']);
+							PostData.Add('tel',SMS['Phone_Number']);
+							PostData.Add('txt',SMS['Text']);
+							PostData.Add('remLen',SMS['LeaveSymbols']);
+							PostData.Add('time',iff(SMS['Delivery'],'1','0'));
+							PostData.Add('date',FormatDateTime('yyyymmdd',DT));
+							PostData.Add('time_h',FormatDateTime('hh',DT));
+							PostData.Add('time_m',FormatDateTime('nn',DT));
+							PostData.Add('ids',Html.RegExp('type=&quot;hidden&quot;.*?value=&quot;(.*?)&quot;',1));
+							PostData.Add('code',SMS['Code']);
+							PostData.Add('submit','Отправить');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение успешно отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;span style=''color:red; font-size:14;''&gt;(.*?)&lt;/span&gt;',1))</error>
+	</classprops>
+</gate>
