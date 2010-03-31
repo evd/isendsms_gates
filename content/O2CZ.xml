@@ -4,7 +4,7 @@
 	<caption>O2 CZ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
@@ -28,13 +28,12 @@
 		<posturl>http://sms.1188.cz/</posturl>
 		<postdata>eval(
 					begin
-						Cookies['1118_sms_text']:=SMS['Text'];
-						Cookies['1118_sms_adress']:='+'+SMS['Phone'];
-						Cookies['1118_sms_replyEmail']:='noreply@example.org';
+						Cookies['1118_sms_text']:=ConvertAndEncodeFormElem(SMS['Text'],'UTF-8');
+						Cookies['1118_sms_adress']:=EncodeFormElem('+'+SMS['Phone']);
 						PostData.Add(Html.RegExp('&lt;input type=&quot;hidden&quot; name=&quot;(.*?)&quot;',1),'1');
 						PostData.Add('adress','+'+SMS['Phone']);
 						PostData.Add('code',SMS['Code']);
-						PostData.Add('replyEmail','noreply@example.org');
+						PostData.Add('replyEmail','');
 						PostData.Add('text',SMS['Text']);
 						PostData.Add('send','ODESLAT');
 					end;
