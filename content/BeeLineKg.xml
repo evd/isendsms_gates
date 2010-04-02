@@ -4,14 +4,11 @@
 	<caption>БиЛайн Кыргызстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
-		<prefix start="+996 770" format="3.3.6"/>
-		<prefix start="+996 772" end="+996 773" format="3.3.6"/>
-		<prefix start="+996 775" format="3.3.6"/>
-		<prefix start="+996 777" end="+996 778" format="3.3.6"/>
+		<prefix start="+996 77" format="3.3.6"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>110</maxsymbols>
