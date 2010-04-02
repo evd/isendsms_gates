@@ -4,7 +4,7 @@
 	<caption>O2 CZ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
@@ -17,7 +17,7 @@
 		<maxunicodesymbols>60</maxunicodesymbols>
 		<supportflash>1</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
-		<supportunicode>1</supportunicode>
+		<supportunicode>0</supportunicode>
 		<captcha>1</captcha>
 		<gateurl>http://sms.1188.cz/</gateurl>
 	</info>
