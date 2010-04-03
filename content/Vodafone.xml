@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
 	<name>Vodafone</name>
-	<caption>Vodafone</caption>
+	<caption>Vodafone CZ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
@@ -16,7 +16,7 @@
 		<maxunicodesymbols>760</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
-		<supportunicode>1</supportunicode>
+		<supportunicode>0</supportunicode>
 		<captcha>1</captcha>
 		<gateurl>http://www.vodafonesms.cz/?locale=en</gateurl>
 	</info>
