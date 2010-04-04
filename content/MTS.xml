@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>31</version>
+	<version>32</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -188,21 +188,21 @@
 						if SMS['Delivery'] then
 						begin
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbForCalendar','on');
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbDay',FormatDateTime('dd',DT));
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02$ctl01',FormatDateTime('dd',DT));
 						end;	
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbDay_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl02_ctl01_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbMonth',GetMonthLongRus(DT,true,false));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbMonth_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('m',DTClient)+'&quot;,&quot;text&quot;:&quot;'+GetMonthLongRus(DTClient,true,false)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02$ctl02',GetMonthLongRus(DT,false,true));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl02_ctl02_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('m',DTClient)+'&quot;,&quot;text&quot;:&quot;'+GetMonthLongRus(DTClient,false,true)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ucDatePicker$rcbYear',FormatDateTime('yyyy',DT));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ucDatePicker_rcbYear_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02$ctl03',FormatDateTime('yyyy',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl02_ctl03_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('yyyy',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbHour',FormatDateTime('hh',DT));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbHour_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02$ctl04',FormatDateTime('hh',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl02_ctl04_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('h',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$rcbMinutes',FormatDateTime('nn',DT));
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_rcbMinutes_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;enabled&quot;:false}');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02$ctl06',FormatDateTime('nn',DT));
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl02_ctl06_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;enabled&quot;:false}');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','114');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','22');
 
