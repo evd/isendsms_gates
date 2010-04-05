@@ -4,12 +4,17 @@
 	<caption>Мегафон Сибирь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 923"/>
 		<prefix start="+7 9293"/>
+		<prefix start="+7 933 100"/>
+		<prefix start="+7 933 200"/>
+		<prefix start="+7 933 300" end="+7 933 301"/>
+		<prefix start="+7 933 310"/>
+		<prefix start="+7 933 314"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
