@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>HammerpageDE</name>
+	<caption>Hammerpage DE</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Германия</country>
+	<prefixlist>
+		<prefix start="+49 013" end="+49 015" format="2.3.9"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>140</maxsymbols>
+		<maxunicodesymbols>140</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://hammerpage.de/sms.html</gateurl>
+	</info>
+	<classprops>
+		<encoding>ISO-8859-1</encoding>
+		<pageurl>http://hammerpage.de/sms.html</pageurl>
+		<posturl>http://hammerpage.de/sms.html</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('PHPSESSID',Cookies['PHPSESSID']);
+						PostData.Add('nummer',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('text',SMS['Text']);
+						PostData.Add('remLen',SMS['LeaveSymbols']);
+						PostData.Add('submit','SMS versenden');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Die SMS wurde angenommen und wird versendet.'))</success>
+		<error>eval(begin
+						if HTML.ExistsStr('Entweder wurde schon von dir eine Nachricht versendet')  then
+							Result:='Превышение лимита. Либо вы уже отправляли сообщение сегодня, либо сегодня было отправлено сообщение на этот же номер'
+						else if HTML.ExistsStr('10 Zeichen lang sein') then
+							Result:='Длина сообщения должна быть не менее 10 символов'
+						else	
+							Result:=HTML.RegExp('Die SMS konnte nicht versendet werden.(.*?)&lt;br&gt;',1);
+						if Result='' then
+							Result:='Неизвестная ошибка';
+					end;		
+		)</error>
+	</classprops>
+</gate>
