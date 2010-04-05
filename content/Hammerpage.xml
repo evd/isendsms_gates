@@ -5,7 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>1</version>
-	<priority>10</priority>
+	<priority>5</priority>
 	<country>Германия</country>
 	<prefixlist>
 		<prefix start="+49 013" end="+49 015" format="2.3.9"/>
