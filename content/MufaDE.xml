@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MufaDE</name>
+	<caption>Mufa DE</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>7</priority>
+	<country>Германия</country>
+	<prefixlist>
+		<prefix start="+49 015" end="+49 017" format="2.3.9"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.mufa.de/free-sms.html</gateurl>
+	</info>
+	<classprops>
+		<encoding>ISO-8859-1</encoding>
+		<pageurl>http://www.mufa.de/free-sms.html</pageurl>
+		<imageurl>eval(
+						begin
+							HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+							Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
+							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+						end;
+						
+		)</imageurl>
+		<posturl>http://www.mufa.de/free-sms.html</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('sms_size','160');
+						PostData.Add('sms_recipient',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('sms_text',SMS['Text']);
+						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+						PostData.Add('recaptcha_response_field',SMS['Code']);
+						PostData.Add('submit','');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('/loading/sms1.html'))</success>
+		<error>eval(begin
+						
+						if HTML.ExistsStr('Sicherheitscode nicht korrekt!')  then
+							Result:='Код указанный на изображении введен неверно'
+						else if HTML.ExistsStr('Ihre Free SMS konnte nicht verschickt werden, bitte versuchen Sie es später noch einmal!')  then
+							Result:='Бесплатное смс сообщение не может быть отправлено, попробуйте позже'
+						else
+							Result:=HTML.RegExp('&lt;span class=&quot;FormError&quot;&gt;(.*?)&lt;/span&gt;',1);
+						if Result='' then
+							Result:='Неизвестная ошибка';
+					end;		
+		)</error>
+	</classprops>
+</gate>
