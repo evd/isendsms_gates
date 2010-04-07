@@ -4,7 +4,7 @@
 	<caption>Скайлинк</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -24,7 +24,7 @@
 		<prefix start="+7 901930" tag="2" />
 		<prefix start="+7 901417" tag="3" />
 		<prefix start="+7 901477" tag="3" />
-		<prefix start="+7 901801" tag="3" />
+		<prefix start="+7 901800" end="+7 901801" tag="3" />
 		<prefix start="+7 901870" tag="3" />
 		
 	</prefixlist>	
