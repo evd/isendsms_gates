@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>34</version>
+	<version>35</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -127,7 +127,7 @@
 		<supportflash>1</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<supportcheckdelivery>1</supportcheckdelivery>
+		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.mts.ru/messaging/sendsms/</gateurl>
 	</info>
@@ -168,21 +168,20 @@
 						if SMS['Phone_Def']='495' then
 							PhoneDef:='985'
 						else PhoneDef:=SMS['Phone_Def'];	
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
-						PostData.Add('__EVENTTARGET','');
-						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha',Html.RegExp('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captcha&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+
+						Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
+						Stored['captchanewkey']:=Html.RegExp('id=&quot;LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
+						Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
+						Stored['EventValidation']:=Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1);
+						
+						
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$btnSend');
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',PhoneDef);
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;text&quot;:&quot;' + SMS['Phone_Def'] + '&quot;,&quot;enabled&quot;:true}');
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$txtMsisdn',SMS['Phone_Number']);
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+PhoneDef+'&quot;,&quot;text&quot;:&quot;'+PhoneDef+'&quot;,&quot;enabled&quot;:true}');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbPhoneNumber',SMS['Phone_Number']);
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbLen',Length(SMS['Text']));
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$lblMax',SMS['MaxSymbols']);
-						if SMS['Flash'] then
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbFlashSMS','on');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbCode',SMS['Code']);
 						if SMS['Delivery'] then
 						begin
@@ -202,9 +201,15 @@
 						if SMS['Delivery'] then
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02$ctl06',FormatDateTime('nn',DT));
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl02_ctl06_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',DTClient)+'&quot;,&quot;enabled&quot;:false}');
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','114');
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','22');
-
+						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTARGUMENT','');
+						PostData.Add('__VIEWSTATE',Stored['ViewState']);
+						PostData.Add('__EVENTVALIDATION',Stored['EventValidation']);
+						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew',Stored['captchanewkey']);
+						PostData.Add('__ASYNCPOST','true');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','78');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','14');
+						PostData.Add('RadAJAXControlID','ctl00_ctl00_ctl00_SMSSendControl_updatePanel');
 					end;
 					)
 		</postdata>
@@ -213,7 +218,9 @@
 						if HTML.ExistsStr('smsExtraRedirect.htm') then
 							Result:='SMS-сообщение можно отправлять не чаще одного раза в 30 секунд'
 						else 	
-							Result:=HTML.RegExp('ctl00_ctl00_ctl00_SMSSendControl_lbError&quot;&gt;(.*?)&lt;/span&gt;',1);
+							Result:=HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1);
+						if (Result='') and (Html.ExistsStr('ctl00_ctl00_ctl00_SMSSendControl_pnlForm')) then
+							Result:='Превышение лимита отправки, попробуйте позже';
 					end;		
 							
 					)
@@ -221,29 +228,22 @@
 		<cd_method>POST</cd_method>
 		<cd_posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</cd_posturl>
 		<cd_postdata>eval(
+						var
+							Viewstate: string;
+							Eventvalid: string;
 						begin
-							if HTML.ExistsStr('|updatePanel|') then
-							begin
-								PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$AJAXUpdatePanel|ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
-								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
-								PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
-								PostData.Add('__EVENTARGUMENT',HTML.RegExp('__EVENTARGUMENT\|(.*?)\|',1));
-								PostData.Add('__VIEWSTATE',HTML.RegExp('__VIEWSTATE\|(.*?)\|',1));
-								PostData.Add('__EVENTVALIDATION',HTML.RegExp('__EVENTVALIDATION\|(.*?)\|',1));
-								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
-								PostData.Add('__ASYNCPOST','true');
-							end else
-							begin
-								Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
-								PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$AJAXUpdatePanel|ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
-								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
-								PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
-								PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$StatusLink');
-								PostData.Add('__EVENTARGUMENT',HTML.RegExp('__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__VIEWSTATE',HTML.RegExp('__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__EVENTVALIDATION',HTML.RegExp('__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__ASYNCPOST','true');
-							end;							
+							Viewstate:=Html.RegExp('__VIEWSTATE\|(.*?)\|',1);
+							Eventvalid:=Html.RegExp('__EVENTVALIDATION\|(.*?)\|',1);
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$lblStatusLink');
+							PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
+							PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew',Stored['captchanewkey']);
+							PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
+							PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$lblStatusLink');
+							PostData.Add('__EVENTARGUMENT','');
+							PostData.Add('__VIEWSTATE',Viewstate);
+							PostData.Add('__EVENTVALIDATION',Eventvalid);
+							PostData.Add('__ASYNCPOST','true');
+							PostData.Add('RadAJAXControlID','ctl00_ctl00_ctl00_SMSSendControl_updatePanel');
 						end;
 						)
 		</cd_postdata>				
