@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>36</version>
+	<version>37</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -260,6 +260,8 @@
 							Result:=HTML.RegExp('cтатус сообщения:&lt;b/&gt;(.*?)&lt;b/&gt;',1);
 							if Result='' then
 								Result:=HTML.RegExp('style=&quot;color:Red;&quot;&gt;(.*?)&lt;/span&gt;',1);
+							if Result='' then
+								Result:=Html.RegExp('&lt;span id=&quot;ctl00_ctl00_ctl00_SMSSendControl_ResultId&quot; class=&quot;left_align&quot;&gt;&lt;b/&gt;(.*?)&lt;b/&gt;',1);
 							if Result='' then
 								Result:='Ошибка подтверждения доставки';
 						end;
