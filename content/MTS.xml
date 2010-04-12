@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>35</version>
+	<version>36</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -127,7 +127,7 @@
 		<supportflash>1</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.mts.ru/messaging/sendsms/</gateurl>
 	</info>
@@ -249,9 +249,9 @@
 		</cd_postdata>				
 		<cd_success>eval(
 							begin
-								if HTML.ExistsStr('cообщение находится в очереди') then
+								if HTML.ExistsStr('Сообщение находится в очереди') then
 									Result:='WAIT'
-								else Result:=HTML.ExistsStr('сообщение доставлено');	
+								else Result:=HTML.ExistsStr('Cообщение доставлено');	
 							end;
 						)
 		</cd_success>
