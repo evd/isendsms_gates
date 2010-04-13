@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Katel</name>
+	<caption>Katel</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Кыргызстан</country>
+	<prefixlist>
+		<prefix start="+996 5172" end="+996 5173" format="3.3.6"/>
+		<prefix start="+996 5176" format="3.3.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://www.katel.kg/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.katel.kg/sms/</pageurl>
+		<sendmethod>GET</sendmethod>
+		<sendurl>eval(
+						var
+							DT: TDateTime;
+							URL: string;
+						begin
+							DT:=SMS['DeliveryTime'];
+							DT:=AdjustTimeZone(DT,300,true);
+							
+							URL:='http://sms.katel.kg/cgi-bin/sendsms.pl?';
+							URL:=URL+'day='+FormatDateTime('dd',DT);
+							URL:=URL+'&amp;month='+FormatDateTime('mm',DT);
+							URL:=URL+'&amp;month='+FormatDateTime('yy',DT);
+							if SMS['Delivery'] then
+							begin
+								URL:=URL+'&amp;hour='+FormatDateTime('hh',DT);
+								URL:=URL+'&amp;minute='+FormatDateTime('nn',DT);
+							end else
+							begin
+								URL:=URL+'&amp;hour=&amp;minute=';
+							end;
+							URL:=URL+'&amp;pager=0'+SMS['Phone_Def']+SMS['Phone_Number'];
+							URL:=URL+'&amp;rus_msg='+ConvertAndEncodeFormElem(SMS['Text'],'Windows-1251');
+							URL:=URL+'&amp;message='+ConvertAndEncodeFormElem(SMS['Text'],'Windows-1251');
+							URL:=URL+'&amp;counter='+VarToStr(Length(SMS['Text']));
+							Result:=URL;
+						end;
+					)
+		</sendurl>
+		<success>eval(HTML.ExistsStr('Принято к доставке'))</success>
+		<error>Неизвестная ошибка отправки</error>
+	</classprops>
+</gate>
