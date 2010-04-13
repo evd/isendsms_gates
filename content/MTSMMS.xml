@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>21</version>
+	<version>22</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -141,7 +141,14 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.mts.ru/ND_FreeSend.aspx?region=msk</pageurl>
-		<imageurl>eval('http://www.mts.ru/LanapCaptcha.aspx'+Html.RegExp('LanapCaptcha.aspx(.*?)''',1))</imageurl>
+		<imageurl>eval(begin
+						Result:=Html.RegExp('LanapCaptcha.aspx(.*?)''',1);
+						//Result:=ReplaceStr(Result,'&amp;'+'amp;','&amp;');
+						//Result:=ReplaceStr(Result,'2','BLA');
+						//Result:=DecodeFormElem(Result);
+						Result:='http://www.mts.ru/LanapCaptcha.aspx'+Result;
+						end;)
+		</imageurl>
 		<uploadmultimedia>1</uploadmultimedia>
 		<mu_posturl>http://www.mts.ru/uploadF.aspx</mu_posturl>
 		<mu_multipart>1</mu_multipart>
@@ -151,7 +158,7 @@
 				begin
 					MC:=MMS['Multimedia'];
 					PostData.Add('Filename',MC['FileName']);
-					PostData.Add('ASPSESSID',Html.RegExp('&quot;ASPSESSID&quot;: &quot;(.*?)&quot;',1));
+					PostData.Add('ASPSESSID',Cookies['ASP.NET_SessionId']);
 					PostData.AddData('Filedata',MC);
 					PostData.Add('Upload','Submit Query');
 				end;
@@ -162,68 +169,70 @@
 		<posturl>http://www.mts.ru/ND_FreeSend.aspx?region=msk</posturl>
 		<postdata>eval(
 						begin
-							PostData.Add('RadScriptManager1_HiddenField',DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1)));
-							PostData.Add('LBD_VCT_nd_freesend_captcha',Html.RegExp('id=&quot;LBD_VCT_nd_freesend_captcha&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTTARGET',Html.RegExp('id=&quot;__EVENTTARGET&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTARGUMENT',Html.RegExp('id=&quot;__EVENTARGUMENT&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('RadFormDecorator1_ClientState','');
-							PostData.Add('currentID','-1');
-							PostData.Add('useUploadedImgID','1');
-							PostData.Add('ddlDefCode',MMS['Phone_Def']);
-							PostData.Add('ddlDefCode_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+'Выберите заголовок...'+'&quot;,&quot;text&quot;:&quot;'+MMS['Phone_Def']+'&quot;,&quot;enabled&quot;:true}');
-							PostData.Add('tbPhone',MMS['Phone_Number']);
-							PostData.Add('ddlTopic',MMS['Subject']);
-							PostData.Add('ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;'+'Выберите заголовок...'+'&quot;,&quot;enabled&quot;:true}');
-							PostData.Add('tbTopic',MMS['Subject']);
-							PostData.Add('tbMessage',MMS['Text']);
-							PostData.Add('tbCode',MMS['Code']);
-							PostData.Add('btnSend.x','131');
-							PostData.Add('btnSend.y','17');
-						
+
+						Cookies['region.alias']:='msk';
+						Stored['Hidden']:=DecodeFormElem(HTML.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
+						Stored['captchanewkey']:=Html.RegExp('id=&quot;LBD_VCT_nd_freesend_mmssendcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
+
+						PostData.Add('RadScriptManager1','MMSSendControl$MMSSendControl$updatePanelPanel|MMSSendControl$btnSend');
+						PostData.Add('RadScriptManager1_HiddenField',Stored['Hidden']);
+						PostData.Add('RadFormDecorator1_ClientState','');
+						PostData.Add('MMSSendControl$hfCurrentID','');
+						PostData.Add('MMSSendControl$hfWasUploadedDelited','');
+						PostData.Add('MMSSendControl$ddPrefix',MMS['Phone_Def']);
+						PostData.Add('MMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+MMS['Phone_Def']+'&quot;,&quot;text&quot;:&quot;'+MMS['Phone_Def']+'&quot;,&quot;enabled&quot;:true}');
+						PostData.Add('MMSSendControl$tbPhoneNumber',MMS['Phone_Number']);
+						PostData.Add('MMSSendControl$ddlTopic','Выберите заголовок...');
+						PostData.Add('MMSSendControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
+						PostData.Add('MMSSendControl$tbTopic',MMS['Subject']);
+						PostData.Add('MMSSendControl$tbMessage',MMS['Text']);
+						PostData.Add('MMSSendControl$tbCode',MMS['Code']);
+						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTARGUMENT','');
+						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('LBD_VCT_nd_freesend_mmssendcontrol_captchanew',Stored['captchanewkey']);
+						PostData.Add('__ASYNCPOST','true');
+						PostData.Add('MMSSendControl$btnSend.x','124');
+						PostData.Add('MMSSendControl$btnSend.y','18');
+						PostData.Add('RadAJAXControlID','MMSSendControl_updatePanel');						
 						end;
 					)
 		</postdata>
 		 
 		<success>eval(Html.ExistsStr('Проверить статус доставки'))</success>
-		<error>eval(HTML.RegExp('&lt;span id=&quot;lblError&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
+		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>eval(begin
-							Result:=Html.RegExp('\|ND_checkStatusFree.aspx(.*?)\|',1);
-							if Result='' then
-								Result:=Html.RegExp('ND_checkStatusFree.aspx(.*?)&quot;',1);
-							Result:='http://www.mts.ru/ND_checkStatusFree.aspx'+Result;
-						end;
-						)
-		</cd_posturl>
+		<cd_posturl>http://www.mts.ru/ND_FreeSend.aspx?region=msk</cd_posturl>
 		<cd_postdata>eval(
+						var
+							Viewstate: string;
+							Eventvalid: string;
 						begin
-							PostData.Add('scriptManagerId','AJAXUpdatePanel|StatusLink');
-							PostData.Add('__EVENTTARGET','StatusLink');
+							Viewstate:=Html.RegExp('__VIEWSTATE\|(.*?)\|',1);
+							Eventvalid:=Html.RegExp('__EVENTVALIDATION\|(.*?)\|',1);
+							PostData.Add('RadScriptManager1','MMSSendControl$MMSSendControl$updatePanelPanel|MMSSendControl$StatusLink');
+							PostData.Add('RadScriptManager1_HiddenField',Stored['Hidden']);
+							PostData.Add('LBD_VCT_nd_freesend_mmssendcontrol_captchanew',Stored['captchanewkey']);
+							PostData.Add('RadFormDecorator1_ClientState','');
+							PostData.Add('__EVENTTARGET','MMSSendControl$StatusLink');
 							PostData.Add('__EVENTARGUMENT','');
-							if HTML.ExistsStr('|updatePanel|') then
-							begin
-								PostData.Add('__VIEWSTATE',HTML.RegExp('__VIEWSTATE\|(.*?)\|',1));
-								PostData.Add('__EVENTVALIDATION',HTML.RegExp('__EVENTVALIDATION\|(.*?)\|',1));
-							end else
-							begin
-								PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-								PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-							end;	
+							PostData.Add('__VIEWSTATE',Viewstate);
+							PostData.Add('__EVENTVALIDATION',Eventvalid);
 							PostData.Add('__ASYNCPOST','true');
-						end;
+							PostData.Add('RadAJAXControlID','MMSSendControl_updatePanel');
+						end;	
 					)
 		</cd_postdata>
 		<cd_success>eval(
 							begin
-								if HTML.ExistsStr('В очереди.') then
+								if HTML.ExistsStr('В очереди') then
 									Result:='WAIT'
-								else Result:=HTML.ExistsStr('Доставлено');
+								else Result:=HTML.ExistsStr('Доставлено');	
 							end;
 						)
 		</cd_success>
-		<cd_error>eval(Html.RegExp('Статус MMS: &lt;b&gt;(.*?)&lt;b/&gt;',1))</cd_error>
+		<cd_error>eval(Html.RegExp('&lt;span id=&quot;MMSSendControl_ResultId&quot; class=&quot;left_align&quot;&gt;&lt;b/&gt;(.*?)&lt;b/&gt;',1))</cd_error>
 	</classprops>
 </gate>
