@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -58,7 +58,7 @@
 		<captcha>1</captcha>
 		<gateurl>http://www.nnov.ncc-volga.ru/services/mms/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
-		<supportaudio>0</supportaudio>
+		<supportaudio>1</supportaudio>
 		<supportimage>1</supportimage>
 		<maxmultimediacount>1</maxmultimediacount>
 		<maxmultimediasize>307200</maxmultimediasize>
@@ -71,6 +71,65 @@
 							EndStr: string;
 						begin
 							EndStr:=DecodeHex('EFBFBF');
+							
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('0'+EndStr);
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('http://ncc.opt-share.ru/sendmms/'+EndStr);
+							PostData.AddRawData('EDDBC4122C5D45F450E1084510AC7F84'+EndStr);
+							PostData.AddRawData('ru.emms.donatta.web.client.SendMmsService'+EndStr);
+							PostData.AddRawData('recieveCountImages'+EndStr);
+							PostData.AddRawData('1'+EndStr);
+							PostData.AddRawData('2'+EndStr);
+							PostData.AddRawData('3'+EndStr);
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('0'+EndStr);
+							HTTP.CustomMime:='text/x-gwt-rpc; charset=utf-8';
+							HTTP.Referer:='http://ncc.opt-share.ru/sendmms/8ACAEF5A8D1EE39B3092065FDD84A8FF.cache.html';
+							HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
+							
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('0'+EndStr);
+							PostData.AddRawData('6'+EndStr);
+							PostData.AddRawData('http://ncc.opt-share.ru/sendmms/'+EndStr);
+							PostData.AddRawData('EDDBC4122C5D45F450E1084510AC7F84'+EndStr);
+							PostData.AddRawData('ru.emms.donatta.web.client.SendMmsService'+EndStr);
+							PostData.AddRawData('getAvailableExtensions'+EndStr);
+							PostData.AddRawData('java.lang.String'+EndStr);
+							PostData.AddRawData('image;video'+EndStr);
+							PostData.AddRawData('1'+EndStr);
+							PostData.AddRawData('2'+EndStr);
+							PostData.AddRawData('3'+EndStr);
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('1'+EndStr);
+							PostData.AddRawData('5'+EndStr);
+							PostData.AddRawData('6'+EndStr);
+							HTTP.CustomMime:='text/x-gwt-rpc; charset=utf-8';
+							HTTP.Referer:='http://ncc.opt-share.ru/sendmms/8ACAEF5A8D1EE39B3092065FDD84A8FF.cache.html';
+							HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
+							
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('0'+EndStr);
+							PostData.AddRawData('6'+EndStr);
+							PostData.AddRawData('http://ncc.opt-share.ru/sendmms/'+EndStr);
+							PostData.AddRawData('EDDBC4122C5D45F450E1084510AC7F84'+EndStr);
+							PostData.AddRawData('ru.emms.donatta.web.client.SendMmsService'+EndStr);
+							PostData.AddRawData('getAvailableExtensions'+EndStr);
+							PostData.AddRawData('java.lang.String'+EndStr);
+							PostData.AddRawData('audio'+EndStr);
+							PostData.AddRawData('1'+EndStr);
+							PostData.AddRawData('2'+EndStr);
+							PostData.AddRawData('3'+EndStr);
+							PostData.AddRawData('4'+EndStr);
+							PostData.AddRawData('1'+EndStr);
+							PostData.AddRawData('5'+EndStr);
+							PostData.AddRawData('6'+EndStr);
+							HTTP.CustomMime:='text/x-gwt-rpc; charset=utf-8';
+							HTTP.Referer:='http://ncc.opt-share.ru/sendmms/8ACAEF5A8D1EE39B3092065FDD84A8FF.cache.html';
+							HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
+
+
+
 							PostData.AddRawData('4'+EndStr);
 							PostData.AddRawData('0'+EndStr);
 							PostData.AddRawData('4'+EndStr);
@@ -98,13 +157,18 @@
 		<mu_postdata>eval(
 					var
 						EndStr: stirng;
+						MC: TMultimediaContent;
 					begin
 						HTTP.CustomMime:='';
 						PostData.MultiPart:=true;
-						PostData.AddData('...',MMS['Multimedia']);	
+						MC:=MMS['Multimedia'];
+						if MC['Type']=mtImage then
+							PostData.AddData('image;video',MMS['Multimedia'])
+						else
+							PostData.AddData('audio',MMS['Multimedia']);	
 						
 						HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
-						Stored['ImageFile']:=HTML.RegExp('image upload ok(.*?)$',1);
+						Stored['ImageFile']:=HTML.RegExp('audio upload ok(.*?)$',1);
 						EndStr:=DecodeHex('EFBFBF');
 						PostData.Clear;
 						Result:='';
@@ -114,7 +178,7 @@
 						Result:=Result+'http://ncc.opt-share.ru/sendmms/'+EndStr;
 						Result:=Result+'EDDBC4122C5D45F450E1084510AC7F84'+EndStr;
 						Result:=Result+'ru.emms.donatta.web.client.SendMmsService'+EndStr;
-						Result:=Result+'recieveUserImage'+EndStr;
+						Result:=Result+'recieveUserFile'+EndStr;
 						Result:=Result+'java.lang.String'+EndStr;
 						Result:=Result+'&lt;pre&gt;image upload ok'+Stored['ImageFile']+'&lt;/pre&gt;'+EndStr;
 						Result:=Result+'1'+EndStr;
@@ -135,24 +199,31 @@
 		<postdata>eval(
 					var
 						EndStr: stirng;
+						MC: TMultimediaContent;
 					begin
+						MC:=MMS['Multimedia'];
 						EndStr:=DecodeHex('EFBFBF');
 						Result:='';
 						Result:=Result+'4'+EndStr;
 						Result:=Result+'0'+EndStr;
-						Result:=Result+'12'+EndStr;
+						if MC['Type']=mtImage then
+							Result:=Result+'13'+EndStr
+						else	
+							Result:=Result+'12'+EndStr;
 						Result:=Result+'http://ncc.opt-share.ru/sendmms/'+EndStr;
 						Result:=Result+'EDDBC4122C5D45F450E1084510AC7F84'+EndStr;
 						Result:=Result+'ru.emms.donatta.web.client.SendMmsService'+EndStr;
 						Result:=Result+'sendMms'+EndStr;
 						Result:=Result+'ru.emms.donatta.web.client.PageContent'+EndStr;
-						Result:=Result+'ru.emms.donatta.web.client.PageContent/145761047'+EndStr;
+						Result:=Result+'ru.emms.donatta.web.client.PageContent/1363198455'+EndStr;
+						Result:=Result+EndStr;
 						Result:=Result+MMS['Code']+EndStr;
 						Result:=Result+'http://ncc.opt-share.ru/sendmms/images/captchas/'+Stored['CaptchaFile']+EndStr;
 						Result:=Result+ConvertToEncoding(MMS['Subject'],'UTF-8')+EndStr;
 						Result:=Result+ConvertToEncoding(MMS['Text'],'UTF-8')+EndStr;
-						Result:=Result+'http://ncc.opt-share.ru/sendmms/pictures/userimages/'+Stored['ImageFile']+EndStr;
 						Result:=Result+'+'+MMS['Phone']+EndStr;
+						if MC['Type']=mtImage then
+							Result:=Result+'pictures/userimages/'+Stored['ImageFile']+EndStr;
 						Result:=Result+'1'+EndStr;
 						Result:=Result+'2'+EndStr;
 						Result:=Result+'3'+EndStr;
@@ -166,6 +237,10 @@
 						Result:=Result+'10'+EndStr;
 						Result:=Result+'11'+EndStr;
 						Result:=Result+'12'+EndStr;						
+						if MC['Type']=mtImage then
+							Result:=Result+'13'+EndStr						
+						else	
+							Result:=Result+'7'+EndStr;
 					end;
 					)
 		</postdata>
@@ -174,6 +249,8 @@
 		<error>eval(begin
 						if Html.ExistsStr('//OK[1,') then
 							Result:='Код введен неверно'
+						else if Html.ExistsStr('//OK[-2,') then
+							Result:='Превышен лимит на отправку сообщений'
 						else Result:='Неизвестная ошибка';	
 					end;	
 					)
