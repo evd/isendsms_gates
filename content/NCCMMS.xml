@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -168,7 +168,11 @@
 							PostData.AddData('audio',MMS['Multimedia']);	
 						
 						HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
-						Stored['ImageFile']:=HTML.RegExp('audio upload ok(.*?)$',1);
+						if MC['Type']=mtImage then
+							Stored['ImageFile']:=HTML.RegExp('image upload ok(.*?)$',1)
+						else
+							Stored['ImageFile']:=HTML.RegExp('audio upload ok(.*?)$',1);
+						
 						EndStr:=DecodeHex('EFBFBF');
 						PostData.Clear;
 						Result:='';
