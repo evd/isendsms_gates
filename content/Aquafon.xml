@@ -4,7 +4,7 @@
 	<caption>Аквафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Абхазия</country>
 	<prefixlist>
@@ -24,13 +24,13 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.aquafon.com/sms</gateurl>
+		<gateurl>http://www.aquafon.com/sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.aquafon.com/sms</pageurl>
+		<pageurl>http://www.aquafon.com/sms/</pageurl>
 		<imageurl>eval('http://www.aquafon.com/_captcha/' + HTML.RegExp('_captcha/(.*?)&quot;',1))</imageurl>
-		<posturl>http://www.aquafon.com/sms</posturl>
+		<posturl>http://www.aquafon.com/sms/</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('code',SMS['Phone_Country']+SMS['Phone_Def']);
