@@ -4,7 +4,7 @@
 	<caption>Mufa DE</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>7</priority>
 	<country>Германия</country>
 	<prefixlist>
@@ -24,8 +24,8 @@
 		<pageurl>http://www.mufa.de/free-sms.html</pageurl>
 		<imageurl>eval(
 						begin
-							HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
-							Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
+							HTTP.HTTPMethod('GET','http://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+							Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
 							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
 						end;
 						
