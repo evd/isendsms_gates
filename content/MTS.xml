@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>40</version>
+	<version>41</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -177,6 +177,8 @@
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+PhoneDef+'&quot;,&quot;text&quot;:&quot;'+PhoneDef+'&quot;,&quot;enabled&quot;:true}');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbPhoneNumber',SMS['Phone_Number']);
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
+						if SMS['Flash'] then
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbFlashSMS','on');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbCode',SMS['Code']);
 						if SMS['Delivery'] then
 						begin
