@@ -5,7 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>2</version>
-	<priority>2</priority>
+	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 9">
