@@ -4,11 +4,12 @@
 	<caption>Owap2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>3</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<prefix start="+7"/>
+		<prefix start="+7 700 000" end="+7 799 999"/>
+		<prefix start="+7 900 000" end="+7 999 999"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>140</maxsymbols>
