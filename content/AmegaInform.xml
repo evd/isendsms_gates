@@ -4,7 +4,7 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
