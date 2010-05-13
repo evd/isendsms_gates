@@ -4,7 +4,7 @@
 	<caption>Улан-Удэнская Сотовая Сеть</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -22,12 +22,14 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<captcha>0</captcha>
+		<captcha>1</captcha>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<gateurl>http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_send&amp;isFree=1</pageurl>
+		<imageurl>eval('http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_show_antispam_image&amp;ImageNumber='+Html.RegExp('ImageNumber=(.*?)&quot;',1))</imageurl>
 		<posturl>http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_send</posturl>
 		<postdata>eval(
 						var
@@ -38,6 +40,8 @@
 							PostData.Add('MMObjectType','0');
 							PostData.Add('isFree','1');
 							PostData.Add('MMObjectID','');
+							PostData.Add('antispamText',SMS['Code']);
+							PostData.Add('textTableRecordId',Html.RegExp('textTableRecordId&quot; type=&quot;hidden&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('To',SMS['Phone']);
 							PostData.Add('Msg',SMS['Text']);
 							PostData.Add('count',Length(SMS['Text']));
@@ -60,5 +64,17 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('Ваше сообщение отправлен'))</success>
 		<error>Ваше сообщение не смогло быть доставлено</error>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://issa.uucn.ru/cgi-bin/cgi.exe?function=sms_status&amp;isFree=1&amp;smsID='+HTML.RegExp('smsID=(.*?)&quot;',1))</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Ваше сообщение отправлено') then
+								Result:='WAIT'
+							else	
+								Result:=HTML.ExistsStr('Ваше сообщение успешно доставлено');
+						end;
+						)
+		</cd_success>
+		<cd_error>Ваше сообщение не смогло быть доставлено</cd_error>
 	</classprops>
 </gate>
