@@ -4,7 +4,7 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -44,7 +44,7 @@
 					 end;	
 					)
 		</success>
-		<error>eval(Html.RegExp('&lt;b style=&quot;color: #F01B22&quot;&gt;(.*?)&lt;',1))</error>
+		<error>eval(Html.RegExp('&lt;b style=&quot;color: #F01B22&quot;&gt;(&lt;li&gt;)?(.*?)&lt;',1))</error>
 		<cd_method>GET</cd_method>
 		<cd_url>http://www.amegainform.ru/sms/send_sms.php?action=stat</cd_url>
 		<cd_success>eval(
