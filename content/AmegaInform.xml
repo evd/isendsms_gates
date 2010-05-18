@@ -4,7 +4,7 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -55,6 +55,12 @@
 						end;
 					)
 		</cd_success>
-		<cd_error>Ошибка подтверждения доставки</cd_error>
+		<cd_error>eval(
+					begin
+						Result:=Html.RegExp('www\.amegainform\.ru&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pa&quot;&gt;&lt;b&gt;(.*?)&lt;',1);
+						if Result='' then
+							Result:='Ошибка подтверждения доставки';
+					end;	
+		</cd_error>
 	</classprops>
 </gate>
