@@ -4,7 +4,7 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -40,7 +40,7 @@
 		</postdata>
 		<success>eval(begin
 						HTTP.HTTPMethod('GET','http://www.amegainform.ru/sms/send_sms.php?action=stat');
-						Result:=Html.ExistsStr('В очереди отправки');
+						Result:=(Html.ExistsStr('В очереди отправки')) or (Html.ExistsStr('Передано оператору'));
 					 end;	
 					)
 		</success>
