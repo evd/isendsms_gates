@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -169,9 +169,9 @@
 						
 						HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
 						if MC['Type']=mtImage then
-							Stored['ImageFile']:=HTML.RegExp('image upload ok(.*?)$',1)
+							Stored['ImageFile']:=HTML.RegExp('image upload ok (.*?)$',1)
 						else
-							Stored['ImageFile']:=HTML.RegExp('audio upload ok(.*?)$',1);
+							Stored['ImageFile']:=HTML.RegExp('audio upload ok (.*?)$',1);
 						
 						EndStr:=DecodeHex('EFBFBF');
 						PostData.Clear;
