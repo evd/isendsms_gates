@@ -4,7 +4,7 @@
 	<caption>Orange</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
@@ -13,7 +13,7 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>137</maxsymbols>
-		<maxunicodesymbols>51</maxunicodesymbols>
+		<maxunicodesymbols>130</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
