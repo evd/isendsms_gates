@@ -4,7 +4,7 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>14</version>
+	<version>16</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -39,18 +39,27 @@
 		)
 		</postdata>
 		<success>eval(begin
-						HTTP.HTTPMethod('GET','http://www.amegainform.ru/sms/send_sms.php?action=stat');
-						Result:=Html.ExistsStr('принято оператором') or Html.ExistsStr('Передано оператору') or Html.ExistsStr('В очереди отправки') or Html.ExistsStr('Доставлено абоненту');
-					 end;	
-					)
+				HTTP.HTTPMethod('GET','http://www.amegainform.ru/sms/send_sms.php?action=stat');
+				Result:=Html.ExistsStr('принято оператором') or
+					Html.ExistsStr('Передано оператору') or
+					Html.ExistsStr('В очереди отправки') or
+					Html.ExistsStr('Доставлено абоненту') or
+					Html.ExistsStr('сообщение в очереди отправки') or
+					Html.ExistsStr('сообщение доставлено');
+			 	end;	
+				)
 		</success>
 		<error>eval(Html.RegExp('&lt;b style=&quot;color: #F01B22&quot;&gt;(&lt;li&gt;)?(.*?)&lt;',2))</error>
 		<cd_method>GET</cd_method>
 		<cd_url>http://www.amegainform.ru/sms/send_sms.php?action=stat</cd_url>
 		<cd_success>eval(
 						begin
-							if Html.ExistsStr('В очереди отправки') or Html.ExistsStr('Передано оператору') or Html.ExistsStr('принято оператором')then
-								Result:='WAIT'
+							if Html.ExistsStr('В очереди отправки') or
+								Html.ExistsStr('Передано оператору') or
+								Html.ExistsStr('принято оператором') or
+								Html.ExistsStr('сообщение в очереди отправки')
+								then
+									Result:='WAIT'
 							else Result:=Html.ExistsStr('Доставлено абоненту') or Html.ExistsStr('сообщение доставлено');
 						end;
 					)
@@ -59,6 +68,8 @@
 					begin
 						Result:=Html.RegExp('www\.amegainform\.ru&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pa&quot;&gt;&lt;b&gt;(.*?)&lt;',1);
 						if Result='' then
+							Result:=Html.RegExp('&lt;div class=&quot;pa&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1);
+						if Result='' then	
 							Result:='Ошибка подтверждения доставки';
 					end;	
 		</cd_error>
