@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>17</version>
+	<version>18</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -89,7 +89,7 @@
 							if IsAscii(SMS['Text']) then
 								PostData.Add('translit','on');
 							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
-							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('confirmcode',UpperCase(SMS['Code']));
 							PostData.Add('x','51');
 							PostData.Add('y','9');
 						end;
