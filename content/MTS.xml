@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>41</version>
+	<version>42</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -246,7 +246,8 @@
 		</cd_postdata>				
 		<cd_success>eval(
 							begin
-								if HTML.ExistsStr('Сообщение находится в очереди') then
+								if HTML.ExistsStr('Сообщение находится в очереди') or
+									HTML.ExistsStr('ожидаем') then
 									Result:='WAIT'
 								else Result:=HTML.ExistsStr('Cообщение доставлено');	
 							end;
