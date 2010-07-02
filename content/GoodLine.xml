@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Goodline</name>
+	<caption>ГудЛайн</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>9</priority>
+	<country>Международный</country>
+	<prefixlist>
+		<prefix start="+372" format="3.3.5"/>
+		<prefix start="+2012" format="2.2.7"/>
+		<prefix start="+9054" format="2.3.7"/>
+		<prefix start="+66" format="2.1.7"/>
+		<prefix start="+357" format="3.2.6"/>
+		<prefix start="+91 98" format="2.2.6"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<gateurl>http://www.simtravel.ru/mobile/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.goodline.ru/ru/abonents/services/sms/send/</pageurl>
+		<imageurl>eval('http://www.goodline.ru/kcaptcha/?PHPSESSID='+Html.RegExp('kcaptcha/\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.goodline.ru/ru/abonents/services/sms/send/</posturl>
+		<postdata>eval(
+					var
+						CodeLen: integer;
+						Tariff: string;
+					begin
+						if Pos('372',SMS['Phone'])=1 then
+						begin
+							Tariff:='vmt40';
+							CodeLen:=3;
+						end
+						else if Pos('2012',SMS['Phone'])=1 then
+						begin
+							Tariff:='MobiNil';
+							CodeLen:=4;
+						end
+						else if Pos('9054',SMS['Phone'])=1 then
+						begin
+							Tariff:='TelSim';
+							CodeLen:=4;
+						end
+						else if Pos('66',SMS['Phone'])=1 then
+						begin
+							Tariff:='DTAC';
+							CodeLen:=2;
+						end
+						else if Pos('357',SMS['Phone'])=1 then
+						begin
+							Tariff:='CYTA';
+							CodeLen:=3;
+						end
+						else if Pos('9198',SMS['Phone'])=1 then
+						begin
+							Tariff:='Idea';
+							CodeLen:=4;
+						end;
+						PostData.Add('tariff','vmt40');
+						PostData.Add('send[code]',Copy(SMS['Phone'],1,CodeLen));
+						PostData.Add('send[phone]',Copy(SMS['Phone'],CodeLen+1,Length(SMS['Phone'])-CodeLen));
+						PostData.Add('send[text]',SMS['Text']);
+						PostData.Add('capcha',SMS['Code']);
+						PostData.Add('x','74');
+						PostData.Add('y','8');
+					end;
+					)
+		</postdata>
+		<success>eval(Html.ExistsStr('Сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;(.*?)&lt;br/&gt;',1))</error>
+	</classprops>
+</gate>
