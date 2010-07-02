@@ -4,14 +4,14 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>16</version>
+	<version>17</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 900 000" end="+7 999 999"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>240</maxsymbols>
+		<maxsymbols>120</maxsymbols>
 		<maxunicodesymbols>120</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
