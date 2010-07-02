@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>23</version>
+	<version>24</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -130,7 +130,7 @@
 		<captcha>1</captcha>
 		<gateurl>http://www.mts.ru/messaging/sendmms/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
-		<supportaudio>0</supportaudio>
+		<supportaudio>1</supportaudio>
 		<supportimage>1</supportimage>
 		<sendwomultimedia>1</sendwomultimedia>
 		<maxmultimediacount>1</maxmultimediacount>
