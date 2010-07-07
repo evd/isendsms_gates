@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>42</version>
+	<version>44</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -132,6 +132,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<handleredirects>0</handleredirects>
+		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>eval(
 					begin
 						if SMS['Phone_tag']=1 then
@@ -144,7 +145,11 @@
 					end;
 					)
 		</pageurl>
-		<imageurl>eval('http://www.mts.ru/live/' + HTML.RegExp('(LanapCaptcha.aspx.*?)''',1))</imageurl>
+		<imageurl>eval(begin
+						Cookies['region.alias']:='msk';
+						Result:='http://www.mts.ru/live/' + ReplaceStr(HTML.RegExp('(LanapCaptcha.aspx.*?)''',1),'&amp;'+'amp;','&amp;');
+						end;
+		)</imageurl>
 		<posturl>eval('http://www.mts.ru/live/smsxtra.aspx?region='+Stored['region'])</posturl>
 		<postdata>eval(
 					var
@@ -162,29 +167,38 @@
 						DT:=AdjustTimeZone(DT,180,true);
 						if SMS['Phone_Def']='495' then
 							PhoneDef:='985'
-						else PhoneDef:=SMS['Phone_Def'];	
+						else PhoneDef:=SMS['Phone_Def'];
+						Cookies['region.alias']:='msk';	
 
-						Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
+						//Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
 						Stored['captchanewkey']:=Html.RegExp('id=&quot;LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
 						Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
 						Stored['EventValidation']:=Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1);
 						
-						
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$btnSend');
-						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
+						//PostData.UnsafeFormName:=URLSpecialChar+'$';
+						//PostData.UnsafeFormElem:=URLFullSpecialChar+URLSpecialChar+',$+ /';
+						PostData.Add('ctl00$ctl00$ctl00$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$btnSend');
+						PostData.Add('ctl00_ctl00_ctl00_RadScriptManager1_TSM',';;System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:ru-RU:d0c4ca6e-6b5d-49b6-922d-5244924fb100:ea597d4b:b25378d2;Telerik.Web.UI, Version=2010.1.415.20, Culture=neutral, PublicKeyToken=121fae78165ba3d4:ru-RU:9821e2fb-2395-49a7-8336-e4110f37db7d:16e4e7cd:86526ba7:ed16cbdc:f7645509:24ee1bba:1e771326:aa288e2d');
+						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTARGUMENT','');
+						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew',Stored['captchanewkey']);
+						PostData.Add('__VIEWSTATE',Stored['ViewState']);
+						PostData.Add('__EVENTVALIDATION',Stored['EventValidation']);
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
+
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ddPrefix',PhoneDef);
+						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','');
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+PhoneDef+'&quot;,&quot;text&quot;:&quot;'+PhoneDef+'&quot;,&quot;enabled&quot;:true}');
+
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbPhoneNumber',SMS['Phone_Number']);
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbMessage',SMS['Text']);
 						if SMS['Flash'] then
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbFlashSMS','on');
 						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$tbCode',SMS['Code']);
 						if SMS['Delivery'] then
-						begin
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$chbForCalendar','on');
+						if SMS['Delivery'] then
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl01',FormatDateTime('dd',DT));
-						end;	
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl01_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',DT)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('d',DT)+'&quot;,&quot;enabled&quot;:false}');
 						if SMS['Delivery'] then
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl02',GetMonthLongRus(DT,false,true));
@@ -198,19 +212,16 @@
 						if SMS['Delivery'] then
 							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$ctl06',FormatDateTime('nn',DT));
 						PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_ctl06_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DT)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('n',DT)+'&quot;,&quot;enabled&quot;:false}');
-						PostData.Add('__EVENTTARGET','');
-						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('__VIEWSTATE',Stored['ViewState']);
-						PostData.Add('__EVENTVALIDATION',Stored['EventValidation']);
-						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew',Stored['captchanewkey']);
+
 						PostData.Add('__ASYNCPOST','true');
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','78');
-						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','14');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.x','72');
+						PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$btnSend.y','18');
 						PostData.Add('RadAJAXControlID','ctl00_ctl00_ctl00_SMSSendControl_updatePanel');
+
 					end;
 					)
 		</postdata>
-		<success>eval(HTML.RegExp('Проверить статус доставки',0))</success>
+		<success>eval(HTML.RegExp('Кликните для проверки статуса сообщения',0))</success>
 		<error>eval(begin
 						if HTML.ExistsStr('smsExtraRedirect.htm') then
 							Result:='SMS-сообщение можно отправлять не чаще одного раза в 30 секунд'
@@ -231,11 +242,14 @@
 						begin
 							Viewstate:=Html.RegExp('__VIEWSTATE\|(.*?)\|',1);
 							Eventvalid:=Html.RegExp('__EVENTVALIDATION\|(.*?)\|',1);
-							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$lblStatusLink');
-							PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadScriptManager1_HiddenField',Stored['Hidden']);
+
+
+							PostData.Add('ctl00$ctl00$ctl00$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$lbCheckMessageStatus');
+							PostData.Add('ctl00_ctl00_ctl00_RadScriptManager1_TSM',';;System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:ru-RU:d0c4ca6e-6b5d-49b6-922d-5244924fb100:ea597d4b:b25378d2;Telerik.Web.UI, Version=2010.1.415.20, Culture=neutral, PublicKeyToken=121fae78165ba3d4:ru-RU:9821e2fb-2395-49a7-8336-e4110f37db7d:16e4e7cd:86526ba7:ed16cbdc:f7645509:24ee1bba:1e771326:aa288e2d;');
 							PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew',Stored['captchanewkey']);
 							PostData.Add('ctl00_ctl00_ctl00_SMSSendControl_RadFormDecorator1_ClientState','');
-							PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$lblStatusLink');
+							PostData.Add('ctl00$ctl00$ctl00$SMSSendControl$hfMessageID',Html.RegExp('id=&quot;ctl00_ctl00_ctl00_SMSSendControl_hfMessageID&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('__EVENTTARGET','ctl00$ctl00$ctl00$SMSSendControl$lbCheckMessageStatus');
 							PostData.Add('__EVENTARGUMENT','');
 							PostData.Add('__VIEWSTATE',Viewstate);
 							PostData.Add('__EVENTVALIDATION',Eventvalid);
@@ -249,7 +263,7 @@
 								if HTML.ExistsStr('Сообщение находится в очереди') or
 									HTML.ExistsStr('ожидаем') then
 									Result:='WAIT'
-								else Result:=HTML.ExistsStr('Cообщение доставлено');	
+								else Result:=HTML.ExistsStr('Сообщение отправлено');	
 							end;
 						)
 		</cd_success>
@@ -260,6 +274,8 @@
 								Result:=HTML.RegExp('style=&quot;color:Red;&quot;&gt;(.*?)&lt;/span&gt;',1);
 							if Result='' then
 								Result:=Html.RegExp('&lt;span id=&quot;ctl00_ctl00_ctl00_SMSSendControl_ResultId&quot; class=&quot;left_align&quot;&gt;&lt;b/&gt;(.*?)&lt;b/&gt;',1);
+							if Result='' then
+								Result:=Html.RegExp('=&quot;color:Red;font-weight:bold;&quot;&gt;(.*?)&lt;/span&gt;',1);
 							if Result='' then
 								Result:='Ошибка подтверждения доставки';
 						end;
