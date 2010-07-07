@@ -4,7 +4,7 @@
 	<caption>Амега inform</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>17</version>
+	<version>18</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -12,7 +12,7 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>120</maxsymbols>
-		<maxunicodesymbols>120</maxunicodesymbols>
+		<maxunicodesymbols>64</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
