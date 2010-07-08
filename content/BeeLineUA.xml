@@ -4,7 +4,7 @@
 	<caption>БиЛайн Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -26,6 +26,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
+		<sendinit>eval(begin HTTP.Timeout:=270000; end;)</sendinit>
 		<pageurl>http://mobile.beeline.ua/ru/sms/send.wbp</pageurl>
 		<imageurl>http://mobile.beeline.ua/ru/sms/mamimg1.aspx</imageurl>
 		<posturl>http://mobile.beeline.ua/ru/sms/send.wbp</posturl>
