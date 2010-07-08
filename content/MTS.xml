@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>44</version>
+	<version>45</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -221,7 +221,7 @@
 					end;
 					)
 		</postdata>
-		<success>eval(HTML.RegExp('Кликните для проверки статуса сообщения',0))</success>
+		<success>eval(HTML.RegExp('Проверить статус доставки',0))</success>
 		<error>eval(begin
 						if HTML.ExistsStr('smsExtraRedirect.htm') then
 							Result:='SMS-сообщение можно отправлять не чаще одного раза в 30 секунд'
