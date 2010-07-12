@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>24</version>
+	<version>25</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -148,7 +148,7 @@
 						end;)
 		</imageurl>
 		<uploadmultimedia>1</uploadmultimedia>
-		<mu_posturl>http://www.mts.ru/uploadF.aspx</mu_posturl>
+		<mu_posturl>http://www.mts.ru/FlashUploader.axd</mu_posturl>
 		<mu_multipart>1</mu_multipart>
 		<mu_postdata>eval(
 				var
@@ -156,8 +156,8 @@
 				begin
 					MC:=MMS['Multimedia'];
 					PostData.Add('Filename',MC['FileName']);
-					PostData.Add('ASPSESSID',Cookies['ASP.NET_SessionId']);
-					PostData.AddData('Filedata',MC);
+					PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
+					PostData.AddData('FUDATA',MC);
 					PostData.Add('Upload','Submit Query');
 				end;
 				)
@@ -173,7 +173,12 @@
 						Stored['captchanewkey']:=Html.RegExp('id=&quot;LBD_VCT_nd_freesend_mmssendcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
 
 						PostData.Add('RadScriptManager1','MMSSendControl$MMSSendControl$updatePanelPanel|MMSSendControl$btnSend');
-						PostData.Add('RadScriptManager1_HiddenField',Stored['Hidden']);
+						PostData.Add('RadScriptManager1_TSM',Stored['Hidden']);
+						PostData.Add('LBD_VCT_nd_freesend_mmssendcontrol_captchanew',Stored['captchanewkey']);
+						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTARGUMENT','');
+						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
 						PostData.Add('RadFormDecorator1_ClientState','');
 						PostData.Add('MMSSendControl$hfCurrentID','');
 						PostData.Add('MMSSendControl$hfWasUploadedDelited','');
@@ -185,15 +190,10 @@
 						PostData.Add('MMSSendControl$tbTopic',MMS['Subject']);
 						PostData.Add('MMSSendControl$tbMessage',MMS['Text']);
 						PostData.Add('MMSSendControl$tbCode',MMS['Code']);
-						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('__EVENTTARGET','');
-						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('LBD_VCT_nd_freesend_mmssendcontrol_captchanew',Stored['captchanewkey']);
 						PostData.Add('__ASYNCPOST','true');
 						PostData.Add('MMSSendControl$btnSend.x','124');
 						PostData.Add('MMSSendControl$btnSend.y','18');
-						PostData.Add('RadAJAXControlID','MMSSendControl_updatePanel');						
+						PostData.Add('RadAJAXControlID','MMSSendControl_updatePanel');	
 						end;
 					)
 		</postdata>
