@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>45</version>
+	<version>46</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -170,7 +170,7 @@
 						else PhoneDef:=SMS['Phone_Def'];
 						Cookies['region.alias']:='msk';	
 
-						//Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
+						Stored['Hidden']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot; type',1));
 						Stored['captchanewkey']:=Html.RegExp('id=&quot;LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
 						Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
 						Stored['EventValidation']:=Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1);
@@ -178,7 +178,7 @@
 						//PostData.UnsafeFormName:=URLSpecialChar+'$';
 						//PostData.UnsafeFormElem:=URLFullSpecialChar+URLSpecialChar+',$+ /';
 						PostData.Add('ctl00$ctl00$ctl00$RadScriptManager1','ctl00$ctl00$ctl00$SMSSendControl$ctl00$ctl00$ctl00$SMSSendControl$updatePanelPanel|ctl00$ctl00$ctl00$SMSSendControl$btnSend');
-						PostData.Add('ctl00_ctl00_ctl00_RadScriptManager1_TSM',';;System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:ru-RU:d0c4ca6e-6b5d-49b6-922d-5244924fb100:ea597d4b:b25378d2;Telerik.Web.UI, Version=2010.1.415.20, Culture=neutral, PublicKeyToken=121fae78165ba3d4:ru-RU:9821e2fb-2395-49a7-8336-e4110f37db7d:16e4e7cd:86526ba7:ed16cbdc:f7645509:24ee1bba:1e771326:aa288e2d');
+						PostData.Add('ctl00_ctl00_ctl00_RadScriptManager1_TSM',Stored['Hidden']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
 						PostData.Add('LBD_VCT_live_smsxtra_ctl00_ctl00_ctl00_smssendcontrol_captchanew',Stored['captchanewkey']);
