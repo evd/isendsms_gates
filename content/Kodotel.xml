@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Kodotel</name>
+	<caption>Кодотел</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 95295"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>0</captcha>
+		<gateurl>http://sms.kodotel.ru/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://sms.kodotel.ru/</pageurl>
+		<imageurl></imageurl>
+		<posturl>http://sms.kodotel.ru/fcgi-bin/sms.fcgi</posturl>
+		<multipart>0</multipart>
+		<postdata>eval(
+					begin
+						PostData.Add('action','send');
+						PostData.Add('mdn',SMS['Phone']);
+						PostData.Add('text',SMS['Text']);
+						PostData.Add('answer','6');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение успешно отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;span style=&quot;margin-top:20px;&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
+	</classprops>
+</gate>
