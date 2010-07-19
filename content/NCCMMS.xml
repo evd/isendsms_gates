@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
