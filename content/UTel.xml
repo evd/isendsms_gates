@@ -4,7 +4,7 @@
 	<caption>U-Tel</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -47,6 +47,7 @@
 		<prefix start="+7 952315" end="+7 952349"/>
 		<prefix start="+7 952640" end="+7 952664"/>
 		<prefix start="+7 952670" end="+7 952724"/>
+		<prefix start="+7 95382"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>300</maxsymbols>
