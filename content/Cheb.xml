@@ -4,7 +4,7 @@
 	<caption>Шупашкар-GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -32,9 +32,12 @@
 		<imageurl>http://www.cheb.ru/sms/captcha.php</imageurl>
 		<posturl>http://www.cheb.ru/sms/index.php</posturl>
 		<postdata>eval(
+					var
+						SecretName: string;
 					begin
-						PostData.Add('number44',SMS['Phone_Def']+SMS['Phone_Number']);
-						PostData.Add('message44',SMS['Text']);
+						SecretName:=Html.RegExp('id=&quot;number&quot; name=&quot;number(.*?)&quot;',1);
+						PostData.Add('number'+SecretName,SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('message'+SecretName,SMS['Text']);
 						PostData.Add('code',SMS['Code']);
 						PostData.Add('Submit2','Отправить');
 					end;
