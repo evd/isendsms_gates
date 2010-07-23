@@ -4,7 +4,7 @@
 	<caption>Мегафон Центр</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -14,6 +14,12 @@
 		<prefix start="7 92060" end="7 92063"/>
 		<prefix start="7 9207" end="7 9209"/>
 		<prefix start="+7 929021" end="+7 929074"/>
+		<prefix start="+7 930031"/>
+		<prefix start="+7 930056"/>
+		<prefix start="+7 930069"/>
+		<prefix start="+7 93070" end="+7 93071"/>
+		<prefix start="+7 93074"/>
+		<prefix start="+7 93078"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>150</maxsymbols>
