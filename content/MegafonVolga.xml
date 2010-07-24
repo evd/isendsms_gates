@@ -4,7 +4,7 @@
 	<caption>Мегафон Поволжье</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -15,9 +15,14 @@
 		<prefix start="+7 929201"/>
 		<prefix start="+7 929280" end="+7 929284"/>
 		<prefix start="+7 9297"/>
-		<prefix start="+7 9295"/>
-		<prefix start="+7 9296"/>
-		<prefix start="+7 9299"/>
+		<prefix start="+7 93253" end="+7 93255"/>
+		<prefix start="+7 93284" end="+7 93286"/>
+		<prefix start="+7 9370"/>
+		<prefix start="+7 937101" end="+7 937499"/>
+		<prefix start="+7 937501" end="+7 937599"/>
+		<prefix start="+7 937601" end="+7 937755"/>
+		<prefix start="+7 937759" end="+7 937999"/>
+
 		<prefix start="+7 932201"/>
 		<prefix start="+7 937100"/>
 		<prefix start="+7 937500"/>
