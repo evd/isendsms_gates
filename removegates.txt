@@ -5,4 +5,5 @@ UTelPerm,UTel
 GTUA,KyivStar
 SHGSMPril,Cheb
 ULGSM,NCC
-Owap2
+Owap2,
+JeansUA,MTSUA
