@@ -4,7 +4,7 @@
 	<caption>O2 CZ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
@@ -24,7 +24,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://sms.1188.cz/</pageurl>
-		<imageurl>eval('http://sms.1188.cz/images/smscode.php?'+Html.RegExp('smscode.php\?(.*?)&quot;',1))</imageurl>
+		<imageurl>http://sms.1188.cz/public/captchaImage.php</imageurl>
 		<posturl>http://sms.1188.cz/</posturl>
 		<postdata>eval(
 					begin
@@ -32,14 +32,13 @@
 						Cookies['1118_sms_adress']:=EncodeFormElem('+'+SMS['Phone']);
 						PostData.Add(Html.RegExp('&lt;input type=&quot;hidden&quot; name=&quot;(.*?)&quot;',1),'1');
 						PostData.Add('adress','+'+SMS['Phone']);
-						PostData.Add('code',SMS['Code']);
-						PostData.Add('replyEmail','');
 						PostData.Add('text',SMS['Text']);
-						PostData.Add('send','ODESLAT');
+						PostData.Add('code',SMS['Code']);
+						PostData.Add('send','Odeslat SMS');
 					end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('&lt;div id=&quot;info&quot; class=&quot;box&quot;&gt;'))</success>
-		<error>eval(HTML.RegExp('&lt;div class=&quot;messages&quot;&gt;.*?&lt;p&gt;(.*?)&lt;/p&gt;',1))</error>
+		<success>eval(HTML.ExistsStr('&lt;div class=&quot;smsInfo&quot;&gt;'))</success>
+		<error>eval(HTML.RegExp('&lt;div class=&quot;smsError&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 	</classprops>
 </gate>
