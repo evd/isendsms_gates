@@ -4,7 +4,7 @@
 	<caption>ГудЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>9</priority>
 	<country>Международный</country>
 	<prefixlist>
@@ -76,6 +76,12 @@
 					)
 		</postdata>
 		<success>eval(Html.ExistsStr('Сообщение отправлено'))</success>
-		<error>eval(Html.RegExp('&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;(.*?)&lt;br/&gt;',1))</error>
+		<error>eval(begin
+						Result:=Html.RegExp('&lt;div align=&quot;center&quot;&gt;&lt;strong&gt;(.*?)&lt;br/&gt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;strong style=&quot;color:#0c5b08&quot;&gt;Внимание:&lt;/strong&gt;(.*?)&lt;/p&gt;',1);
+					end;
+				)	
+		</error>
 	</classprops>
 </gate>
