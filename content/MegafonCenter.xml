@@ -4,7 +4,7 @@
 	<caption>Мегафон Центр</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -29,6 +29,7 @@
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
 		<gateurl>http://center.megafon.ru/center/sms_gate/</gateurl>
+		<supportcheckdelivery>1</supportcheckdelivery>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
@@ -50,7 +51,36 @@
 			end;
 		)
 		</postdata>
-		<success>eval(Html.ExistsStr('SMSC '))</success>
+		<success>eval(Html.ExistsStr('SMSC присвоил сообщению номер'))</success>
 		<error>eval(Html.RegExp('&lt;h1&gt;Отправить SMS&lt;/h1&gt;.*?&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://center.megafon.ru/</cd_posturl>
+		<cd_postdata>eval(
+						begin
+							PostData.Add('id',Html.RegExp('name=''id'' value=''(.*?)''',1));
+							PostData.Add('action','query');
+							PostData.Add('Identity',Html.RegExp('name=''Identity'' value=''(.*?)''',1));
+							PostData.Add('id',Html.RegExp('name=''id'' value=''(.*?)''',1));
+							PostData.Add('action','query');
+							PostData.Add('Identity',Html.RegExp('name=''Identity'' value=''(.*?)''',1));
+							PostData.Add('Submit','Проверить');
+						end;
+					)
+		</cd_postdata>
+		<cd_success>eval(
+							begin
+								if HTML.ExistsStr('идет попытка доставки') then
+									Result:='WAIT'
+								else Result:=HTML.ExistsStr('доставлено');
+							end;
+						)
+		</cd_success>
+		<cd_error>eval(
+					begin
+						Result:=HTML.RegExp('Текущий статус сообщения: &lt;B&gt;(.*?)&lt;/B&gt;',1);
+						if Result='' then
+							Result:='Ошибка подтверждения доставки';
+					end;)
+		</cd_error>
 	</classprops>
 </gate>
