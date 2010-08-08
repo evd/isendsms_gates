@@ -4,7 +4,7 @@
 	<caption>Bite Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Латвия</country>
 	<prefixlist>
@@ -29,7 +29,22 @@
 		<prefix start="+371 288" format="3.3.5"/>
 		<prefix start="+371 295" end="+371 299" format="3.3.5"/>
 		<prefix start="+371 2230" end="+371 2238" format="3.3.5"/>
-		<prefix start="+371 2844" end="+371 2848" format="3.3.5"/>	</prefixlist>
+		<prefix start="+371 2844" end="+371 2848" format="3.3.5"/>
+
+		<prefix start="+371 202" format="3.3.5"/>
+		<prefix start="+371 2200" end="+371 2204" format="3.3.5"/>
+		<prefix start="+371 224" format="3.3.5"/>
+		<prefix start="+371 2556" end="+371 2559" format="3.3.5"/>
+		<prefix start="+371 261" end="+371 265" format="3.3.5"/>
+		<prefix start="+371 278" format="3.3.5"/>
+		<prefix start="+371 283" format="3.3.5"/>
+		<prefix start="+371 2849" format="3.3.5"/>
+		<prefix start="+371 286" format="3.3.5"/>
+		<prefix start="+371 287" format="3.3.5"/>
+		<prefix start="+371 291" end="+371 294" format="3.3.5"/>
+
+
+	</prefixlist>
 	<info>
 		<maxsymbols>322</maxsymbols>
 		<maxunicodesymbols>322</maxunicodesymbols>
