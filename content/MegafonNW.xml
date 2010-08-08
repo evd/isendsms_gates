@@ -4,7 +4,7 @@
 	<caption>Мегафон Северо-Запад</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -49,7 +49,7 @@
 						var
 							DT: TDateTime;
 						begin
-							DT:=SMS['DeliveryTime']-(TimeZoneBias-180)*OneMinute;
+							DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
 							PostData.Add('prefix',SMS['Phone_Def']);
 							PostData.Add('msisdn',SMS['Phone_Number']);
 							PostData.Add('symbols_num',iff(isAscii(SMS['Text']),GateInfo['MaxSymbols'],GateInfo['MaxUnicodeSymbols'])-Length(SMS['Text']));
