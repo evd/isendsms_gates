@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>12</version>
+	<version>14</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -146,8 +146,8 @@
 							HTTP.CustomMime:='text/x-gwt-rpc; charset=utf-8';
 							HTTP.Referer:='http://ncc.opt-share.ru/sendmms/8ACAEF5A8D1EE39B3092065FDD84A8FF.cache.html';
 							HTTP.HTTPMethod('POST','http://ncc.opt-share.ru/sendmms/sendmmsservice');
-							Stored['CaptchaFile']:=Html.RegExp('images/captchas/(.*?\.jpeg)',1);
-							Result:='http://ncc.opt-share.ru/sendmms/images/captchas/'+Stored['CaptchaFile'];
+							Stored['CaptchaFile']:=Html.RegExp('userfiles/captchas/(.*?\.jpeg)',1);
+							Result:='http://ncc.opt-share.ru/sendmms/userfiles/captchas/'+Stored['CaptchaFile'];
 						end;
 					)		
 		</imageurl>
