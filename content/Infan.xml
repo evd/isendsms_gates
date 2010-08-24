@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Infan</name>
+	<caption>Infan</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>4</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 900 000" end="+7 999 999"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>200</maxsymbols>
+		<maxunicodesymbols>200</maxunicodesymbols>
+		<supportflash>1</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://wap.infan.ru/send/</gateurl>
+		<description>Требуется активация номера. Подробнее на сайте оператора</description>
+	</info>
+	<classprops>
+		<encoding>eval(iff(SMS['Delivery'],'Windows-1251','UTF-8'))</encoding>
+		<sendinit>eval(begin
+							if SMS['Delivery'] then
+							begin
+								Stored['Site']:='www';
+								Stored['imgRegExp']:='imgcode.php\?(.*?)&quot;';
+								Stored['img']:='imgcode.php';
+							end else
+							begin
+								Stored['Site']:='wap';
+								Stored['imgRegExp']:='wapcode.php\?(.*?)&quot;';
+								Stored['img']:='wapcode.php';
+							end;
+						end;
+					)
+		</sendinit>
+		<pageurl>eval('http://'+Stored['Site']+'.infan.ru/send/')</pageurl>
+		<imageurl>eval('http://'+Stored['Site']+'.infan.ru/sys/'+Stored['img']+'?'+Html.RegExp(Stored['imgRegExp'],1))</imageurl>
+		<posturl>eval('http://'+Stored['Site']+'.infan.ru/send/')</posturl>
+		<postdata>eval(
+			var
+				DT: TDateTime;
+			begin
+				DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
+				
+				PostData.Add('type','0');
+				PostData.Add('addr',SMS['Phone']);
+				PostData.Add('imgrnd',Html.RegExp(Stored['imgRegExp'],1));
+				PostData.Add('imgcode',SMS['Code']);
+				PostData.Add('text',SMS['Text']);
+				
+				if SMS['Delivery'] then
+				begin
+					if SMS['Flash'] then
+						PostData.Add('fl','on');
+					PostData.Add('_tr','');
+					PostData.Add('tt','0');
+					PostData.Add('dtonoff','on');
+					PostData.Add('dtday',FormatDateTime('dd',DT));
+					PostData.Add('dtmon',FormatDateTime('m',DT));
+					PostData.Add('dtyear',FormatDateTime('yyyy',DT));
+					PostData.Add('dttm',FormatDateTime('hh:nn',DT));
+				end else
+				begin
+					if SMS['Flash'] then
+						PostData.Add('fl[1]','on');
+					PostData.Add('fl[4]','on');
+				end;	
+			end;
+		)
+		</postdata>
+		<success>eval(begin
+				Result:=Html.ExistsStr('Cooбщeниe пpинятo к дocтaвкe') or
+						Html.ExistsStr('Сообщение поставлено в очередь на отправку') or
+						Html.ExistsStr('Oжидaeт oтпpaвки') or
+						Html.ExistsStr('Пepeдaнo oпepaтopy') or
+						Html.ExistsStr('Дocтaвлeнo');
+				Stored['MsgID']:=Html.RegExp('status/\?(.*?)''',1);		
+			 	end;	
+				)
+		</success>
+		<error>eval(begin
+					if SMS['Delivery'] then
+						Result:=Html.RegExp('&lt;img src=/im/error\.gif width=16&gt;&lt;td&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1)
+					else
+						Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;/b&gt;',1);
+					end;	
+		</error>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://wap.infan.ru/send/status/?r='+RandomString(DigitCaps,4)+'&amp;id='+Stored['MsgID'])</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('Oжидaeт oтпpaвки') or
+								Html.ExistsStr('Пepeдaнo oпepaтopy')
+								then
+									Result:='WAIT'
+							else Result:=Html.ExistsStr('Дocтaвлeнo');
+						end;
+					)
+		</cd_success>
+		<cd_error>eval(
+					begin
+						Result:='Ошибка подтверждения доставки';
+					end;	
+		</cd_error>
+	</classprops>
+</gate>
