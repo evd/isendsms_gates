@@ -7,3 +7,4 @@ SHGSMPril,Cheb
 ULGSM,NCC
 Owap2,
 JeansUA,MTSUA
+AmegaInform,
