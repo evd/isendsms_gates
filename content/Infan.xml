@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -14,7 +14,7 @@
 		<maxsymbols>200</maxsymbols>
 		<maxunicodesymbols>200</maxunicodesymbols>
 		<supportflash>1</supportflash>
-		<supportdtdelivery>1</supportdtdelivery>
+		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
@@ -22,7 +22,7 @@
 		<description>Требуется активация номера. Подробнее на сайте оператора</description>
 	</info>
 	<classprops>
-		<encoding>eval(iff(SMS['Delivery'],'Windows-1251','UTF-8'))</encoding>
+		<encoding>UTF-8</encoding>
 		<sendinit>eval(begin
 							if SMS['Delivery'] then
 							begin
