@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>48</version>
+	<version>49</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
