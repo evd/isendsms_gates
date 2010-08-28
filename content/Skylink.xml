@@ -4,7 +4,7 @@
 	<caption>Скайлинк</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -59,7 +59,7 @@
 					Stored['Region']:='27' //Хабаровский край
 				else if SMS['Phone_Tag']=3 then
 					Stored['Region']:='52' //Нижний Новгород
-				else if SMS['Phone_Tag']= then
+				else if SMS['Phone_Tag']=4 then
 					Stored['Region']:='42' //Кемеровская область
 				else	
 					Stored['Region']:='77'; //Москва
