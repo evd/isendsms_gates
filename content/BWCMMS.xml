@@ -4,13 +4,13 @@
 	<caption>Байкалвестком ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 9016300" end="+7 9016344"/>
 		<prefix start="+7 901640" end="+7 901641"/>
-		<prefix start="+7 901650" end="+7 901654"/>
+		<prefix start="+7 901650" end="+7 901674"/>
 		<prefix start="+7 90217"/>
 		<prefix start="+7 902510" end="+7 902516"/>
 		<prefix start="+7 902519"/>
