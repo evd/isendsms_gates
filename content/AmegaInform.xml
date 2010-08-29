@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>AmegaInform</name>
+	<caption>Амега inform</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>21</version>
+	<priority>5</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 900 000" end="+7 999 999"/>
+		<prefix start="+7 700 000" end="+7 799 999"/>
+		<prefix start="+20 000000" end="+20 999999" format="2.1.7" />
+		<prefix start="+210 000000" end="+299 999999" format="3.3.6" />
+		<prefix start="+30 000000" end="+32 999999" format="2.2.7" />
+		<prefix start="+33 000000" end="+33 999999" format="2.1.8" />
+		<prefix start="+34 000000" end="+34 999999" format="2.2.7" />
+		<prefix start="+35 000000" end="+35 999999" format="3.2.7" />
+		<prefix start="+36 000000" end="+36 999999" format="2.2.7" />
+		<prefix start="+37 000000" end="+38 999999" format="3.2.7" />
+		<prefix start="+39 000000" end="+39 999999" format="2.2.7" />
+		<prefix start="+40 000000" end="+41 999999" format="2.2.7" />
+		<prefix start="+42 000000" end="+42 999999" format="3.2.7" />
+		<prefix start="+43 000000" end="+49 999999" format="2.2.7" />
+		<prefix start="+50 000000" end="+50 999999" format="3.2.7" />
+		<prefix start="+51 000000" end="+58 999999" format="2.2.7" />
+		<prefix start="+59 000000" end="+59 999999" format="3.2.7" />
+		<prefix start="+60 000000" end="+66 999999" format="2.2.7" />
+		<prefix start="+67 000000" end="+69 999999" format="3.2.7" />
+		<prefix start="+80 000000" end="+80 999999" format="3.2.7" />
+		<prefix start="+81 000000" end="+84 999999" format="2.2.7" />
+		<prefix start="+85 000000" end="+85 999999" format="3.2.7" />
+		<prefix start="+86 000000" end="+86 999999" format="2.2.7" />
+		<prefix start="+87 000000" end="+88 999999" format="3.2.7" />
+		<prefix start="+90 000000" end="+95 999999" format="2.2.7" />
+		<prefix start="+96 000000" end="+97 999999" format="3.2.7" />
+		<prefix start="+98 000000" end="+98 999999" format="2.2.7" />
+		<prefix start="+99 000000" end="+99 999999" format="3.2.7" />
+	</prefixlist>
+	<info>
+		<maxsymbols>120</maxsymbols>
+		<maxunicodesymbols>64</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://www.amegainform.ru/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.amegainform.ru/sms/index.php</pageurl>
+		<imageurl>http://www.amegainform.ru/validator/img.php</imageurl>
+		<posturl>http://www.amegainform.ru/sms/send_sms.php</posturl>
+		<postdata>eval(
+			begin
+				PostData.Add('action','send_sms');
+				PostData.Add('smstype','SENDSMS');
+				PostData.Add('sender','-SMS-');
+				PostData.Add('post_phone','+'+SMS['Phone']);
+				PostData.Add('mess'+Html.RegExp('&lt;textarea name=&quot;mess(.*?)&quot;',1),SMS['Text']);
+				PostData.Add('secret_code',SMS['Code']);
+				PostData.Add('x','68');
+				PostData.Add('y','9');
+			end;
+		)
+		</postdata>
+		<success>eval(begin
+				HTTP.HTTPMethod('GET','http://www.amegainform.ru/sms/send_sms.php?action=stat');
+				Result:=Html.ExistsStr('принято оператором') or
+					Html.ExistsStr('Передано оператору') or
+					Html.ExistsStr('В очереди отправки') or
+					Html.ExistsStr('Доставлено абоненту') or
+					Html.ExistsStr('сообщение в очереди отправки') or
+					Html.ExistsStr('сообщение доставлено');
+			 	end;	
+				)
+		</success>
+		<error>eval(Html.RegExp('&lt;b style=&quot;color: #F01B22&quot;&gt;(&lt;li&gt;)?(.*?)&lt;',2))</error>
+		<cd_method>GET</cd_method>
+		<cd_url>http://www.amegainform.ru/sms/send_sms.php?action=stat</cd_url>
+		<cd_success>eval(
+						begin
+							if Html.ExistsStr('В очереди отправки') or
+								Html.ExistsStr('Передано оператору') or
+								Html.ExistsStr('принято оператором') or
+								Html.ExistsStr('сообщение в очереди отправки')
+								then
+									Result:='WAIT'
+							else Result:=Html.ExistsStr('Доставлено абоненту') or Html.ExistsStr('сообщение доставлено');
+						end;
+					)
+		</cd_success>
+		<cd_error>eval(
+					begin
+						Result:=Html.RegExp('www\.amegainform\.ru&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;pa&quot;&gt;&lt;b&gt;(.*?)&lt;',1);
+						if Result='' then
+							Result:=Html.RegExp('&lt;div class=&quot;pa&quot;&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1);
+						if Result='' then	
+							Result:='Ошибка подтверждения доставки';
+					end;	
+		</cd_error>
+	</classprops>
+</gate>
