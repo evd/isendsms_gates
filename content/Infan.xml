@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -14,7 +14,7 @@
 		<maxsymbols>200</maxsymbols>
 		<maxunicodesymbols>200</maxunicodesymbols>
 		<supportflash>1</supportflash>
-		<supportdtdelivery>0</supportdtdelivery>
+		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
@@ -23,24 +23,9 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<sendinit>eval(begin
-							if SMS['Delivery'] then
-							begin
-								Stored['Site']:='www';
-								Stored['imgRegExp']:='imgcode.php\?(.*?)&quot;';
-								Stored['img']:='imgcode.php';
-							end else
-							begin
-								Stored['Site']:='wap';
-								Stored['imgRegExp']:='wapcode.php\?(.*?)&quot;';
-								Stored['img']:='wapcode.php';
-							end;
-						end;
-					)
-		</sendinit>
-		<pageurl>eval('http://'+Stored['Site']+'.infan.ru/send/')</pageurl>
-		<imageurl>eval('http://'+Stored['Site']+'.infan.ru/sys/'+Stored['img']+'?'+Html.RegExp(Stored['imgRegExp'],1))</imageurl>
-		<posturl>eval('http://'+Stored['Site']+'.infan.ru/send/')</posturl>
+		<pageurl>eval('http://wap.infan.ru/send/')</pageurl>
+		<imageurl>eval('http://wap.infan.ru/sys/wapcode.php?'+Html.RegExp('wapcode.php\?(.*?)&quot;',1))</imageurl>
+		<posturl>eval('http://wap.infan.ru/send/')</posturl>
 		<postdata>eval(
 			var
 				DT: TDateTime;
@@ -49,26 +34,20 @@
 				
 				PostData.Add('type','0');
 				PostData.Add('addr',SMS['Phone']);
-				PostData.Add('imgrnd',Html.RegExp(Stored['imgRegExp'],1));
+				PostData.Add('imgrnd',Html.RegExp('wapcode.php\?(.*?)&quot;',1));
 				PostData.Add('imgcode',SMS['Code']);
 				PostData.Add('text',SMS['Text']);
 				
+				if SMS['Flash'] then
+					PostData.Add('fl[1]','on');
+				PostData.Add('fl[4]','on');
 				if SMS['Delivery'] then
 				begin
-					if SMS['Flash'] then
-						PostData.Add('fl','on');
-					PostData.Add('_tr','');
-					PostData.Add('tt','0');
 					PostData.Add('dtonoff','on');
 					PostData.Add('dtday',FormatDateTime('dd',DT));
 					PostData.Add('dtmon',FormatDateTime('m',DT));
 					PostData.Add('dtyear',FormatDateTime('yyyy',DT));
 					PostData.Add('dttm',FormatDateTime('hh:nn',DT));
-				end else
-				begin
-					if SMS['Flash'] then
-						PostData.Add('fl[1]','on');
-					PostData.Add('fl[4]','on');
 				end;	
 			end;
 		)
