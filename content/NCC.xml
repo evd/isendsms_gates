@@ -4,7 +4,7 @@
 	<caption>НСС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -66,7 +66,7 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://www.nnov.ncc-volga.ru/services/sms/</pageurl>
-		<imageurl>eval('http://www.nnov.ncc-volga.ru/bitrix/tools/captcha.php?captcha_sid='+Html.RegExp('id=&quot;captcha_img&quot; src=&quot;/bitrix/tools/captcha\.php\?captcha_sid=(.*?)&quot;',1))</imageurl>
+		<imageurl>eval('http://www.nnov.ncc-volga.ru/bitrix/tools/captcha.php?captcha_sid='+Html.RegExp('id=&quot;captcha_sid&quot; value=&quot;(.*?)&quot;',1))</imageurl>
 		<posturl>http://www.nnov.ncc-volga.ru/services/sms/?action=send</posturl>
 		<postdata>eval(
 					begin
