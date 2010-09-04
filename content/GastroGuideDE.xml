@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>GastroGuideDE</name>
+	<caption>GastroGuide DE</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>6</priority>
+	<country>Германия</country>
+	<prefixlist>
+		<prefix start="+49 017" format="2.3.9"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>123</maxsymbols>
+		<maxunicodesymbols>123</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>0</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.gastroguide.de/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>ISO-8859-1</encoding>
+		<pageurl>http://www.gastroguide.de/sms</pageurl>
+		<imageurl>eval('http://www.gastroguide.de/default/user/captcha/'+ Html.RegExp('captcha/(.*?)"',1))</imageurl>
+		<posturl>http://www.gastroguide.de/sms</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('sms',SMS['Text']);
+						PostData.Add('captcha',SMS['Code']);
+						PostData.Add('agreeToTerms','yes');
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('"isOk":1'))</success>
+		<error>eval(begin
+						
+						if HTML.ExistsStr('Sicherheitscode fehlerhaft')  then
+							Result:='Код указанный на изображении введен неверно'
+						else if HTML.ExistsStr('Das SMS Limit')  then
+							Result:='Превышен лимит отправки, попробуйте позже'
+						else
+							Result:=HTML.RegExp('&quot;error&quot;:&quot;(.*?)&quot;',1);
+						if Result='' then
+							Result:='Неизвестная ошибка';
+					end;		
+		)</error>
+	</classprops>
+</gate>
