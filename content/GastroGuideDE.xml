@@ -4,11 +4,11 @@
 	<caption>GastroGuide DE</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>6</priority>
 	<country>Германия</country>
 	<prefixlist>
-		<prefix start="+49 017" format="2.3.9"/>
+		<prefix start="+49 015" end="+49 017" format="2.3.9"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>123</maxsymbols>
