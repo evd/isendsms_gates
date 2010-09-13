@@ -4,7 +4,7 @@
 	<caption>Мегафон Москва</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>14</version>
+	<version>15</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -12,7 +12,7 @@
 		<prefix start="7 926"/>
 		<prefix start="7 495 500" end="7 495 507"/>
 		<prefix start="7 495 51"/>
-		<prefix start="7 495 543"/>
+		<prefix start="7 495 542" end="+7 495 543"/>
 		<prefix start="7 495 771" end="7 495 772"/>
 	</prefixlist>
 	<info>
