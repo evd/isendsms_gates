@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Megafon</name>
+	<caption>Мегафон</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 920" end="+7 922"/>
+		<prefix start="+7 9231" end="+7 9237"/>
+		<prefix start="+7 9241" end="+7 9248"/>
+		<prefix start="+7 9250"/>
+		<prefix start="+7 925101" end="+7 925106"/>
+		<prefix start="+7 925108"/>
+		<prefix start="+7 925130"/>
+		<prefix start="+7 925136"/>
+		<prefix start="+7 925139"/>
+		<prefix start="+7 925220"/>
+		<prefix start="+7 925226"/>
+		<prefix start="+7 925231"/>
+		<prefix start="+7 925233"/>
+		<prefix start="+7 925247"/>
+		<prefix start="+7 925258"/>
+		<prefix start="+7 925273"/>
+		<prefix start="+7 925279"/>
+		<prefix start="+7 925283" end="+7 925284"/>
+		<prefix start="+7 925289"/>
+		<prefix start="+7 925306"/>
+		<prefix start="+7 925315"/>
+		<prefix start="+7 925363" end="+7 925364"/>
+		<prefix start="+7 92539"/>
+		<prefix start="+7 925410" end="+7 925411"/>
+		<prefix start="+7 925424"/>
+		<prefix start="+7 925428"/>
+		<prefix start="+7 925500"/>
+		<prefix start="+7 925502"/>
+		<prefix start="+7 925504" end="+7 925510"/>
+		<prefix start="+7 925514"/>
+		<prefix start="+7 925517" end="+7 925518"/>
+		<prefix start="+7 925542" end="+7 925545"/>
+		<prefix start="+7 925585"/>
+		<prefix start="+7 925589"/>
+		<prefix start="+7 925642"/>
+		<prefix start="+7 925646"/>
+		<prefix start="+7 925663" end="+7 925665"/>
+		<prefix start="+7 9257" end="+7 9258"/>
+		<prefix start="+7 925920"/>
+		<prefix start="+7 925922"/>
+		<prefix start="+7 925960" end="+7 925961"/>
+		<prefix start="+7 925967" end="+7 925970"/>
+		<prefix start="+7 925974"/>
+		<prefix start="+7 925985"/>
+		<prefix start="+7 925991"/>
+		<prefix start="+7 925997" end="+7 929240"/>
+		<prefix start="+7 929250" end="+7 929802"/>
+		<prefix start="+7 929813" end="+7 929999"/>
+		<prefix start="+7 930005"/>
+		<prefix start="+7 930011"/>
+		<prefix start="+7 930014"/>
+		<prefix start="+7 930031"/>
+		<prefix start="+7 930034"/>
+		<prefix start="+7 930037"/>
+		<prefix start="+7 930056"/>
+		<prefix start="+7 930063"/>
+		<prefix start="+7 930069"/>
+		<prefix start="+7 930074"/>
+		<prefix start="+7 930076"/>
+		<prefix start="+7 930086"/>
+		<prefix start="+7 930091"/>
+		<prefix start="+7 930096"/>
+		<prefix start="+7 93010"/>
+		<prefix start="+7 930150" end="+7 930174"/>
+		<prefix start="+7 93034"/>
+		<prefix start="+7 93038"/>
+		<prefix start="+7 9307"/>
+		<prefix start="+7 931200" end="+7 931324"/>
+		<prefix start="+7 93140" end="+7 93141"/>
+		<prefix start="+7 93150" end="+7 93152"/>
+		<prefix start="+7 931600" end="+7 931612"/>
+		<prefix start="+7 93170"/>
+		<prefix start="+7 93180"/>
+		<prefix start="+7 93185"/>
+		<prefix start="+7 93190"/>
+		<prefix start="+7 932100"/>
+		<prefix start="+7 932200" end="+7 932201"/>
+		<prefix start="+7 932203"/>
+		<prefix start="+7 932207"/>
+		<prefix start="+7 932209"/>
+		<prefix start="+7 932400"/>
+		<prefix start="+7 93253" end="+7 93255"/>
+		<prefix start="+7 93284" end="+7 93286"/>
+		<prefix start="+7 933100"/>
+		<prefix start="+7 933200"/>
+		<prefix start="+7 933300" end="+7 933301"/>
+		<prefix start="+7 933310"/>
+		<prefix start="+7 933314"/>
+		<prefix start="+7 934100"/>
+		<prefix start="+7 934401"/>
+		<prefix start="+7 934431"/>
+		<prefix start="+7 934441"/>
+		<prefix start="+7 934461"/>
+		<prefix start="+7 934471"/>
+		<prefix start="+7 934476"/>
+		<prefix start="+7 934481"/>
+		<prefix start="+7 934491"/>
+		<prefix start="+7 936600"/>
+		<prefix start="+7 937"/>
+		<prefix start="+7 938100"/>
+		<prefix start="+7 93820"/>
+		<prefix start="+7 938300"/>
+		<prefix start="+7 938400" end="+7 938410"/>
+		<prefix start="+7 938864"/>
+		<prefix start="+7 938887"/>
+		<prefix start="+7 938889"/>
+		<prefix start="+7 9974450" end="+7 9974456"/>
+		
+		<prefix start="+7 812 90" end="+7 812 91"/>
+		<prefix start="+7 812 93" end="+7 812 96"/>
+		<prefix start="+7 812 99" />
+
+		<prefix start="7 495 500" end="7 495 507"/>
+		<prefix start="7 495 51"/>
+		<prefix start="7 495 542" end="+7 495 543"/>
+		<prefix start="7 495 771" end="7 495 772"/>
+		
+	</prefixlist>
+	<info>
+		<maxsymbols>150</maxsymbols>
+		<maxunicodesymbols>150</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<supportcheckdelivery>1</supportcheckdelivery>
+		<gateurl>http://sendsms.megafon.ru/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sendsms.megafon.ru/</pageurl>
+		<imageurl>eval('http://sendsms.megafon.ru/image.phtml?k=' + HTML.RegExp('image.phtml\?k=(.*?)&quot;',1))</imageurl>
+		<posturl>http://sendsms.megafon.ru/sms.action</posturl>
+		<multipart>1</multipart>
+		<postdata>eval(
+						var
+							DT: TDateTime;
+							Prefix: string;
+						begin
+							DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
+							if SMS['Phone_Def']='812' then
+								Prefix:='921'
+							else if SMS['Phone_Def']='495' then
+								Prefix:='925'
+							else
+								Prefix:=SMS['Phone_Def'];
+							PostData.Add('codekey',HTML.RegExp('name=&quot;codekey&quot;   value=&quot;(.*?)&quot;',1));
+							PostData.Add('charcheck',HTML.RegExp('name=&quot;charcheck&quot;   value=&quot;(.*?)&quot;',1));
+							PostData.Add('lang',HTML.RegExp('name=&quot;lang&quot;   value=&quot;(.*?)&quot;',1));
+							PostData.Add('prefix',SMS['Phone_Country']+Prefix);
+							PostData.Add('addr',SMS['Phone_Number']);
+							PostData.Add('message',SMS['Text']);
+							if SMS['Delivery'] then
+								PostData.Add('send_after_flag','on');
+							PostData.Add('send_day',FormatDateTime('d',DT));
+							PostData.Add('send_month',FormatDateTime('m',DT));
+							PostData.Add('send_hour',FormatDateTime('h',DT));
+							PostData.Add('send_minute',FormatDateTime('n',DT));
+							PostData.Add('send_year',FormatDateTime('yyyy',DT));
+							PostData.Add('codevalue',SMS['Code']);
+						end;
+					)
+		</postdata>
+		<success>eval(
+					begin
+						Result:=HTML.ExistsStr('Проверить статус');
+						if Result then
+							Stored['MsgID']:=Html.RegExp('&quot;/send/status/(.*?)(&quot;|/)',1);
+					end;)
+		</success>
+		<error>eval(HTML.RegExp('&lt;h1 class=&quot;error&quot;&gt;(.*?)&lt;/h1&gt;',1))</error>
+		<cd_method>GET</cd_method>
+		<cd_url>eval('http://sendsms.megafon.ru/send/status/'+Stored['MsgID']+'/')</cd_url>
+		<cd_success>eval(begin
+							if Html.ExistsStr('Сообщение в процессе доставки') then
+								Result:='WAIT'
+							else Result:=HTML.ExistsStr('Сообщение доставлено');	
+						end;
+					)
+		</cd_success>
+		<cd_error>eval(begin
+						Result:=Html.RegExp('&lt;label&gt;состояние&lt;/label&gt;&lt;p.*?&gt;(.*?)&lt;/p&gt;',1);
+						if Result='' then
+							Result:='Ошибка при проверке подтверждения доставки';
+					end;)
+		</cd_error>
+	</classprops>
+</gate>
