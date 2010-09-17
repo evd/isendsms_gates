@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>QipJabber</name>
+	<caption>Qip Jabber</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>6</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 925" end="+7 926" format="3.2.7"/>
+		<prefix start="+7 929 5" end="+7 929 6" format="3.2.7"/>
+		<prefix start="+7 929 9"/>
+		<prefix start="+7 495 500" end="7 495 507"/>
+		<prefix start="+7 495 51"/>
+		<prefix start="+7 495 542" end="+7 495 543"/>
+		<prefix start="+7 495 771" end="+7 495 772"/>	</prefixlist>
+	<info>
+		<maxsymbols>135</maxsymbols>
+		<maxunicodesymbols>64</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://smsjabber.qip.ru/sms</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://smsjabber.qip.ru/sms</pageurl>
+		<imageurl>eval('http://smsjabber.qip.ru/captcha.php?PHPSESSID='+Html.RegExp('captcha.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://smsjabber.qip.ru/sms</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('PHPSESSID',Html.RegExp('name=&quot;PHPSESSID&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('number','+'+SMS['Phone']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('captcha',SMS['Code']);
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Смс успешно отправлено.'))</success>
+		<error>eval(Html.RegExp('&lt;div class=&quot;txt&quot;&gt;(.*?)&lt;/div&gt;',1))</error>
+	</classprops>
+</gate>
