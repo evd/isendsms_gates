@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -74,7 +74,13 @@
 							Stored['MsgID']:=Html.RegExp('&quot;/send/status/(.*?)(&quot;|/)',1);
 					end;)
 		</success>
-		<error>eval(HTML.RegExp('&lt;h1 class=&quot;error&quot;&gt;(.*?)&lt;/h1&gt;',1))</error>
+		<error>eval(begin
+						if Pos('invalid_key',HTTP['URL'])>0 then
+							Result:='Неверно введен код'
+						else	
+							Result:=HTML.RegExp('&lt;h1 class=&quot;error&quot;&gt;(.*?)&lt;/h1&gt;',1);
+					end;		
+		)</error>
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://sendsms.megafon.ru/send/status/'+Stored['MsgID']+'/')</cd_url>
 		<cd_success>eval(begin
