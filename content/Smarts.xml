@@ -4,7 +4,7 @@
 	<caption>Смартс</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -31,12 +31,12 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>0</captcha>
-		<gateurl>http://www.smarts.ru/help/send_sms/</gateurl>
+		<gateurl>http://smarts.ru/help/send_sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.smarts.ru/help/send_sms/</pageurl>
-		<posturl>http://www.smarts.ru/help/send_sms/</posturl>
+		<pageurl>http://smarts.ru/help/send_sms/</pageurl>
+		<posturl>http://smarts.ru/help/send_sms/</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('object','smssender');
