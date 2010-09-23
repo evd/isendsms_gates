@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -67,8 +67,10 @@
 						end;
 					)
 		</postdata>
+		<handleredirects>0</handleredirects>
 		<success>eval(
 					begin
+						HTTP.HTTPMethod('GET','http://sendsms.megafon.ru/send/'+RegExp(HTTP['Location'],'send/(.*?)$',1)+'/');
 						Result:=HTML.ExistsStr('Проверить статус');
 						if Result then
 							Stored['MsgID']:=Html.RegExp('&quot;/send/status/(.*?)(&quot;|/)',1);
