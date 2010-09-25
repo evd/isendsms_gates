@@ -4,18 +4,14 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<!--Столичный-->
 		<prefix start="+7 925" end="+7 926" tag="0"/>
-		<!--Столичный, но отправляется через Урал-->
 		<prefix start="+7 9296" tag="5"/>
 		<prefix start="+7 9299" tag="5"/>
-		<!--<prefix start="+7 936600" tag="0"/> Пока не поддерживается-->
 		
-		<!--Северо-Запад-->
 		<prefix start="+7 920100" end="+7 920110" tag="1"/>
 		<prefix start="+7 920112" end="+7 920199" tag="1"/>
 		<prefix start="+7 9203" tag="1"/>
@@ -32,7 +28,6 @@
 		<prefix start="+7 93038" tag="1"/>
 		<prefix start="+7 931" tag="1"/>
 		
-		<!--Центральный-->
 		<prefix start="+7 9200" tag="2"/>
 		<prefix start="+7 920111" tag="2"/>
 		<prefix start="+7 92025" end="+7 92029" tag="2"/>
@@ -48,7 +43,6 @@
 		<prefix start="+7 930074" tag="2"/>
 		<prefix start="+7 9307" tag="2"/>
 		
-		<!--Поволжье-->
 		<prefix start="+7 92253" end="+7 92255" tag="3"/>
 		<prefix start="+7 92262" tag="3"/>
 		<prefix start="+7 9228" tag="3"/>
@@ -61,7 +55,6 @@
 		<prefix start="+7 93284" end="+7 93286" tag="3"/>
 		<prefix start="+7 937" tag="3"/>
 
-		<!--Северный Кавказ-->
 		<prefix start="+7 92020" end="+7 92024" tag="4"/>
 		<prefix start="+7 9204" end="+7 9205" tag="4"/>
 		<prefix start="+7 928000" end="+7 929020" tag="4"/>
@@ -79,7 +72,6 @@
 		<prefix start="+7 938889" tag="4"/>
 		<prefix start="+7 9974450" end="+7 9974456" tag="4"/>
 
-		<!--Урал-->
 		<prefix start="+7 92200" end="+7 92252" tag="5"/>
 		<prefix start="+7 92256" end="+7 92261" tag="5"/>
 		<prefix start="+7 92263" end="+7 92279" tag="5"/>
@@ -95,7 +87,6 @@
 		<prefix start="+7 932209" tag="5"/>
 		<prefix start="+7 932400" tag="5"/>
 
-		<!--Сибирь-->
 		<prefix start="+7 9231" end="+7 9237" tag="6"/>
 		<prefix start="+7 9293" tag="6"/>
 		<prefix start="+7 933100" tag="6"/>
@@ -104,7 +95,6 @@
 		<prefix start="+7 933310" tag="6"/>
 		<prefix start="+7 933314" tag="6"/>
 		
-		<!--Дальний восток-->
 		<prefix start="+7 9241" end="+7 9248" tag="7"/>
 		<prefix start="+7 9294" tag="7"/>
 		<prefix start="+7 934100" tag="7"/>
@@ -117,7 +107,6 @@
 		<prefix start="+7 934481" tag="7"/>
 		<prefix start="+7 934491" tag="7"/>
 
-		<!--Местные телефоны-->
 		<prefix start="+7 812 90" end="+7 812 91" tag="1"/>
 		<prefix start="+7 812 93" end="+7 812 96" tag="1"/>
 		<prefix start="+7 812 99" tag="1"/>
