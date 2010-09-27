@@ -4,13 +4,13 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 925" end="+7 926" tag="0"/>
-		<prefix start="+7 9296" tag="5"/>
-		<prefix start="+7 9299" tag="5"/>
+		<prefix start="+7 9296" tag="0"/>
+		<prefix start="+7 9299" tag="0"/>
 		
 		<prefix start="+7 920100" end="+7 920110" tag="1"/>
 		<prefix start="+7 920112" end="+7 920199" tag="1"/>
@@ -189,17 +189,23 @@
 						URL: string;
 					begin
 						URL:=HTTP['Location'];
-						if (Length(URL)>0) and (URL[Length(URL)]&lt;&gt;'/') then
-							URL:=URL+'/';
-						HTTP.HTTPMethod('GET',Stored['URL']+URL);
-						Result:=HTML.ExistsStr('Проверить статус');
-						if Result then
-							Stored['MsgID']:=Html.RegExp('&quot;/send/status/(.*?)(&quot;|/)',1);
+						if Pos('invalid_key',URL)>0 then
+							Stored['Error']:='Неверное введен код'
+						else
+						begin
+							Stored['Error']:='';
+							if (Length(URL)&gt;0) and (URL[Length(URL)]&lt;&gt;'/') then
+								URL:=URL+'/';
+							HTTP.HTTPMethod('GET',Stored['URL']+URL);
+							Result:=HTML.ExistsStr('Проверить статус');
+							if Result then
+								Stored['MsgID']:=Html.RegExp('&amp;quot;/send/status/(.*?)(&amp;quot;|/)',1);
+						end;		
 					end;)
 		</success>
 		<error>eval(begin
-						if Pos('invalid_key',HTTP['URL'])>0 then
-							Result:='Неверно введен код'
+						if Stored['Error']&lt;&gt;'' then
+							Result:=Stored['Error']
 						else	
 							Result:=HTML.RegExp('&lt;h1 class=&quot;error&quot;&gt;(.*?)&lt;/h1&gt;',1);
 					end;		
