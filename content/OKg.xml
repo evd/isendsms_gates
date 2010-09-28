@@ -4,7 +4,7 @@
 	<caption>O! Кыргызстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -21,40 +21,32 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://mediadelivery.o.kg:82/portal/work.html</pageurl>
-		<imageurl>eval('http://mediadelivery.o.kg:82/portal/Common/img/secretImage.jpg?sid3='+Html.RegExp('secretImage.jpg\?sid3=(.*?)&quot;',1))</imageurl>
-		<posturl>http://mediadelivery.o.kg:82/portal/work.html</posturl>
+		<sendinit>eval(
+					begin
+						PostData.Clear();
+						PostData.Add('user_input_timestamp',VarToStr(DateTimeToUnix(Now())*1000));
+						PostData.Add('user_input_0','SMSGate');
+						HTTP.HTTPMethod('POST','http://mediadelivery.o.kg:81/WebSelfCare/work.html');
+						Result:=true;
+					end;
+				)
+		</sendinit>
+		<pageurl />
+		<imageurl>eval('http://mediadelivery.o.kg:81/WebSelfCare/img/secretImage.jpg?sid3='+Html.RegExp('&lt;SID3&gt;(.*?)&lt;/SID3&gt;',1))</imageurl>
+		<posturl>http://mediadelivery.o.kg:81/WebSelfCare/work.html</posturl>
 		<multipart>1</multipart>
 		<postdata>eval(
-						var
-							DT: Int64;
-							i: integer;
-							bTrans: boolean;
-							s,s1: string;
 						begin
-							DT:=DateTimeToUnix(Now())*1000;
-							bTrans:=IsAscii(SMS['Text']);
-							s1:=Translit(SMS['Text']);
-							for i:=1 to Length(s1) do
-								s:=s+Iff(bTrans,s1[i],'&amp;'+s1[i]+';');
-							
-							PostData.Add('sid3',Html.RegExp(' name=&quot;sid3&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('user_input_timestamp',VarToStr(DT));
+							PostData.Clear();
+							PostData.Add('user_input_timestamp',VarToStr(DateTimeToUnix(Now())*1000));
 							PostData.Add('user_input_0','_next');
-							PostData.Add('user_input_1','0'+SMS['Phone_Def']);
-							PostData.Add('user_input_2',SMS['Phone_Number']);
-							PostData.Add('replaced_input_3',SMS['Text']);
-							PostData.Add('user_input_3',s);
+							PostData.Add('user_input_1',SMS['Phone']);
+							PostData.Add('user_input_2',SMS['Text']);
 							PostData.Add('user_input_SecretImage',SMS['Code']);
 						end;
 					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('успешно отправлено'))</success>
-		<error>eval(begin
-						Result:=Html.RegExp('&lt;div class=&quot;splashtext&quot;&gt;(.*?)&lt;/div&gt;',1);
-						if Result='' then
-							Result:='Ошибка отправки, возможно введен неверно код указанный на картинке';
-					end;)
-		</error>
+		<error>eval(Html.RegExp('&lt;INFO .*?&gt;(.*?)&lt;/INFO&gt;',1))</error>
 	</classprops>
 </gate>
