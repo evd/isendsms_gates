@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>31</version>
+	<version>32</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -149,7 +149,7 @@
 						end;)
 		</imageurl>
 		<uploadmultimedia>1</uploadmultimedia>
-		<mu_posturl>http://www.mts.ru/FlashUploader.axd</mu_posturl>
+		<mu_posturl>http://www.mts.ru/messaging/sendmms/FlashUploader.axd</mu_posturl>
 		<mu_multipart>1</mu_multipart>
 		<mu_postdata>eval(
 				var
