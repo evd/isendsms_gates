@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -190,7 +190,7 @@
 					begin
 						URL:=HTTP['Location'];
 						if Pos('invalid_key',URL)>0 then
-							Stored['Error']:='Неверное введен код'
+							Stored['Error']:='Неверно введен код'
 						else
 						begin
 							Stored['Error']:='';
