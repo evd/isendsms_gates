@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>32</version>
+	<version>33</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -176,28 +176,29 @@
 						Stored['BannerId']:=Html.RegExp('name=&quot;BannerId&quot; value=&quot;(.*?)&quot;',1);
 
 
-						PostData.Add('ctl00$ctl03$ctl00$scriptManagerId','ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$updatePanelPanel|ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$btnSend');
+						PostData.Add('ctl00$ctl03$ctl00$scriptManagerId','ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$updatePanelPanel|ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$btnSend');
 						PostData.Add('ctl00_ctl03_ctl00_scriptManagerId_TSM',';;System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:ru-RU:d0c4ca6e-6b5d-49b6-922d-5244924fb100:ea597d4b:b25378d2;Telerik.Web.UI, Version=2010.2.826.20, Culture=neutral, PublicKeyToken=121fae78165ba3d4:ru-RU:d89f6e67-3ab0-4fcf-b5f1-b51b735ae3d9:16e4e7cd:86526ba7:ed16cbdc:f7645509:24ee1bba:1e771326:aa288e2d');
-						PostData.Add('LBD_VCT_live_sendmms_ctl00_ctl03_ctl00_ctl04_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_mmssendingcontrol_captchanew',Stored['captchanewkey']);
+						PostData.Add('LBD_VCT_live_sendmms_ctl00_ctl03_ctl00_ctl05_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_mmssendingcontrol_captchanew',Stored['captchanewkey']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('__VIEWSTATE',Stored['Viewstate']);
+						PostData.Add('__VIEWSTATE',Stored['ViewState']);
 						PostData.Add('ctl00_ctl03_ctl00_rfdFormDecorator_ClientState','');
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$hfCurrentID','');
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$hfWasUploadedDelited','');
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ddPrefix',MMS['Phone_Def']);
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbPhoneNumber',MMS['Phone_Number']);
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ddlTopic','Выберите заголовок...');
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbTopic',MMS['Subject']);
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbMessage',MMS['Text']);
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbCode',MMS['Code']);
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$hfCurrentID','');
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$hfWasUploadedDelited','');
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ddPrefix',MMS['Phone_Def']);
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbPhoneNumber',MMS['Phone_Number']);
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ddlTopic','Выберите заголовок...');
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbTopic',MMS['Subject']);
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbMessage',MMS['Text']);
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbCode',MMS['Code']);
 						PostData.Add('RegionSiteId',Stored['RegionSiteId']);
 						PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
 						PostData.Add('BannerId',Stored['BannerId']);
 						PostData.Add('__ASYNCPOST','true');
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$btnSend.x','146');
-						PostData.Add('ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$btnSend.y','24');
-						PostData.Add('RadAJAXControlID','ctl00_ctl03_ctl00_ctl04_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_MMSSendingControl_updatePanel');
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$btnSend.x','156');
+						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$btnSend.y','15');
+						PostData.Add('RadAJAXControlID','ctl00_ctl03_ctl00_ctl05_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_MMSSendingControl_updatePanel');
+						
 					end;
 					)
 		</postdata>
@@ -215,18 +216,18 @@
 							Viewstate:=Html.RegExp('__VIEWSTATE\|(.*?)\|',1);
 							Eventvalid:=Html.RegExp('__EVENTVALIDATION\|(.*?)\|',1);
 
-							PostData.Add('ctl00$ctl03$ctl00$scriptManagerId','ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$updatePanelPanel|ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$StatusLink');
+							PostData.Add('ctl00$ctl03$ctl00$scriptManagerId','ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$updatePanelPanel|ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$StatusLink');
 							PostData.Add('ctl00_ctl03_ctl00_scriptManagerId_TSM',';;System.Web.Extensions, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:ru-RU:d0c4ca6e-6b5d-49b6-922d-5244924fb100:ea597d4b:b25378d2;Telerik.Web.UI, Version=2010.2.826.20, Culture=neutral, PublicKeyToken=121fae78165ba3d4:ru-RU:d89f6e67-3ab0-4fcf-b5f1-b51b735ae3d9:16e4e7cd:86526ba7:ed16cbdc:f7645509:24ee1bba:1e771326:aa288e2d;');
-							PostData.Add('LBD_VCT_live_sendmms_ctl00_ctl03_ctl00_ctl04_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_mmssendingcontrol_captchanew',Stored['captchanewkey']);
+							PostData.Add('LBD_VCT_live_sendmms_ctl00_ctl03_ctl00_ctl05_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_mmssendingcontrol_captchanew',Stored['captchanewkey']);
 							PostData.Add('ctl00_ctl03_ctl00_rfdFormDecorator_ClientState','');
 							PostData.Add('RegionSiteId',Stored['RegionSiteId']);
 							PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
 							PostData.Add('BannerId',Stored['BannerId']);
-							PostData.Add('__EVENTTARGET','ctl00$ctl03$ctl00$ctl04$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$StatusLink');
+							PostData.Add('__EVENTTARGET','ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$StatusLink');
 							PostData.Add('__EVENTARGUMENT','');
 							PostData.Add('__VIEWSTATE',Viewstate);
 							PostData.Add('__ASYNCPOST','true');
-							PostData.Add('RadAJAXControlID','ctl00_ctl03_ctl00_ctl04_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_MMSSendingControl_updatePanel');
+							PostData.Add('RadAJAXControlID','ctl00_ctl03_ctl00_ctl05_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_MMSSendingControl_updatePanel');
 						end;	
 					)
 		</cd_postdata>
@@ -238,6 +239,6 @@
 							end;
 						)
 		</cd_success>
-		<cd_error>eval(Html.RegExp('&lt;span id=&quot;MMSSendControl_ResultId&quot; class=&quot;left_align&quot;&gt;&lt;b/&gt;(.*?)&lt;b/&gt;',1))</cd_error>
+		<cd_error>eval(Html.RegExp('MMSSendingControl_ResultId&quot; class=&quot;left_align&quot;&gt;(.*?)&lt;',1))</cd_error>
 	</classprops>
 </gate>
