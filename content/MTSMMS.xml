@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>33</version>
+	<version>34</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -186,8 +186,10 @@
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$hfCurrentID','');
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$hfWasUploadedDelited','');
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ddPrefix',MMS['Phone_Def']);
+						PostData.Add('ctl00_ctl03_ctl00_ctl05_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_MMSSendingControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+MMS['Phone_Def']+'&quot;,&quot;text&quot;:&quot;'+MMS['Phone_Def']+'&quot;,&quot;enabled&quot;:true}');
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbPhoneNumber',MMS['Phone_Number']);
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$ddlTopic','Выберите заголовок...');
+						PostData.Add('ctl00_ctl03_ctl00_ctl05_ctl00_ctl00_ctl00_ctl00_ctl01_ctl00_ctl01_ctl00_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbTopic',MMS['Subject']);
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbMessage',MMS['Text']);
 						PostData.Add('ctl00$ctl03$ctl00$ctl05$ctl00$ctl00$ctl00$ctl00$ctl01$ctl00$ctl01$ctl00$MMSSendingControl$tbCode',MMS['Code']);
