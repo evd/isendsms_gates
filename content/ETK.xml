@@ -4,7 +4,7 @@
 	<caption>ЕТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -33,6 +33,12 @@
 		<prefix start="+7 952745" end="+7 952749"/>
 		<prefix start="+7 953255" end="+7 953259"/>
 		<prefix start="+7 95358" end="+7 95359"/>
+
+
+		<prefix start="+7 902140" end="+7 902146"/>
+		<prefix start="+7 902997" end="+7 902999"/>
+		<prefix start="+7 951344" end="+7 951346"/>
+		<prefix start="+7 95200"/>
 	</prefixlist>	
 	<info>
 		<maxsymbols>459</maxsymbols>
