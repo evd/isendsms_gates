@@ -16,3 +16,4 @@ MegafonUral,Megafon
 MegafonSib,Megafon
 MegafonDV,Megafon
 MegafonMoscowMMS,MegafonMMS
+AltaiSv,ETK
