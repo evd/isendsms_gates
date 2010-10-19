@@ -5,7 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>10</version>
-	<priority>10</priority>
+	<priority>11</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90204"/>
@@ -39,7 +39,7 @@
 		<prefix start="+7 953444" end="+7 953447"/>
 		<prefix start="+7 95349"/>
 		<prefix start="+7 95363"/>
-		<prefix start="+7 953975" end="+7 953979"/>
+		<prefix start="+7 953975" end="+7 953989"/>
 
 		<prefix start="7 902 00"/>
 		<prefix start="7 902 120" end="7 902 123"/>
