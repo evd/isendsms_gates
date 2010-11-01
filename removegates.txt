@@ -18,3 +18,4 @@ MegafonDV,Megafon
 MegafonMoscowMMS,MegafonMMS
 AltaiSv,ETK
 StekGSM,ETK
+AmegaInform,
