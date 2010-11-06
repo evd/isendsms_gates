@@ -4,7 +4,7 @@
 	<caption>Fonex</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -34,7 +34,7 @@
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('/ok.html'))</success>
+		<success>eval(HTML.ExistsStr('/smsok'))</success>
 		<error>eval(begin
 						Result:=HTML.Text;
 						if Pos('code error',Result)>0 then
