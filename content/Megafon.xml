@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -77,7 +77,7 @@
 		<prefix start="+7 92263" end="+7 92279" tag="5"/>
 		<prefix start="+7 9229" tag="5"/>
 		<prefix start="+7 929200" tag="5"/>
-		<prefix start="+7 929202" end="+7 929240" tag="5"/>
+		<prefix start="+7 929202" end="+7 929243" tag="5"/>
 		<prefix start="+7 92925" end="+7 92927" tag="5"/>
 		<prefix start="+7 929285" end="+7 929299" tag="5"/>
 		<prefix start="+7 932100" tag="5"/>
