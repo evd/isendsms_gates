@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>36</version>
+	<version>37</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -59,7 +59,7 @@
 		<prefix start="+7 98180" end="+7 98181"/>
 		<prefix start="+7 98230" end="+7 98232"/>
 		<prefix start="+7 98240" end="+7 98241"/>
-		<prefix start="+7 98248" end="+7 9825"/>
+		<prefix start="+7 98248" end="+7 98255"/>
 		<prefix start="+7 98260" end="+7 98262"/>
 		<prefix start="+7 98290" end="+7 98292"/>
 		<prefix start="+7 98295"/>
