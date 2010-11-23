@@ -4,7 +4,7 @@
 	<caption>БиЛайн Узбекистан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Узбекистан</country>
 	<prefixlist>
@@ -29,7 +29,7 @@
 						begin
 							PostData.Add('send','');
 							PostData.Add('smstext',SMS['Text']);
-							PostData.Add('smstoprefix',SMS['Phone_Def']);
+							PostData.Add('smstoprefix',SMS['Phone_Country']+SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
 							if isAscii(SMS['Text']) then
