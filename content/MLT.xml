@@ -4,7 +4,7 @@
 	<caption>МЛТ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Таджикистан</country>
 	<prefixlist>
@@ -17,12 +17,12 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>0</captcha>
-		<gateurl>http://mail.mlt.tj/sms/</gateurl>
+		<gateurl>http://websms.mlt.tj/cgi-bin/sendsms.pl</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://mail.mlt.tj/sms/</pageurl>
-		<posturl>http://mail.mlt.tj/sms/sendsms.pl</posturl>
+		<pageurl>http://websms.mlt.tj/cgi-bin/sendsms.pl</pageurl>
+		<posturl>http://websms.mlt.tj/cgi-bin/sendsms.pl</posturl>
 		<postdata>eval(
 				begin
 					PostData.Add('tll','+'+SMS['Phone']);					
