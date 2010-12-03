@@ -19,3 +19,4 @@ MegafonMoscowMMS,MegafonMMS
 AltaiSv,ETK
 StekGSM,ETK
 AmegaInform,
+UUCN,BWC

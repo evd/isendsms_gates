@@ -4,7 +4,7 @@
 	<caption>Байкалвестком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -23,6 +23,13 @@
 		<prefix start="+7 90864" end="+7 90866"/>
 		<prefix start="+7 95005" end="+7 95014"/>
 		<prefix start="+7 95261" end="+7 95263"/>
+		<prefix start="+7 90216"/>
+		<prefix start="+7 90245"/>
+		<prefix start="+7 90253"/>
+		<prefix start="+7 902562" end="+7 902565"/>
+		<prefix start="+7 90859"/>
+		<prefix start="+7 95038" end="+7 95039"/>
+		<prefix start="+7 95162" end="+7 95163"/>		
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
