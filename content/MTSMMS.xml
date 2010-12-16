@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>38</version>
+	<version>39</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -138,7 +138,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.mts.ru/messaging/sendmms/</pageurl>
+		<pageurl>http://www.mts.ru/messaging1/sendmms/</pageurl>
 		<imageurl>eval(begin
 						Result:=Html.RegExp('LanapCaptcha.aspx(.*?)''',1);
 						//Result:=ReplaceStr(Result,'&amp;'+'amp;','&amp;');
@@ -148,7 +148,7 @@
 						end;)
 		</imageurl>
 		<uploadmultimedia>1</uploadmultimedia>
-		<mu_posturl>http://www.mts.ru/messaging/sendmms/FlashUploader.axd</mu_posturl>
+		<mu_posturl>http://www.mts.ru/messaging1/sendmms/FlashUploader.axd</mu_posturl>
 		<mu_multipart>1</mu_multipart>
 		<mu_postdata>eval(
 				var
@@ -164,29 +164,31 @@
 		</mu_postdata>
 		<mu_success>1</mu_success>
 		<mu_dontloadresult>1</mu_dontloadresult>
-		<posturl>http://www.mts.ru/messaging/sendmms/</posturl>
+		<posturl>http://www.mts.ru/messaging1/sendmms/</posturl>
 		<postdata>eval(
 						begin
 
 						Stored['captchanewkey']:=Html.RegExp('mmssendingcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
 						Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
-						Stored['RegionSiteId']:=Html.RegExp('name=&quot;RegionSiteId&quot; value=&quot;(.*?)&quot;',1);
-						Stored['TopMenuParentId']:=Html.RegExp('name=&quot;TopMenuParentId&quot; value=&quot;(.*?)&quot;',1);
-						Stored['BannerId']:=Html.RegExp('name=&quot;BannerId&quot; value=&quot;(.*?)&quot;',1);
 
 						Stored['ParamPrefix']:=Html.StrBetweenRev('name=&quot;','$ddPrefix')+'$';
 						Stored['ParamPrefix1']:=Html.StrBetweenRev('sendmms_','_captchanew')+'_';
+						Stored['ParamPrefix2']:=Html.StrBetweenRev('&quot;','_scriptManagerId_TSM&quot;')+'_';
+						Stored['ParamPrefix3']:=Html.StrBetweenRev('''','$scriptManagerId'',');
 						
 						Stored['scriptManagerId_TSM']:=Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1);
 
 
-						PostData.Add('ctl00$ctl03$ctl00$scriptManagerId',Stored['ParamPrefix']+Stored['ParamPrefix']+'updatePanelPanel|'+Stored['ParamPrefix']+'btnSend');
-						PostData.Add('ctl00_ctl03_ctl00_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
-						PostData.Add('LBD_VCT_live_sendmms_'+Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
+						PostData.Add(Stored['ParamPrefix3']+'$scriptManagerId',Stored['ParamPrefix'] + 
+																			Stored['ParamPrefix'] + 
+																			'updatePanelPanel|' + 
+																			Stored['ParamPrefix']+'btnSend');
+						PostData.Add(Stored['ParamPrefix2']+'_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
+						PostData.Add('LBD_VCT_live_nd_sendmms_'+Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
 						PostData.Add('__VIEWSTATE',Stored['ViewState']);
-						PostData.Add('ctl00_ctl03_ctl00_rfdFormDecorator_ClientState','');
+						PostData.Add(Stored['ParamPrefix2']+ '_rfdFormDecorator_ClientState','');
 						PostData.Add(Stored['ParamPrefix'] + 'hfCurrentID','');
 						PostData.Add(Stored['ParamPrefix'] + 'hfWasUploadedDelited','');
 						PostData.Add(Stored['ParamPrefix'] + 'ddPrefix',MMS['Phone_Def']);
@@ -197,9 +199,6 @@
 						PostData.Add(Stored['ParamPrefix'] + 'tbTopic',MMS['Subject']);
 						PostData.Add(Stored['ParamPrefix'] + 'tbMessage',MMS['Text']);
 						PostData.Add(Stored['ParamPrefix'] + 'tbCode',MMS['Code']);
-						PostData.Add('RegionSiteId',Stored['RegionSiteId']);
-						PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
-						PostData.Add('BannerId',Stored['BannerId']);
 						PostData.Add('__ASYNCPOST','true');
 						PostData.Add(Stored['ParamPrefix'] + 'btnSend.x','156');
 						PostData.Add(Stored['ParamPrefix'] + 'btnSend.y','15');
@@ -213,7 +212,7 @@
 		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://www.mts.ru/messaging/sendmms/</cd_posturl>
+		<cd_posturl>http://www.mts.ru/messaging1/sendmms/</cd_posturl>
 		<cd_postdata>eval(
 						var
 							Viewstate: string;
@@ -222,13 +221,13 @@
 							Viewstate:=Html.RegExp('__VIEWSTATE\|(.*?)\|',1);
 							Eventvalid:=Html.RegExp('__EVENTVALIDATION\|(.*?)\|',1);
 
-							PostData.Add('ctl00$ctl03$ctl00$scriptManagerId',Stored['ParamPrefix']+Stored['ParamPrefix']+'updatePanelPanel|'+Stored['ParamPrefix']+'btnSend');
-							PostData.Add('ctl00_ctl03_ctl00_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
-							PostData.Add('LBD_VCT_live_sendmms_'+Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
-							PostData.Add('ctl00_ctl03_ctl00_rfdFormDecorator_ClientState','');
-							PostData.Add('RegionSiteId',Stored['RegionSiteId']);
-							PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
-							PostData.Add('BannerId',Stored['BannerId']);
+							PostData.Add(Stored['ParamPrefix3']+'$scriptManagerId',Stored['ParamPrefix'] + 
+																			Stored['ParamPrefix'] + 
+																			'updatePanelPanel|' + 
+																			Stored['ParamPrefix']+'btnSend');
+							PostData.Add(Stored['ParamPrefix2']+'_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
+							PostData.Add('LBD_VCT_live_nd_sendmms_'+Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
+							PostData.Add(Stored['ParamPrefix2']+ '_rfdFormDecorator_ClientState','');
 							PostData.Add('__EVENTTARGET',Stored['ParamPrefix'] + 'StatusLink');
 							PostData.Add('__EVENTARGUMENT','');
 							PostData.Add('__VIEWSTATE',Viewstate);

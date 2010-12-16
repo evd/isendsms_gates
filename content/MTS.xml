@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>61</version>
+	<version>63</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -127,7 +127,7 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.mts.ru/messaging/sendsms/</gateurl>
+		<gateurl>http://www.mts.ru/messaging1/sendsms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
@@ -139,16 +139,22 @@
 						begin
 							Stored['siteurl']:='http://sms.buryatia.mts.ru/';
 							Stored['timeadd']:=-4;
+							Stored['captchakey']:='LBD_VCT_live_smssending_';
+							Stored['addregion']:=true;
 						end	
 						else if SMS['Phone_tag']=2 then
 						begin
 							Stored['siteurl']:='http://sms.kaliningrad.mts.ru/';
 							Stored['timeadd']:=2;
+							Stored['captchakey']:='LBD_VCT_live_smssending_';
+							Stored['addregion']:=true;
 						end	
 						else
 						begin
-							Stored['siteurl']:='http://www.mts.ru/messaging/sendsms/';
+							Stored['siteurl']:='http://www.mts.ru/messaging1/sendsms/';
 							Stored['timeadd']:=0;
+							Stored['captchakey']:='LBD_VCT_live_nd_smssending_';
+							Stored['addregion']:=false;
 						end;
 						Result:=Stored['siteurl'];
 					end;
@@ -182,23 +188,31 @@
 
 						Stored['captchanewkey']:=Html.RegExp('smssendingcontrol_captchanew&quot; value=&quot;(.*?)&quot;',1);
 						Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
-						Stored['RegionSiteId']:=Html.RegExp('name=&quot;RegionSiteId&quot; value=&quot;(.*?)&quot;',1);
-						Stored['TopMenuParentId']:=Html.RegExp('name=&quot;TopMenuParentId&quot; value=&quot;(.*?)&quot;',1);
-						Stored['BannerId']:=Html.RegExp('name=&quot;BannerId&quot; value=&quot;(.*?)&quot;',1);
+						if Stored['addregion'] then
+						begin
+							Stored['RegionSiteId']:=Html.RegExp('name=&quot;RegionSiteId&quot; value=&quot;(.*?)&quot;',1);
+							Stored['TopMenuParentId']:=Html.RegExp('name=&quot;TopMenuParentId&quot; value=&quot;(.*?)&quot;',1);
+							Stored['BannerId']:=Html.RegExp('name=&quot;BannerId&quot; value=&quot;(.*?)&quot;',1);
+						end;	
 						
 						Stored['ParamPrefix']:=Html.StrBetweenRev('name=&quot;','$ddPrefix')+'$';
 						Stored['ParamPrefix1']:=Html.StrBetweenRev('id=&quot;','_RadFormDecorator1')+'_';
-						
+						Stored['ParamPrefix2']:=Html.StrBetweenRev('&quot;','_scriptManagerId_TSM&quot;')+'_';
+						Stored['ParamPrefix3']:=Html.StrBetweenRev('''','$scriptManagerId'',');
 						Stored['scriptManagerId_TSM']:=Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1);
 
 
-						PostData.Add('ctl00$ctl03$ctl00$scriptManagerId',Stored['ParamPrefix']+Stored['ParamPrefix']+'updatePanelPanel|'+Stored['ParamPrefix']+'btnSend');
-						PostData.Add('ctl00_ctl03_ctl00_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
+
+						PostData.Add(Stored['ParamPrefix3']+'$scriptManagerId',Stored['ParamPrefix'] + 
+																			Stored['ParamPrefix'] + 
+																			'updatePanelPanel|' + 
+																			Stored['ParamPrefix']+'btnSend');
+						PostData.Add(Stored['ParamPrefix2']+'_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('LBD_VCT_live_smssending_'+Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
+						PostData.Add(Stored['captchakey'] + Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
 						PostData.Add('__VIEWSTATE',Stored['ViewState']);
-						PostData.Add('ctl00_ctl03_ctl00_rfdFormDecorator_ClientState','');
+						PostData.Add(Stored['ParamPrefix2']+ '_rfdFormDecorator_ClientState','');
 						PostData.Add(Stored['ParamPrefix1'] + 'RadFormDecorator1_ClientState','');
 						PostData.Add(Stored['ParamPrefix'] + 'ddPrefix',PhoneDef);
 						PostData.Add(Stored['ParamPrefix1'] + 'ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+PhoneDef+'&quot;,&quot;text&quot;:&quot;'+PhoneDef+'&quot;,&quot;enabled&quot;:true}');
@@ -217,9 +231,12 @@
 						PostData.Add(Stored['ParamPrefix1'] + 'ctl04_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('h',DT)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('hh',DT)+'&quot;,&quot;enabled&quot;:false}');
 						PostData.Add(Stored['ParamPrefix'] + 'ctl06',FormatDateTime('nn',DT));
 						PostData.Add(Stored['ParamPrefix1'] + 'ctl06_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DT)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('nn',DT)+'&quot;,&quot;enabled&quot;:false}');
-						PostData.Add('RegionSiteId',Stored['RegionSiteId']);
-						PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
-						PostData.Add('BannerId',Stored['BannerId']);
+						if Stored['addregion'] then
+						begin
+							PostData.Add('RegionSiteId',Stored['RegionSiteId']);
+							PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
+							PostData.Add('BannerId',Stored['BannerId']);
+						end;	
 						PostData.Add('__ASYNCPOST','true');
 						PostData.Add(Stored['ParamPrefix'] + 'btnSend.x','68');
 						PostData.Add(Stored['ParamPrefix'] + 'btnSend.y','10');
@@ -227,7 +244,7 @@
 					end;	
 					)
 		</postdata>
-		<success>eval(HTML.RegExp('Проверить статус доставки',0))</success>
+		<success>eval(HTML.RegExp('Ваше сообщение отправлено',0))</success>
 		<error>eval(begin
 						if HTML.ExistsStr('smsExtraRedirect.htm') then
 							Result:='SMS-сообщение можно отправлять не чаще одного раза в 30 секунд'
@@ -249,16 +266,22 @@
 							Viewstate:=Html.RegExp('__VIEWSTATE\|(.*?)\|',1);
 							Eventvalid:=Html.RegExp('__EVENTVALIDATION\|(.*?)\|',1);
 
-							PostData.Add('ctl00$ctl03$ctl00$scriptManagerId',Stored['ParamPrefix']+Stored['ParamPrefix']+'updatePanelPanel|'+Stored['ParamPrefix']+'lbCheckMessageStatus');
-							PostData.Add('ctl00_ctl03_ctl00_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
-							PostData.Add('LBD_VCT_live_smssending_'+Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
-							PostData.Add('ctl00_ctl03_ctl00_rfdFormDecorator_ClientState','');
+							PostData.Add(Stored['ParamPrefix3']+'$scriptManagerId',Stored['ParamPrefix'] + 
+																			Stored['ParamPrefix'] + 
+																			'updatePanelPanel|' + 
+																			Stored['ParamPrefix']+'lbCheckMessageStatus');
+							PostData.Add(Stored['ParamPrefix2']+'_scriptManagerId_TSM',Stored['scriptManagerId_TSM']);
+							PostData.Add(Stored['captchakey'] + Stored['ParamPrefix1']+ 'captchanew',Stored['captchanewkey']);
+							PostData.Add(Stored['ParamPrefix2']+ '_rfdFormDecorator_ClientState','');
 							PostData.Add(Stored['ParamPrefix1'] + 'RadFormDecorator1_ClientState','');
 							PostData.Add(Stored['ParamPrefix'] + 'hfMessageID',Html.RegExp('SmsSendingControl_hfMessageID&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('RegionSiteId',Stored['RegionSiteId']);
-							PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
-							PostData.Add('BannerId',Stored['BannerId']);
 
+							if Stored['addregion'] then
+							begin
+								PostData.Add('RegionSiteId',Stored['RegionSiteId']);
+								PostData.Add('TopMenuParentId',Stored['TopMenuParentId']);
+								PostData.Add('BannerId',Stored['BannerId']);
+							end;	
 							PostData.Add('__EVENTTARGET',Stored['ParamPrefix'] + 'lbCheckMessageStatus');
 							PostData.Add('__EVENTARGUMENT','');
 							PostData.Add('__VIEWSTATE',ViewState);
@@ -269,10 +292,10 @@
 		</cd_postdata>				
 		<cd_success>eval(
 							begin
-								if HTML.ExistsStr('Сообщение находится в очереди') or
+								if HTML.ExistsStr('сообщение находится в очереди на доставку') or
 									HTML.ExistsStr('ожидаем') then
 									Result:='WAIT'
-								else Result:=HTML.ExistsStr('Сообщение отправлено') or HTML.ExistsStr('Сообщение доставлено');	
+								else Result:=HTML.ExistsStr(' сообщение отправлено') or HTML.ExistsStr('сообщение доставлено');	
 							end;
 						)
 		</cd_success>
