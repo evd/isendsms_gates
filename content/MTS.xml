@@ -4,12 +4,11 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>64</version>
+	<version>65</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90259"/>
-		<prefix start="+7 90425"/>
 		<prefix start="+7 910000" end="+7 911069"/>
 		<prefix start="+7 911070" end="+7 911074" tag="2"/>
 		<prefix start="+7 911075" end="+7 911449"/>
