@@ -4,7 +4,7 @@
 	<caption>МТС Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -33,9 +33,11 @@
 							PostData.Add('sms_tag_id','3');
 							PostData.Add('network1',SMS['Phone_Country'] + SMS['Phone_Def']);
 							PostData.Add('phone1',SMS['Phone_Number']);
+							PostData.Add(Html.RegExp('&lt;td width=&quot;50%&quot;&gt;.*?&lt;input type=&quot;hidden&quot; name=''(.*?)''',1),'1');
 							PostData.Add('message',SMS['Text']);
 							PostData.Add('lang',iff(IsAscii(SMS['Text']),'lat','cyr'));
 							PostData.Add('captcha',SMS['Code']);
+							PostData.Add('sender_name','');
 						end;
 					)
 		</postdata>
