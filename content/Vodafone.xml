@@ -4,7 +4,7 @@
 	<caption>Vodafone CZ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
@@ -22,7 +22,21 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.vodafonesms.cz/start.php?locale=en</pageurl>
+		<sendinit>eval(
+				var
+					TmpStr: string;
+				begin
+					HTTP.HTTPMethod('GET','https://park.vodafone.cz');
+					TmpStr:=Html.StrBetweenRev('wicketAjaxGet(''','Poslat SMS bez registrace');
+					//HTTP.HandleRedirects:=false;
+					HTTP.HTTPMethod('GET','https://park.vodafone.cz/'+StrBetween(TmpStr,'','''')+'&amp;random=0.6123');
+					Stored['pageurl']:=HTML.RegExp('&lt;redirect&gt;(.*?)&lt;/redirect&gt;',1);
+					if Stored['pageurl']='' then
+						Stored['pageurl']:=HTTP['URL'];
+				end;
+		)
+		</sendinit>
+		<pageurl>eval(Stored['pageurl'])</pageurl>
 		<imageurl>eval('http://www.vodafonesms.cz/imgcode.php?id=' + HTML.RegExp('imgcode.php\?id=(.*?)&quot;',1))</imageurl>
 		<posturl>http://www.vodafonesms.cz/send.php</posturl>
 		<postdata>eval(
@@ -33,12 +47,10 @@
 						PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
 						PostData.Add('mynumber','');
 						PostData.Add('sender','');
-						PostData.Add('message',SMS['Text']);
-						PostData.Add('char_in',Length(SMS['Text']));
-						PostData.Add('char_le',SMS['LeaveSymbols']);
 						PostData.Add('parts',Length(SMS['Text'])/SMS['LeaveSymbols']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('char_le',SMS['LeaveSymbols']);
 						PostData.Add('pictogram',SMS['Code']);
-						PostData.Add('send','Odeslat!');
 					end;
 					)
 		</postdata>
