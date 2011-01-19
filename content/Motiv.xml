@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -17,6 +17,7 @@
 		<prefix start="+7 90890" end="+7 90892"/>
 		<prefix start="+7 95019" end="+7 95020"/>
 		<prefix start="+7 95063" end="+7 95065"/>
+		<prefix start="+7 95213" end="+7 95214"/>
 		<prefix start="+7 952725" end="+7 952744"/>
 		<prefix start="+7 95300"/>
 		<prefix start="+7 953039" end="+7 953058"/>
