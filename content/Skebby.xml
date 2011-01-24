@@ -4,7 +4,7 @@
 	<caption>Skebby</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -62,6 +62,11 @@
 		)
 		</postdata>
 		<success>eval(Html.ExistsStr('success.gif'))</success>
-		<error>eval(Html.RegExp('&lt;p class=&quot;warning&quot;&gt;(.*?)&lt;',1))</error>
+		<error>eval(begin
+					Result:=Html.RegExp('class=&quot;warning&quot;.*?&gt;(.*?)&lt;',1);
+					if Result='' then
+						Result:=Html.RegExp('class=&quot;warningimg&quot;.*?&lt;(&lt;br/&gt;)?(.*?)&lt;/b&gt;',2);
+					end;)
+		</error>
 	</classprops>
 </gate>
