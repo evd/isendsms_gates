@@ -20,3 +20,6 @@ AltaiSv,ETK
 StekGSM,ETK
 AmegaInform,
 UUCN,BWC
+SkylinkEkt,SkyLink
+SkyLinkSar,SkyLink
+SkylinkSpb,SkyLink

@@ -4,7 +4,7 @@
 	<caption>Скайлинк</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -43,6 +43,26 @@
 		<prefix start="+7 901471" tag="5"/>
 		<prefix start="+7 901479" tag="5"/>
 	
+		<prefix start="+7 812 715" end="+7 812 716" tag="6"/>
+		<prefix start="+7 812 970" tag="6"/>
+		<prefix start="+7 812 973" tag="6"/>
+		<prefix start="+7 812 974" tag="6"/>
+
+		<prefix start="+7 901 30" end="+7 901 32" tag="6"/>
+		<prefix start="+7 901 37" tag="6"/>
+		<prefix start="+7 901 97" tag="6"/>
+
+		<prefix start="+7 901805" end="+7 901807" tag="7"/>
+
+		<prefix start="+7 901149" end="+7 901150" tag="8"/>
+		<prefix start="+7 901201" tag="8"/>
+		<prefix start="+7 901210" tag="8"/>
+		<prefix start="+7 901220" tag="8"/>
+		<prefix start="+7 901230" tag="8"/>
+		<prefix start="+7 901413" end="+7 901414" tag="8"/>
+		<prefix start="+7 901453" end="+7 901454" tag="8"/>
+		<prefix start="+7 901949" end="+7 901950" tag="8"/>
+
 	</prefixlist>	
 <info>
 		<maxsymbols>126</maxsymbols>
@@ -58,41 +78,41 @@
 		<sendinit>eval(
 			begin
 				if SMS['Phone_Tag']=1 then
-					Stored['Region']:='33' //Владимир
+					Stored['Region']:='vladimir' //Владимир
 				else if SMS['Phone_Tag']=2 then
-					Stored['Region']:='27' //Хабаровский край
+					Stored['Region']:='habarovsk' //Хабаровский край
 				else if SMS['Phone_Tag']=3 then
-					Stored['Region']:='52' //Нижний Новгород
+					Stored['Region']:='nnovgorod' //Нижний Новгород
 				else if SMS['Phone_Tag']=4 then
-					Stored['Region']:='42' //Кемеровская область
+					Stored['Region']:='kuzbass' //Кемеровская область
 				else if SMS['Phone_Tag']=5 then
-					Stored['Region']:='43' //Кировская область
+					Stored['Region']:='kirov' //Кировская область
+				else if SMS['Phone_Tag']=6 then
+					Stored['Region']:='spb' //Санкт-Петербург
+				else if SMS['Phone_Tag']=7 then
+					Stored['Region']:='saratov' //Саратов
+				else if SMS['Phone_Tag']=8 then
+					Stored['Region']:='sverdlovsk' //Свердловская область Екатеринбург
 				else	
-					Stored['Region']:='77'; //Москва
+					Stored['Region']:='msk'; //Москва
 			end;
 		)
 		</sendinit>
-		<pageurl>eval('http://www.skylink.ru/pages/sms.aspx?&amp;r='+Stored['Region'])</pageurl>
-		<imageurl>eval('http://www.skylink.ru/pages/img_gen.ashx?text='+HTML.RegExp('img_gen.ashx\?text=(.*?)&quot;',1))</imageurl>
-		<posturl>eval('http://www.skylink.ru/pages/sms.aspx?&amp;r='+Stored['Region'])</posturl>
+		<pageurl>eval('http://skylink.ru/'+Stored['Region']+'/sms/')</pageurl>
+		<imageurl>eval('http://skylink.ru/captcha.phtml?k='+HTML.RegExp('captcha\.phtml\?k=(.*?)&quot;',1))</imageurl>
+		<posturl>http://skylink.ru/sms.action</posturl>
 		<postdata>eval(
 					begin
-						PostData.Add('__EVENTTARGET','');
-						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('ctl00$Ctrl_main_menu1$hf_partID','1');
-						PostData.Add('ctl00$Ctrl_part_menu1$hf_partID','1');
-						PostData.Add('ctl00$txtSearch','');
-						PostData.Add('ctl00$pageContent$TextBox1',SMS['Code']);
-						PostData.Add('ctl00$pageContent$TextBox2',Copy(SMS['Phone'],2,10));
-						PostData.Add('ctl00$pageContent$TextBox3',SMS['Text']);
-						PostData.Add('ctl00$pageContent$TextBox4',Length(SMS['Text']));
-						PostData.Add('ctl00$pageContent$BtnSend','Отправить');
+						PostData.Add('captchaKey',Html.RegExp('name=&quot;captchaKey&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captchaCode',SMS['Code']);
+						PostData.Add('phone',SMS['Phone']);
+						PostData.Add('message',SMS['Text']);
+						PostData.Add('x','29');
+						PostData.Add('y','11');
 					end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Сообщение поставлено в очередь на отправку.'))</success>
-		<error>eval(Html.RegExp('style=&quot;color:Red;&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
+		<success>eval(HTML.ExistsStr('Сообщение поставлено в очередь на отправку'))</success>
+		<error>eval(Html.RegExp('&lt;h3&gt;(.*?)&lt;/h3&gt;',1))</error>
 	</classprops>
 </gate>
