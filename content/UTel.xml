@@ -4,7 +4,7 @@
 	<caption>U-Tel</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -56,7 +56,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://perm.u-tel.ru/facilities/sms</gateurl>
+		<gateurl>http://u-tel.ru/facilities/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
@@ -96,11 +96,10 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('Сообщение принято к отправке'))</success>
 		<error>eval(begin
-						Result:=Html.RegExp('ololo\(\).*?alert\("(.*?)"',1);)
+						Result:=Html.RegExp('ololo\(\).*?alert\(&quot;(.*?)&quot;',1);
 						if Result='' then
 							Result:=Html.RegExp('&lt;font color=&quot;red&quot;&gt;(.*?)&lt;',1);
 					end;	
-					)
-		</error>
+					)</error>
 	</classprops>
 </gate>
