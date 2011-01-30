@@ -4,11 +4,11 @@
 	<caption>Unite</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
-		<prefix start="+373 671" end="+373 672" format="3.2.6"/>
+		<prefix start="+373 671" end="+373 673" format="3.2.6"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>135</maxsymbols>
