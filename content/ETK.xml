@@ -4,7 +4,7 @@
 	<caption>ЕТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -58,19 +58,25 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://www.etk.ru/etc_send_sms</pageurl>
-		<imageurl>eval('http://www.etk.ru/pictures/etc_captchas/'+Html.RegExp('pictures/etc_captchas/(.*?\.png)',1))</imageurl>
+		<imageurl>eval(
+					begin
+						HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+						Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
+						Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+					end;)
+		</imageurl>
 		<posturl>http://www.etk.ru/scripts/sms_send_new.cgi</posturl>
 		<handleredirects>1</handleredirects>
 		<postdata>eval(
 					begin
-						PostData.Add('to',Copy(SMS['Phone'],2,10));
+						PostData.Add('to',SMS['Phone_Def']+SMS['Phone_Number']);
 						PostData.Add('message',SMS['Text']);
 						if SMS['Delivery'] then
 							PostData.Add('send_date',FormatDateTime('yyyy-mm-dd hh:nn',SMS['DeliveryTime']))
 						else
 							PostData.Add('send_date','');
-						PostData.Add('captcha_code',Html.RegExp('name=&quot;captcha_code&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('captcha_text',SMS['Code']);
+						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+						PostData.Add('recaptcha_response_field',SMS['Code']);
 					end;
 					)
 		</postdata>
