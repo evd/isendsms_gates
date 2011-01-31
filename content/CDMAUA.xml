@@ -4,7 +4,7 @@
 	<caption>CDMA Ukraine</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -22,13 +22,13 @@
 		<supportunicode>0</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://cdmaua.com/sms/</gateurl>
+		<gateurl>http://www.cdma.ua/sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://cdmaua.com/sms/</pageurl>
+		<pageurl>http://www.cdma.ua/sms/</pageurl>
 		<imagedescription>eval('Введите номера '+Html.RegExp('укажите(.*?)картинки с изображением транспорта',1)+' картинок с изображением транспорта')</imagedescription>
-		<imageurl>eval('http://cdmaua.com/upload/tmp/'+Html.RegExp('\.smsCodeImage \{background-image:url\(\/upload\/tmp\/(.*?)\)',1))</imageurl>
+		<imageurl>eval('http://www.cdma.ua/upload/tmp/'+Html.RegExp('\.smsCodeImage \{background-image:url\(\/upload\/tmp\/(.*?)\)',1))</imageurl>
 		<proccessimage>eval(
 							var
 								x,y,srcy: integer;
@@ -45,7 +45,7 @@
 							end;
 						)
 		</proccessimage>
-		<posturl>http://cdmaua.com/sms/</posturl>
+		<posturl>http://www.cdma.ua/sms/</posturl>
 		<postdata>eval(
 						var
 							i: integer;
@@ -65,7 +65,7 @@
 		<success>eval(HTML.ExistsStr('Сообщение принято и поставлено в очередь'))</success>
 		<error>eval(Html.RegExp('&lt;p class=&quot;error&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://cdmaua.com/sms/</cd_posturl>
+		<cd_posturl>http://www.cdma.ua/sms/</cd_posturl>
 		<cd_postdata>eval(
 					begin
 						PostData.Add('check','1');
