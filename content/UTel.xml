@@ -4,7 +4,7 @@
 	<caption>U-Tel</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -61,7 +61,7 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://u-tel.ru/facilities/sms</pageurl>
-		<imageurl>eval('http://u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1))</imageurl>
+		<imageurl>http://u-tel.ru/kaptcha.jpg</imageurl>
 		<posturl>http://u-tel.ru/facilities/sms</posturl>
 		<postdata>eval(
 					begin
