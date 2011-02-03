@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -27,7 +27,7 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>260</maxsymbols>
-		<maxunicodesymbols>260</maxunicodesymbols>
+		<maxunicodesymbols>130</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
