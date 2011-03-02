@@ -4,7 +4,7 @@
 	<caption>Skebby</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -39,8 +39,8 @@
 		<prefix start="+99 000000" end="+99 999999" format="3.2.7" />
 	</prefixlist>
 	<info>
-		<maxsymbols>135</maxsymbols>
-		<maxunicodesymbols>135</maxunicodesymbols>
+		<maxsymbols>120</maxsymbols>
+		<maxunicodesymbols>120</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>0</supportunicode>
