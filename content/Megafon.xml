@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -124,7 +124,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<supportcheckdelivery>1</supportcheckdelivery>
+		<supportcheckdelivery>0</supportcheckdelivery>
 		<gateurl>http://sendsms.megafon.ru/</gateurl>
 	</info>
 	<classprops>
@@ -197,7 +197,7 @@
 							if (Length(URL)&gt;0) and (URL[Length(URL)]&lt;&gt;'/') then
 								URL:=URL+'/';
 							HTTP.HTTPMethod('GET',Stored['URL']+URL);
-							Result:=HTML.ExistsStr('Проверить статус');
+							Result:=HTML.ExistsStr('Отправить другое сообщение');
 							if Result then
 								Stored['MsgID']:=Html.RegExp('&quot;/send/status/(.*?)(&quot;|/)',1);
 						end;		
