@@ -4,7 +4,7 @@
 	<caption>МТС Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -28,16 +28,18 @@
 		<imageurl>eval('http://www.mts.com.ua/back/modules/golden/captcha.php?PHPSESSID='+HTML.RegExp('captcha.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
 		<posturl>http://www.mts.com.ua/back/modules/sms/db_sms.php</posturl>
 		<postdata>eval(
+						var
+							Key: string;
 						begin
 							PostData.Add('script','/rus/sendsms.php');
 							PostData.Add('sms_tag_id','3');
 							PostData.Add('network1',SMS['Phone_Country'] + SMS['Phone_Def']);
 							PostData.Add('phone1',SMS['Phone_Number']);
-							PostData.Add(Html.RegExp('&lt;td width=&quot;50%&quot;&gt;.*?&lt;input type=&quot;hidden&quot; name=''(.*?)''',1),'1');
 							PostData.Add('message',SMS['Text']);
 							PostData.Add('lang',iff(IsAscii(SMS['Text']),'lat','cyr'));
+							Key:=Html.RegExp('&lt;td width=&quot;50%&quot;&gt;.*?&lt;input type=&quot;hidden&quot; name=''(.*?)''',1);
+							PostData.Add(Key,Html.RegExp(Key+''' value=&quot;(.*?)&quot;',1));
 							PostData.Add('captcha',SMS['Code']);
-							PostData.Add('sender_name','');
 						end;
 					)
 		</postdata>
