@@ -4,7 +4,7 @@
 	<caption>НСС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>11</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -55,8 +55,8 @@
 
 	</prefixlist>
 	<info>
-		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>160</maxunicodesymbols>
+		<maxsymbols>140</maxsymbols>
+		<maxunicodesymbols>140</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
