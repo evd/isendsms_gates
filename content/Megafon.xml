@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -124,7 +124,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<gateurl>http://sendsms.megafon.ru/</gateurl>
 	</info>
 	<classprops>
