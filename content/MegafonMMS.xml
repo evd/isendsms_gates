@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -40,7 +40,7 @@
 		<encoding>UTF-8</encoding>
 		<multipart>1</multipart>
 		<pageurl>http://sendmms.megafon.ru</pageurl>
-		<imageurl>eval('http://sendmms.megafon.ru/captcha/' + HTML.RegExp('src=&quot;/captcha/(.*?)&quot;',1))</imageurl>
+		<imageurl>eval('http://sendmms.megafon.ru/image.phtml?k=' + HTML.RegExp('image\.phtml\?k=(.*?)&quot;',1))</imageurl>
 		<posturl>http://sendmms.megafon.ru/action.phtml</posturl>
 		<handleredirects>0</handleredirects>
 		<postdata>eval(
