@@ -22,3 +22,4 @@ UUCN,BWC
 SkylinkEkt,SkyLink
 SkyLinkSar,SkyLink
 SkylinkSpb,SkyLink
+BeelineUA,KyivStar
