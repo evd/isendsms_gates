@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -65,7 +65,11 @@
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Сообщение принято и поставлено в очередь'))</success>
+		<success>eval(begin
+						Result:=HTML.ExistsStr('Сообщение принято и поставлено в очередь') or 
+								HTML.ExistsStr('Запросить статус сообщения');
+						)
+		</success>
 		<error>eval(Html.RegExp('&lt;p class=&quot;comment&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
 		<cd_method>GET</cd_method>
 		<cd_url>http://smsgate.kyivstar.ua/sms/?request_status=true&amp;lang=ru</cd_url>
