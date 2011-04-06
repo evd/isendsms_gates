@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -68,7 +68,7 @@
 		<success>eval(begin
 						Result:=HTML.ExistsStr('Сообщение принято и поставлено в очередь') or 
 								HTML.ExistsStr('Запросить статус сообщения');
-						)
+					 end;)
 		</success>
 		<error>eval(Html.RegExp('&lt;p class=&quot;comment&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
 		<cd_method>GET</cd_method>
