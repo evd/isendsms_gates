@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -23,38 +23,84 @@
 		<prefix start="+7 953039" end="+7 953058"/>
 		<prefix start="+7 95338"/>
 		<prefix start="+7 95360"/>
-		<prefix start="+7 343"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>260</maxsymbols>
-		<maxunicodesymbols>130</maxunicodesymbols>
+		<maxsymbols>194</maxsymbols>
+		<maxunicodesymbols>194</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://ycc.ru/sendsms/</gateurl>
+		<gateurl>http://cell.motivtelecom.ru/ekb/smssend</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
-		<pageurl>http://ycc.ru/sendsms/</pageurl>
-		<imageurl>eval('http://ycc.ru/i/sms/sms.php?s=' + HTML.RegExp('i/sms/sms.php\?s=(.*?)&quot;',1))</imageurl>
-		<posturl>http://ycc.ru/sendsms/</posturl>
-		<postdata>eval(
+		<encoding>UTF-8</encoding>
+		<pageurl>http://cell.motivtelecom.ru/ekb/smssend</pageurl>
+		<imageurl>eval(
 					begin
-						PostData.Add('sendsms','yes');
-						PostData.Add('cc',Html.RegExp('name=&quot;cc&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('from_name','isendsms');
-						PostData.Add('prefix',Copy(SMS['Phone'],1,6));
-						PostData.Add('phone_number',Copy(SMS['Phone'],7,5));
-						PostData.Add('text_sms',SMS['Text']);
-						PostData.Add('imgcc',SMS['Code']);
-						PostData.Add('sim','260');
-						PostData.Add('submit.x','13');
-						PostData.Add('submit.y','32');
-					end;
+						HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+						Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
+						Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+					end;)
+		</imageurl>
+		<posturl>http://cell.motivtelecom.ru/ekb/smssend</posturl>
+		<postdata>eval(
+					var
+						def: array[0..28] of string;
+						i: integer;
+						DefStr,Code: string;
+					begin
+						//Интерпретатор не поддерживает инициализацию массивов ((((
+						def[0] := '90019'; def[1] := '90020'; def[2] := '90021'; def[3] := '90287';
+						def[4] := '90416'; def[5] := '90417'; def[6] := '90438'; def[7] := '90454';
+						def[8] := '90498'; def[9] := '90863'; def[10] := '90890'; def[11] := '90891';
+						def[12] := '90892'; def[13] := '95019';	def[14] := '95020';	def[15] := '95063';
+						def[16] := '95064'; def[17] := '95065';	def[18] := '95213'; def[19] := '95214';
+						def[20] := '95272';	def[21] := '95273'; def[22] := '95274';	def[23] := '95300';
+						def[24] := '95303';	def[25] := '95304';	def[26] := '95305';	def[27] := '95338';
+						def[28] := '95360';
+						
+						Code:='30';
+						DefStr:=Copy(SMS['Phone'],2,5);
+						for i:=0 to 28 do
+							if DefStr=def[i] then
+							begin
+								Code:=VarToStr(i);
+								break;
+							end;
+							
+
+						PostData.Add('smssend[name]','websms');
+						PostData.Add('smssend[code]',Code);
+						PostData.Add('smssend[phone]',Copy(SMS['Phone'],7,5));
+						PostData.Add('smssend[txt]',SMS['Text']);
+						PostData.Add('smssend[hdelay]','0');
+						PostData.Add('smssend[mdelay]','0');
+						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+						PostData.Add('recaptcha_response_field',SMS['Code']);
+	end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Ваше сообщение отправлено!'))</success>
-		<error>eval(HTML.RegExp('&lt;td class=&quot;TD&quot;&gt;&lt;!--content--&gt;(.*?)&lt;br /&gt;&lt;strong&gt;&amp;larr;&amp;nbsp;&lt;a href=&quot;/sendsms/&quot;&gt;Вернуться назад&lt;/a&gt;',1))</error>
+		<success>eval(begin
+						Result:=HTML.ExistsStr('Сообщение отправлено');
+						Stored['CheckUrl']:='http://cell.motivtelecom.ru/ekb/smssend/checkStatus?id=' + HTML.RegExp('checkStatus\?id=(.*?)&lt;',1)+'&amp;_=';
+						end;)
+		</success>
+		<error>eval(HTML.RegExp('error_list&quot;&gt;.*?&lt;li&gt;(.*?)&lt;/li&gt;',1))</error>
+		<cd_method>GET</cd_method>
+		<cd_maxcheckdelivery>10</cd_maxcheckdelivery>
+		<cd_delay>1000</cd_delay>
+		<cd_delta>5000</cd_delta>
+		<cd_url>eval(Stored['CheckUrl']+VarToStr(DateTimeToUnix(Now()))+RandomString('0123456789',3))</cd_url>
+		<cd_success>eval(
+					begin
+						if Html.ExistsStr('undelivered') then
+							Result:='WAIT'
+						else Result:=HTML.ExistsStr('delivered');		
+					end;
+					)
+		</cd_success>
+		<cd_error>Ошибка доставки сообщения</cd_error>
 	</classprops>
 </gate>
