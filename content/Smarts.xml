@@ -4,7 +4,7 @@
 	<caption>Смартс</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -30,12 +30,13 @@
 		<supportflash>1</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<captcha>0</captcha>
+		<captcha>1</captcha>
 		<gateurl>http://smarts.ru/help/send_sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://smarts.ru/help/send_sms/</pageurl>
+		<imageurl>http://smarts.ru/_terminal/smssender/capcha.gif</imageurl>
 		<posturl>http://smarts.ru/help/send_sms/</posturl>
 		<postdata>eval(
 					begin
@@ -46,7 +47,7 @@
 						if SMS['Flash'] then
 							PostData.Add('flash','ON');
 						PostData.Add('sendtext',SMS['Text']);
-						PostData.Add('chars','&lt;font color=''green''&gt;' + VarToStr(Length(SMS['Text'])) + '&lt;/font&gt;');
+						PostData.Add('ssc',SMS['Code']);
 					end;
 		)
 		</postdata>
