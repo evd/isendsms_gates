@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -37,13 +37,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://cell.motivtelecom.ru/ekb/smssend</pageurl>
-		<imageurl>eval(
-					begin
-						HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
-						Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
-						Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
-					end;)
-		</imageurl>
+		<imageurl>http://cell.motivtelecom.ru/ekb/phpcaptcha/image</imageurl>
 		<posturl>http://cell.motivtelecom.ru/ekb/smssend</posturl>
 		<postdata>eval(
 					var
@@ -77,8 +71,7 @@
 						PostData.Add('smssend[txt]',SMS['Text']);
 						PostData.Add('smssend[hdelay]','0');
 						PostData.Add('smssend[mdelay]','0');
-						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
-						PostData.Add('recaptcha_response_field',SMS['Code']);
+						PostData.Add('smssend[captcha]',SMS['Code']);
 	end;
 					)
 		</postdata>
