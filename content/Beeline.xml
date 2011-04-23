@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>23</version>
+	<version>24</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -84,6 +84,7 @@
 						begin
 							PostData.Add('send','');
 							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('afcode',HTML.RegExp('name=&quot;afcode&quot; value=&quot;(.*?)&quot;',1));
 							PostData.Add('smstoprefix',SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
