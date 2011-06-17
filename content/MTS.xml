@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>83</version>
+	<version>84</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -25,8 +25,7 @@
 		<prefix start="+7 914538"/>
 		<prefix start="+7 91454" end="+7 91462"/>
 		<prefix start="+7 91463" tag="1"/>
-		<prefix start="+7 91464" end="+7 91479"/>
-		<prefix start="+7 91481"/>
+		<prefix start="+7 91464" end="+7 91481"/>
 		<prefix start="+7 91483" tag="1"/>
 		<prefix start="+7 91484" end="+7 91497"/>
 		<prefix start="+7 91498" tag="1"/>
