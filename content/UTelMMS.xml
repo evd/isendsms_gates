@@ -4,7 +4,7 @@
 	<caption>U-Tel ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -67,7 +67,7 @@
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://u-tel.ru/facilities/mms</pageurl>
 		<imageurl>eval(begin
-						Result:='http://mmsuser.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1);
+						Result:='http://mmsuser.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)''',1);
 						Stored['SavedCookie']:=Cookies['JSESSIONID'];
 					end;
 					)
