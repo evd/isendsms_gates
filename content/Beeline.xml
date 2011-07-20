@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>28</version>
+	<version>29</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -22,7 +22,6 @@
 		<prefix start="+7 908035" end="+7 908039"/>
 		<prefix start="+7 908694" end="+7 908698"/>
 		<prefix start="+7 909"/>
-		<prefix start="+7 95110" end="+7 95112"/>
 		<prefix start="+7 95226" end="+7 95228"/>
 		<prefix start="+7 960000" end="+7 962417"/>
 		<prefix start="+7 962419" end="+7 962460"/>
