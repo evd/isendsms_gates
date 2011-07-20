@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>27</version>
+	<version>28</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -62,20 +62,20 @@
 		<prefix start="+7 9688"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>160</maxsymbols>
+		<maxsymbols>140</maxsymbols>
 		<maxunicodesymbols>70</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.beeline.ru/sms/index.wbp</gateurl>
+		<gateurl>https://www.beeline.ru/sms/index.wbp</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.beeline.ru/sms/index.wbp</pageurl>
-		<imageurl>http://www.beeline.ru/sms/mamimg.aspx?width=240&amp;height=60</imageurl>
-		<posturl>http://www.beeline.ru/sms/index.wbp</posturl>
+		<pageurl>https://www.beeline.ru/sms/index.wbp</pageurl>
+		<imageurl>https://www.beeline.ru/sms/mamimg.aspx?width=240&amp;height=60</imageurl>
+		<posturl>https://www.beeline.ru/sms/index.wbp</posturl>
 		<postdata>eval(
 						begin
 							PostData.Add('send','');
@@ -102,7 +102,7 @@
 					)
 		</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://www.beeline.ru/sms/index.wbp</cd_posturl>
+		<cd_posturl>https://www.beeline.ru/sms/index.wbp</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
