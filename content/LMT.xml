@@ -4,7 +4,7 @@
 	<caption>LMT Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Латвия</country>
 	<prefixlist>
@@ -45,7 +45,7 @@
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.lmt.lv/rus/sakumlapa</pageurl>
 		<imageurl>eval('http://www.lmt.lv/smuksimg.php?'+Html.RegExp('smuksimg.php\?(.*?)&quot;',1))</imageurl>
-		<posturl>http://www.lmt.lv/sms.inc.php</posturl>
+		<posturl>http://www.lmt.lv/ajax/sms-handler.php</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('ajax','1');
