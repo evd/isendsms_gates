@@ -4,108 +4,12 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>12</version>
+	<version>14</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<prefix start="+7 925" end="+7 926" tag="0"/>
-		<prefix start="+7 9295" end="+7 9296" tag="0"/>
-		<prefix start="+7 9299" tag="0"/>
-		
-		<prefix start="+7 920100" end="+7 920110" tag="1"/>
-		<prefix start="+7 920112" end="+7 920199" tag="1"/>
-		<prefix start="+7 9203" tag="1"/>
-		<prefix start="+7 92064" end="+7 92069" tag="1"/>
-		<prefix start="+7 921" tag="1"/>
-		<prefix start="+7 929075" end="+7 929199" tag="1"/>
-		<prefix start="+7 930005" tag="1"/>
-		<prefix start="+7 930076" tag="1"/>
-		<prefix start="+7 930091" tag="1"/>
-		<prefix start="+7 930096" tag="1"/>
-		<prefix start="+7 93010" tag="1"/>
-		<prefix start="+7 930150" end="+7 930174" tag="1"/>
-		<prefix start="+7 93034" tag="1"/>
-		<prefix start="+7 93038" tag="1"/>
-		<prefix start="+7 931" tag="1"/>
-		
-		<prefix start="+7 9200" tag="2"/>
-		<prefix start="+7 920111" tag="2"/>
-		<prefix start="+7 92025" end="+7 92029" tag="2"/>
-		<prefix start="+7 92060" end="+7 92063" tag="2"/>
-		<prefix start="+7 9207" end="+7 9209" tag="2"/>
-		<prefix start="+7 929021" end="+7 929074" tag="2"/>
-		<prefix start="+7 930031" tag="2"/>
-		<prefix start="+7 930034" tag="2"/>
-		<prefix start="+7 930037" tag="2"/>
-		<prefix start="+7 930056" tag="2"/>
-		<prefix start="+7 930063" tag="2"/>
-		<prefix start="+7 930069" tag="2"/>
-		<prefix start="+7 930074" tag="2"/>
-		<prefix start="+7 9307" tag="2"/>
-		
-		<prefix start="+7 92253" end="+7 92255" tag="3"/>
-		<prefix start="+7 92262" tag="3"/>
-		<prefix start="+7 9228" tag="3"/>
-		<prefix start="+7 927" tag="3"/>
-		<prefix start="+7 929201" tag="3"/>
-		<prefix start="+7 929280" end="+7 929284" tag="3"/>
-		<prefix start="+7 9297" tag="3"/>
-		<prefix start="+7 932201" tag="3"/>
-		<prefix start="+7 93253" end="+7 93255" tag="3"/>
-		<prefix start="+7 93284" end="+7 93286" tag="3"/>
-		<prefix start="+7 937" tag="3"/>
-
-		<prefix start="+7 92020" end="+7 92024" tag="4"/>
-		<prefix start="+7 9204" end="+7 9205" tag="4"/>
-		<prefix start="+7 928000" end="+7 929020" tag="4"/>
-		<prefix start="+7 929800" end="+7 929802" tag="4"/>
-		<prefix start="+7 929813" end="+7 929899" tag="4"/>
-		<prefix start="+7 930011" tag="4"/>
-		<prefix start="+7 930014" tag="4"/>
-		<prefix start="+7 930086" tag="4"/>
-		<prefix start="+7 938100" tag="4"/>
-		<prefix start="+7 93820" tag="4"/>
-		<prefix start="+7 938300" tag="4"/>
-		<prefix start="+7 938400" end="+7 938410" tag="4"/>
-		<prefix start="+7 938864" tag="4"/>
-		<prefix start="+7 938887" tag="4"/>
-		<prefix start="+7 938889" tag="4"/>
-		<prefix start="+7 9974450" end="+7 9974456" tag="4"/>
-
-		<prefix start="+7 92200" end="+7 92252" tag="5"/>
-		<prefix start="+7 92256" end="+7 92261" tag="5"/>
-		<prefix start="+7 92263" end="+7 92279" tag="5"/>
-		<prefix start="+7 9229" tag="5"/>
-		<prefix start="+7 929200" tag="5"/>
-		<prefix start="+7 929202" end="+7 929243" tag="5"/>
-		<prefix start="+7 92925" end="+7 92927" tag="5"/>
-		<prefix start="+7 929285" end="+7 929299" tag="5"/>
-		<prefix start="+7 932100" tag="5"/>
-		<prefix start="+7 932200" tag="5"/>
-		<prefix start="+7 932203" tag="5"/>
-		<prefix start="+7 932207" tag="5"/>
-		<prefix start="+7 932209" tag="5"/>
-		<prefix start="+7 932400" tag="5"/>
-
-		<prefix start="+7 9231" end="+7 9237" tag="6"/>
-		<prefix start="+7 9293" tag="6"/>
-		<prefix start="+7 933100" tag="6"/>
-		<prefix start="+7 933200" tag="6"/>
-		<prefix start="+7 933300" end="+7 933301" tag="6"/>
-		<prefix start="+7 933310" tag="6"/>
-		<prefix start="+7 933314" tag="6"/>
-		
-		<prefix start="+7 9241" end="+7 9248" tag="7"/>
-		<prefix start="+7 9294" tag="7"/>
-		<prefix start="+7 934100" tag="7"/>
-		<prefix start="+7 934401" tag="7"/>
-		<prefix start="+7 934431" tag="7"/>
-		<prefix start="+7 934441" tag="7"/>
-		<prefix start="+7 934461" tag="7"/>
-		<prefix start="+7 934471" tag="7"/>
-		<prefix start="+7 934476" tag="7"/>
-		<prefix start="+7 934481" tag="7"/>
-		<prefix start="+7 934491" tag="7"/>
+		<prefix start="+7 920" end="+7 933"/>
+		<prefix start="+7 937" end="+7 938"/>
 
 		<prefix start="+7 812 90" end="+7 812 91" tag="1"/>
 		<prefix start="+7 812 93" end="+7 812 96" tag="1"/>
@@ -129,30 +33,16 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<sendinit>eval(
-					begin
-						if SMS['Phone_Tag']=0 then
-							Stored['URL']:='http://sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=1 then	
-							Stored['URL']:='http://szf.sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=2 then	
-							Stored['URL']:='http://center.sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=3 then	
-							Stored['URL']:='http://volga.sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=4 then	
-							Stored['URL']:='http://kavkaz.sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=5 then	
-							Stored['URL']:='http://ural.sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=6 then	
-							Stored['URL']:='http://sib.sendsms.megafon.ru'
-						else if SMS['Phone_Tag']=7 then	
-							Stored['URL']:='http://dv.sendsms.megafon.ru';
-					end;
-				)	
-		</sendinit>
-		<pageurl>eval(Stored['URL'])</pageurl>
-		<imageurl>eval(Stored['URL']+'/image.phtml?k=' + HTML.RegExp('image.phtml\?k=(.*?)&quot;',1))</imageurl>
-		<posturl>eval(Stored['URL']+'/sms.action')</posturl>
+		<pageurl>https://sendsms.megafon.ru</pageurl>
+		<imageurl>eval(
+						begin
+							HTTP.HTTPMethod('GET','http://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+							Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
+							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+						end;
+					)	
+		</imageurl>
+		<posturl>https://sendsms.megafon.ru/sms.action</posturl>
 		<multipart>1</multipart>
 		<postdata>eval(
 						var
@@ -166,7 +56,6 @@
 								Prefix:='925'
 							else
 								Prefix:=SMS['Phone_Def'];
-							PostData.Add('codekey',HTML.RegExp('name=&quot;codekey&quot;   value=&quot;(.*?)&quot;',1));
 							PostData.Add('charcheck',HTML.RegExp('name=&quot;charcheck&quot;   value=&quot;(.*?)&quot;',1));
 							PostData.Add('lang',HTML.RegExp('name=&quot;lang&quot;   value=&quot;(.*?)&quot;',1));
 							PostData.Add('prefix',SMS['Phone_Country']+Prefix);
@@ -179,30 +68,13 @@
 							PostData.Add('send_hour',FormatDateTime('h',DT));
 							PostData.Add('send_minute',FormatDateTime('n',DT));
 							PostData.Add('send_year',FormatDateTime('yyyy',DT));
-							PostData.Add('codevalue',SMS['Code']);
+							PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+							PostData.Add('recaptcha_response_field',SMS['Code']);
 						end;
 					)
 		</postdata>
-		<handleredirects>0</handleredirects>
-		<success>eval(
-					var
-						URL: string;
-					begin
-						URL:=HTTP['Location'];
-						if Pos('invalid_key',URL)>0 then
-							Stored['Error']:='Неверно введен код'
-						else
-						begin
-							Stored['Error']:='';
-							if (Length(URL)&gt;0) and (URL[Length(URL)]&lt;&gt;'/') then
-								URL:=URL+'/';
-							HTTP.HTTPMethod('GET',Stored['URL']+URL);
-							Result:=HTML.ExistsStr('Отправить другое сообщение');
-							if Result then
-								Stored['MsgID']:=Html.RegExp('&quot;/send/status/(.*?)(&quot;|/)',1);
-						end;		
-					end;)
-		</success>
+		<handleredirects>1</handleredirects>
+		<success>eval(Html.ExistsStr('Проверить статус'))</success>
 		<error>eval(begin
 						if Stored['Error']&lt;&gt;'' then
 							Result:=Stored['Error']
@@ -211,7 +83,7 @@
 					end;		
 		)</error>
 		<cd_method>GET</cd_method>
-		<cd_url>eval(Stored['URL']+'/send/status/'+Stored['MsgID']+'/')</cd_url>
+		<cd_url>https://sendsms.megafon.ru/send/status/</cd_url>
 		<cd_success>eval(begin
 							if Html.ExistsStr('Сообщение в процессе доставки') then
 								Result:='WAIT'
