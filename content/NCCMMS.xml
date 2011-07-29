@@ -4,11 +4,12 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>19</version>
+	<version>20</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90204" tag="2"/>
+		<prefix start="+7 902230" end="+7 902234"/>
 		<prefix start="+7 902287" end="+7 902288"/>
 		<prefix start="+7 90230"/>
 		<prefix start="+7 902666" end="+7 902669"/>
