@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>84</version>
+	<version>86</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -67,16 +67,12 @@
 		<prefix start="+7 98410" end="+7 98411"/>
 		<prefix start="+7 985"/>
 		<prefix start="+7 987205" end="+7 987399"/>
-		<prefix start="+7 98750" end="+7 98752"/>
-		<prefix start="+7 98759" end="+7 98766"/>
-		<prefix start="+7 987670" end="+7 987684"/>
-		<prefix start="+7 98769" end="+7 98771"/>
-		<prefix start="+7 98774" end="+7 98775"/>
-		<prefix start="+7 98778" end="+7 98779"/>
-		<prefix start="+7 98782" end="+7 98789"/>
-		<prefix start="+7 98791" end="+7 98797"/>
-		<prefix start="+7 98799"/>
-		<prefix start="+7 988 09" end="+7 988 11"/>
+		<prefix start="+7 98740" end="+7 98746" />
+		<prefix start="+7 98750" end="+7 98771"/>
+		<prefix start="+7 987720" end="+7 987732" />
+		<prefix start="+7 987735" end="+7 987739" />
+		<prefix start="+7 98774" end="+7 98799"/>
+		<prefix start="+7 98809" end="+7 98811"/>
 		<prefix start="+7 98814" end="+7 98818"/>
 		<prefix start="+7 988200" end="+7 988473"/>
 		<prefix start="+7 988474" end="+7 988483"/>
