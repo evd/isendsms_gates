@@ -4,7 +4,7 @@
 	<caption>МТС Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -31,6 +31,7 @@
 						var
 							Key: string;
 						begin
+							Cookies['PHPSESSID']:=Html.RegExp('PHPSESSID=(.*?)&amp;',1);
 							PostData.Add('script','/rus/sendsms.php');
 							PostData.Add('sms_tag_id','3');
 							PostData.Add('network1',SMS['Phone_Country'] + SMS['Phone_Def']);
