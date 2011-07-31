@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Owap</name>
+	<caption>Owap</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>4</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 900 000" end="+7 999 999"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://sms.owap.biz/wses/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.owap.biz/wses/</pageurl>
+		<imageurl>eval('http://sms.owap.biz/wses/img.php?sid='+Html.RegExp('&lt;img src=&quot;img\.php\?sid=(.*?)&quot;',1))</imageurl>
+		<posturl>eval('http://sms.owap.biz/wses/index.php?tmp='+Html.RegExp('action=&quot;/wses/index\.php\?tmp=(.*?)&quot;',1))</posturl>
+		<postdata>eval(
+			begin
+				PostData.Add('code',SMS['Code']);
+				PostData.Add('phone',SMS['Phone_Def']+SMS['Phone_Number']);
+				PostData.Add('text',SMS['Text']);
+				PostData.Add('sid',Html.RegExp('name=&quot;sid&quot; value=&quot;(.*?)&quot;',1));
+			end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;div&gt;(.*?)&lt;',1))</error>
+	</classprops>
+</gate>
