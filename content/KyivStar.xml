@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -21,13 +21,17 @@
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.kyivstar.ua/ru/sms/</gateurl>
+		<clickimage>1</clickimage>
+		<clickimagewidth>70</clickimagewidth>
+		<clickimageheight>70</clickimageheight>
+		<supportautorecognize>0</supportautorecognize>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<sendinit>eval(begin HTTP.Referer:='http://www.kyivstar.ua'; Result:=true; end;)</sendinit>
 		<pageurl>http://smsgate.kyivstar.ua/sms/?lang=ru</pageurl>
-		<imagedescription>eval('Введите номера '+Html.RegExp('укажите(.*?)картинки живой природы',1)+'картинок живой природы')</imagedescription>
 		<imageurl>eval('http://smsgate.kyivstar.ua/sms/images.jpg?id='+Html.RegExp('background-image: url\(''/sms/images.jpg\?id=(.*?)''',1))</imageurl>
+		<imagedescription>eval('Выберите'+Html.RegExp('укажите(.*?)картинки живой природы',1)+'картинки живой природы')</imagedescription>
 		<proccessimage>eval(
 							var
 								x,y,srcy: integer;
@@ -38,7 +42,6 @@
 									begin
 										if srcy&gt;=630 then break;
 										Img.CopyRect(x*70,y*70,Bounds(0,srcy,70,70));
-										Img.TextOut(x*70+5,y*70+5,VarToStr(5*y+x+1));
 										srcy:=srcy+70;
 									end;
 							end;

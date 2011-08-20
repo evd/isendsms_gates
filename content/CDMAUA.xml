@@ -4,7 +4,7 @@
 	<caption>CDMA Ukraine</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -23,11 +23,15 @@
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.cdma.ua/sms/</gateurl>
+		<clickimage>1</clickimage>
+		<clickimagewidth>70</clickimagewidth>
+		<clickimageheight>70</clickimageheight>
+		<supportautorecognize>0</supportautorecognize>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://www.cdma.ua/sms/</pageurl>
-		<imagedescription>eval('Введите номера '+Html.RegExp('укажите(.*?)картинки с изображением транспорта',1)+' картинок с изображением транспорта')</imagedescription>
+		<imagedescription>eval('Выберите'+Html.RegExp('укажите(.*?)картинки с изображением транспорта',1)+' картинки с изображением транспорта')</imagedescription>
 		<imageurl>eval('http://www.cdma.ua/upload/tmp/'+Html.RegExp('\.smsCodeImage \{background-image:url\(\/upload\/tmp\/(.*?)\)',1))</imageurl>
 		<proccessimage>eval(
 							var
@@ -39,7 +43,6 @@
 									begin
 										if srcy&gt;=630 then break;
 										Img.CopyRect(x*70,y*70,Bounds(0,srcy,70,70));
-										Img.TextOut(x*70+5,y*70+5,VarToStr(5*y+x));
 										srcy:=srcy+70;
 									end;
 							end;
@@ -48,12 +51,20 @@
 		<posturl>http://www.cdma.ua/sms/</posturl>
 		<postdata>eval(
 						var
-							i: integer;
-							TCode: string;
+							i, CodeNum: integer;
+							TCode, CodeCh: string;
 						begin
-							TCode:=Copy(SMS['Code'],1,1);
-							for i:=2 to Length(SMS['Code']) do
-								TCode:=TCode+','+Copy(SMS['Code'],i,1);
+							for i:=1 to Length(SMS['Code']) do
+							begin
+								CodeCh:=Copy(SMS['Code'],i,1);
+								if (CodeCh&gt;='0') and (CodeCh&lt;='9') then
+								begin
+									CodeNum:=VarAsType(CodeCh,varInteger) - 1;
+									if TCode&lt;&gt;'' then
+										TCode:=TCode+',';
+									TCode:=TCode + VarToStr(CodeNum);
+								end;
+							end;
 							PostData.Add('imgSelected',TCode);
 							PostData.Add('CODE','0'+SMS['Phone_Def']);
 							PostData.Add('NUMBER',SMS['Phone_Number']);
