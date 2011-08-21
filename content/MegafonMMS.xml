@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -38,6 +38,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
+		<error_unsupport>Сервис на реконструкции, подробнее на сайте оператора</error_unsupport>
 		<multipart>1</multipart>
 		<pageurl>http://sendmms.megafon.ru</pageurl>
 		<imageurl>eval('http://sendmms.megafon.ru/image.phtml?k=' + HTML.RegExp('image\.phtml\?k=(.*?)&quot;',1))</imageurl>
