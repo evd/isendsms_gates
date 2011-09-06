@@ -4,7 +4,7 @@
 	<caption>БиЛайн Грузия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Грузия</country>
 	<prefixlist>
@@ -23,13 +23,13 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://rus.beeline.ge/mybeeline/smssend.wbp</gateurl>
+		<gateurl>http://mobile.beeline.ge/ru/main/sms/send.wbp</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://rus.beeline.ge/mybeeline/smssend.wbp</pageurl>
-		<imageurl>http://rus.beeline.ge/mybeeline/mamimg.aspx</imageurl>
-		<posturl>http://rus.beeline.ge/mybeeline/smssend.wbp</posturl>
+		<pageurl>http://mobile.beeline.ge/ru/main/sms/send.wbp</pageurl>
+		<imageurl>http://mobile.beeline.ge/ru/main/sms/mamimg.aspx</imageurl>
+		<posturl>http://mobile.beeline.ge/ru/main/sms/send.wbp</posturl>
 		<postdata>eval(
 						begin
 							PostData.Add('send','');
@@ -47,18 +47,16 @@
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
+		<success>eval(HTML.ExistsStr('Сообщение перешло в режим ожидания'))</success>
 		<error>eval(begin
-						Result:=Html.RegExp('&lt;center style=&quot;margin-bottom: 30&quot;&gt;(.*?)&lt;/center&gt;',1);
-						if Result='' then
-							Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;',1);
+						Result:=Html.RegExp('&lt;DIV style=&quot;margin-bottom: 20px&quot; CLASS=&quot;err&quot;&gt;(.*?)&lt;/DIV&gt;',1);
 					end;		
 					)</error>
 		<cd_method>POST</cd_method>
 		<cd_delay>7000</cd_delay>
 		<cd_delta>3000</cd_delta>
 		<cd_maxcheckdelivery>20</cd_maxcheckdelivery>
-		<cd_posturl>http://rus.beeline.ge/mybeeline/smssend.wbp</cd_posturl>
+		<cd_posturl>http://mobile.beeline.ge/ru/main/sms/send.wbp</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
@@ -69,7 +67,7 @@
 		</cd_postdata>
 		<cd_success>eval(
 						begin
-							if Html.ExistsStr('Сообщение помещено в очередь отправки') then
+							if Html.ExistsStr('Сообщение перешло в режим ожидания') then
 								Result:='WAIT'
 							else Result:=HTML.ExistsStr('Сообщение отправлено');
 						end;	
