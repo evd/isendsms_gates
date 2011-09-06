@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>90</version>
+	<version>91</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -240,7 +240,7 @@
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$tbPhoneNumber',SMS['Phone_Def']+SMS['Phone_Number']);
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$tbMessage',SMS['Text']);
 						if SMS['Delivery'] then
-							PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl01$ctl00$SmsSendingControl$chbForCalendar','on');
+							PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$chbForCalendar','on');
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$ctl01',FormatDateTime('dd',DT));
 						PostData.Add('ctl00_ctl00_ctl00_ctl03_ctl00_ctl05_ctl01_ctl02_ctl00_SmsSendingControl_ctl01_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('d',DT)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('dd',DT)+'&quot;,&quot;enabled&quot;:false}');
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$ctl02',GetMonthLongRus(DT,false,true));
