@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>41</version>
+	<version>42</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -109,9 +109,9 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.sms.tele2.ru/</pageurl>
-		<imageurl>eval('http://www.sms.tele2.ru/get_rni.php?public_key='+Html.RegExp('id=''public_key'' value=''(.*?)''',1))</imageurl>
-		<posturl>http://www.sms.tele2.ru/</posturl>
+		<pageurl>http://www.ru.tele2.ru/send_sms.html</pageurl>
+		<imageurl>eval('http://new.tools.tele2.ru/get_rni.php?public_key='+Html.RegExp('id=''public_key'' value=''(.*?)''',1))</imageurl>
+		<posturl>http://www.ru.tele2.ru/send_sms.html</posturl>
 		<postdata>eval(
 						begin
 							PostData.Add('do','send');
@@ -123,7 +123,6 @@
 								PostData.Add('translit','1');
 							PostData.Add('private_key',SMS['Code']);
 							PostData.Add('public_key',Html.RegExp('id=''public_key'' value=''(.*?)''',1));
-							PostData.Add('submit','');
 						end;
 					)
 		</postdata>
