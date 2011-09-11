@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>91</version>
+	<version>92</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -220,7 +220,7 @@
 								DT:=DT+5*OneMinute;
 							end;	
 						end;
-						DT:=AdjustTimeZone(DT,180,true);
+						DT:=AdjustTimeZone(DT,240,false);
 						if SMS['Phone_Def']='495' then
 							PhoneDef:='985'
 						else PhoneDef:=SMS['Phone_Def'];
