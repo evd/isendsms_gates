@@ -154,19 +154,106 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<error_unsupport>В связи изменениями на сайте МТС отправка на этот оператор не работет, подробности на форуме iSendSMS</error_unsupport>
 		<handleredirects>0</handleredirects>
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>http://www.mts.ru/messaging1/sendsms/</pageurl>
 		<customimage>1</customimage>
 		<proccessimage>eval(
 			var
-				i,cnt, p: integer;
+				i, j, cnt, attrcnt, hiddencnt, p: integer;
 				Items, PStr: string;
+				VarNames: TPropList;
+				Matches, HiddenMatches: TRegExpMatches;
+				Res, Arg1, Arg2, Op: string;
+				Hiddens, HiddensAttrs: TPropList;
+				HiddenStr: string;
 			begin
 				Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
 
+				HTTP.CustomMime:='application/json; charset=utf-8';
 				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+				//HTTP.HTTPMethod('POST','http://localhost/mts/test1.txt');
+
+				//Получаем скрытые поля
+				//Собираем все переменные
+				VarNames:=TPropList.Create;
+				Matches:=TRegExpMatches.Create;
+				cnt:=Html.RegExpAll('var\s([\w\d_]+)\s=\s(\\")?([\w\d_]*)(\\")?;', Matches);
+				for i:=0 to cnt-1 do
+					VarNames[Matches.GetCapture(i,1)]:=Matches.GetCapture(i,3);
+				//Собираем и выполняем операции
+				cnt:=Html.RegExpAll('([\w\d_]+)\s=\s([\w\d_]+)\s([/*+-])\s(\\")?([\w\d_]+)(\\")?;', Matches);
+				for i:=0 to cnt-1 do
+				begin
+					//1 - имя результирующей переменной, 2 - имя переменной, 3 - операция, 4 - кавычка (если строка), 5 - значение
+					Res:=Matches.GetCapture(i,1);
+					Arg1:=Matches.GetCapture(i,2);
+					Op:=Matches.GetCapture(i,3);
+					Arg2:=Matches.GetCapture(i,5);
+					if Op='+' then
+					begin
+						if (Matches.GetCapture(i,4)='\"') then
+							VarNames[Res]:=VarNames[Arg1] + Arg2
+						else
+							VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) + VarAsType(Arg2,varInteger);
+					end
+					else if Op='-' then
+						VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) - VarAsType(Arg2,varInteger)
+					else if Op='*' then
+						VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) * VarAsType(Arg2,varInteger)
+					else if Op='/' then
+						VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) div VarAsType(Arg2,varInteger);
+				end;
+				//Сбор скрытих полей
+				hiddencnt:=Html.RegExpAll('append.*?''name'',\s([\w\d_]+)\).*?val\(([\w\d_]+)\)\);', Matches);
+				Hiddens:=TPropList.Create;
+				HiddensAttrs:=TPropList.Create;
+				HiddenMatches:=TRegExpMatches.Create;
+				for i:=0 to hiddencnt-1 do
+				begin
+					//0 - все аттрибуты скрытого поля, 1 - имя переменной имени поля, 2 - имя переменной значения скрытого поля
+					Hiddens[i]:=VarToStr(VarNames[Matches.GetCapture(i,1)])+'='+VarToStr(VarNames[Matches.GetCapture(i,2)]);
+					HiddenStr:=Matches.GetCapture(i,0);
+					HiddensAttrs[i]:='';
+					//Сбор классов
+					attrcnt:=RegExpAll('addClass\(''([\w\d_]+)''\)', HiddenStr, HiddenMatches);
+					for j:=0 to attrcnt-1 do
+						HiddensAttrs[i]:=HiddensAttrs[i] + ',.' + HiddenMatches.GetCapture(j, 1);
+					//Сбор аттрибутов
+					attrcnt:=RegExpAll('attr\(''([\w\d_]+)'',\s''([\w\d_]+)''\)', HiddenStr, HiddenMatches);
+					for j:=0 to attrcnt-1 do
+						if HiddenMatches.GetCapture(j, 1)&lt;&gt;'type' then
+							HiddensAttrs[i]:=HiddensAttrs[i] + ',' + HiddenMatches.GetCapture(j, 1) + '=' + HiddenMatches.GetCapture(j, 2);
+				end;
+				HiddenMatches.Free;
+				//Удяляем по классу
+				cnt:=Html.RegExpAll('input\.([\w\d_]+)''', Matches);
+				for i:=0 to cnt-1 do
+					for j:=0 to hiddencnt-1 do
+					begin
+						if Pos('.'+Matches.GetCapture(i,1),HiddensAttrs[j])>0 then
+							Hiddens[j]:=''; //Удаление
+					end;
+				//Удяляем по аттрибуту
+				cnt:=Html.RegExpAll('\]\[([\w\d_]+)=\\"([\w\d_]+)\\"', Matches);
+				for i:=0 to cnt-1 do
+					for j:=0 to hiddencnt-1 do
+					begin
+						if Pos(Matches.GetCapture(i,1)+'='+Matches.GetCapture(i,2),HiddensAttrs[j])>0 then
+							Hiddens[j]:=''; //Удаление
+					end;
+				//Получаем итоговые переменные
+				Stored['HiddenInputs']:='';
+				for i:=0 to hiddencnt-1 do
+					if Hiddens[i]&lt;&gt;'' then
+						Stored['HiddenInputs']:=Stored['HiddenInputs']+'&amp;'+Hiddens[i];
+				//Очищаем
+				Matches.Free;
+				VarNames.Free;
+				Hiddens.Free;
+				HiddensAttrs.Free;
+
+				//Получаем изображения
 				Items:=Html.StrBetween('Items&quot;:[',']');
 				p:=Pos(',',Items);
 				cnt:=0;
@@ -183,8 +270,6 @@
 						Items:='';
 					end;	
 					Stored['CaptchaImg'+VarToStr(cnt)]:=StrBetween(PStr,'Id&quot;:&quot;','&quot;');
-
-
 					p:=Pos(',',Items);
 				end;
 
@@ -198,7 +283,6 @@
 					Img.AssignSourceImage($FFFFFF);
 					Img.CopyRect((i-1)*50,0,Bounds(0,0,50,50));
 				end;
-				
 				
 			end;
 		)
@@ -233,6 +317,7 @@
 							FinalCode:=FinalCode+Stored['CaptchaImg'+Code[i]];
 						end;
 						
+						
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$scriptManagerId','ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$updatePanelPanel|ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$btnSend');
 						PostData.Add('ctl00_ctl00_ctl00_ctl03_ctl00_ctl05_scriptManagerId_TSM',';;System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:ru-RU:e71d0a15-7471-4384-9905-78bdf2047cba:ea597d4b:b25378d2;Quantumart.QA_Captcha:ru-RU:c4d1c6cb-4b9c-46ee-b632-6b14ab78324f:a58a19fa;Telerik.Web.UI, Version=2011.1.413.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4:ru-RU:4701e229-f1c8-4ec4-9c40-b2d233d95d5d:16e4e7cd:86526ba7:ed16cbdc:f7645509:24ee1bba:f46195d3:1e771326:aa288e2d;');
 						PostData.Add('ctl00_ctl00_ctl00_ctl03_ctl00_ctl05_ctl01_rfdFormDecorator_ClientState','');
@@ -252,6 +337,7 @@
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$ctl06',FormatDateTime('nn',DT));
 						PostData.Add('ctl00_ctl00_ctl00_ctl03_ctl00_ctl05_ctl01_ctl02_ctl00_SmsSendingControl_ctl06_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+FormatDateTime('n',DT)+'&quot;,&quot;text&quot;:&quot;'+FormatDateTime('nn',DT)+'&quot;,&quot;enabled&quot;:false}');
 						PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl05$ctl01$ctl02$ctl00$SmsSendingControl$ctrlCaptcha$ClientState',FinalCode);
+						PostData.AddRawData(Stored['HiddenInputs']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
 						PostData.Add('__VIEWSTATE',Stored['ViewState']);
