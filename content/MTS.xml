@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>95</version>
+	<version>96</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -172,7 +172,6 @@
 
 				HTTP.CustomMime:='application/json; charset=utf-8';
 				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
-				//HTTP.HTTPMethod('POST','http://localhost/mts/test1.txt');
 
 				//Получаем скрытые поля
 				//Собираем все переменные
