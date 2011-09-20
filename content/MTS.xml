@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>96</version>
+	<version>97</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -158,6 +158,7 @@
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>http://www.mts.ru/messaging1/sendsms/</pageurl>
 		<customimage>1</customimage>
+		<error_unsupport>В связи изменениями на сайте МТС отправка на этот оператор не работет, подробности на форуме iSendSMS</error_unsupport>
 		<proccessimage>eval(
 			var
 				i, j, cnt, attrcnt, hiddencnt, p: integer;
