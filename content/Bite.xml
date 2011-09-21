@@ -4,7 +4,7 @@
 	<caption>Bite Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Латвия</country>
 	<prefixlist>
@@ -53,33 +53,40 @@
 		<supportunicode>0</supportunicode>
 		<captcha>1</captcha>
 		<supportcheckdelivery>0</supportcheckdelivery>
-		<gateurl>http://www.bite.lv/ru/send_sms?</gateurl>
+		<gateurl>http://www.bite.lv/ru/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.bite.lv/ru/send_sms?</pageurl>
-		<imageurl>eval(
-					begin
-						HTTP.HTTPMethod('GET','http://api.recaptcha.net/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
-						Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
-						Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
-					end;)
-		</imageurl>
-		<posturl>eval('http://www.bite.lv/ru/send_sms/send/?'+VarToStr(DateTimeToUnix(Now()))+RandomString('0123456789',4))</posturl>
+		<pageurl>http://www.bite.lv/ru/sms</pageurl>
+		<imageurl>eval('http://www.bite.lv/ru/image_captcha'+Html.RegExp('image_captcha(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.bite.lv/ru/sms</posturl>
+		<multipart>1</multipart>
 		<postdata>eval(
 					begin
-						PostData.Add('data[recipient]',SMS['Phone_Def']+SMS['Phone_Number']);
-						PostData.Add('data[message]',SMS['Text']);
-						PostData.Add('data[captcha]',SMS['Code']);
-						PostData.Add('data[challenge]',Stored['challenge']);
+						//PostData.UnsafeFormName:='&lt;&gt;&quot;%{}|\^~`'+NonAsciiChar;
+						PostData.Add('submitted[recepient_mobile_phone_number]',SMS['Phone_Def']+SMS['Phone_Number']);
+						PostData.Add('submitted[message]',SMS['Text']);
+						PostData.Add('details[sid]','');
+						PostData.Add('details[page_num]','1');
+						PostData.Add('details[page_count]','1');
+						PostData.Add('details[finished]','0');
+						PostData.Add('form_build_id',Html.RegExp('name=&quot;form_build_id&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('form_id','webform_client_form_' + Html.RegExp('value=&quot;webform_client_form_(.*?)&quot;',1));
+						PostData.Add('tabmod[tabmod__active_tab]','');
+						PostData.Add('captcha_sid',Html.RegExp('name=&quot;captcha_sid&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_token',Html.RegExp('name=&quot;captcha_token&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_response',SMS['Code']);
+						PostData.Add('op','ОТПРАВИТЬ');
 					end;
 					)
 		</postdata>
-		<success>eval(Html.ExistsStr('1'))</success>
+		<success>eval(Html.ExistsStr('Сообщение отправлено успешно'))</success>
 		<error>eval(
 					begin
-						if Html.ExistsStr('3') then
+						if Html.ExistsStr('captcha_response.*?class=&quot;form-text required error') then
 							Result:='Неверно введены символы с картинки.'
+						else if Html.ExistsStr('bite_error_number') then
+							Result:='Недействительный номер телефона. Убедись, что номер телефона введён правильно и что он принадлежит клиенту &quot;BITE Latvija&quot;'
 						else
 							Result:='Сообщение не отправлено';
 					end;
