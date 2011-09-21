@@ -4,7 +4,7 @@
 	<caption>Bite Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Латвия</country>
 	<prefixlist>
@@ -22,6 +22,8 @@
 		<prefix start="+371 2760" end="+371 2767" format="3.3.5"/>
 		<prefix start="+371 200" format="3.3.5"/>
 		
+		<prefix start="+371 200" format="3.3.5"/>
+		<prefix start="+371 203" format="3.3.5"/>
 		<prefix start="+371 259" format="3.3.5"/>
 		<prefix start="+371 260" format="3.3.5"/>
 		<prefix start="+371 267" end="+371 271" format="3.3.5"/>

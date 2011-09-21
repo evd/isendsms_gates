@@ -4,7 +4,7 @@
 	<caption>LMT Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Латвия</country>
 	<prefixlist>
@@ -21,6 +21,7 @@
 		<prefix start="+371 291" end="+371 294" format="3.3.5"/>
 
 		<prefix start="+371 200" format="3.3.5"/>
+		<prefix start="+371 203" format="3.3.5"/>
 		<prefix start="+371 259" format="3.3.5"/>
 		<prefix start="+371 260" format="3.3.5"/>
 		<prefix start="+371 267" end="+371 271" format="3.3.5"/>
@@ -30,6 +31,19 @@
 		<prefix start="+371 2230" end="+371 2238" format="3.3.5"/>
 		<prefix start="+371 2844" end="+371 2848" format="3.3.5"/>
 
+		<prefix start="+371 221" format="3.3.5"/>
+		<prefix start="+371 225" format="3.3.5"/>
+		<prefix start="+371 273" end="+371 275" format="3.3.5"/>
+		<prefix start="+371 277" format="3.3.5"/>
+		<prefix start="+371 279" format="3.3.5"/>
+		<prefix start="+371 2205" end="+371 2209" format="3.3.5"/>
+		<prefix start="+371 2239" format="3.3.5"/>
+		<prefix start="+371 2280" end="+371 2284" format="3.3.5"/>
+		<prefix start="+371 2550" end="+371 2555" format="3.3.5"/>
+		<prefix start="+371 2585" end="+371 2588" format="3.3.5"/>
+		<prefix start="+371 2720" end="+371 2729" format="3.3.5"/>
+		<prefix start="+371 2760" end="+371 2767" format="3.3.5"/>
+		<prefix start="+371 200" format="3.3.5"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>143</maxsymbols>
