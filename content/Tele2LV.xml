@@ -4,7 +4,7 @@
 	<caption>Tele2 Латвия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>20</priority>
 	<country>Латвия</country>
 	<prefixlist>
@@ -43,7 +43,6 @@
 		<prefix start="+371 2585" end="+371 2588" format="3.3.5"/>
 		<prefix start="+371 2720" end="+371 2729" format="3.3.5"/>
 		<prefix start="+371 2760" end="+371 2767" format="3.3.5"/>
-		<prefix start="+371 200" format="3.3.5"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>143</maxsymbols>
