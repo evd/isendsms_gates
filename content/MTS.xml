@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>97</version>
+	<version>98</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -158,101 +158,132 @@
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>http://www.mts.ru/messaging1/sendsms/</pageurl>
 		<customimage>1</customimage>
-		<error_unsupport>В связи изменениями на сайте МТС отправка на этот оператор не работет, подробности на форуме iSendSMS</error_unsupport>
 		<proccessimage>eval(
 			var
-				i, j, cnt, attrcnt, hiddencnt, p: integer;
-				Items, PStr: string;
-				VarNames: TPropList;
-				Matches, HiddenMatches: TRegExpMatches;
-				Res, Arg1, Arg2, Op: string;
-				Hiddens, HiddensAttrs: TPropList;
-				HiddenStr: string;
+				i, cnt, p: integer;
+				Code, MTSCode, Items, PStr: string;
+				JS: TJSEval;
 			begin
 				Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
 
 				HTTP.CustomMime:='application/json; charset=utf-8';
 				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+				JS:=TJSEval.Create;
 
-				//Получаем скрытые поля
-				//Собираем все переменные
-				VarNames:=TPropList.Create;
-				Matches:=TRegExpMatches.Create;
-				cnt:=Html.RegExpAll('var\s([\w\d_]+)\s=\s(\\")?([\w\d_]*)(\\")?;', Matches);
-				for i:=0 to cnt-1 do
-					VarNames[Matches.GetCapture(i,1)]:=Matches.GetCapture(i,3);
-				//Собираем и выполняем операции
-				cnt:=Html.RegExpAll('([\w\d_]+)\s=\s([\w\d_]+)\s([/*+-])\s(\\")?([\w\d_]+)(\\")?;', Matches);
-				for i:=0 to cnt-1 do
-				begin
-					//1 - имя результирующей переменной, 2 - имя переменной, 3 - операция, 4 - кавычка (если строка), 5 - значение
-					Res:=Matches.GetCapture(i,1);
-					Arg1:=Matches.GetCapture(i,2);
-					Op:=Matches.GetCapture(i,3);
-					Arg2:=Matches.GetCapture(i,5);
-					if Op='+' then
-					begin
-						if (Matches.GetCapture(i,4)='\"') then
-							VarNames[Res]:=VarNames[Arg1] + Arg2
-						else
-							VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) + VarAsType(Arg2,varInteger);
-					end
-					else if Op='-' then
-						VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) - VarAsType(Arg2,varInteger)
-					else if Op='*' then
-						VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) * VarAsType(Arg2,varInteger)
-					else if Op='/' then
-						VarNames[Res]:=VarAsType(VarNames[Arg1],varInteger) div VarAsType(Arg2,varInteger);
-				end;
-				//Сбор скрытих полей
-				hiddencnt:=Html.RegExpAll('append.*?''name'',\s([\w\d_]+)\).*?val\(([\w\d_]+)\)\);', Matches);
-				Hiddens:=TPropList.Create;
-				HiddensAttrs:=TPropList.Create;
-				HiddenMatches:=TRegExpMatches.Create;
-				for i:=0 to hiddencnt-1 do
-				begin
-					//0 - все аттрибуты скрытого поля, 1 - имя переменной имени поля, 2 - имя переменной значения скрытого поля
-					Hiddens[i]:=VarToStr(VarNames[Matches.GetCapture(i,1)])+'='+VarToStr(VarNames[Matches.GetCapture(i,2)]);
-					HiddenStr:=Matches.GetCapture(i,0);
-					HiddensAttrs[i]:='';
-					//Сбор классов
-					attrcnt:=RegExpAll('addClass\(''([\w\d_]+)''\)', HiddenStr, HiddenMatches);
-					for j:=0 to attrcnt-1 do
-						HiddensAttrs[i]:=HiddensAttrs[i] + ',.' + HiddenMatches.GetCapture(j, 1);
-					//Сбор аттрибутов
-					attrcnt:=RegExpAll('attr\(''([\w\d_]+)'',\s''([\w\d_]+)''\)', HiddenStr, HiddenMatches);
-					for j:=0 to attrcnt-1 do
-						if HiddenMatches.GetCapture(j, 1)&lt;&gt;'type' then
-							HiddensAttrs[i]:=HiddensAttrs[i] + ',' + HiddenMatches.GetCapture(j, 1) + '=' + HiddenMatches.GetCapture(j, 2);
-				end;
-				HiddenMatches.Free;
-				//Удяляем по классу
-				cnt:=Html.RegExpAll('input\.([\w\d_]+)''', Matches);
-				for i:=0 to cnt-1 do
-					for j:=0 to hiddencnt-1 do
-					begin
-						if Pos('.'+Matches.GetCapture(i,1),HiddensAttrs[j])>0 then
-							Hiddens[j]:=''; //Удаление
-					end;
-				//Удяляем по аттрибуту
-				cnt:=Html.RegExpAll('\]\[([\w\d_]+)=\\"([\w\d_]+)\\"', Matches);
-				for i:=0 to cnt-1 do
-					for j:=0 to hiddencnt-1 do
-					begin
-						if Pos(Matches.GetCapture(i,1)+'='+Matches.GetCapture(i,2),HiddensAttrs[j])>0 then
-							Hiddens[j]:=''; //Удаление
-					end;
-				//Получаем итоговые переменные
-				Stored['HiddenInputs']:='';
-				for i:=0 to hiddencnt-1 do
-					if Hiddens[i]&lt;&gt;'' then
-						Stored['HiddenInputs']:=Stored['HiddenInputs']+'&amp;'+Hiddens[i];
-				//Очищаем
-				Matches.Free;
-				VarNames.Free;
-				Hiddens.Free;
-				HiddensAttrs.Free;
+				MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
+				MTSCode:=ReplaceStr(MTSCode, '\&quot;','&quot;');
 
+				//Добавялем свой код, эмулируем jQuery
+				Code:='' + 	
+'var inputs = [];' + sLineBreak +
+'function form() {' + sLineBreak +
+'	return {' + sLineBreak +
+'		append: function(obj){' + sLineBreak +
+'		}' + sLineBreak +
+'	}	' + sLineBreak +
+'};' + sLineBreak +
+'function input(){' + sLineBreak +
+'	var new_input = {' + sLineBreak +
+'		classes: [],' + sLineBreak +
+'		attrs: [],' + sLineBreak +
+'		name: &quot;&quot;,' + sLineBreak +
+'		val: &quot;&quot;,' + sLineBreak +
+'		attr: function(name, value) {' + sLineBreak +
+'			if (name!=&quot;name&quot;)' + sLineBreak +
+'				this.attrs[name] = value;' + sLineBreak +
+'			else' + sLineBreak +
+'				this.name = value; 	' + sLineBreak +
+'			return this;' + sLineBreak +
+'		},' + sLineBreak +
+'		addClass: function(classname) {' + sLineBreak +
+'			this.classes.push(classname);' + sLineBreak +
+'			return this; ' + sLineBreak +
+'		},' + sLineBreak +
+'		val: function(value) {' + sLineBreak +
+'			this.val = value;' + sLineBreak +
+'			return this;			' + sLineBreak +
+'		},' + sLineBreak +
+'		remove: function() {' + sLineBreak +
+'			for(var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'				if (inputs[i]==this) {' + sLineBreak +
+'					inputs.splice(i,1);' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	};' + sLineBreak +
+'	inputs.push(new_input);' + sLineBreak +
+'	return new_input;' + sLineBreak +
+'		' + sLineBreak +
+'	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function search_byselector(selector) {' + sLineBreak +
+'	var className=&quot;&quot;;' + sLineBreak +
+'	var AttrName=&quot;&quot;;' + sLineBreak +
+'	var AttrValue=&quot;&quot;;' + sLineBreak +
+'	//Извлекаем класс' + sLineBreak +
+'	var p = selector.indexOf(&quot;.&quot;);' + sLineBreak +
+'	if (p&gt;=0) {' + sLineBreak +
+'		className = selector.substring(p+1);' + sLineBreak +
+'	}' + sLineBreak +
+'	//Извлекаем аттрибут' + sLineBreak +
+'	var reg = new RegExp(&quot;\\[([\\w\\d_]+)=\&quot;([\\w\\d_]+)\&quot;\\]&quot;,&quot;g&quot;);' + sLineBreak +
+'	var matches = reg.exec(selector);' + sLineBreak +
+'	while (matches!=null) {' + sLineBreak +
+'		if (matches[1]!=&quot;type&quot;) {' + sLineBreak +
+'			AttrName=matches[1];' + sLineBreak +
+'			AttrValue=matches[2];' + sLineBreak +
+'		}	' + sLineBreak +
+'		matches = reg.exec(selector);' + sLineBreak +
+'	}' + sLineBreak +
+'	var result = null;' + sLineBreak +
+'	//Ищем по классу или аттрибуту' + sLineBreak +
+'	for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'		if (className!=&quot;&quot;) {' + sLineBreak +
+'			for (var j=0;j&lt;inputs[i].classes.length;j++) {' + sLineBreak +
+'				if (className==inputs[i].classes[j]) {' + sLineBreak +
+'					result = inputs[i];' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'		if ((AttrName!=&quot;&quot;) &amp;&amp; (AttrValue!=&quot;&quot;)) {' + sLineBreak +
+'			if (inputs[i].attrs[AttrName]==AttrValue) {' + sLineBreak +
+'				result = inputs[i];' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	}' + sLineBreak +
+'	if (result!=null)' + sLineBreak +
+'		return result;' + sLineBreak +
+'	else' + sLineBreak +
+'		return new input();	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function jQuery(selector, scope) {' + sLineBreak +
+'	switch (selector.toLowerCase()) {' + sLineBreak +
+'		case &quot;form&quot;:' + sLineBreak +
+'			return new form();' + sLineBreak +
+'			break;' + sLineBreak +
+'		case &quot;&lt;input\/&gt;&quot;:' + sLineBreak +
+'			return new input();' + sLineBreak +
+'			break;' + sLineBreak +
+'		default:' + sLineBreak +
+'			return search_byselector(selector);' + sLineBreak +
+'			break;		' + sLineBreak +
+'	}' + sLineBreak +
+'}'+ sLineBreak;
+				Code:=Code+MTSCode;
+				Code:=Code+sLineBreak + 
+'var r = &quot;&quot;;' + sLineBreak +
+'for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'	r = r + &quot;&amp;amp;&quot; + inputs[i].name + &quot;=&quot; + inputs[i].val;' + sLineBreak +
+'}' + sLineBreak + 
+JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
+
+				JS.Exec(Code);
+				Stored['HiddenInputs']:=JS.GetResultValue('hidden');
+				JS.Free;
 				//Получаем изображения
 				Items:=Html.StrBetween('Items&quot;:[',']');
 				p:=Pos(',',Items);
