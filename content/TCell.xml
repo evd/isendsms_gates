@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>TCell</name>
+	<caption>TCell</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Таджикистан</country>
+	<prefixlist>
+		<prefix start="+992 92" end="+992 93" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.tcell.tj/sendsms/send.php</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.tcell.tj/sendsms/send.php</pageurl>
+		<imageurl>eval('http://www.tcell.tj/sendsms/img.php?0.' + RandomString('0123456789',8))</imageurl>
+		<posturl>http://www.tcell.tj/sendsms/sms.php</posturl>
+		<postdata>eval(
+				begin
+					PostData.Add('fcod',SMS['Code']);
+					PostData.Add('Address0',SMS['Phone_Country']+SMS['Phone_Def']);
+					PostData.Add('Address',SMS['Phone_Number']);
+					if SMS['Flash'] then
+						PostData.Add('ShowOnDisplay','on');
+					PostData.Add('Message',SMS['Text']);
+					PostData.Add('Submit','Отправить');
+			end;)
+		</postdata>
+		<success>eval(HTML.ExistsStr('будет доставлено'))</success>
+		<error>eval(Html.RegExp('Ошибка!.*?&lt;TD&gt;(.*?)&lt;/TD&gt;',1))</error>
+	</classprops>
+</gate>
