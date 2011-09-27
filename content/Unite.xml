@@ -4,7 +4,7 @@
 	<caption>Unite</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -22,8 +22,8 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://ru.unite.md/sms</pageurl>
-		<imageurl>eval('http://ru.unite.md/ph/cp/_tmp/'+Html.RegExp('/ph/cp/_tmp/(.*?)&quot;',1))</imageurl>
-		<posturl>http://ru.unite.md/ph/sm/?l=1</posturl>
+		<imageurl>eval('http://ru.unite.md/ph1/cp/_tmp/'+Html.RegExp('/ph1/cp/_tmp/(.*?)&quot;',1))</imageurl>
+		<posturl>http://ru.unite.md/ph1/sm/?l=1</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('prefix','0'+SMS['Phone_Def']+Copy(SMS['Phone_Number'],1,1));
