@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>VPost</name>
+	<caption>VPost</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>7</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 900 000" end="+7 999 999"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>150</maxsymbols>
+		<maxunicodesymbols>150</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://www.vpost.ru/mobile/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>Windows-1251</encoding>
+		<pageurl>http://www.vpost.ru/mobile/sms/</pageurl>
+		<imageurl>eval(
+			begin
+				PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
+				HTTP.HTTPMethod('POST','http://www.vpost.ru/mobile/sms/');
+				Result:='http://www.vpost.ru/image.php?'+Html.RegExp('image.php\?(.*?)&quot;',1);
+			end;)
+		</imageurl>
+		<posturl>http://www.vpost.ru/mobile/sms/</posturl>
+		<postdata>eval(
+			begin
+				PostData.Add('auth',SMS['Code']);
+				PostData.Add('body',SMS['Text']);
+				PostData.Add('num','150');
+				PostData.Add('number',SMS['Phone']);
+			end;
+		)
+		</postdata>
+		<success>eval(HTML.ExistsStr('Сообщение отправлено'))</success>
+		<error>eval(begin
+				Result:=Html.RegExp('&lt;td&gt;&lt;p align=center&gt;(.*?)&lt;/p&gt;',1);
+				if Result='' then
+					Result:='Неизвестная ошибка, возможно неверно введен код подтверждения';
+			end;)
+		</error>
+	</classprops>
+</gate>
