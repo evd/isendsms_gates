@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>FreeMMS</name>
+	<caption>Free MMS</caption>
+	<type>MMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>5</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 901 000" end="+7 906 999" />
+		<prefix start="+7 908 000" end="+7 934 999" />
+		<prefix start="+7 936 000" end="+7 938 999" />
+		<prefix start="+7 950 000" end="+7 953 999" />
+		<prefix start="+7 960 000" end="+7 968 999" />
+		<prefix start="+7 980 000" end="+7 989 999" />
+		<prefix start="+7 997 000" />
+	</prefixlist>
+	<info>
+		<maxsymbols>10000</maxsymbols>
+		<maxunicodesymbols>10000</maxunicodesymbols>
+		<maxsubjectsymbols>100</maxsubjectsymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.free-mms.ru/index.php?r=sentmms/index</gateurl>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportmultimedia>1</supportmultimedia>
+		<supportaudio>0</supportaudio>
+		<supportimage>1</supportimage>
+		<multimediacount>1</multimediacount>
+		<maxmultimediasize>921600</maxmultimediasize>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<sendinit>eval(
+			begin
+				Stored['Prefix_901']:='53';
+				Stored['Prefix_902']:='54';
+				Stored['Prefix_903']:='55';
+				Stored['Prefix_904']:='52';
+				Stored['Prefix_905']:='2';
+				Stored['Prefix_906']:='51';
+				Stored['Prefix_908']:='56';
+				Stored['Prefix_909']:='57';
+				Stored['Prefix_910']:='41';
+				Stored['Prefix_911']:='46';
+				Stored['Prefix_912']:='47';
+				Stored['Prefix_913']:='48';
+				Stored['Prefix_914']:='49';
+				Stored['Prefix_915']:='42';
+				Stored['Prefix_916']:='43';
+				Stored['Prefix_917']:='44';
+				Stored['Prefix_918']:='50';
+				Stored['Prefix_919']:='45';
+				Stored['Prefix_920']:='58';
+				Stored['Prefix_921']:='1';
+				Stored['Prefix_922']:='59';
+				Stored['Prefix_923']:='60';
+				Stored['Prefix_924']:='61';
+				Stored['Prefix_925']:='62';
+				Stored['Prefix_926']:='3';
+				Stored['Prefix_927']:='4';
+				Stored['Prefix_928']:='5';
+				Stored['Prefix_929']:='6';
+				Stored['Prefix_930']:='7';
+				Stored['Prefix_931']:='10';
+				Stored['Prefix_932']:='11';
+				Stored['Prefix_933']:='12';
+				Stored['Prefix_934']:='13';
+				Stored['Prefix_936']:='14';
+				Stored['Prefix_937']:='15';
+				Stored['Prefix_938']:='16';
+				Stored['Prefix_950']:='17';
+				Stored['Prefix_951']:='18';
+				Stored['Prefix_952']:='19';
+				Stored['Prefix_953']:='20';
+				Stored['Prefix_960']:='21';
+				Stored['Prefix_961']:='22';
+				Stored['Prefix_962']:='23';
+				Stored['Prefix_963']:='24';
+				Stored['Prefix_964']:='25';
+				Stored['Prefix_965']:='26';
+				Stored['Prefix_966']:='27';
+				Stored['Prefix_967']:='28';
+				Stored['Prefix_968']:='29';
+				Stored['Prefix_980']:='30';
+				Stored['Prefix_981']:='31';
+				Stored['Prefix_982']:='33';
+				Stored['Prefix_983']:='34';
+				Stored['Prefix_984']:='35';
+				Stored['Prefix_985']:='36';
+				Stored['Prefix_987']:='37';
+				Stored['Prefix_988']:='38';
+				Stored['Prefix_989']:='39';
+				Stored['Prefix_997']:='40';			
+			end;)
+		</sendinit>
+		<multipart>1</multipart>
+		<pageurl>http://www.free-mms.ru/index.php?r=sentmms/index</pageurl>
+		<imageurl>eval('www.free-mms.ru/index.php?r=sentmms/captcha&amp;'+'amp;v='+ Html.RegExp('sentmms/captcha&amp;'+'amp;v=(.*?)&quot;',1))</imageurl>
+		<multipart>1</multipart>
+		<uploadmultimedia>0</uploadmultimedia>
+		<posturl>http://www.free-mms.ru/index.php?r=sentmms/index</posturl>
+		<postdata>eval(
+					begin
+						PostData.UnsafeFormName:='&lt;&gt;&quot;%{}|\^~`'+NonAsciiChar;
+						PostData.Add('SentmmsForm[prefix]',Stored['Prefix_'+MMS['Phone_Def']]);
+						PostData.Add('SentmmsForm[to]',MMS['Phone_Number']);
+						PostData.Add('SentmmsForm[title]',MMS['Subject']);
+						PostData.Add('SentmmsForm[message]',MMS['Text']);
+						PostData.Add('SentmmsForm[name]','');
+						PostData.Add('SentmmsForm[fromPhone]','');
+						PostData.Add('SentmmsForm[file_import0]','');
+						PostData.AddData('SentmmsForm[file_import0]',MMS['Multimedia']);
+						PostData.Add('SentmmsForm[file_preview]','');
+						PostData.Add('SentmmsForm[Catalog]','');
+						PostData.Add('SentmmsForm[hurlImage]','');
+						PostData.Add('SentmmsForm[file_upload]','');
+						PostData.Add('Sent','Отправить');
+						PostData.Add('SentmmsForm[urlImage]','');
+						PostData.Add('SentmmsForm[verifyCode]',MMS['Code']);
+					end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('успешно отправлено.'))</success>
+		<error>eval(begin
+			Result:=Html.Regexp('Пожалуйста исправьте следующие ошибки ввода:.*?&lt;li&gt;(.*?)&lt;/li&gt;',1);
+			if Result='' then
+			begin
+				if Html.ExistsStr('Число MMS, отправляемых анонимно, ограничено в целях безопасности абонентов.') then
+					Result:='Превышен лимит на количество MMS-сообщений, попробуйте позже'
+				else
+					Result:='Неизвестная ошибка';
+			end;		
+			end;)
+		</error>
+	</classprops>
+</gate>
