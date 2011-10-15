@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -84,6 +84,13 @@
 						end;	
 					   )
 		</cd_success>
-		<cd_error>Ошибка подверждения доставки</cd_error>
+		<cd_error>eval(
+				begin
+					Result:=Html.RegExp('&lt;p class=&quot;comment&quot;&gt;(.*?)&lt;/p&gt;',1);
+					if Result='' then
+						Result:='Ошибка подверждения доставки';
+				end;
+			)
+		</cd_error>
 	</classprops>
 </gate>
