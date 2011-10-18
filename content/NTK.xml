@@ -4,7 +4,7 @@
 	<caption>НТК</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -30,9 +30,9 @@
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://www.vntc.ru/mobile/gsm/sms.php</pageurl>
-		<imageurl>eval('http://www.old.vntc.ru/kcaptcha/index.php?PHPSESSID=' + HTML.RegExp('kcaptcha/index.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
-		<posturl>http://old.vntc.ru/berkut/indexb.php?sub=1</posturl>
+		<pageurl>http://vntc.ru/mobile/gsm/sms.php</pageurl>
+		<imageurl>eval('http://vntc.ru/kcaptcha/index.php?PHPSESSID=' + HTML.RegExp('kcaptcha/index.php\?PHPSESSID=(.*?)&quot;',1))</imageurl>
+		<posturl>http://vntc.ru/berkut/indexb.php?sub=1</posturl>
 		<postdata>eval(
 					begin
 							PostData.Add('PHPSESSID',Html.RegExp('name=&quot;PHPSESSID&quot; value=&quot;(.*?)&quot;',1));
@@ -50,7 +50,7 @@
 		<success>eval(HTML.ExistsStr('SMSC присвоил сообщению номер'))</success>
 		<error>eval(Html.RegExp('SMSC не принял сообщение. &lt;B&gt;(.*?)&lt;/B&gt;',1))</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://old.vntc.ru/berkut/Queryb.php</cd_posturl>
+		<cd_posturl>http://vntc.ru/berkut/Queryb.php</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('Identity',Html.RegExp('name=&quot;?Identity&quot;? value=(.*?) ?&gt;',1));
