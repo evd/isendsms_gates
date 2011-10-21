@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>70</version>
+	<version>71</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -155,6 +155,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
+		<error_unsupport>МТС ввела новые правила, теперь бесплатно отправить MMS могут только абоненты МТС. Подробнее на форуме iSendSMS</error_unsupport>
 		<pageurl>http://www.mts.ru/messaging1/sendmms/</pageurl>
 		<imageurl>eval(begin
 						Result:=Html.RegExp('LanapCaptcha.aspx(.*?)''',1);
