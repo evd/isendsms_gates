@@ -4,10 +4,11 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>20</version>
+	<version>21</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
+		<prefix start="+7 900315" end="+7 900319"/>
 		<prefix start="+7 90204" tag="2"/>
 		<prefix start="+7 902230" end="+7 902234"/>
 		<prefix start="+7 902287" end="+7 902288"/>
@@ -28,11 +29,15 @@
 		<prefix start="+7 95031" end="+7 95032"/>
 		<prefix start="+7 95034" end="+7 95037"/>
 		<prefix start="+7 95105" end="+7 95106"/>
+		<prefix start="+7 951298" end="+7 951299"/>
 		<prefix start="+7 951340" end="+7 951343"/>
+		<prefix start="+7 951357" end="+7 951359"/>
 		<prefix start="+7 95188" end="+7 95191"/>
 		<prefix start="+7 95202" end="+7 95204"/>
 		<prefix start="+7 95207"/>
+		<prefix start="+7 95219"/>
 		<prefix start="+7 95246" end="+7 95247"/>
+		
 		<prefix start="+7 953010" end="+7 953034"/>
 		<prefix start="+7 953400" end="+7 953410"/>
 		<prefix start="+7 953413" end="+7 953415"/>
