@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>101</version>
+	<version>102</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -153,7 +153,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<error_unsupport>МТС ввела новые правила, теперь бесплатно отправить SMS могут только абоненты МТС. Подробнее на форуме iSendSMS</error_unsupport>
+		<error_unsupport>МТС ввела новые правила, теперь бесплатно отправить SMS могут только абоненты МТС. Из программы отправка НЕ РАБОТАЕТ. Подробнее на форуме iSendSMS</error_unsupport>
 		<handleredirects>0</handleredirects>
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>http://www.mts.ru/messaging1/sendsms/</pageurl>
