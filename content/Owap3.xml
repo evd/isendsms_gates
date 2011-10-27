@@ -4,7 +4,7 @@
 	<caption>Owap 3</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>4</priority>
 	<country>Весь мир</country>
 	<prefixlist>
@@ -54,7 +54,7 @@
 		<posturl>eval('http://sms.owap.biz/wses3/index.php?tmp='+Html.RegExp('action=&quot;/wses3/index\.php\?tmp=(.*?)&amp;',1)+'&amp;y')</posturl>
 		<postdata>eval(
 			begin
-				PostData.Add('number',SMS['Phone_Def']+SMS['Phone_Number']);
+				PostData.Add('number',SMS['Phone']);
 				PostData.Add('owap',Html.RegExp('name=&quot;owap&quot; value=&quot;(.*?)&quot;',1));
 				PostData.Add('text',SMS['Text']);
 			end;
