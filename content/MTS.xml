@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>102</version>
+	<version>103</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -146,29 +146,31 @@
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.mts.ru/messaging1/sendsms/</gateurl>
-		<clickimage>1</clickimage>
-		<clickimagewidth>50</clickimagewidth>
-		<clickimageheight>50</clickimageheight>
 		<supportautorecognize>0</supportautorecognize>
+		<required_yourphone>1</required_yourphone>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<error_unsupport>МТС ввела новые правила, теперь бесплатно отправить SMS могут только абоненты МТС. Из программы отправка НЕ РАБОТАЕТ. Подробнее на форуме iSendSMS</error_unsupport>
 		<handleredirects>0</handleredirects>
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
+		<useragent>User-Agent: Opera/9.80 (Windows NT 6.1; U; Edition Yx; ru) Presto/2.8.131 Version/11.11</useragent>
 		<pageurl>http://www.mts.ru/messaging1/sendsms/</pageurl>
 		<customimage>1</customimage>
 		<proccessimage>eval(
-			var
-				i, cnt, p: integer;
-				Code, MTSCode, Items, PStr: string;
-				JS: TJSEval;
+					var
+						DT: TDateTime;
+						PhoneDef: string;
+						FinalCode: string;
+						i, cnt, p: integer;
+						Code, MTSCode, Items, PStr: string;
+						JS: TJSEval;
 			begin
 				Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
 				Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
 				Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
 				Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
 				Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
+				
 
 				HTTP.CustomMime:='application/json; charset=utf-8';
 				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
@@ -287,96 +289,198 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 
 				JS.Exec(Code);
 				Stored['HiddenInputs']:=JS.GetResultValue('hidden');
-				JS.Free;
-				//Получаем изображения
-				Items:=Html.StrBetween('Items&quot;:[',']');
-				p:=Pos(',',Items);
-				cnt:=0;
-				while (p&gt;0) or (Items&lt;&gt;'') do
-				begin
-					cnt:=cnt+1;
-					if p&gt;0 then
-					begin
-						PStr:=Copy(Items,1,p-1);
-						Delete(Items,1,p);
-					end else
-					begin
-						PStr:=Items;
-						Items:='';
-					end;	
-					Stored['CaptchaImg'+VarToStr(cnt)]:=StrBetween(PStr,'Id&quot;:&quot;','&quot;');
-					p:=Pos(',',Items);
-				end;
 
-				Stored['QuestionText']:=CleanMessageText(Html.StrBetween('QuestionText&quot;:&quot;','&quot;'));
-				
-				Img.SetSize(cnt*50,50);
-				
-				for i:=1 to cnt do
-				begin
-					HTTP.HTTPMethod('GET','http://www.mts.ru/Captcha/image.ashx?CaptchaItemId='+Stored['CaptchaImg'+VarToStr(i)]);
-					Img.AssignSourceImage($FFFFFF);
-					Img.CopyRect((i-1)*50,0,Bounds(0,0,50,50));
+				DT:=SMS['DeliveryTime'];
+				if SMS['Delivery'] then
+				begin	
+					if (DT-Now)&lt;5*OneMinute then
+					begin
+						DT:=DT+5*OneMinute;
+					end;	
 				end;
+				DT:=AdjustTimeZone(DT,240,false);
+				if SMS['Phone_Def']='495' then
+					PhoneDef:='985'
+				else PhoneDef:=SMS['Phone_Def'];
 				
+				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$updatePanel|' + Stored['InputPrefix'] + '$btnSend');
+				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
+				PostData.Add('__EVENTTARGET','');
+				PostData.Add('__EVENTARGUMENT','');
+				PostData.Add('__VIEWSTATE',Stored['ViewState']);
+				PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber', SMS['YourPhone']);
+				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber', SMS['Phone_Def']+SMS['Phone_Number']);
+				PostData.Add(Stored['InputPrefix'] + '$tbMessage',SMS['Text']);
+				PostData.Add(Stored['InputPrefix'] + '$tbSymbolsCounter',Length(SMS['Text']));
+				PostData.Add(Stored['InputPrefix'] + '$tbSymbolsMaxCount',SMS['MaxSymbols']);
+				if SMS['Flash'] then
+					PostData.Add(Stored['InputPrefix'] + '$cbxExpressSMS','on');
+				if SMS['Delivery'] then
+					PostData.Add(Stored['InputPrefix'] + '$cbxForCalendar','on');
+				PostData.Add(Stored['InputPrefix'] + '$ctl02',FormatDateTime('d',DT));
+				PostData.Add(Stored['InputPrefix'] + '$ctl03',FormatDateTime('m',DT));
+				PostData.Add(Stored['InputPrefix'] + '$ctl04',FormatDateTime('yyyy',DT));
+				PostData.Add(Stored['InputPrefix'] + '$ctl05',FormatDateTime('hh',DT));
+				PostData.Add(Stored['InputPrefix'] + '$ctl07',FormatDateTime('nn',DT));
+				PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
+				PostData.AddRawData(Stored['HiddenInputs']);
+				PostData.Add('__ASYNCPOST','true');
+				PostData.Add(Stored['InputPrefix'] + '$btnSend.x','73');
+				PostData.Add(Stored['InputPrefix'] + '$btnSend.y','8');
+	
+				HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
+				HTTP.Referer:='http://www.mts.ru/messaging1/sendsms/';
+				HTTP.HTTPMethod('POST','http://www.mts.ru/messaging1/sendsms/');
+				Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
+				Img.SetSize(250,60);
+				Img.TextOut(0,0,'На номер +' + SMS['YourPhone']);
+				Img.TextOut(0,20,'выслан код подтверждения.');
+				Img.TextOut(0,40,'Пожалуйста, введите его.');
+
 			end;
 		)
 		</proccessimage>
-		<imagedescription>eval(Stored['QuestionText'])</imagedescription>
+		<imagedescription>Введите код, отправленный Вам на телефон</imagedescription>
 		<posturl>http://www.mts.ru/messaging1/sendsms/</posturl>
+		<custommime>application/x-www-form-urlencoded; charset=utf-8</custommime>
 		<postdata>eval(
 					var
-						DT: TDateTime;
-						PhoneDef: string;
-						Code, FinalCode: string;
-						i: integer;
+						i, cnt, p: integer;
+						Code, MTSCode, Items, PStr: string;
+						JS: TJSEval;
 					begin
-						DT:=SMS['DeliveryTime'];
-						if SMS['Delivery'] then
-						begin	
-							if (DT-Now)&lt;5*OneMinute then
-							begin
-								DT:=DT+5*OneMinute;
-							end;	
-						end;
-						DT:=AdjustTimeZone(DT,240,false);
-						if SMS['Phone_Def']='495' then
-							PhoneDef:='985'
-						else PhoneDef:=SMS['Phone_Def'];
 
-						Code:=SMS['Code'];
-						for i:=1 to Length(Code) do
-						begin
-							if Length(FinalCode)&gt;0 then
-								FinalCode:=FinalCode+',';
-							FinalCode:=FinalCode+Stored['CaptchaImg'+Code[i]];
-						end;
-						
-						PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$updatePanel|' + Stored['InputPrefix'] + '$btnSend');
-						PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
-						PostData.Add('__EVENTTARGET','');
-						PostData.Add('__EVENTARGUMENT','');
-						PostData.Add('__VIEWSTATE',Stored['ViewState']);
-						PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber', SMS['Phone_Def']+SMS['Phone_Number']);
-						PostData.Add(Stored['InputPrefix'] + '$tbMessage',SMS['Text']);
-						PostData.Add(Stored['InputPrefix'] + '$tbSymbolsCounter',Length(SMS['Text']));
-						PostData.Add(Stored['InputPrefix'] + '$tbSymbolsMaxCount',SMS['MaxSymbols']);
-						if SMS['Flash'] then
-							PostData.Add(Stored['InputPrefix'] + '$cbxExpressSMS','on');
-						if SMS['Delivery'] then
-							PostData.Add(Stored['InputPrefix'] + '$cbxForCalendar','on');
-						PostData.Add(Stored['InputPrefix'] + '$ctl02',FormatDateTime('d',DT));
-						PostData.Add(Stored['InputPrefix'] + '$ctl03',FormatDateTime('m',DT));
-						PostData.Add(Stored['InputPrefix'] + '$ctl04',FormatDateTime('yyyy',DT));
-						PostData.Add(Stored['InputPrefix'] + '$ctl05',FormatDateTime('hh',DT));
-						PostData.Add(Stored['InputPrefix'] + '$ctl07',FormatDateTime('nn',DT));
-						PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
-						PostData.AddRawData(Stored['HiddenInputs']);
-						PostData.Add('__ASYNCPOST','true');
-						PostData.Add(Stored['InputPrefix'] + '$btnSend.x','73');
-						PostData.Add(Stored['InputPrefix'] + '$btnSend.y','8');
-					end;	
-					)
+				HTTP.CustomMime:='application/json; charset=utf-8';
+				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+				JS:=TJSEval.Create;
+
+				MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
+				MTSCode:=ReplaceStr(MTSCode, '\&quot;','&quot;');
+
+				//Добавялем свой код, эмулируем jQuery
+				Code:='' + 	
+'var inputs = [];' + sLineBreak +
+'function form() {' + sLineBreak +
+'	return {' + sLineBreak +
+'		append: function(obj){' + sLineBreak +
+'		}' + sLineBreak +
+'	}	' + sLineBreak +
+'};' + sLineBreak +
+'function input(){' + sLineBreak +
+'	var new_input = {' + sLineBreak +
+'		classes: [],' + sLineBreak +
+'		attrs: [],' + sLineBreak +
+'		name: &quot;&quot;,' + sLineBreak +
+'		val: &quot;&quot;,' + sLineBreak +
+'		attr: function(name, value) {' + sLineBreak +
+'			if (name!=&quot;name&quot;)' + sLineBreak +
+'				this.attrs[name] = value;' + sLineBreak +
+'			else' + sLineBreak +
+'				this.name = value; 	' + sLineBreak +
+'			return this;' + sLineBreak +
+'		},' + sLineBreak +
+'		addClass: function(classname) {' + sLineBreak +
+'			this.classes.push(classname);' + sLineBreak +
+'			return this; ' + sLineBreak +
+'		},' + sLineBreak +
+'		val: function(value) {' + sLineBreak +
+'			this.val = value;' + sLineBreak +
+'			return this;			' + sLineBreak +
+'		},' + sLineBreak +
+'		remove: function() {' + sLineBreak +
+'			for(var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'				if (inputs[i]==this) {' + sLineBreak +
+'					inputs.splice(i,1);' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	};' + sLineBreak +
+'	inputs.push(new_input);' + sLineBreak +
+'	return new_input;' + sLineBreak +
+'		' + sLineBreak +
+'	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function search_byselector(selector) {' + sLineBreak +
+'	var className=&quot;&quot;;' + sLineBreak +
+'	var AttrName=&quot;&quot;;' + sLineBreak +
+'	var AttrValue=&quot;&quot;;' + sLineBreak +
+'	//Извлекаем класс' + sLineBreak +
+'	var p = selector.indexOf(&quot;.&quot;);' + sLineBreak +
+'	if (p&gt;=0) {' + sLineBreak +
+'		className = selector.substring(p+1);' + sLineBreak +
+'	}' + sLineBreak +
+'	//Извлекаем аттрибут' + sLineBreak +
+'	var reg = new RegExp(&quot;\\[([\\w\\d_]+)=\&quot;([\\w\\d_]+)\&quot;\\]&quot;,&quot;g&quot;);' + sLineBreak +
+'	var matches = reg.exec(selector);' + sLineBreak +
+'	while (matches!=null) {' + sLineBreak +
+'		if (matches[1]!=&quot;type&quot;) {' + sLineBreak +
+'			AttrName=matches[1];' + sLineBreak +
+'			AttrValue=matches[2];' + sLineBreak +
+'		}	' + sLineBreak +
+'		matches = reg.exec(selector);' + sLineBreak +
+'	}' + sLineBreak +
+'	var result = null;' + sLineBreak +
+'	//Ищем по классу или аттрибуту' + sLineBreak +
+'	for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'		if (className!=&quot;&quot;) {' + sLineBreak +
+'			for (var j=0;j&lt;inputs[i].classes.length;j++) {' + sLineBreak +
+'				if (className==inputs[i].classes[j]) {' + sLineBreak +
+'					result = inputs[i];' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'		if ((AttrName!=&quot;&quot;) &amp;&amp; (AttrValue!=&quot;&quot;)) {' + sLineBreak +
+'			if (inputs[i].attrs[AttrName]==AttrValue) {' + sLineBreak +
+'				result = inputs[i];' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	}' + sLineBreak +
+'	if (result!=null)' + sLineBreak +
+'		return result;' + sLineBreak +
+'	else' + sLineBreak +
+'		return new input();	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function jQuery(selector, scope) {' + sLineBreak +
+'	switch (selector.toLowerCase()) {' + sLineBreak +
+'		case &quot;form&quot;:' + sLineBreak +
+'			return new form();' + sLineBreak +
+'			break;' + sLineBreak +
+'		case &quot;&lt;input\/&gt;&quot;:' + sLineBreak +
+'			return new input();' + sLineBreak +
+'			break;' + sLineBreak +
+'		default:' + sLineBreak +
+'			return search_byselector(selector);' + sLineBreak +
+'			break;		' + sLineBreak +
+'	}' + sLineBreak +
+'}'+ sLineBreak;
+				Code:=Code+MTSCode;
+				Code:=Code+sLineBreak + 
+'var r = &quot;&quot;;' + sLineBreak +
+'for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'	r = r + &quot;&amp;amp;&quot; + inputs[i].name + &quot;=&quot; + inputs[i].val;' + sLineBreak +
+'}' + sLineBreak + 
+JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
+
+				JS.Exec(Code);
+				Stored['HiddenInputs']:=Stored['HiddenInputs'] + JS.GetResultValue('hidden');
+
+				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$updatePanel|' + Stored['InputPrefix'] + '$btnRealSend');
+				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
+				PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode', SMS['Code']);
+				PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState','');
+				PostData.Add('__EVENTTARGET','');
+				PostData.Add('__EVENTARGUMENT','');
+				PostData.Add('__VIEWSTATE',Stored['ViewState']);
+				PostData.AddRawData(Stored['HiddenInputs']);
+				PostData.Add('__ASYNCPOST','true');
+				PostData.Add(Stored['InputPrefix'] + '$btnRealSend.x','73');
+				PostData.Add(Stored['InputPrefix'] + '$btnRealSend.y','8');
+				end;	
+		)
 		</postdata>
 		<success>eval(HTML.RegExp('Ваше сообщение отправлено',0))</success>
 		<error>eval(begin

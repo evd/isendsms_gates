@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>72</version>
+	<version>73</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -152,68 +152,87 @@
 		<sendwomultimedia>0</sendwomultimedia>
 		<maxmultimediacount>1</maxmultimediacount>
 		<maxmultimediasize>307200</maxmultimediasize>
+		<required_yourphone>1</required_yourphone>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<error_unsupport>МТС ввела новые правила, теперь бесплатно отправить SMS могут только абоненты МТС. Из программы отправка НЕ РАБОТАЕТ. Подробнее на форуме iSendSMS</error_unsupport>
 		<pageurl>http://www.mts.ru/messaging1/sendmms/</pageurl>
-		<imageurl>eval(begin
-						Result:=Html.RegExp('LanapCaptcha.aspx(.*?)''',1);
-						//Result:=ReplaceStr(Result,'&amp;'+'amp;','&amp;');
-						//Result:=ReplaceStr(Result,'2','BLA');
-						//Result:=DecodeFormElem(Result);
-						Result:='http://www.mts.ru/LanapCaptcha.aspx'+Result;
-						end;)
-		</imageurl>
-		<uploadmultimedia>1</uploadmultimedia>
-		<mu_posturl>http://www.mts.ru/messaging1/sendmms/FlashUploader.axd</mu_posturl>
-		<mu_multipart>1</mu_multipart>
-		<mu_postdata>eval(
-				var
-					MC: TMultimediaContent;
-				begin
-					MC:=MMS['Multimedia'];
-					PostData.Add('Filename',MC['FileName']);
-					PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
-					PostData.AddData('FUDATA',MC);
-					PostData.Add('Upload','Submit Query');
-				end;
-				)
-		</mu_postdata>
-		<mu_success>1</mu_success>
-		<mu_dontloadresult>1</mu_dontloadresult>
+		<customimage>1</customimage>
+		<proccessimage>eval(
+					var
+						MC: TMultimediaContent;
+						DT: TDateTime;
+						PhoneDef: string;
+						FinalCode: string;
+						i, cnt, p: integer;
+						Code, MTSCode, Items, PStr: string;
+						JS: TJSEval;
+			begin
+				Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
+				Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
+				Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
+				Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
+				Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
+				
+
+				//Отправка мультимедиа
+				MC:=MMS['Multimedia'];
+				PostData.Add('Filename',MC['FileName']);
+				PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
+				PostData.AddData('FUDATA',MC);
+				PostData.Add('Upload','Submit Query');
+				HTTP.HTTPMethod('POST','http://www.mts.ru/messaging1/sendmms/FlashUploader.axd');
+
+				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
+				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
+				PostData.Add('__EVENTTARGET','');
+				PostData.Add('__EVENTARGUMENT','');
+				PostData.Add('__VIEWSTATE',Stored['ViewState']);
+				PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
+				PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
+				PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
+				PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
+				PostData.Add(Stored['InputPrefix'] + '$tbYourNumber',MMS['YourPhone']);
+				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
+				PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
+				PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
+				PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
+				PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
+				PostData.Add(Stored['InputPrefix'] + '$tbCode',MMS['Code']);
+				PostData.Add('__ASYNCPOST','true');
+				PostData.Add(Stored['InputPrefix'] + '$btnSend.x','123');
+				PostData.Add(Stored['InputPrefix'] + '$btnSend.y','2');
+				PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
+	
+				HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
+				HTTP.Referer:='http://www.mts.ru/messaging1/sendmms/';
+				HTTP.HTTPMethod('POST','http://www.mts.ru/messaging1/sendmms/');
+				Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
+				Img.SetSize(250,60);
+				Img.TextOut(0,0,'На номер +' + MMS['YourPhone']);
+				Img.TextOut(0,20,'выслан код подтверждения.');
+				Img.TextOut(0,40,'Пожалуйста, введите его.');
+
+			end;
+		)
+		</proccessimage>
+		<imagedescription>Введите код, отправленный Вам на телефон</imagedescription>
 		<posturl>http://www.mts.ru/messaging1/sendmms/</posturl>
 		<postdata>eval(
 						begin
 
-						Stored['captchanewkey']:=Html.RegExp('mmssendingcontrol_captchanew&quot;.*?value=&quot;(.*?)&quot;',1);
-						Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
-						Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
-						Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
-						Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
-						Stored['InputPrefix4']:=Html.StrBetweenRev('sendmms_','_mmssendingcontrol_captchanew'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01_ctl02_ctl00
-						Stored['InputPrefix5']:=Html.StrBetweenRev('id=&quot;','_rfdFormDecorator_ClientState'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01
-						Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
-
-						PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
+						PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnConfirmCustomerPhone');
 						PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
-						PostData.Add('LBD_VCT_live_nd_sendmms_' + Stored['InputPrefix4'] + '_mmssendingcontrol_captchanew',Stored['captchanewkey']);
+						PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
+						PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
+						PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode', MMS['Code']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
 						PostData.Add('__VIEWSTATE',Stored['ViewState']);
-						PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
-						PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
-						PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
-						PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
-						PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
-						PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
-						PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
-						PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
-						PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
-						PostData.Add(Stored['InputPrefix'] + '$tbCode',MMS['Code']);
 						PostData.Add('__ASYNCPOST','true');
-						PostData.Add(Stored['InputPrefix'] + '$btnSend.x','123');
-						PostData.Add(Stored['InputPrefix'] + '$btnSend.y','2');
+						PostData.Add(Stored['InputPrefix'] + '$btnConfirmCustomerPhone.x','123');
+						PostData.Add(Stored['InputPrefix'] + '$btnConfirmCustomerPhone.y','2');
+
 						PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
 
 					end;
