@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>73</version>
+	<version>74</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -192,7 +192,7 @@
 				PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
 				PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
 				PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
-				PostData.Add(Stored['InputPrefix'] + '$tbYourNumber',MMS['YourPhone']);
+				PostData.Add(Stored['InputPrefix'] + '$tbYourNumber',Copy(MMS['YourPhone'],2,10));
 				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
 				PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
 				PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');

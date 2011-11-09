@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>103</version>
+	<version>104</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -308,7 +308,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 				PostData.Add('__EVENTTARGET','');
 				PostData.Add('__EVENTARGUMENT','');
 				PostData.Add('__VIEWSTATE',Stored['ViewState']);
-				PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber', SMS['YourPhone']);
+				PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber', Copy(SMS['YourPhone'],2,10));
 				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber', SMS['Phone_Def']+SMS['Phone_Number']);
 				PostData.Add(Stored['InputPrefix'] + '$tbMessage',SMS['Text']);
 				PostData.Add(Stored['InputPrefix'] + '$tbSymbolsCounter',Length(SMS['Text']));
