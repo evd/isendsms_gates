@@ -4,7 +4,7 @@
 	<caption>U-Tel ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -56,7 +56,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://u-tel.ru/facilities/mms</gateurl>
+		<gateurl>http://www.u-tel.ru/facilities/mms</gateurl>
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>1</supportaudio>
 		<supportimage>1</supportimage>
@@ -65,7 +65,7 @@
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://u-tel.ru/facilities/mms</pageurl>
+		<pageurl>http://www.u-tel.ru/facilities/mms</pageurl>
 		<imageurl>eval(begin
 						Result:='http://mmsuser.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)''',1);
 						Stored['SavedCookie']:=Cookies['JSESSIONID'];
@@ -74,7 +74,7 @@
 		</imageurl>
 		<multipart>1</multipart>
 		<uploadmultimedia>1</uploadmultimedia>
-		<mu_posturl>http://u-tel.ru/facilities/mms</mu_posturl>
+		<mu_posturl>http://www.u-tel.ru/facilities/mms</mu_posturl>
 		<mu_multipart>1</mu_multipart>
 		<mu_postdata>eval(
 						var
@@ -118,7 +118,7 @@
 		<mu_success>1</mu_success>
 		<mu_dontloadresult>1</mu_dontloadresult>
 		<multipart>1</multipart>
-		<posturl>http://u-tel.ru/facilities/mms</posturl>
+		<posturl>http://www.u-tel.ru/facilities/mms</posturl>
 		<postdata>eval(
 						var
 							MC: TMMSContentData;

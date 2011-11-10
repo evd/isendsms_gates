@@ -4,7 +4,7 @@
 	<caption>U-Tel</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -56,13 +56,13 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://u-tel.ru/facilities/sms</gateurl>
+		<gateurl>http://www.u-tel.ru/facilities/sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://u-tel.ru/facilities/sms</pageurl>
-		<imageurl>eval('http://u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1))</imageurl>
-		<posturl>http://u-tel.ru/facilities/sms</posturl>
+		<pageurl>http://www.u-tel.ru/facilities/sms</pageurl>
+		<imageurl>eval('http://www.u-tel.ru/ctrlimg?c=' + HTML.RegExp('ctrlimg\?c=(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.u-tel.ru/facilities/sms</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('loginErr','');
