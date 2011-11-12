@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>104</version>
+	<version>105</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -160,8 +160,7 @@
 					var
 						DT: TDateTime;
 						PhoneDef: string;
-						FinalCode: string;
-						i, cnt, p: integer;
+						i: integer;
 						Code, MTSCode, Items, PStr: string;
 						JS: TJSEval;
 			begin
@@ -322,7 +321,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 				PostData.Add(Stored['InputPrefix'] + '$ctl04',FormatDateTime('yyyy',DT));
 				PostData.Add(Stored['InputPrefix'] + '$ctl05',FormatDateTime('hh',DT));
 				PostData.Add(Stored['InputPrefix'] + '$ctl07',FormatDateTime('nn',DT));
-				PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
+				PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState','');
 				PostData.AddRawData(Stored['HiddenInputs']);
 				PostData.Add('__ASYNCPOST','true');
 				PostData.Add(Stored['InputPrefix'] + '$btnSend.x','73');
@@ -345,7 +344,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 		<custommime>application/x-www-form-urlencoded; charset=utf-8</custommime>
 		<postdata>eval(
 					var
-						i, cnt, p: integer;
+						i, p: integer;
 						Code, MTSCode, Items, PStr: string;
 						JS: TJSEval;
 					begin

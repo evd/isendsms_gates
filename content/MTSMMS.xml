@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>74</version>
+	<version>75</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -172,6 +172,8 @@
 				Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
 				Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
 				Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
+				Stored['InputPrefix4']:=Html.StrBetweenRev('id=&quot;','_MMSSendingControl'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01_ctl02_ctl00
+				Stored['InputPrefix5']:=Html.StrBetweenRev('id=&quot;','_rfdFormDecorator_ClientState'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01
 				Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 				
 
@@ -192,13 +194,12 @@
 				PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
 				PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
 				PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
-				PostData.Add(Stored['InputPrefix'] + '$tbYourNumber',Copy(MMS['YourPhone'],2,10));
+				PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber',Copy(MMS['YourPhone'],2,10));
 				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
 				PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
 				PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
 				PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
 				PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
-				PostData.Add(Stored['InputPrefix'] + '$tbCode',MMS['Code']);
 				PostData.Add('__ASYNCPOST','true');
 				PostData.Add(Stored['InputPrefix'] + '$btnSend.x','123');
 				PostData.Add(Stored['InputPrefix'] + '$btnSend.y','2');
