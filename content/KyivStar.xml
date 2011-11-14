@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -81,6 +81,8 @@
 							if Html.ExistsStr('Сообщение принято и поставлено в очередь') then
 								Result:='WAIT'
 							else Result:=HTML.ExistsStr('Сообщение отправлено');
+							if (not Result) and Html.ExistsStr('Запросить статус сообщения') then
+								Result:='WAIT';
 						end;	
 					   )
 		</cd_success>
