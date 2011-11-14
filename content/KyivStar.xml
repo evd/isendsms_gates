@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -78,11 +78,11 @@
 		<cd_url>http://smsgate.kyivstar.ua/sms/?request_status=true&amp;lang=ru</cd_url>
 		<cd_success>eval(
 						begin
-							if Html.ExistsStr('Сообщение принято и поставлено в очередь') then
+							if HTML.ExistsStr('Сообщение отправлено') then
+								Result:=true
+							else if Html.ExistsStr('Сообщение принято и поставлено в очередь') or HTML.ExistsStr('Запросить статус сообщения') then
 								Result:='WAIT'
-							else Result:=HTML.ExistsStr('Сообщение отправлено');
-							if (not Result) and Html.ExistsStr('Запросить статус сообщения') then
-								Result:='WAIT';
+							else Result:=false;
 						end;	
 					   )
 		</cd_success>
