@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>30</version>
+	<version>31</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -70,7 +70,7 @@
 		<gateurl>https://www.beeline.ru/sms/index.wbp</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
+		<encoding>UTF-8</encoding>
 		<pageurl>https://www.beeline.ru/sms/index.wbp</pageurl>
 		<imageurl>https://www.beeline.ru/sms/mamimg.aspx?width=240&amp;height=60</imageurl>
 		<posturl>https://www.beeline.ru/sms/index.wbp</posturl>
