@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>14</version>
+	<version>15</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -49,7 +49,7 @@
 							DT: TDateTime;
 							Prefix: string;
 						begin
-							DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
+							DT:=AdjustTimeZone(SMS['DeliveryTime'],240,true);
 							if SMS['Phone_Def']='812' then
 								Prefix:='921'
 							else if SMS['Phone_Def']='495' then
