@@ -4,7 +4,7 @@
 	<caption>МТС GSM ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>15</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -102,6 +102,7 @@
 		<prefix start="+7 988602"/>
 		<prefix start="+7 988605" end="+7 988619"/>
 		<prefix start="+7 988622"/>
+		<prefix start="+7 988624" end="+7 988628"/>
 		<prefix start="+7 988630" end="+7 988655"/>
 		<prefix start="+7 988665" end="+7 988666"/>
 		<prefix start="+7 988674" end="+7 988679"/>
