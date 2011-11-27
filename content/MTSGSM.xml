@@ -4,7 +4,7 @@
 	<caption>МТС GSM</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>15</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -139,8 +139,8 @@
 		<prefix start="+7 812 92"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>140</maxsymbols>
-		<maxunicodesymbols>50</maxunicodesymbols>
+		<maxsymbols>130</maxsymbols>
+		<maxunicodesymbols>130</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
