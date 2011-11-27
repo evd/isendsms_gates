@@ -4,7 +4,7 @@
 	<caption>МТС GSM ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>15</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -209,7 +209,7 @@
 				PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
 				PostData.Add(Stored['InputPrefix'] + '$ddPrefix',PhoneDef);
 				PostData.Add(Stored['InputPrefix3'] + '_MMSSendingControl_ddPrefix_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;'+PhoneDef+'&quot;,&quot;text&quot;:&quot;'+PhoneDef+'&quot;,&quot;enabled&quot;:true}');
-				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber','921'+MMS['Phone_Number']);
+				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Number']);
 				PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Select header...');
 				PostData.Add(Stored['InputPrefix3'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;100&quot;,&quot;text&quot;:&quot;Select header...&quot;,&quot;enabled&quot;:true}');
 				PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
