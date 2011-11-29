@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>107</version>
+	<version>108</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -147,7 +147,7 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.mts.ru/messaging1/sendsms/</gateurl>
+		<gateurl>http://sendsms.ssl.mts.ru/</gateurl>
 		<supportautorecognize>0</supportautorecognize>
 		<required_yourphone>1</required_yourphone>
 	</info>
@@ -155,8 +155,7 @@
 		<encoding>UTF-8</encoding>
 		<handleredirects>0</handleredirects>
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
-		<useragent>User-Agent: Opera/9.80 (Windows NT 6.1; U; Edition Yx; ru) Presto/2.8.131 Version/11.11</useragent>
-		<pageurl>http://www.mts.ru/messaging1/sendsms/</pageurl>
+		<pageurl>http://sendsms.ssl.mts.ru/</pageurl>
 		<customimage>1</customimage>
 		<proccessimage>eval(
 					var
@@ -330,8 +329,8 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 				PostData.Add(Stored['InputPrefix'] + '$btnSend.y','8');
 	
 				HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
-				HTTP.Referer:='http://www.mts.ru/messaging1/sendsms/';
-				HTTP.HTTPMethod('POST','http://www.mts.ru/messaging1/sendsms/');
+				HTTP.Referer:='http://sendsms.ssl.mts.ru/';
+				HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/');
 				Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
 				Img.SetSize(250,60);
 				Img.TextOut(0,0,'На номер +' + SMS['YourPhone']);
@@ -342,7 +341,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 		)
 		</proccessimage>
 		<imagedescription>Введите код, отправленный Вам на телефон</imagedescription>
-		<posturl>http://www.mts.ru/messaging1/sendsms/</posturl>
+		<posturl>http://sendsms.ssl.mts.ru/</posturl>
 		<custommime>application/x-www-form-urlencoded; charset=utf-8</custommime>
 		<postdata>eval(
 					var
@@ -495,7 +494,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					)
 		</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://www.mts.ru/Handlers/CheckSMSStatusHandler.ashx</cd_posturl>
+		<cd_posturl>http://sendsms.ssl.mts.ru/</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							if Stored['MsgId']='' then

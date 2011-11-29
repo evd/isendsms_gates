@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>77</version>
+	<version>78</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -147,7 +147,7 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.mts.ru/messaging/sendmms/</gateurl>
+		<gateurl>http://sendmms.ssl.mts.ru/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>1</supportaudio>
 		<supportimage>1</supportimage>
@@ -158,7 +158,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.mts.ru/messaging1/sendmms/</pageurl>
+		<pageurl>http://sendmms.ssl.mts.ru/</pageurl>
 		<customimage>1</customimage>
 		<proccessimage>eval(
 					var
@@ -185,7 +185,7 @@
 				PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
 				PostData.AddData('FUDATA',MC);
 				PostData.Add('Upload','Submit Query');
-				HTTP.HTTPMethod('POST','http://www.mts.ru/messaging1/sendmms/FlashUploader.axd');
+				HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/FlashUploader.axd');
 
 				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
 				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
@@ -208,8 +208,8 @@
 				PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
 	
 				HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
-				HTTP.Referer:='http://www.mts.ru/messaging1/sendmms/';
-				HTTP.HTTPMethod('POST','http://www.mts.ru/messaging1/sendmms/');
+				HTTP.Referer:='http://sendmms.ssl.mts.ru/';
+				HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/');
 				Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
 				Img.SetSize(250,60);
 				Img.TextOut(0,0,'На номер +' + MMS['YourPhone']);
@@ -220,7 +220,7 @@
 		)
 		</proccessimage>
 		<imagedescription>Введите код, отправленный Вам на телефон</imagedescription>
-		<posturl>http://www.mts.ru/messaging1/sendmms/</posturl>
+		<posturl>http://sendmms.ssl.mts.ru/</posturl>
 		<postdata>eval(
 						begin
 
@@ -246,7 +246,7 @@
 		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://www.mts.ru/messaging1/sendmms/</cd_posturl>
+		<cd_posturl>http://sendmms.ssl.mts.ru/</cd_posturl>
 		<cd_postdata>eval(
 						begin
 
