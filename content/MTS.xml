@@ -173,7 +173,7 @@
 				
 
 				HTTP.CustomMime:='application/json; charset=utf-8';
-				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+				HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
 				JS:=TJSEval.Create;
 
 				MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
