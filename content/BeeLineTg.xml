@@ -4,7 +4,7 @@
 	<caption>БиЛайн Таджикистан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Таджикистан</country>
 	<prefixlist>
@@ -18,31 +18,30 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://beeline.tj/ru/main/sms/send.wbp</gateurl>
+		<gateurl>http://mobile.beeline.tj/ru/main/sms/send.wbp</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://beeline.tj/ru/main/sms/send.wbp</pageurl>
-		<imageurl>http://beeline.tj/ru/main/sms/mamimg.aspx</imageurl>
-		<posturl>http://beeline.tj/ru/main/sms/send.wbp</posturl>
+		<pageurl>http://mobile.beeline.tj/ru/main/sms/send.wbp</pageurl>
+		<imageurl>http://mobile.beeline.tj/ru/main/sms/mamimg.aspx</imageurl>
+		<posturl>http://mobile.beeline.tj/ru/main/sms/send.wbp</posturl>
 		<postdata>eval(
-				begin	
-					PostData.Add('send','');
-					PostData.Add('smstext',SMS['Text']);
-					PostData.Add('smstoprefix',SMS['Phone_Country']+SMS['Phone_Def']);
-					PostData.Add('smsto',SMS['Phone_Number']);
-					PostData.Add('dirtysmstext',SMS['Text']);
-					if IsAscii(SMS['Text']) then
-						PostData.Add('translit','on');
-					PostData.Add('confirm_key','');
-					PostData.Add('confirmcode',SMS['Code']);
-					PostData.Add('x','45');
-					PostData.Add('y','11');
-				end;
-			)
+						begin
+							PostData.Add('send','');
+							PostData.Add('smstext',SMS['Text']);
+							PostData.Add('smstoprefix',SMS['Phone_Country']+SMS['Phone_Def']);
+							PostData.Add('smsto',SMS['Phone_Number']);
+							PostData.Add('dirtysmstext',SMS['Text']);
+							if isAscii(SMS['Text']) then
+								PostData.Add('translit','on');
+							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
+							PostData.Add('confirmcode',SMS['Code']);
+							PostData.Add('x','51');
+							PostData.Add('y','9');
+					end;		
+					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
-		<error>eval(Html.RegExp('&lt;div id=msage&gt;(.*?)&lt;/div&gt;',1))</error>
 		<error>eval(begin
 						Result:=Html.RegExp('&lt;center style=&quot;margin-bottom: 30&quot;&gt;(.*?)&lt;/center&gt;',1);
 						if Result='' then
@@ -50,7 +49,10 @@
 					end;		
 					)</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://beeline.tj/ru/main/sms/send.wbp</cd_posturl>
+		<cd_delay>7000</cd_delay>
+		<cd_delta>3000</cd_delta>
+		<cd_maxcheckdelivery>20</cd_maxcheckdelivery>
+		<cd_posturl>http://mobile.beeline.tj/ru/main/sms/send.wbp</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
@@ -67,6 +69,11 @@
 						end;	
 					   )
 		</cd_success>
-		<cd_error>Ошибка подтверждения доставки</cd_error>
+		<cd_error>eval(begin
+						Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1);
+						if Result='' then
+							Result:='Ошибка подтверждения доставки';
+						end;)
+		</cd_error>
 	</classprops>
 </gate>
