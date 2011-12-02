@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Globalsim</name>
+	<caption>Globalsim</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>11</priority>
+	<country>Международный</country>
+	<prefixlist>
+		<prefix start="+372 54" format="3.3.5"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>150</maxsymbols>
+		<maxunicodesymbols>150</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<gateurl>http://www.simtravel.ru/mobile/sms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://simglobalsim.ru/services/globalsim_sms</pageurl>
+		<imageurl>eval('http://simglobalsim.ru/image_captcha' + Html.RegExp('image_captcha(.*?)&quot;',1))</imageurl>
+		<posturl>http://simglobalsim.ru/services/globalsim_sms</posturl>
+		<postdata>eval(
+					begin
+						PostData.Add('recipient',SMS['Phone']);
+						PostData.Add('msg',SMS['Text']);
+						PostData.Add('captcha_sid',Html.RegExp('id=&quot;edit-captcha-sid&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_token',Html.RegExp('id=&quot;edit-captcha-token&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_response',SMS['Code']);
+						PostData.Add('op','Отправить');
+						PostData.Add('form_build_id',Html.RegExp('name=&quot;form_build_id&quot; id=&quot;(.*?)&quot;',1));
+						PostData.Add('form_id',Html.RegExp('name=&quot;form_id&quot;.*?value=&quot;(.*?)&quot;',1));
+					end;
+					)
+		</postdata>
+		<success>eval(Html.ExistsStr('сообщение было отправлено '))</success>
+		<error>eval(Html.RegExp('&lt;div class=&quot;messages error&quot;&gt;(.*?)&lt;/div&gt;',1))</error>
+	</classprops>
+</gate>
