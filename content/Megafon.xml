@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>16</version>
+	<version>17</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -33,7 +33,6 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<error_unsupport>Сервис временно не работает. Ждем когда Мегафон восстановит.</error_unsupport>
 		<pageurl>https://sendsms.megafon.ru</pageurl>
 		<imageurl>eval(
 						begin
