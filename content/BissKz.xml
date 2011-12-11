@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>BissKZ</name>
+	<caption>БИСС</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>9</priority>
+	<country>Казахстан</country>
+	<prefixlist>
+		<prefix start="+7 701" end="+7 702"/>
+		<prefix start="+7 775"/>
+		<prefix start="+7 771"/>
+		<prefix start="+7 777"/>
+		<prefix start="+7 705"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>152</maxsymbols>
+		<maxunicodesymbols>52</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://biss.kz/?m=sendSMS</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://biss.kz/?m=sendSMS</pageurl>
+		<imageurl>eval('http://biss.kz/securimage/securimage_show.php?sid=' + Html.RegExp('sid=&quot;(.*?)&quot;',1))</imageurl>
+		<posturl>http://biss.kz/?m=sendSMS</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('prefix',SMS['Phone_Def']);
+							PostData.Add('number',SMS['Phone_Number']);
+							PostData.Add('message',SMS['Text']);
+							PostData.Add('codicus',SMS['Code']);
+							PostData.Add('subm','Отправить');
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('СМС успешно отправлена'))</success>
+		<error>eval(Html.RegExp('&lt;strong&gt;Ошибка:&lt;/strong&gt;(.*?)&lt;/p&gt;',1))</error>
+	</classprops>
+</gate>
