@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>79</version>
+	<version>80</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -245,7 +245,7 @@
 		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://sendmms.ssl.mts.ru/</cd_posturl>
+		<cd_posturl>http://sendmms.ssl.mts.ru/Handlers/CheckSMSStatusHandler.ashx</cd_posturl>
 		<cd_postdata>eval(
 						begin
 

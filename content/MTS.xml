@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>109</version>
+	<version>110</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -493,7 +493,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					)
 		</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://sendsms.ssl.mts.ru/</cd_posturl>
+		<cd_posturl>http://sendsms.ssl.mts.ru/Handlers/CheckSMSStatusHandler.ashx</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							if Stored['MsgId']='' then
