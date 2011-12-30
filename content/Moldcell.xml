@@ -4,7 +4,7 @@
 	<caption>Moldcell</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
@@ -19,28 +19,34 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.moldcell.md/rus/sendSms</gateurl>
+		<gateurl>http://www.moldcell.md/rus/private/websms</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.moldcell.md/rus/sendSms</pageurl>
-		<imageurl>eval('http://www.moldcell.md/securePicture/' + HTML.RegExp('securePicture\/(.*?)&quot;',1))</imageurl>
-		<posturl>http://www.moldcell.md/xds/default.aspx</posturl>
+		<pageurl>http://www.moldcell.md/rus/private/websms</pageurl>
+		<imageurl>eval('http://www.moldcell.md/rus/private/image_captcha/' + HTML.RegExp('image_captcha\/(.*?)&quot;',1))</imageurl>
+		<posturl>http://www.moldcell.md/rus/private/websms</posturl>
 		<postdata>eval(
 					begin
-						PostData.Add('phonePrefix',SMS['Phone_Country']+SMS['Phone_Def']);
-						PostData.Add('phoneNumber',SMS['Phone_Number']);
+						PostData.Add('phone_prefix',SMS['Phone_Country'] + SMS['Phone_Def']);
+						PostData.Add('phone_number',SMS['Phone_Number']);
 						PostData.Add('message',SMS['Text']);
-						PostData.Add('pictureCode',SMS['Code']);
-						PostData.Add('type','sendSms');
-						PostData.Add('publicGuid',Html.RegExp('name=&quot;publicGuid&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('url','/sendSms/');
-						PostData.Add('langUrl','/rus/');
-						PostData.Add('sendSmsSubmit','Отправить');
+						PostData.Add('captcha_sid',Html.RegExp('name=&quot;captcha_sid&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_token',Html.RegExp('name=&quot;captcha_token&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('captcha_response',SMS['Code']);
+						PostData.Add('op','');
+						PostData.Add('form_build_id',Html.RegExp('name=&quot;form_build_id&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('form_id','websms_main_form');
 					end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Сообщение будет вскоре отправлено'))</success>
-		<error>Сообщение не может быть отправлено, возможно неверно введен код с картинки</error>
+		<success>eval(HTML.ExistsStr('Ваше сообщение было отправлено'))</success>
+		<error>eval(
+			begin
+				Result:=Html.RegExp('Сообщение об ошибке&lt;/h2&gt;(.*?)&lt;/div&gt;',1);
+				if Pos('The answer you entered for the CAPTCHA was not correct.', Result)>0 then
+					Result:='Неверно введен код подтверждения';
+			end;
+			)</error>
 	</classprops>
 </gate>
