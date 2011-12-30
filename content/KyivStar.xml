@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -21,9 +21,6 @@
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.kyivstar.ua/ru/sms/</gateurl>
-		<clickimage>1</clickimage>
-		<clickimagewidth>70</clickimagewidth>
-		<clickimageheight>70</clickimageheight>
 		<supportautorecognize>0</supportautorecognize>
 	</info>
 	<classprops>
@@ -32,6 +29,9 @@
 		<pageurl>http://smsgate.kyivstar.ua/sms/?lang=ru</pageurl>
 		<imageurl>eval('http://smsgate.kyivstar.ua/sms/images.jpg?id='+Html.RegExp('background-image: url\(''/sms/images.jpg\?id=(.*?)''',1))</imageurl>
 		<imagedescription>eval('Выберите'+Html.RegExp('укажите(.*?)картинки живой природы',1)+'картинки живой природы')</imagedescription>
+		<clickimage>1</clickimage>
+		<clickimagewidth>70</clickimagewidth>
+		<clickimageheight>70</clickimageheight>
 		<proccessimage>eval(
 							var
 								x,y,srcy: integer;

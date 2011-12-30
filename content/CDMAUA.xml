@@ -4,7 +4,7 @@
 	<caption>CDMA Ukraine</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -23,15 +23,15 @@
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.cdma.ua/sms/</gateurl>
-		<clickimage>1</clickimage>
-		<clickimagewidth>70</clickimagewidth>
-		<clickimageheight>70</clickimageheight>
 		<supportautorecognize>0</supportautorecognize>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://www.cdma.ua/sms/</pageurl>
 		<imagedescription>eval('Выберите'+Html.RegExp('укажите(.*?)картинки с изображением транспорта',1)+' картинки с изображением транспорта')</imagedescription>
+		<clickimage>1</clickimage>
+		<clickimagewidth>70</clickimagewidth>
+		<clickimageheight>70</clickimageheight>
 		<imageurl>eval('http://www.cdma.ua/upload/tmp/'+Html.RegExp('\.smsCodeImage \{background-image:url\(\/upload\/tmp\/(.*?)\)',1))</imageurl>
 		<proccessimage>eval(
 							var
