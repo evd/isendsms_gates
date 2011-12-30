@@ -4,7 +4,7 @@
 	<caption>Free MMS</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -129,7 +129,7 @@
 			Result:=Html.Regexp('Пожалуйста исправьте следующие ошибки ввода:.*?&lt;li&gt;(.*?)&lt;/li&gt;',1);
 			if Result='' then
 			begin
-				if Html.ExistsStr('Число MMS, отправляемых анонимно, ограничено в целях безопасности абонентов.') then
+				if Html.ExistsStr('Число MMS, отправляемых анонимно, ограничено в целях безопасности абонентов') then
 					Result:='Превышен лимит на количество MMS-сообщений, попробуйте позже'
 				else
 					Result:='Неизвестная ошибка';
