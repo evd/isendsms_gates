@@ -4,7 +4,7 @@
 	<caption>Owap 3</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>4</priority>
 	<country>Весь мир</country>
 	<prefixlist>
@@ -61,6 +61,12 @@
 		)
 		</postdata>
 		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
-		<error>eval(Html.RegExp('&lt;div&gt;(.*?)&lt;',1))</error>
+		<error>eval(
+			begin
+				Result:=Html.RegExp('&lt;div&gt;(.*?)&lt;',1);
+				if Result='' then
+					Result:=Html.StrBetweenRev('&lt;br/&gt;','&lt;br/&gt;&lt;br/&gt;');
+			end;	
+			)</error>
 	</classprops>
 </gate>
