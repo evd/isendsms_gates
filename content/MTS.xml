@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>110</version>
+	<version>111</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -155,31 +155,41 @@
 		<handleredirects>0</handleredirects>
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>
 		<pageurl>http://sendsms.ssl.mts.ru/</pageurl>
+		<captchacount>2</captchacount>
 		<customimage>1</customimage>
+		<clickimage>eval(
+			begin
+				Result:=(SMS['CaptchaIteration']=1);
+			end;
+			)</clickimage>
+		<clickimagewidth>50</clickimagewidth>
+		<clickimageheight>50</clickimageheight>
 		<proccessimage>eval(
 					var
 						DT: TDateTime;
 						PhoneDef: string;
-						i: integer;
-						Code, MTSCode, Items, PStr: string;
+						i, cnt, p: integer;
+						Code, FinalCode, MTSCode, Items, PStr: string;
 						JS: TJSEval;
 			begin
-				Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
-				Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
-				Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
-				Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
-				Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
-				
-
+				Stored['ErrorText']:='';
 				HTTP.CustomMime:='application/json; charset=utf-8';
-				HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
-				JS:=TJSEval.Create;
+				if SMS['CaptchaIteration']=1 then
+				begin
+					Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
+					Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
+					Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
+					Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
+					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 
-				MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
-				MTSCode:=ReplaceStr(MTSCode, '\&quot;','&quot;');
+					HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+					JS:=TJSEval.Create;
 
-				//Добавялем свой код, эмулируем jQuery
-				Code:='' + 	
+					MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
+					MTSCode:=ReplaceStr(MTSCode, '\&quot;','&quot;');
+
+					//Добавялем свой код, эмулируем jQuery
+					Code:='' + 	
 'var inputs = [];' + sLineBreak +
 'function form() {' + sLineBreak +
 '	return {' + sLineBreak +
@@ -286,60 +296,114 @@
 '}' + sLineBreak + 
 JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 
-				JS.Exec(Code);
-				Stored['HiddenInputs']:=JS.GetResultValue('hidden');
-
-				DT:=SMS['DeliveryTime'];
-				if SMS['Delivery'] then
-				begin	
-					if (DT-Now)&lt;5*OneMinute then
+					JS.Exec(Code);
+					Stored['HiddenInputs']:=JS.GetResultValue('hidden');
+					//Получаем изображения
+					Items:=Html.StrBetween('Items&quot;:[',']');
+					p:=Pos(',',Items);
+					cnt:=0;
+					while (p&gt;0) or (Items&lt;&gt;'') do
 					begin
-						DT:=DT+5*OneMinute;
-					end;	
+						cnt:=cnt+1;
+						if p&gt;0 then
+						begin
+							PStr:=Copy(Items,1,p-1);
+							Delete(Items,1,p);
+						end else
+						begin
+							PStr:=Items;
+							Items:='';
+						end;	
+						Stored['CaptchaImg'+VarToStr(cnt)]:=StrBetween(PStr,'Id&quot;:&quot;','&quot;');
+						p:=Pos(',',Items);
+					end;
+
+					Stored['ImageDesc']:=CleanMessageText(Html.StrBetween('QuestionText&quot;:&quot;','&quot;'));
+					
+					Img.SetSize(cnt*50,50);
+					
+					for i:=1 to cnt do
+					begin
+						HTTP.HTTPMethod('GET','http://sendsms.ssl.mts.ru/Captcha/image.ashx?CaptchaItemId='+Stored['CaptchaImg'+VarToStr(i)]);
+						Img.AssignSourceImage($FFFFFF);
+						Img.CopyRect((i-1)*50,0,Bounds(0,0,50,50));
+					end;				
+				end; //CaptchaIteration=1
+				if SMS['CaptchaIteration']=2 then
+				begin
+					DT:=SMS['DeliveryTime'];
+					if SMS['Delivery'] then
+					begin	
+						if (DT-Now)&lt;5*OneMinute then
+						begin
+							DT:=DT+5*OneMinute;
+						end;	
+					end;
+					DT:=AdjustTimeZone(DT,240,false);
+					if SMS['Phone_Def']='495' then
+						PhoneDef:='985'
+					else PhoneDef:=SMS['Phone_Def'];
+					
+					Code:=SMS['Code'];
+					for i:=1 to Length(Code) do
+					begin
+						if Length(FinalCode)&gt;0 then
+							FinalCode:=FinalCode+',';
+						FinalCode:=FinalCode+Stored['CaptchaImg'+Code[i]];
+					end;
+					
+					PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$updatePanel|' + Stored['InputPrefix'] + '$btnSend');
+					PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
+					PostData.Add('__EVENTTARGET','');
+					PostData.Add('__EVENTARGUMENT','');
+					PostData.Add('__VIEWSTATE',Stored['ViewState']);
+					PostData.Add('Region_Id','1826');
+					PostData.Add('SiteSection_Id','1744');
+					PostData.Add('ShowPersCabLink','False');
+					PostData.Add('TopMenuParentId','801624');
+					PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber', Copy(SMS['YourPhone'],2,10));
+					PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber', SMS['Phone_Def']+SMS['Phone_Number']);
+					PostData.Add(Stored['InputPrefix'] + '$tbMessage',SMS['Text']);
+					PostData.Add(Stored['InputPrefix'] + '$tbSymbolsCounter',Length(SMS['Text']));
+					PostData.Add(Stored['InputPrefix'] + '$tbSymbolsMaxCount',SMS['MaxSymbols']);
+					if SMS['Flash'] then
+						PostData.Add(Stored['InputPrefix'] + '$cbxExpressSMS','on');
+					if SMS['Delivery'] then
+						PostData.Add(Stored['InputPrefix'] + '$cbxForCalendar','on');
+					PostData.Add(Stored['InputPrefix'] + '$ctl02',FormatDateTime('d',DT));
+					PostData.Add(Stored['InputPrefix'] + '$ctl03',FormatDateTime('m',DT));
+					PostData.Add(Stored['InputPrefix'] + '$ctl04',FormatDateTime('yyyy',DT));
+					PostData.Add(Stored['InputPrefix'] + '$ctl05',FormatDateTime('hh',DT));
+					PostData.Add(Stored['InputPrefix'] + '$ctl07',FormatDateTime('nn',DT));
+					PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
+					PostData.AddRawData(Stored['HiddenInputs']);
+					PostData.Add('__ASYNCPOST','true');
+					PostData.Add(Stored['InputPrefix'] + '$btnSend.x','73');
+					PostData.Add(Stored['InputPrefix'] + '$btnSend.y','8');
+		
+					HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
+					HTTP.Referer:='http://sendsms.ssl.mts.ru/';
+					HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/');
+					
+					if Html.ExistsStr('Вы неправильно ответили на вопрос') then
+						Stored['ErrorText']:='Вы неправильно ответили на вопрос! Попробуйте ответить на новый вопрос';
+						
+					
+					Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
+					Img.SetSize(250,60);
+					Img.TextOut(0,0,'На номер +' + SMS['YourPhone']);
+					Img.TextOut(0,20,'выслан код подтверждения.');
+					Img.TextOut(0,40,'Пожалуйста, введите его.');
+					
+					Stored['ImageDesc']:='Введите код, отправленный Вам на телефон';
+
 				end;
-				DT:=AdjustTimeZone(DT,240,false);
-				if SMS['Phone_Def']='495' then
-					PhoneDef:='985'
-				else PhoneDef:=SMS['Phone_Def'];
-				
-				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$updatePanel|' + Stored['InputPrefix'] + '$btnSend');
-				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
-				PostData.Add('__EVENTTARGET','');
-				PostData.Add('__EVENTARGUMENT','');
-				PostData.Add('__VIEWSTATE',Stored['ViewState']);
-				PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber', Copy(SMS['YourPhone'],2,10));
-				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber', SMS['Phone_Def']+SMS['Phone_Number']);
-				PostData.Add(Stored['InputPrefix'] + '$tbMessage',SMS['Text']);
-				PostData.Add(Stored['InputPrefix'] + '$tbSymbolsCounter',Length(SMS['Text']));
-				PostData.Add(Stored['InputPrefix'] + '$tbSymbolsMaxCount',SMS['MaxSymbols']);
-				if SMS['Flash'] then
-					PostData.Add(Stored['InputPrefix'] + '$cbxExpressSMS','on');
-				if SMS['Delivery'] then
-					PostData.Add(Stored['InputPrefix'] + '$cbxForCalendar','on');
-				PostData.Add(Stored['InputPrefix'] + '$ctl02',FormatDateTime('d',DT));
-				PostData.Add(Stored['InputPrefix'] + '$ctl03',FormatDateTime('m',DT));
-				PostData.Add(Stored['InputPrefix'] + '$ctl04',FormatDateTime('yyyy',DT));
-				PostData.Add(Stored['InputPrefix'] + '$ctl05',FormatDateTime('hh',DT));
-				PostData.Add(Stored['InputPrefix'] + '$ctl07',FormatDateTime('nn',DT));
-				PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState','');
-				PostData.AddRawData(Stored['HiddenInputs']);
-				PostData.Add('__ASYNCPOST','true');
-				PostData.Add(Stored['InputPrefix'] + '$btnSend.x','73');
-				PostData.Add(Stored['InputPrefix'] + '$btnSend.y','8');
-	
-				HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
-				HTTP.Referer:='http://sendsms.ssl.mts.ru/';
-				HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/');
-				Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
-				Img.SetSize(250,60);
-				Img.TextOut(0,0,'На номер +' + SMS['YourPhone']);
-				Img.TextOut(0,20,'выслан код подтверждения.');
-				Img.TextOut(0,40,'Пожалуйста, введите его.');
 
 			end;
 		)
 		</proccessimage>
-		<imagedescription>Введите код, отправленный Вам на телефон</imagedescription>
+		<gateerror>eval(Stored['ErrorText'])</gateerror>
+		<imagedescription>eval(Stored['ImageDesc'])</imagedescription>
 		<posturl>http://sendsms.ssl.mts.ru/</posturl>
 		<custommime>application/x-www-form-urlencoded; charset=utf-8</custommime>
 		<postdata>eval(
@@ -350,7 +414,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					begin
 
 				HTTP.CustomMime:='application/json; charset=utf-8';
-				HTTP.HTTPMethod('POST','http://www.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+				HTTP.HTTPMethod('POST','http://sendsms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
 				JS:=TJSEval.Create;
 
 				MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);

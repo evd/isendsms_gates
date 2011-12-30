@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>80</version>
+	<version>81</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -158,7 +158,15 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://sendmms.ssl.mts.ru/</pageurl>
+		<captchacount>2</captchacount>
 		<customimage>1</customimage>
+		<clickimage>eval(
+			begin
+				Result:=(MMS['CaptchaIteration']=1);
+			end;
+			)</clickimage>
+		<clickimagewidth>50</clickimagewidth>
+		<clickimageheight>50</clickimageheight>
 		<proccessimage>eval(
 					var
 						MC: TMultimediaContent;
@@ -169,59 +177,354 @@
 						Code, MTSCode, Items, PStr: string;
 						JS: TJSEval;
 			begin
-				Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
-				Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
-				Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
-				Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
-				Stored['InputPrefix4']:=Html.StrBetweenRev('id=&quot;','_MMSSendingControl'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01_ctl02_ctl00
-				Stored['InputPrefix5']:=Html.StrBetweenRev('id=&quot;','_rfdFormDecorator_ClientState'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01
-				Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
-				
+				Stored['ErrorText']:='';
+				if MMS['CaptchaIteration']=1 then
+				begin
+					Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
+					Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
+					Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
+					Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
+					Stored['InputPrefix4']:=Html.StrBetweenRev('id=&quot;','_MMSSendingControl'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01_ctl02_ctl00
+					Stored['InputPrefix5']:=Html.StrBetweenRev('id=&quot;','_rfdFormDecorator_ClientState'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01
+					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 
-				//Отправка мультимедиа
-				MC:=MMS['Multimedia'];
-				PostData.Add('Filename',MC['FileName']);
-				PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
-				PostData.AddData('FUDATA',MC);
-				PostData.Add('Upload','Submit Query');
-				HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/FlashUploader.axd');
+					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+					JS:=TJSEval.Create;
 
-				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
-				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
-				PostData.Add('__EVENTTARGET','');
-				PostData.Add('__EVENTARGUMENT','');
-				PostData.Add('__VIEWSTATE',Stored['ViewState']);
-				PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
-				PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
-				PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
-				PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
-				PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber',Copy(MMS['YourPhone'],2,10));
-				PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
-				PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
-				PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
-				PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
-				PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
-				PostData.Add('__ASYNCPOST','true');
-				PostData.Add(Stored['InputPrefix'] + '$btnSend.x','123');
-				PostData.Add(Stored['InputPrefix'] + '$btnSend.y','2');
-				PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
-	
-				HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
-				HTTP.Referer:='http://sendmms.ssl.mts.ru/';
-				HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/');
-				Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
-				Img.SetSize(250,60);
-				Img.TextOut(0,0,'На номер +' + MMS['YourPhone']);
-				Img.TextOut(0,20,'выслан код подтверждения.');
-				Img.TextOut(0,40,'Пожалуйста, введите его.');
+					MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
+					MTSCode:=ReplaceStr(MTSCode, '\&quot;','&quot;');
+
+					//Добавялем свой код, эмулируем jQuery
+					Code:='' + 	
+'var inputs = [];' + sLineBreak +
+'function form() {' + sLineBreak +
+'	return {' + sLineBreak +
+'		append: function(obj){' + sLineBreak +
+'		}' + sLineBreak +
+'	}	' + sLineBreak +
+'};' + sLineBreak +
+'function input(){' + sLineBreak +
+'	var new_input = {' + sLineBreak +
+'		classes: [],' + sLineBreak +
+'		attrs: [],' + sLineBreak +
+'		name: &quot;&quot;,' + sLineBreak +
+'		val: &quot;&quot;,' + sLineBreak +
+'		attr: function(name, value) {' + sLineBreak +
+'			if (name!=&quot;name&quot;)' + sLineBreak +
+'				this.attrs[name] = value;' + sLineBreak +
+'			else' + sLineBreak +
+'				this.name = value; 	' + sLineBreak +
+'			return this;' + sLineBreak +
+'		},' + sLineBreak +
+'		addClass: function(classname) {' + sLineBreak +
+'			this.classes.push(classname);' + sLineBreak +
+'			return this; ' + sLineBreak +
+'		},' + sLineBreak +
+'		val: function(value) {' + sLineBreak +
+'			this.val = value;' + sLineBreak +
+'			return this;			' + sLineBreak +
+'		},' + sLineBreak +
+'		remove: function() {' + sLineBreak +
+'			for(var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'				if (inputs[i]==this) {' + sLineBreak +
+'					inputs.splice(i,1);' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	};' + sLineBreak +
+'	inputs.push(new_input);' + sLineBreak +
+'	return new_input;' + sLineBreak +
+'		' + sLineBreak +
+'	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function search_byselector(selector) {' + sLineBreak +
+'	var className=&quot;&quot;;' + sLineBreak +
+'	var AttrName=&quot;&quot;;' + sLineBreak +
+'	var AttrValue=&quot;&quot;;' + sLineBreak +
+'	//Извлекаем класс' + sLineBreak +
+'	var p = selector.indexOf(&quot;.&quot;);' + sLineBreak +
+'	if (p&gt;=0) {' + sLineBreak +
+'		className = selector.substring(p+1);' + sLineBreak +
+'	}' + sLineBreak +
+'	//Извлекаем аттрибут' + sLineBreak +
+'	var reg = new RegExp(&quot;\\[([\\w\\d_]+)=\&quot;([\\w\\d_]+)\&quot;\\]&quot;,&quot;g&quot;);' + sLineBreak +
+'	var matches = reg.exec(selector);' + sLineBreak +
+'	while (matches!=null) {' + sLineBreak +
+'		if (matches[1]!=&quot;type&quot;) {' + sLineBreak +
+'			AttrName=matches[1];' + sLineBreak +
+'			AttrValue=matches[2];' + sLineBreak +
+'		}	' + sLineBreak +
+'		matches = reg.exec(selector);' + sLineBreak +
+'	}' + sLineBreak +
+'	var result = null;' + sLineBreak +
+'	//Ищем по классу или аттрибуту' + sLineBreak +
+'	for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'		if (className!=&quot;&quot;) {' + sLineBreak +
+'			for (var j=0;j&lt;inputs[i].classes.length;j++) {' + sLineBreak +
+'				if (className==inputs[i].classes[j]) {' + sLineBreak +
+'					result = inputs[i];' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'		if ((AttrName!=&quot;&quot;) &amp;&amp; (AttrValue!=&quot;&quot;)) {' + sLineBreak +
+'			if (inputs[i].attrs[AttrName]==AttrValue) {' + sLineBreak +
+'				result = inputs[i];' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	}' + sLineBreak +
+'	if (result!=null)' + sLineBreak +
+'		return result;' + sLineBreak +
+'	else' + sLineBreak +
+'		return new input();	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function jQuery(selector, scope) {' + sLineBreak +
+'	switch (selector.toLowerCase()) {' + sLineBreak +
+'		case &quot;form&quot;:' + sLineBreak +
+'			return new form();' + sLineBreak +
+'			break;' + sLineBreak +
+'		case &quot;&lt;input\/&gt;&quot;:' + sLineBreak +
+'			return new input();' + sLineBreak +
+'			break;' + sLineBreak +
+'		default:' + sLineBreak +
+'			return search_byselector(selector);' + sLineBreak +
+'			break;		' + sLineBreak +
+'	}' + sLineBreak +
+'}'+ sLineBreak;
+				Code:=Code+MTSCode;
+				Code:=Code+sLineBreak + 
+'var r = &quot;&quot;;' + sLineBreak +
+'for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'	r = r + &quot;&amp;amp;&quot; + inputs[i].name + &quot;=&quot; + inputs[i].val;' + sLineBreak +
+'}' + sLineBreak + 
+JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
+
+					JS.Exec(Code);
+					Stored['HiddenInputs']:=JS.GetResultValue('hidden');
+					//Получаем изображения
+					Items:=Html.StrBetween('Items&quot;:[',']');
+					p:=Pos(',',Items);
+					cnt:=0;
+					while (p&gt;0) or (Items&lt;&gt;'') do
+					begin
+						cnt:=cnt+1;
+						if p&gt;0 then
+						begin
+							PStr:=Copy(Items,1,p-1);
+							Delete(Items,1,p);
+						end else
+						begin
+							PStr:=Items;
+							Items:='';
+						end;	
+						Stored['CaptchaImg'+VarToStr(cnt)]:=StrBetween(PStr,'Id&quot;:&quot;','&quot;');
+						p:=Pos(',',Items);
+					end;
+
+					Stored['ImageDesc']:=CleanMessageText(Html.StrBetween('QuestionText&quot;:&quot;','&quot;'));
+					
+					Img.SetSize(cnt*50,50);
+					
+					for i:=1 to cnt do
+					begin
+						HTTP.HTTPMethod('GET','http://sendmms.ssl.mts.ru/Captcha/image.ashx?CaptchaItemId='+Stored['CaptchaImg'+VarToStr(i)]);
+						Img.AssignSourceImage($FFFFFF);
+						Img.CopyRect((i-1)*50,0,Bounds(0,0,50,50));
+					end;				
+
+					
+				end;
+				if MMS['CaptchaIteration']=2 then
+				begin
+					//Отправка мультимедиа
+					MC:=MMS['Multimedia'];
+					PostData.Add('Filename',MC['FileName']);
+					PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
+					PostData.AddData('FUDATA',MC);
+					PostData.Add('Upload','Submit Query');
+					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/FlashUploader.axd');
+
+					Code:=MMS['Code'];
+					for i:=1 to Length(Code) do
+					begin
+						if Length(FinalCode)&gt;0 then
+							FinalCode:=FinalCode+',';
+						FinalCode:=FinalCode+Stored['CaptchaImg'+Code[i]];
+					end;
+
+					PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
+					PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
+					PostData.Add('__EVENTTARGET','');
+					PostData.Add('__EVENTARGUMENT','');
+					PostData.Add('__VIEWSTATE',Stored['ViewState']);
+					PostData.Add('Region_Id','1826');
+					PostData.Add('SiteSection_Id','1744');
+					PostData.Add('ShowPersCabLink','False');
+					PostData.Add('TopMenuParentId','801624');
+					PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
+					PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
+					PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
+					PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
+					PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber',Copy(MMS['YourPhone'],2,10));
+					PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
+					PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
+					PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
+					PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
+					PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
+					PostData.Add('__ASYNCPOST','true');
+					PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
+					PostData.AddRawData(Stored['HiddenInputs']);
+					PostData.Add(Stored['InputPrefix'] + '$btnSend.x','123');
+					PostData.Add(Stored['InputPrefix'] + '$btnSend.y','2');
+					PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
+		
+					HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
+					HTTP.Referer:='http://sendmms.ssl.mts.ru/';
+					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/');
+
+					if Html.ExistsStr('Вы неправильно ответили на вопрос') then
+						Stored['ErrorText']:='Вы неправильно ответили на вопрос! Попробуйте ответить на новый вопрос';
+					
+					Stored['ViewState']:=Html.RegExp('hiddenField\|__VIEWSTATE\|(.*?)\|',1);
+					Img.SetSize(250,60);
+					Img.TextOut(0,0,'На номер +' + MMS['YourPhone']);
+					Img.TextOut(0,20,'выслан код подтверждения.');
+					Img.TextOut(0,40,'Пожалуйста, введите его.');
+				end;
 
 			end;
 		)
 		</proccessimage>
-		<imagedescription>Введите код, отправленный Вам на телефон</imagedescription>
+		<gateerror>eval(Stored['ErrorText'])</gateerror>
+		<imagedescription>eval(Stored['ImageDesc'])</imagedescription>
 		<posturl>http://sendmms.ssl.mts.ru/</posturl>
 		<postdata>eval(
-						begin
+					var
+						i, p: integer;
+						Code, MTSCode, Items, PStr: string;
+						JS: TJSEval;
+					begin
+
+						HTTP.CustomMime:='application/json; charset=utf-8';
+						HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+						JS:=TJSEval.Create;
+
+						MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
+						MTSCode:=ReplaceStr(MTSCode, '\&quot;','&quot;');
+
+						//Добавялем свой код, эмулируем jQuery
+						Code:='' + 	
+'var inputs = [];' + sLineBreak +
+'function form() {' + sLineBreak +
+'	return {' + sLineBreak +
+'		append: function(obj){' + sLineBreak +
+'		}' + sLineBreak +
+'	}	' + sLineBreak +
+'};' + sLineBreak +
+'function input(){' + sLineBreak +
+'	var new_input = {' + sLineBreak +
+'		classes: [],' + sLineBreak +
+'		attrs: [],' + sLineBreak +
+'		name: &quot;&quot;,' + sLineBreak +
+'		val: &quot;&quot;,' + sLineBreak +
+'		attr: function(name, value) {' + sLineBreak +
+'			if (name!=&quot;name&quot;)' + sLineBreak +
+'				this.attrs[name] = value;' + sLineBreak +
+'			else' + sLineBreak +
+'				this.name = value; 	' + sLineBreak +
+'			return this;' + sLineBreak +
+'		},' + sLineBreak +
+'		addClass: function(classname) {' + sLineBreak +
+'			this.classes.push(classname);' + sLineBreak +
+'			return this; ' + sLineBreak +
+'		},' + sLineBreak +
+'		val: function(value) {' + sLineBreak +
+'			this.val = value;' + sLineBreak +
+'			return this;			' + sLineBreak +
+'		},' + sLineBreak +
+'		remove: function() {' + sLineBreak +
+'			for(var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'				if (inputs[i]==this) {' + sLineBreak +
+'					inputs.splice(i,1);' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	};' + sLineBreak +
+'	inputs.push(new_input);' + sLineBreak +
+'	return new_input;' + sLineBreak +
+'		' + sLineBreak +
+'	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function search_byselector(selector) {' + sLineBreak +
+'	var className=&quot;&quot;;' + sLineBreak +
+'	var AttrName=&quot;&quot;;' + sLineBreak +
+'	var AttrValue=&quot;&quot;;' + sLineBreak +
+'	//Извлекаем класс' + sLineBreak +
+'	var p = selector.indexOf(&quot;.&quot;);' + sLineBreak +
+'	if (p&gt;=0) {' + sLineBreak +
+'		className = selector.substring(p+1);' + sLineBreak +
+'	}' + sLineBreak +
+'	//Извлекаем аттрибут' + sLineBreak +
+'	var reg = new RegExp(&quot;\\[([\\w\\d_]+)=\&quot;([\\w\\d_]+)\&quot;\\]&quot;,&quot;g&quot;);' + sLineBreak +
+'	var matches = reg.exec(selector);' + sLineBreak +
+'	while (matches!=null) {' + sLineBreak +
+'		if (matches[1]!=&quot;type&quot;) {' + sLineBreak +
+'			AttrName=matches[1];' + sLineBreak +
+'			AttrValue=matches[2];' + sLineBreak +
+'		}	' + sLineBreak +
+'		matches = reg.exec(selector);' + sLineBreak +
+'	}' + sLineBreak +
+'	var result = null;' + sLineBreak +
+'	//Ищем по классу или аттрибуту' + sLineBreak +
+'	for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'		if (className!=&quot;&quot;) {' + sLineBreak +
+'			for (var j=0;j&lt;inputs[i].classes.length;j++) {' + sLineBreak +
+'				if (className==inputs[i].classes[j]) {' + sLineBreak +
+'					result = inputs[i];' + sLineBreak +
+'					break;' + sLineBreak +
+'				}' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'		if ((AttrName!=&quot;&quot;) &amp;&amp; (AttrValue!=&quot;&quot;)) {' + sLineBreak +
+'			if (inputs[i].attrs[AttrName]==AttrValue) {' + sLineBreak +
+'				result = inputs[i];' + sLineBreak +
+'			}' + sLineBreak +
+'		}' + sLineBreak +
+'	}' + sLineBreak +
+'	if (result!=null)' + sLineBreak +
+'		return result;' + sLineBreak +
+'	else' + sLineBreak +
+'		return new input();	' + sLineBreak +
+'}' + sLineBreak +
+'' + sLineBreak +
+'function jQuery(selector, scope) {' + sLineBreak +
+'	switch (selector.toLowerCase()) {' + sLineBreak +
+'		case &quot;form&quot;:' + sLineBreak +
+'			return new form();' + sLineBreak +
+'			break;' + sLineBreak +
+'		case &quot;&lt;input\/&gt;&quot;:' + sLineBreak +
+'			return new input();' + sLineBreak +
+'			break;' + sLineBreak +
+'		default:' + sLineBreak +
+'			return search_byselector(selector);' + sLineBreak +
+'			break;		' + sLineBreak +
+'	}' + sLineBreak +
+'}'+ sLineBreak;
+				Code:=Code+MTSCode;
+				Code:=Code+sLineBreak + 
+'var r = &quot;&quot;;' + sLineBreak +
+'for (var i=0;i&lt;inputs.length;i++) {' + sLineBreak +
+'	r = r + &quot;&amp;amp;&quot; + inputs[i].name + &quot;=&quot; + inputs[i].val;' + sLineBreak +
+'}' + sLineBreak + 
+JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
+
+						JS.Exec(Code);
+						Stored['HiddenInputs']:=Stored['HiddenInputs'] + JS.GetResultValue('hidden');
 
 						PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnConfirmCustomerPhone');
 						PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
@@ -245,7 +548,7 @@
 		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://sendmms.ssl.mts.ru/Handlers/CheckSMSStatusHandler.ashx</cd_posturl>
+		<cd_posturl>http://sendmms.ssl.mts.ru/Handlers/CheckMMSStatusHandler.ashx</cd_posturl>
 		<cd_postdata>eval(
 						begin
 
