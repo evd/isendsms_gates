@@ -4,7 +4,7 @@
 	<caption>Owap 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>4</priority>
 	<country>Весь мир</country>
 	<prefixlist>
@@ -63,7 +63,7 @@
 		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
 		<error>eval(
 			begin
-				if Html.Exists('Не удалось подключиться к SMS-центру оператора') then
+				if Html.ExistsStr('Не удалось подключиться к SMS-центру оператора') then
 					Result:='Не удалось подключиться к SMS-центру оператора. Попробуйте позже'
 				else	
 					Result:=Html.RegExp('&lt;div&gt;(.*?)&lt;',1);
