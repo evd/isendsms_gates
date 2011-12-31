@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
-	<name>Owap3</name>
-	<caption>Owap 3</caption>
+	<name>Owap2</name>
+	<caption>Owap 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>1</version>
 	<priority>4</priority>
 	<country>Весь мир</country>
 	<prefixlist>
@@ -46,12 +46,12 @@
 		<supportunicode>0</supportunicode>
 		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>0</captcha>
-		<gateurl>http://sms.owap.biz/wses3/</gateurl>
+		<gateurl>http://sms.owap.biz/wses2/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://sms.owap.biz/wses3/?y</pageurl>
-		<posturl>eval('http://sms.owap.biz/wses3/index.php?tmp='+Html.RegExp('action=&quot;/wses3/index\.php\?tmp=(.*?)&amp;',1)+'&amp;y')</posturl>
+		<pageurl>http://sms.owap.biz/wses2/?y</pageurl>
+		<posturl>eval('http://sms.owap.biz/wses2/index.php?tmp='+Html.RegExp('action=&quot;/wses2/index\.php\?tmp=(.*?)&amp;',1)+'&amp;y')</posturl>
 		<postdata>eval(
 			begin
 				PostData.Add('number',SMS['Phone']);
@@ -63,9 +63,10 @@
 		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
 		<error>eval(
 			begin
-				Result:=Html.RegExp('&lt;div&gt;(.*?)&lt;',1);
-				if Result='' then
-					Result:=Html.StrBetweenRev('&lt;br/&gt;','&lt;br/&gt;&lt;br/&gt;');
+				if Html.Exists('Не удалось подключиться к SMS-центру оператора') then
+					Result:='Не удалось подключиться к SMS-центру оператора. Попробуйте позже'
+				else	
+					Result:=Html.RegExp('&lt;div&gt;(.*?)&lt;',1);
 			end;	
 			)</error>
 	</classprops>

@@ -24,7 +24,7 @@ SkyLinkSar,SkyLink
 SkylinkSpb,SkyLink
 BeelineUA,KyivStar
 Owap1,
-Owap2,
+Owap3,Owap2
 Owap4,
 UUCNMMS,BWCMMS
 Cheb,
