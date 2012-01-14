@@ -4,10 +4,11 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>51</version>
+	<version>52</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
+		<prefix start="+7 900229" end="+7 900298/>
 		<prefix start="+7 90213"/>
 		<prefix start="+7 902147" end="+7 902149"/>
 		<prefix start="+7 90219"/>
