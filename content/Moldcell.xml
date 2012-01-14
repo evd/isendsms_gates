@@ -4,12 +4,12 @@
 	<caption>Moldcell</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
-		<prefix start="+373 78" end="+373 78" format="3.3.5"/>
-		<prefix start="+373 79" end="+373 79" format="3.3.5"/>
+		<prefix start="+373 78" format="3.3.5"/>
+		<prefix start="+373 79" format="3.3.5"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>140</maxsymbols>
