@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>83</version>
+	<version>84</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -187,6 +187,7 @@
 					Stored['InputPrefix4']:=Html.StrBetweenRev('id=&quot;','_MMSSendingControl'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01_ctl02_ctl00
 					Stored['InputPrefix5']:=Html.StrBetweenRev('id=&quot;','_rfdFormDecorator_ClientState'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01
 					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
+					Stored['Uploader_ID']:=Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1);
 
 					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
 					JS:=TJSEval.Create;
@@ -343,7 +344,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					MC:=MMS['Multimedia'];
 					PostData.Multipart:=true;
 					PostData.Add('Filename',MC['FileName']);
-					PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
+					PostData.Add('UPLOADER_ID',Stored['Uploader_ID']);
 					PostData.AddData('FUDATA',MC);
 					PostData.Add('Upload','Submit Query');
 					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/FlashUploader.axd');
@@ -550,21 +551,23 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://sendmms.ssl.mts.ru/Handlers/CheckMMSStatusHandler.ashx</cd_posturl>
+		<cd_posturl>http://sendmms.ssl.mts.ru</cd_posturl>
 		<cd_postdata>eval(
 						begin
 
 							PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$StatusLink');
 							PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
+							PostData.Add('Region_Id','1826');
+							PostData.Add('SiteSection_Id','1744');
+							PostData.Add('ShowPersCabLink','False');
+							PostData.Add('TopMenuParentId','801624');
 							PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
 							PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId',Html.RegExp('MMSSendingControl_hfLastMMSMessageId&quot; value=&quot;(.*?)&quot;',1));
+							PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl06$ctl01$ctl01$ctl00$MMSSendingControl$ctrlCaptcha$ClientState','');
 							PostData.Add('__VIEWSTATE',Stored['ViewState']);
 							PostData.Add('__EVENTTARGET',Stored['InputPrefix'] + '$StatusLink');
 							PostData.Add('__EVENTARGUMENT','');
-							PostData.Add('LBD_VCT_live_nd_sendmms_' + Stored['InputPrefix4'] + '_mmssendingcontrol_captchanew',Stored['captchanewkey']);
-							PostData.Add('__ASYNCPOST','true');
-							PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');
-
+							PostData.Add('__ASYNCPOST','true');						
 			end;	
 					)
 		</cd_postdata>
