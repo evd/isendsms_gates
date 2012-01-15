@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>82</version>
+	<version>83</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -341,6 +341,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 				begin
 					//Отправка мультимедиа
 					MC:=MMS['Multimedia'];
+					PostData.Multipart:=true;
 					PostData.Add('Filename',MC['FileName']);
 					PostData.Add('UPLOADER_ID',Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1));
 					PostData.AddData('FUDATA',MC);
@@ -355,6 +356,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 						FinalCode:=FinalCode+Stored['CaptchaImg'+Code[i]];
 					end;
 
+					PostData.Multipart:=false;
 					PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
 					PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
 					PostData.Add('__EVENTTARGET','');
