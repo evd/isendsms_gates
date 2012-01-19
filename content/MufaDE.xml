@@ -4,7 +4,7 @@
 	<caption>Mufa DE</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>7</priority>
 	<country>Германия</country>
 	<prefixlist>
@@ -38,14 +38,14 @@
 						PostData.Add('sms_text',SMS['Text']);
 						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
 						PostData.Add('recaptcha_response_field',SMS['Code']);
-						PostData.Add('submit','');
+						PostData.Add('submit','Free+SMS+senden');
 					end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('/loading/sms1.html'))</success>
+		<success>eval(HTML.ExistsStr('SMS gesendet'))</success>
 		<error>eval(begin
 						
-						if HTML.ExistsStr('Sicherheitscode nicht korrekt!')  then
+						if HTML.ExistsStr('Sicherheitsabfrage nicht korrekt!')  then
 							Result:='Код указанный на изображении введен неверно'
 						else if HTML.ExistsStr('Ihre Free SMS konnte nicht verschickt werden, bitte versuchen Sie es später noch einmal!')  then
 							Result:='Бесплатное смс сообщение не может быть отправлено, попробуйте позже'
