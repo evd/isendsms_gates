@@ -4,11 +4,14 @@
 	<caption>Life:) Беларусь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Беларусь</country>
 	<prefixlist>
 		<prefix start="+375 25" format="3.2.7"/>
+		<prefix start="+375 29" format="3.2.7"/>
+		<prefix start="+375 33" format="3.2.7"/>
+		<prefix start="+375 44" format="3.2.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
@@ -17,40 +20,35 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://sms.life.com.by/ru/</gateurl>
+		<gateurl>http://sms.life.com.by</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
-		<pageurl>http://sms.life.com.by/ru/</pageurl>
-		<imageurl>http://sms.life.com.by/images/captcha.php</imageurl>
-		<posturl>http://sms.life.com.by/ru/</posturl>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.life.com.by</pageurl>
+		<imageurl>eval('http://sms.life.com.by/CaptchaImage/Create?encryptText=' + Html.RegExp('encryptText=(.*?)&quot;',1))</imageurl>
+		<posturl>http://sms.life.com.by</posturl>
 		<postdata>eval(
 				var
-					DT: TDateTime;
+					DT,DT1: TDateTime;
 				begin
 					DT:=SMS['DeliveryTime'];
-					PostData.Add('secure',SMS['Code']);
-					PostData.Add('number',SMS['Phone_Number']);
-					PostData.Add('message',SMS['Text']);
-					PostData.Add('send_hour','-');
-					PostData.Add('send_min','-');
-					PostData.Add('send_day','-');
-					PostData.Add('send_month','-');
-					PostData.Add('send_year','-');
-					if SMS['Delivery'] then
-					begin
-					end
-					else
-					begin
-						PostData.Add('delayed_hour',FormatDateTime('h',DT));
-						PostData.Add('delayed_min',FormatDateTime('n',DT));
-						PostData.Add('delayed_day',FormatDateTime('d',DT));
-						PostData.Add('delayed_month',FormatDateTime('m',DT));
-						PostData.Add('delayed_year',FormatDateTime('yyyy',DT));
-					end;
+					DT1:=DT + 1;
+					PostData.Add('SelectedCode',SMS['Phone_Def']);
+					PostData.Add('Phone',SMS['Phone_Number']);
+					PostData.Add('Text',SMS['Text']);
+					PostData.Add('IsTranslit','false');
+					PostData.Add('IsShedule',iff(SMS['Delivery'],'true','false'));
+					PostData.Add('LastDate',FormatDateTime('dd-MM-yyyy',DT1));
+					PostData.Add('LastDateHour',FormatDateTime('hh',DT1));
+					PostData.Add('LastDateMinuts',FormatDateTime('nn',DT1));
+					PostData.Add('DateSendBefore',FormatDateTime('dd-MM-yyyy',DT));
+					PostData.Add('DateSendBeforeHour',FormatDateTime('hh',DT));
+					PostData.Add('DateSendBeforeMinuts',FormatDateTime('nn',DT));
+					PostData.Add('CaptchaDeText',Html.RegExp('name=&quot;CaptchaDeText&quot;.*?value=&quot;(.*?)&quot;',1));
+					PostData.Add('CaptchaInputText',SMS['Code']);
 				end;)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Спасибо, Ваше сообщение отправлено!'))</success>
-		<error>eval(Html.RegExp('color:#CC0033;&quot;&gt;(Сообщение не отправлено:)?(.*?)&lt;/div&gt;',2))</error>
+		<success>eval(HTML.ExistsStr('Сообщение успешно отправлено'))</success>
+		<error>eval(Html.RegExp('field-validation-error.*?&gt;(.*?)&lt;',1))</error>
 	</classprops>
 </gate>
