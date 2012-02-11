@@ -4,7 +4,7 @@
 	<caption>Moldcell</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
@@ -23,7 +23,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.moldcell.md/rus/private/websms</pageurl>
-		<imageurl>eval('http://www.moldcell.md/rus/private/image_captcha/' + HTML.RegExp('image_captcha\/(.*?)&quot;',1))</imageurl>
+		<imageurl>eval('http://www.moldcell.md/rus/private/moldcell_captcha?' + HTML.RegExp('moldcell_captcha\?(.*?)&quot;',1))</imageurl>
 		<posturl>http://www.moldcell.md/rus/private/websms</posturl>
 		<postdata>eval(
 					begin
