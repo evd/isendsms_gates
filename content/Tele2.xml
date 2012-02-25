@@ -8,8 +8,11 @@
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<prefix start="+7 900229" end="+7 900298"/>
-		<prefix start="+7 900346" end="+7 900354"/>
+		<prefix start="+7 900219" end="+7 900298"/>
+		<prefix start="+7 900300" end="+7 900309"/>
+		<prefix start="+7 900345" end="+7 900374"/>
+		<prefix start="+7 9004715" end="+7 9004734"/>
+		<prefix start="+7 9004735" end="+7 9004834"/>
 		<prefix start="+7 90213"/>
 		<prefix start="+7 902147" end="+7 902149"/>
 		<prefix start="+7 90219"/>
