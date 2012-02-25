@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>56</version>
+	<version>57</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -69,6 +69,7 @@
 		<prefix start="+7 95069" end="+7 95087"/>
 		<prefix start="+7 950962" end="+7 950963"/>
 		<prefix start="+7 95089"/>
+		<prefix start="+7 95090" end="+7 95092"/>
 		<prefix start="+7 95095"/>
 		<prefix start="+7 95107" end="+7 95108"/>
 		<prefix start="+7 95110" end="+7 95121"/>
