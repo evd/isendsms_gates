@@ -4,7 +4,7 @@
 	<caption>Теле2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>54</version>
+	<version>55</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -117,6 +117,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
+		<sendinit>eval(begin HTTP.Timeout:=270000; end;)</sendinit>
 		<pageurl>http://www.ru.tele2.ru/send_sms.html</pageurl>
 		<imageurl>eval('http://new.tools.tele2.ru/get_rni.php?public_key='+Html.RegExp('id=''public_key'' value=''(.*?)''',1))</imageurl>
 		<posturl>http://www.ru.tele2.ru/send_sms.html</posturl>
