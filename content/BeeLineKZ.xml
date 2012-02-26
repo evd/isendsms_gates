@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -71,6 +71,11 @@
 						end;	
 					   )
 		</cd_success>
-		<cd_error>Ошибка подтверждения доставки</cd_error>
+		<cd_error>eval(begin
+			Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1);
+			if Result='' then
+				Result:='Ошибка подтверждения доставки';
+			end;)
+		</cd_error>
 	</classprops>
 </gate>
