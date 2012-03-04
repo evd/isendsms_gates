@@ -4,7 +4,7 @@
 	<caption>МТС Узбекистан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Узбекистан</country>
 	<prefixlist>
@@ -31,14 +31,10 @@
 		<posturl>http://sms.mts.uz/sms.php</posturl>
 		<postdata>eval(
 					begin
-						PostData.Add('action','sms_ok');
-						PostData.Add('sid',Html.RegExp('name=&quot;sid&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('dt',Html.RegExp('name=&quot;dt&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('branch',SMS['Phone_Country']+SMS['Phone_Def']);
+						PostData.Add('entity','sms');
+						PostData.Add('branch',SMS['Phone_country']+SMS['Phone_Def']);
 						PostData.Add('daddr',SMS['Phone_Number']);
 						PostData.Add('sms_text',SMS['Text']);
-						PostData.Add('rl',SMS['LeaveSymbols']);
-						PostData.Add('lang',iff(IsAscii(SMS['Text']),'0','8'));
 						PostData.Add('bod',SMS['Code']);
 					end;
 					)
