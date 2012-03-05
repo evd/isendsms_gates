@@ -4,8 +4,8 @@
 	<caption>VPost</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
-	<priority>7</priority>
+	<version>2</version>
+	<priority>1</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 900 000" end="+7 999 999"/>
