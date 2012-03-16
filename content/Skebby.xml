@@ -4,8 +4,8 @@
 	<caption>Skebby</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
-	<priority>6</priority>
+	<version>4</version>
+	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 900 000" end="+7 999 999"/>
