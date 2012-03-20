@@ -4,7 +4,7 @@
 	<caption>БиЛайн Кыргызстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -29,7 +29,7 @@
 							DT: TDateTime;
 						begin
 							DT:=SMS['DeliveryTime'];
-							DT:=DT+2*OneHour;
+							DT:=AdjustTimeZone(DT,360,false);;
 							PostData.Add('code',SMS['Phone_Def']);
 							PostData.Add('phone',SMS['Phone_Number']);
 							PostData.Add('uid',SMS['Code']);
