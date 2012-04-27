@@ -4,7 +4,7 @@
 	<caption>Life:) Беларусь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Беларусь</country>
 	<prefixlist>
@@ -49,6 +49,12 @@
 				end;)
 		</postdata>
 		<success>eval(HTML.ExistsStr('Сообщение успешно отправлено'))</success>
-		<error>eval(Html.RegExp('field-validation-error.*?&gt;(.*?)&lt;',1))</error>
+		<error>eval(
+			begin
+				Result:=Html.RegExp('field-validation-error.*?&gt;(.*?)&lt;',1);
+				if Result='' then
+					Result:=Html.RegExp('&lt;h2 id=result-ok&gt;(.*?)&lt;/h2&gt;',1);
+			end;)
+		</error>
 	</classprops>
 </gate>
