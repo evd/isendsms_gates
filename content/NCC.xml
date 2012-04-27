@@ -4,11 +4,11 @@
 	<caption>НСС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>17</version>
+	<version>18</version>
 	<priority>11</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<prefix start="+7 900315" end="+7 900329"/>
+		<prefix start="+7 900315" end="+7 900334"/>
 		<prefix start="+7 90204"/>
 		<prefix start="+7 90221"/>
 		<prefix start="+7 902230" end="+7 902234"/>

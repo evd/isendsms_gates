@@ -4,11 +4,11 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>23</version>
+	<version>24</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
-		<prefix start="+7 900315" end="+7 900329"/>
+		<prefix start="+7 900315" end="+7 900334"/>
 		<prefix start="+7 90221"/>
 		<prefix start="+7 90204" tag="2"/>
 		<prefix start="+7 902230" end="+7 902234"/>
