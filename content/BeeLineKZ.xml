@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -73,6 +73,8 @@
 		</cd_success>
 		<cd_error>eval(begin
 			Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1);
+			if Result='' then
+				Result:=Html.RegExp('&lt;span class=&quot;red&quot;&gt;&lt;center&gt;&lt;b&gt;(.*?)&lt;/b&gt;&lt;/center&gt;',1);
 			if Result='' then
 				Result:='Ошибка подтверждения доставки';
 			end;)
