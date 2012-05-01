@@ -28,6 +28,7 @@ Owap3,Owap6
 Owap4,
 Owap2,Owap6
 Owap7,Owap8
+VPost,
 UUCNMMS,BWCMMS
 Cheb,
 MTSGSM, MTS
