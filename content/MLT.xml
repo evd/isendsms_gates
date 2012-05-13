@@ -4,7 +4,7 @@
 	<caption>МЛТ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Таджикистан</country>
 	<prefixlist>
@@ -33,6 +33,12 @@
 				end;)
 		</postdata>
 		<success>eval(HTML.ExistsStr('будет доставлено'))</success>
-		<error>eval(Html.RegExp('&lt;h3 style=&quot;Color: red;&quot;&gt;(.*?)&lt;/h3&gt;',1))</error>
+		<error>eval(begin
+				if Html.ExistsStr('Вы уже отправили 10 сообщений сегодня.') then
+					Result:='Превышен лимит в 10 сообщений в сутки'
+				else	
+					Result:=Html.RegExp('&lt;h3 style=&quot;Color: red;&quot;&gt;(.*?)&lt;/h3&gt;',1);
+			end;)
+			)</error>
 	</classprops>
 </gate>
