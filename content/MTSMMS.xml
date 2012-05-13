@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>86</version>
+	<version>87</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -180,11 +180,10 @@
 				if MMS['CaptchaIteration']=1 then
 				begin
 					Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
-					Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
+					Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbRecipientPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
 					Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
 					Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
-					Stored['InputPrefix4']:=Html.StrBetweenRev('id=&quot;','_MMSSendingControl'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01_ctl02_ctl00
-					Stored['InputPrefix5']:=Html.StrBetweenRev('id=&quot;','_rfdFormDecorator_ClientState'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl06_ctl01
+					Stored['InputPrefix6']:=Html.StrBetweenRev('name=&quot;','$sf$TextBoxMessage'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl06$ctl01$ctl03
 					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 					Stored['Uploader_ID']:=Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1);
 
@@ -357,6 +356,8 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					end;
 
 					PostData.Multipart:=false;
+
+
 					PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
 					PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
 					PostData.Add('__EVENTTARGET','');
@@ -366,22 +367,27 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					PostData.Add('SiteSection_Id','1744');
 					PostData.Add('ShowPersCabLink','False');
 					PostData.Add('TopMenuParentId','801624');
-					PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
 					PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
-					PostData.Add(Stored['InputPrefix'] + '$hfCurrentID','');
-					PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedDelited','');
-					PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber',Copy(MMS['YourPhone'],2,10));
-					PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
-					PostData.Add(Stored['InputPrefix'] + '$ddlTopic','Выберите заголовок...');
-					PostData.Add(Stored['InputPrefix4'] + '_MMSSendingControl_ddlTopic_ClientState','{&quot;logEntries&quot;:[],&quot;value&quot;:&quot;0&quot;,&quot;text&quot;:&quot;Выберите заголовок...&quot;,&quot;enabled&quot;:true}');
+					PostData.Add(Stored['InputPrefix'] + '$hfChosenItemID','');
+					PostData.Add(Stored['InputPrefix'] + '$hfChosenItemObjectID','');
+					PostData.Add(Stored['InputPrefix'] + '$hfWasUploadedFileDeleted','');
+					PostData.Add(Stored['InputPrefix'] + '$tbSenderPhoneNumber',Copy(MMS['YourPhone'],2,10));
+					PostData.Add(Stored['InputPrefix'] + '$tbRecipientPhoneNumber',MMS['Phone_Def']+MMS['Phone_Number']);
+					PostData.Add(Stored['InputPrefix'] + '$ddlTopic','0');
 					PostData.Add(Stored['InputPrefix'] + '$tbTopic',MMS['Subject']);
 					PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
-					PostData.Add('__ASYNCPOST','true');
+					PostData.Add(Stored['InputPrefix'] + '$tbLen',Length(MMS['Text']));
+					PostData.Add(Stored['InputPrefix'] + '$tbMax','1000');
 					PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
+					PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxMessage','');
+					PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxName','');
+					PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxEmail','');
+					PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$tbPhone','');
+					PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$rblRate','10');
 					PostData.AddRawData(Stored['HiddenInputs']);
-					PostData.Add(Stored['InputPrefix'] + '$btnSend.x','123');
-					PostData.Add(Stored['InputPrefix'] + '$btnSend.y','2');
-					PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
+					PostData.Add('__ASYNCPOST','true');
+					PostData.Add(Stored['InputPrefix'] + '$btnNext.x','114');
+					PostData.Add(Stored['InputPrefix'] + '$btnNext.y','5');
 		
 					HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
 					HTTP.Referer:='http://sendmms.ssl.mts.ru/';
@@ -528,20 +534,26 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 						JS.Exec(Code);
 						Stored['HiddenInputs']:=Stored['HiddenInputs'] + JS.GetResultValue('hidden');
 
-						PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnConfirmCustomerPhone');
+						PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
 						PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
-						PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
+						PostData.Add('Region_Id','1826');
+						PostData.Add('SiteSection_Id','1744');
+						PostData.Add('ShowPersCabLink','False');
+						PostData.Add('TopMenuParentId','801624');
 						PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
-						PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode', MMS['Code']);
+						PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode',MMS['Code']);
+						PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxMessage','');
+						PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxName','');
+						PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxEmail','');
+						PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$tbPhone','');
+						PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$rblRate','10');
+						PostData.AddRawData(Stored['HiddenInputs']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');
 						PostData.Add('__VIEWSTATE',Stored['ViewState']);
 						PostData.Add('__ASYNCPOST','true');
-						PostData.Add(Stored['InputPrefix'] + '$btnConfirmCustomerPhone.x','123');
-						PostData.Add(Stored['InputPrefix'] + '$btnConfirmCustomerPhone.y','2');
-
-						PostData.Add('RadAJAXControlID',Stored['InputPrefix4'] + '_MMSSendingControl_updatePanel');						
-
+						PostData.Add(Stored['InputPrefix'] + '$btnConfirmCustomerPhone.x','114');
+						PostData.Add(Stored['InputPrefix'] + '$btnConfirmCustomerPhone.y','5');
 					end;
 					)
 		</postdata>
@@ -560,9 +572,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 							PostData.Add('SiteSection_Id','1744');
 							PostData.Add('ShowPersCabLink','False');
 							PostData.Add('TopMenuParentId','801624');
-							PostData.Add(Stored['InputPrefix5'] + '_rfdFormDecorator_ClientState','');
 							PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId',Html.RegExp('MMSSendingControl_hfLastMMSMessageId&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('ctl00$ctl00$ctl00$ctl03$ctl00$ctl06$ctl01$ctl01$ctl00$MMSSendingControl$ctrlCaptcha$ClientState','');
 							PostData.Add('__VIEWSTATE',Stored['ViewState']);
 							PostData.Add('__EVENTTARGET',Stored['InputPrefix'] + '$StatusLink');
 							PostData.Add('__EVENTARGUMENT','');
