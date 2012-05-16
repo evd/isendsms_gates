@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>87</version>
+	<version>88</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -145,7 +145,7 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://sendmms.ssl.mts.ru/</gateurl>
+		<gateurl>https://sendmms.ssl.mts.ru/</gateurl>
 		<supportmultimedia>1</supportmultimedia>
 		<supportaudio>1</supportaudio>
 		<supportimage>1</supportimage>
@@ -156,7 +156,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://sendmms.ssl.mts.ru/</pageurl>
+		<pageurl>https://sendmms.ssl.mts.ru/</pageurl>
 		<captchacount>2</captchacount>
 		<customimage>1</customimage>
 		<clickimage>eval(
@@ -187,7 +187,7 @@
 					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 					Stored['Uploader_ID']:=Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1);
 
-					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+					HTTP.HTTPMethod('POST','https://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
 					JS:=TJSEval.Create;
 
 					MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
@@ -329,7 +329,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					
 					for i:=1 to cnt do
 					begin
-						HTTP.HTTPMethod('GET','http://sendmms.ssl.mts.ru/Captcha/image.ashx?CaptchaItemId='+Stored['CaptchaImg'+VarToStr(i)]);
+						HTTP.HTTPMethod('GET','https://sendmms.ssl.mts.ru/Captcha/image.ashx?CaptchaItemId='+Stored['CaptchaImg'+VarToStr(i)]);
 						Img.AssignSourceImage($FFFFFF);
 						Img.CopyRect((i-1)*50,0,Bounds(0,0,50,50));
 					end;				
@@ -345,7 +345,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					PostData.Add('UPLOADER_ID',Stored['Uploader_ID']);
 					PostData.AddData('FUDATA',MC);
 					PostData.Add('Upload','Submit Query');
-					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/FlashUploader.axd');
+					HTTP.HTTPMethod('POST','https://sendmms.ssl.mts.ru/FlashUploader.axd');
 
 					Code:=MMS['Code'];
 					for i:=1 to Length(Code) do
@@ -390,8 +390,8 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					PostData.Add(Stored['InputPrefix'] + '$btnNext.y','5');
 		
 					HTTP.CustomMime:='application/x-www-form-urlencoded; charset=utf-8';
-					HTTP.Referer:='http://sendmms.ssl.mts.ru/';
-					HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/');
+					HTTP.Referer:='https://sendmms.ssl.mts.ru/';
+					HTTP.HTTPMethod('POST','https://sendmms.ssl.mts.ru/');
 
 					if Html.ExistsStr('Вы неправильно ответили на вопрос') then
 						Stored['ErrorText']:='Вы неправильно ответили на вопрос! Попробуйте ответить на новый вопрос';
@@ -408,7 +408,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 		</proccessimage>
 		<gateerror>eval(Stored['ErrorText'])</gateerror>
 		<imagedescription>eval(Stored['ImageDesc'])</imagedescription>
-		<posturl>http://sendmms.ssl.mts.ru/</posturl>
+		<posturl>https://sendmms.ssl.mts.ru/</posturl>
 		<postdata>eval(
 					var
 						i, p: integer;
@@ -417,7 +417,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					begin
 
 						HTTP.CustomMime:='application/json; charset=utf-8';
-						HTTP.HTTPMethod('POST','http://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
+						HTTP.HTTPMethod('POST','https://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
 						JS:=TJSEval.Create;
 
 						MTSCode:=Html.RegExp('VCode&quot;:&quot;(.*)&quot;}$',1);
@@ -562,7 +562,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 		<error>eval(HTML.RegExp('class=&quot;ERROR&quot;&gt;(.*?)&lt;/span&gt;',1))</error>
 		
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://sendmms.ssl.mts.ru</cd_posturl>
+		<cd_posturl>https://sendmms.ssl.mts.ru</cd_posturl>
 		<cd_postdata>eval(
 						begin
 
