@@ -34,3 +34,4 @@ Cheb,
 MTSGSM, MTS
 MTSGSMMMS, MTSMMS
 BissKZ,
+MegafonMMS,
