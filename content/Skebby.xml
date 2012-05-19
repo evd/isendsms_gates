@@ -4,7 +4,7 @@
 	<caption>Skebby</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -46,12 +46,12 @@
 		<supportunicode>0</supportunicode>
 		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>0</captcha>
-		<gateurl>http://freesms.skebby.com/</gateurl>
+		<gateurl>http://freesms.skebby.com/send-free-web-sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://freesms.skebby.com/</pageurl>
-		<posturl>http://freesms.skebby.com/</posturl>
+		<pageurl>http://freesms.skebby.com/send-free-web-sms/</pageurl>
+		<posturl>http://freesms.skebby.com/send-free-web-sms/</posturl>
 		<postdata>eval(
 			begin
 				PostData.Add('prefix',SMS['Phone_Country']);
