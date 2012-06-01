@@ -30,7 +30,7 @@
 			var
 				DT: TDateTime;
 			begin
-				DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
+				DT:=AdjustTimeZone(SMS['DeliveryTime'],240,true);
 				
 
 				PostData.Add('phone',SMS['Phone']);
