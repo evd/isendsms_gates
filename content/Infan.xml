@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -30,7 +30,7 @@
 			var
 				DT: TDateTime;
 			begin
-				DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
+				DT:=AdjustTimeZone(SMS['DeliveryTime'],240,true);
 				
 
 				PostData.Add('phone',SMS['Phone']);
