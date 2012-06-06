@@ -4,7 +4,7 @@
 	<caption>Megacom</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -18,56 +18,49 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://megacom.kg/our_services/send_sms/</gateurl>
+		<gateurl>http://megacom.kg/rus/freesms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://megacom.kg/our_services/send_sms/</pageurl>
-		<imageurl>eval('http://megacom.kg/mod/sendsms/captcha/img.php?rand='+Html.RegExp('img.php\?rand=(.*?)\?',1))</imageurl>
-		<posturl>http://megacom.kg/our_services/send_sms</posturl>
+		<pageurl>http://megacom.kg/rus/freesms/</pageurl>
+		<imageurl>eval('http://megacom.kg/captcha/index/'+Html.RegExp('src=&quot;\/captcha\/index\/(.*?)&quot;',1))</imageurl>
+		<posturl>http://megacom.kg/rus/freesms/index/sendsms/</posturl>
+		<multipart>1</multipart>
 		<postdata>eval(
 						var
 							DT: TDateTime;
-							Code: integer;
 						begin
 							DT:=SMS['DeliveryTime'];
-							DT:=DT+2*OneHour;
-							Code:=Copy(SMS['Phone_Def'],3,1);
-							if Code&lt;5 then
-								Code:=Code+2
-							else if Code&gt;5 then
-								Code:=Code+1
-							else	
-								Code:=1;
+							PostData.Add('prefix',Copy(SMS['Phone_Def'],3,1));
+							PostData.Add('msisdn',SMS['Phone_Number']);
+							PostData.Add('messege',SMS['Text']);
+							if SMS['Delivery'] then
+							begin
+								PostData.Add('send_time','send_late');
+								PostData.Add('send_date',VarAsType(DT-Now,varInteger));
+								PostData.Add('hour',FormatDateTime('h',DT));
+								PostData.Add('minute',FormatDateTime('n',DT));
+							end
+							else 
+								PostData.Add('send_time','send_now');
 							PostData.Add('captcha',SMS['Code']);
-							PostData.Add('destCode',VarToStr(Code));
-							PostData.Add('dest',SMS['Phone_Number']);
-							PostData.Add('smska',SMS['Text']);
-							PostData.Add('trans',iff(IsAscii(SMS['Text']),'1','0'));
-							PostData.Add('time',iff(SMS['Delivery'],'1','0'));
-							PostData.Add('hh',FormatDateTime('h',DT));
-							PostData.Add('ii',FormatDateTime('n',DT));
+							PostData.Add('submit','Отправить');
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Ваше сообщение принято к доставке!'))</success>
-		<error>eval(Html.RegExp('&lt;strong&gt;Ошибка:&lt;/strong&gt;(.*?)&lt;/div&gt;',1))</error>
-		<cd_method>POST</cd_method>
-		<cd_posturl>http://megacom.kg/our_services/send_sms/sent</cd_posturl>
-		<cd_postdata>eval(begin
-							PostData.Add('delivery','1');
-						end;
-			)
-		</cd_postdata>
+		<success>eval(HTML.ExistsStr('Ваше сообщение принято к доставке абоненту'))</success>
+		<error>eval(Html.RegExp('&lt;ul class=&quot;errors&quot;&gt;&lt;li&gt;(.*?)&lt;/li&gt;&lt;/ul&gt;',1))</error>
+		<cd_method>GET</cd_method>
+		<cd_url>http://megacom.kg/rus/freesms/index/list/</cd_url>
 		<cd_success>eval(
 						begin
-							if Html.ExistsStr('В обработке') then
+							if Html.ExistsStr('в обработке') then
 								Result:='WAIT'
-							else Result:=HTML.ExistsStr('Доставлено');
+							else Result:=HTML.ExistsStr('доставлено');
 						end;	
 					   )
 		</cd_success>
-		<cd_error>eval(HTML.StrBetween('','|'))</cd_error>
+		<cd_error>Ошибка при подтверждении статуса доставки</cd_error>
 							
 	</classprops>
 </gate>
