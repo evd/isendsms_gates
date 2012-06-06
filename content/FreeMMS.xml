@@ -4,7 +4,7 @@
 	<caption>Free MMS</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -98,7 +98,15 @@
 			end;)
 		</sendinit>
 		<multipart>1</multipart>
-		<pageurl>http://www.free-mms.ru/index.php?r=sentmms/index</pageurl>
+		<sendinit>eval(begin
+				Stored['ErrorText']:='';
+				HTTP.HandleRedirects:=false;
+				HTTP.HTTPMethod('GET','http://www.free-mms.ru/index.php?r=sentmms/index');
+				if HTML.Text='' then
+					Stored['ErrorText']:='Сервер шлюза перегружен, попробуйте позже';
+			end;)
+		</sendinit>
+		<gateerror>eval(Stored['ErrorText'])</gateerror>
 		<imageurl>eval('www.free-mms.ru/index.php?r=sentmms/captcha&amp;'+'amp;v='+ Html.RegExp('sentmms/captcha&amp;'+'amp;v=(.*?)&quot;',1))</imageurl>
 		<multipart>1</multipart>
 		<uploadmultimedia>0</uploadmultimedia>
