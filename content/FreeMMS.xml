@@ -4,7 +4,7 @@
 	<caption>Free MMS</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>5</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -103,7 +103,7 @@
 				HTTP.HandleRedirects:=false;
 				HTTP.HTTPMethod('GET','http://www.free-mms.ru/index.php?r=sentmms/index');
 				if HTML.Text='' then
-					Stored['ErrorText']:='Сервер шлюза перегружен, попробуйте позже';
+					Stored['ErrorText']:='Сервер шлюза временно не работает, информации когда восстановится НЕТ';
 			end;)
 		</sendinit>
 		<gateerror>eval(Stored['ErrorText'])</gateerror>
