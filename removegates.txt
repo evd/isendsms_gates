@@ -36,3 +36,4 @@ MTSGSMMMS, MTSMMS
 BissKZ,
 MegafonMMS,
 UTel,RT
+UTelMMS,
