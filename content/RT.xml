@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>RT</name>
+	<caption>Ростелеком</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 351"/>
+		<prefix start="+7 901265" end="+7 901269"/>
+		<prefix start="+7 901954" end="+7 901955"/>
+		<prefix start="+7 902150" end="+7 902151"/>
+		<prefix start="+7 902155" end="+7 902156"/>
+		<prefix start="+7 902188"/>
+		<prefix start="+7 902253" end="+7 902279"/>
+		<prefix start="+7 902400"/>
+		<prefix start="+7 902409" end="+7 902410"/>
+		<prefix start="+7 90244"/>
+		<prefix start="+7 90247"/>
+		<prefix start="+7 902500" end="+7 902503"/>
+		<prefix start="+7 902509"/>
+		<prefix start="+7 902583" end="+7 902587"/>
+		<prefix start="+7 90260" end="+7 90264"/>
+		<prefix start="+7 902690" end="+7 902694"/>
+		<prefix start="+7 90279" end="+7 90280"/>
+		<prefix start="+7 902812" end="+7 902820"/>
+		<prefix start="+7 902824" end="+7 902839"/>
+		<prefix start="+7 90285" end="+7 90286"/>
+		<prefix start="+7 90289"/>
+		<prefix start="+7 90445" end="+7 90449"/>
+		<prefix start="+7 90480" end="+7 90481"/>
+		<prefix start="+7 90484"/>
+		<prefix start="+7 90487" end="+7 90488"/>
+		<prefix start="+7 90493" end="+7 90494"/>
+		<prefix start="+7 90800"/>
+		<prefix start="+7 90807" end="+7 90809"/>
+		<prefix start="+7 90824" end="+7 90827"/>
+		<prefix start="+7 908497" end="+7 908499"/>
+		<prefix start="+7 90881" end="+7 90883"/>
+		<prefix start="+7 908852" end="+7 908899"/>
+		<prefix start="+7 950440" end="+7 950564"/>
+		<prefix start="+7 95123" end="+7 95127"/>
+		<prefix start="+7 95143"/>
+		<prefix start="+7 951920" end="+7 951996"/>
+		<prefix start="+7 952315" end="+7 952349"/>
+		<prefix start="+7 952640" end="+7 952664"/>
+		<prefix start="+7 952670" end="+7 952724"/>
+		<prefix start="+7 95382"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>300</maxsymbols>
+		<maxunicodesymbols>300</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://www.perm.ural.rt.ru/services/sendsms</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.perm.ural.rt.ru/services/sendsms</pageurl>
+		<imageurl>eval(
+						begin
+							HTTP.HTTPMethod('GET','http://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+							Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
+							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+						end;
+					)	
+		</imageurl>
+		<posturl>http://www.perm.ural.rt.ru/pages/proxy.jsp</posturl>
+		<postdata>eval(
+					var
+						DT: TDatetime;
+					begin
+						DT:=SMS['DeliveryTime'];
+						PostData.Add('action','ins');
+						PostData.Add('url','http://perm.u-tel.ru/pages/apps/addSMS.jsp');
+						PostData.Add('mode','insSms');
+						PostData.Add('page','');
+						PostData.Add('delay_time','-60000');
+						PostData.Add('offset_time','-'+VarToStr(TimeZoneBias));
+						PostData.Add('message_text_trans','');
+						PostData.Add('subsc_pwd','');
+						PostData.Add('phone_number_list','');
+						PostData.Add('phone_number',SMS['Phone']);
+						PostData.Add('phone_post_number','+7('+Copy(SMS['Phone'],2,3)+')'+Copy(SMS['Phone'],5,3)+'-'+Copy(SMS['Phone'],8,2) + '-' + Copy(SMS['Phone'],10,2));
+						PostData.Add('message_text',SMS['Text']);
+						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+						PostData.Add('recaptcha_response_field',SMS['Code']);
+						if SMS['Delivery'] then
+							PostData.Add('delay_send','1');
+						PostData.Add('send_hour',FormatDateTime('hh',DT));
+						PostData.Add('send_minute',FormatDateTime('nn',DT));
+						PostData.Add('send_day',FormatDateTime('dd',DT));
+						PostData.Add('send_month',FormatDateTime('mm',DT));
+				end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('setSMSResult(''0'')'))</success>
+		<error>eval(begin
+						if HTML.ExistsStr('setSMSResult(''1'')') then
+							Result:='Неверно укзан код с картинки'
+						else if HTML.ExistsStr('setSMSResult(''2'')') then	
+							Result:='Номер телефона указан в неверном формате'
+						else
+							Result:='Сообщение не может быть отправлено, на указанный номер';
+					end;	
+					)</error>
+	</classprops>
+</gate>
