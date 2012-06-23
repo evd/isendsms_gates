@@ -37,3 +37,4 @@ BissKZ,
 MegafonMMS,
 UTEL,RT
 UtelMMS,
+FreeMMS,
