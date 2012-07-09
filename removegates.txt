@@ -38,3 +38,4 @@ MegafonMMS,
 UTEL,RT
 UtelMMS,
 FreeMMS,
+MLT,MegafonTJ

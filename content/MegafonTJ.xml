@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>MegafonTJ</name>
+	<caption>Мегафон Таджикистан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Таджикистан</country>
+	<prefixlist>
+		<prefix start="+992 90" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
+		<gateurl>http://websms.megafon.tj/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://websms.megafon.tj/</pageurl>
+		<imageurl>http://websms.megafon.tj/CaptchaImage.aspx</imageurl>
+		<posturl>http://websms.megafon.tj/default.aspx</posturl>
+		<postdata>eval(
+				begin
+					PostData.Add('ScriptManager1','UpdatePanel1|btnSend');
+					PostData.Add('__EVENTTARGET','btnSend');
+					PostData.Add('__EVENTARGUMENT','');
+					PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
+					PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+					PostData.Add('txtCaptcha',SMS['Code']);
+					PostData.Add('txtMSSDN','+' + SMS['Phone']);
+					PostData.Add('co','on');
+					PostData.Add('txtText',SMS['Text']);
+					PostData.Add('__ASYNCPOST','true');
+				end;)
+		</postdata>
+		<success>eval(HTML.ExistsStr('В ближайшее время Ваше сообщение будет доставлено'))</success>
+		<error>eval(begin
+					Result:=Html.RegExp('&lt;span id=&quot;lblMessage&quot; style=&quot;color:Black;&quot;&gt;&lt;span style=''color:red''&gt;\*&lt;/span&gt;(.*?)&lt;',1);
+			end;)
+			)</error>
+	</classprops>
+</gate>
