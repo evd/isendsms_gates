@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -45,6 +45,7 @@
 						def: array[0..28] of string;
 						i: integer;
 						DefStr,Code: string;
+						DT: TDateTime;
 					begin
 						//Интерпретатор не поддерживает инициализацию массивов ((((
 						def[0] := '90019'; def[1] := '90020'; def[2] := '90021'; def[3] := '90287';
@@ -65,13 +66,14 @@
 								break;
 							end;
 							
-
+						DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false);
 						PostData.Add('smssend[name]','websms');
 						PostData.Add('smssend[code]',Code);
 						PostData.Add('smssend[phone]',Copy(SMS['Phone'],7,5));
 						PostData.Add('smssend[txt]',SMS['Text']);
-						PostData.Add('smssend[hdelay]','0');
-						PostData.Add('smssend[mdelay]','0');
+						PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
+						PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
+						PostData.Add('smssend[mdelay]',FormatDateTime('nn',DT));
 						PostData.Add('smssend[captcha]',SMS['Code']);
 	end;
 					)
