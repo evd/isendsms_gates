@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -66,7 +66,7 @@
 								break;
 							end;
 							
-						DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false);
+						DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false)-5*OneMinute;
 						PostData.Add('smssend[name]','websms');
 						PostData.Add('smssend[code]',Code);
 						PostData.Add('smssend[phone]',Copy(SMS['Phone'],7,5));
@@ -79,7 +79,7 @@
 					)
 		</postdata>
 		<success>eval(begin
-						Result:=HTML.ExistsStr('Сообщение отправлено');
+						Result:=HTML.ExistsStr('Сообщение отправлено') or HTML.ExistsStr('Сообщение будет отправлено');
 						Stored['CheckUrl']:='http://cell.motivtelecom.ru/ekb/smssend/checkStatus?id=' + HTML.RegExp('checkStatus\?id=(.*?)&lt;',1)+'&amp;_=';
 						end;)
 		</success>
