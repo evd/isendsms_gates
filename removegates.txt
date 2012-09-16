@@ -38,3 +38,4 @@ UTEL,RT
 UtelMMS,
 FreeMMS,
 MLT,MegafonTJ
+NeoKZ,Tele2KZ

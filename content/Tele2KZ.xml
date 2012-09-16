@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Tele2KZ</name>
+	<caption>Теле2 Казахстан</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>10</priority>
+	<country>Казахстан</country>
+	<prefixlist>
+		<prefix start="+7 707"/>
+		<prefix start="+7 747"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://www.vko.tele2.kz/ru/private_clients/smsform.aspx?cultureLanguage=ru</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.vko.tele2.kz/ru/private_clients/smsform.aspx?cultureLanguage=ru</pageurl>
+		<imageurl>eval(begin
+			PostData.AddRawData('{&quot;parameters&quot;:{&quot;Width&quot;:200,&quot;Height&quot;:50,&quot;LineNoise&quot;:1,&quot;BackgroundNoise&quot;:1,&quot;TimeOut&quot;:240}}');
+			HTTP.CustomMime:='application/json';
+			HTTP.HTTPMethod('POST','http://www.vko.tele2.kz/webservices/Captchaservice.asmx/GetCaptcha');
+			Stored['guid']:=Html.RegExp('&quot;Guid&quot;:&quot;(.*?)&quot;',1);
+			Result:=Html.RegExp('&quot;CaptchaImageUrl&quot;:&quot;(.*?)&quot;',1);
+			end;)
+		</imageurl>
+		<posturl>http://www.vko.tele2.kz/WebServices/smsService.asmx/SendSms</posturl>
+		<custommime>application/json</custommime>
+		<postdata>eval(
+						var
+							Text: string;
+						begin
+							HTTP.CustomMime:='application/json';
+							PostData.AddRawData('{&quot;guid&quot;:&quot;'+Stored['guid']+'&quot;,&quot;text&quot;:&quot;'+SMS['Code']+'&quot;}');
+							HTTP.HTTPMethod('POST','http://www.vko.tele2.kz/webservices/Captchaservice.asmx/ValidateCaptcha');
+							
+							Text:=ConvertAndEncodeFormElem(SMS['Text'],'UTF-8');
+							PostData.AddRawData('{&quot;msisdn&quot;:&quot;'+SMS['Phone']+'&quot;,&quot;message&quot;:&quot;'+Text+'&quot;}');
+						end;
+					)
+		</postdata>
+		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>eval(
+					begin
+						Result:=Html.RegExp('&quot;ResponseMessage&quot;:&quot;(.*?)&quot;',1);
+					end;		
+					)
+		</error>
+	</classprops>
+</gate>
