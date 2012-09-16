@@ -34,7 +34,6 @@ Cheb,
 MTSGSM, MTS
 MTSGSMMMS, MTSMMS
 BissKZ,
-MegafonMMS,
 UTEL,RT
 UtelMMS,
 FreeMMS,
