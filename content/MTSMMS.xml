@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>88</version>
+	<version>89</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -184,7 +184,7 @@
 					Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
 					Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
 					Stored['InputPrefix6']:=Html.StrBetweenRev('name=&quot;','$sf$TextBoxMessage'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl06$ctl01$ctl03
-					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
+					Stored['InputPrefix7']:=Html.StrBetweenRev('&quot;', '$ctrlCaptcha$ClientState'); 					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 					Stored['Uploader_ID']:=Html.RegExp('''UPLOADER_ID'' : ''(.*?)''',1);
 
 					HTTP.HTTPMethod('POST','https://sendmms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
@@ -378,12 +378,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					PostData.Add(Stored['InputPrefix'] + '$tbMessage',MMS['Text']);
 					PostData.Add(Stored['InputPrefix'] + '$tbLen',Length(MMS['Text']));
 					PostData.Add(Stored['InputPrefix'] + '$tbMax','1000');
-					PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
-					PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxMessage','');
-					PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxName','');
-					PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxEmail','');
-					PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$tbPhone','');
-					PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$rblRate','10');
+					PostData.Add(Stored['InputPrefix7'] + '$ctrlCaptcha$ClientState',FinalCode);
 					PostData.AddRawData(Stored['HiddenInputs']);
 					PostData.Add('__ASYNCPOST','true');
 					PostData.Add(Stored['InputPrefix'] + '$btnNext.x','114');
@@ -542,11 +537,6 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 						PostData.Add('TopMenuParentId','801624');
 						PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
 						PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode',MMS['Code']);
-						PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxMessage','');
-						PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxName','');
-						PostData.Add(Stored['InputPrefix6'] + '$sf$TextBoxEmail','');
-						PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$tbPhone','');
-						PostData.Add(Stored['InputPrefix6'] + '$AnketaOfLoyal1$rblRate','10');
 						PostData.AddRawData(Stored['HiddenInputs']);
 						PostData.Add('__EVENTTARGET','');
 						PostData.Add('__EVENTARGUMENT','');

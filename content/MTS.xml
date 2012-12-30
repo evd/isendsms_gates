@@ -4,7 +4,7 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>115</version>
+	<version>116</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -178,7 +178,9 @@
 					Stored['ViewState']:=Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1);
 					Stored['InputPrefix']:=Html.StrBetweenRev('name=&quot;','$tbPhoneNumber'); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07$ctl01$ctl02$ctl00
 					Stored['InputPrefix2']:=Html.StrBetweenRev('name=&quot;','_scriptManagerId_TSM'); //ctl00_ctl00_ctl00_ctl03_ctl00_ctl07
-					Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); //ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
+					Stored['InputPrefix3']:=Html.RegExp('PageRequestManager\._initialize\(''(.*?)\$scriptManagerId''',1); 
+					Stored['InputPrefix4']:=Html.StrBetweenRev('&quot;', '$ctrlCaptcha$ClientState'); //$$HTMLDocument$$$HTMLBody$Content$phCenterPart$CenterPartCore$PageData$sscSend$SmsSendingControl
+					//ctl00$ctl00$ctl00$ctl03$ctl00$ctl07
 					Stored['InputTSMValue']:=DecodeFormElem(Html.RegExp('_TSM_CombinedScripts_=(.*?)&quot;',1)); //Value _scriptManagerId_TSM
 
 					HTTP.HTTPMethod('POST','https://sendsms.ssl.mts.ru/Captcha/CaptchaInfo.svc/json/GetCaptchaInfo');
@@ -360,6 +362,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					PostData.Add('SiteSection_Id','1744');
 					PostData.Add('ShowPersCabLink','False');
 					PostData.Add('TopMenuParentId','801624');
+					PostData.Add(Stored['InputPrefix'] + '$hfMessageID', '');
 					PostData.Add(Stored['InputPrefix'] + '$tbYourPhoneNumber', Copy(SMS['YourPhone'],2,10));
 					PostData.Add(Stored['InputPrefix'] + '$tbPhoneNumber', SMS['Phone_Def']+SMS['Phone_Number']);
 					PostData.Add(Stored['InputPrefix'] + '$tbMessage',SMS['Text']);
@@ -374,7 +377,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 					PostData.Add(Stored['InputPrefix'] + '$ctl04',FormatDateTime('yyyy',DT));
 					PostData.Add(Stored['InputPrefix'] + '$ctl05',FormatDateTime('hh',DT));
 					PostData.Add(Stored['InputPrefix'] + '$ctl07',FormatDateTime('nn',DT));
-					PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState',FinalCode);
+					PostData.Add(Stored['InputPrefix4'] + '$ctrlCaptcha$ClientState',FinalCode);
 					PostData.AddRawData(Stored['HiddenInputs']);
 					PostData.Add('__ASYNCPOST','true');
 					PostData.Add(Stored['InputPrefix'] + '$btnSend.x','73');
@@ -533,7 +536,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 				PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$updatePanel|' + Stored['InputPrefix'] + '$btnRealSend');
 				PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
 				PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode', SMS['Code']);
-				PostData.Add(Stored['InputPrefix'] + '$ctrlCaptcha$ClientState','');
+				PostData.Add(Stored['InputPrefix'] + '$hfMessageID',Html.RegExp('id=&quot;hfMessageID&quot; value=&quot;(.*?)&quot;',1));
 				PostData.Add('__EVENTTARGET','');
 				PostData.Add('__EVENTARGUMENT','');
 				PostData.Add('__VIEWSTATE',Stored['ViewState']);
