@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
-	<name>Owap6</name>
-	<caption>Owap 6</caption>
+	<name>Owap11</name>
+	<caption>Owap 11</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>1</version>
@@ -39,24 +39,28 @@
 		<prefix start="+99 000000" end="+99 999999" format="3.2.7" />
 	</prefixlist>
 	<info>
-		<maxsymbols>119</maxsymbols>
-		<maxunicodesymbols>119</maxunicodesymbols>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>160</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>0</supportunicode>
 		<supportcheckdelivery>0</supportcheckdelivery>
-		<captcha>0</captcha>
-		<gateurl>http://sms.owap.biz/wses6/</gateurl>
+		<captcha>1</captcha>
+		<gateurl>http://sms.owap.biz/wses11/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://sms.owap.biz/wses6/?y</pageurl>
-		<posturl>eval('http://sms.owap.biz/wses6/index.php?tmp='+Html.RegExp('action=&quot;/wses6/index\.php\?tmp=(.*?)&amp;',1)+'&amp;y')</posturl>
+		<pageurl>http://sms.owap.biz/wses11/?y</pageurl>
+		<imageurl>eval('http://sms.owap.biz/wses11/img.php?id='+Html.RegExp('&lt;img src=&quot;img\.php\?id=(.*?)&quot;',1))</imageurl>
+		<posturl>eval('http://sms.owap.biz/wses11/index.php?tmp='+Html.RegExp('action=&quot;/wses11/index\.php\?tmp=(.*?)&amp;',1)+'&amp;y')</posturl>
 		<postdata>eval(
 			begin
-				PostData.Add('number',SMS['Phone']);
+				PostData.Add('phone',SMS['Phone']);
 				PostData.Add('owap',Html.RegExp('name=&quot;owap&quot; value=&quot;(.*?)&quot;',1));
 				PostData.Add('text',SMS['Text']);
+				PostData.Add('code',SMS['Code']);
+				PostData.Add('id',Html.RegExp('name=&quot;id&quot; value=&quot;(.*?)&quot;',1));
+
 			end;
 		)
 		</postdata>

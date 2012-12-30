@@ -24,10 +24,10 @@ SkyLinkSar,SkyLink
 SkylinkSpb,SkyLink
 BeelineUA,KyivStar
 Owap1,
-Owap3,Owap6
+Owap3,Owap11
 Owap4,
-Owap2,Owap6
-Owap7,Owap8
+Owap2,Owap11
+Owap6,Owap11
 VPost,
 UUCNMMS,BWCMMS
 Cheb,
