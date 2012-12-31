@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -42,34 +42,12 @@
 		<posturl>http://cell.motivtelecom.ru/ekb/smssend</posturl>
 		<postdata>eval(
 					var
-						def: array[0..28] of string;
-						i: integer;
-						DefStr,Code: string;
 						DT: TDateTime;
 					begin
-						//Интерпретатор не поддерживает инициализацию массивов ((((
-						def[0] := '90019'; def[1] := '90020'; def[2] := '90021'; def[3] := '90287';
-						def[4] := '90416'; def[5] := '90417'; def[6] := '90438'; def[7] := '90454';
-						def[8] := '90498'; def[9] := '90863'; def[10] := '90890'; def[11] := '90891';
-						def[12] := '90892'; def[13] := '95019';	def[14] := '95020';	def[15] := '95063';
-						def[16] := '95064'; def[17] := '95065';	def[18] := '95213'; def[19] := '95214';
-						def[20] := '95272';	def[21] := '95273'; def[22] := '95274';	def[23] := '95300';
-						def[24] := '95303';	def[25] := '95304';	def[26] := '95305';	def[27] := '95338';
-						def[28] := '95360';
-						
-						Code:='30';
-						DefStr:=Copy(SMS['Phone'],2,5);
-						for i:=0 to 28 do
-							if DefStr=def[i] then
-							begin
-								Code:=VarToStr(i);
-								break;
-							end;
 							
 						DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false)-5*OneMinute;
 						PostData.Add('smssend[name]','websms');
-						PostData.Add('smssend[code]',Code);
-						PostData.Add('smssend[phone]',Copy(SMS['Phone'],7,5));
+						PostData.Add('smssend[phone]',Copy(SMS['Phone'],1,10));
 						PostData.Add('smssend[txt]',SMS['Text']);
 						PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
 						PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
