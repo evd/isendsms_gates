@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -47,7 +47,7 @@
 							
 						DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false)-5*OneMinute;
 						PostData.Add('smssend[name]','websms');
-						PostData.Add('smssend[phone]',Copy(SMS['Phone'],1,10));
+						PostData.Add('smssend[phone]',Copy(SMS['Phone'],2,10));
 						PostData.Add('smssend[txt]',SMS['Text']);
 						PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
 						PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
@@ -61,7 +61,12 @@
 						Stored['CheckUrl']:='http://cell.motivtelecom.ru/ekb/smssend/checkStatus?id=' + HTML.RegExp('checkStatus\?id=(.*?)&lt;',1)+'&amp;_=';
 						end;)
 		</success>
-		<error>eval(HTML.RegExp('error_list&quot;&gt;.*?&lt;li&gt;(.*?)&lt;/li&gt;',1))</error>
+		<error>eval(
+			begin
+				Result:=HTML.RegExp('error_list&quot;&gt;.*?&lt;li&gt;(.*?)&lt;/li&gt;',1);
+				if Result='' then
+					Result:=HTML.RegExp('&lt;li style=&quot;color: red;&quot;&gt;(.*?)&lt;/li&gt;',1);
+			end;)</error>
 		<cd_method>GET</cd_method>
 		<cd_maxcheckdelivery>10</cd_maxcheckdelivery>
 		<cd_delay>1000</cd_delay>
