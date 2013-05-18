@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>89</version>
+	<version>90</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -360,7 +360,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 
 					PostData.Add(Stored['InputPrefix3'] + '$scriptManagerId',Stored['InputPrefix'] + '$' + Stored['InputPrefix'] + '$updatePanelPanel|' + Stored['InputPrefix'] + '$btnSend');
 					PostData.Add(Stored['InputPrefix2'] + '_scriptManagerId_TSM',Stored['InputTSMValue']);
-					PostData.Add('__EVENTTARGET','');
+					PostData.Add('__EVENTTARGET',Stored['InputPrefix'] + '$btnSend');
 					PostData.Add('__EVENTARGUMENT','');
 					PostData.Add('__VIEWSTATE',Stored['ViewState']);
 					PostData.Add('Region_Id','1826');
@@ -538,7 +538,7 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 						PostData.Add(Stored['InputPrefix'] + '$hfLastMMSMessageId','');
 						PostData.Add(Stored['InputPrefix'] + '$tbCheckConfirmCode',MMS['Code']);
 						PostData.AddRawData(Stored['HiddenInputs']);
-						PostData.Add('__EVENTTARGET','');
+						PostData.Add('__EVENTTARGET',Stored['InputPrefix'] + '$btnSend');
 						PostData.Add('__EVENTARGUMENT','');
 						PostData.Add('__VIEWSTATE',Stored['ViewState']);
 						PostData.Add('__ASYNCPOST','true');
