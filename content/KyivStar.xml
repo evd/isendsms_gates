@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -25,10 +25,14 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<sendinit>eval(begin HTTP.Referer:='http://www.kyivstar.ua'; Result:=true; end;)</sendinit>
-		<pageurl>http://smsgate.kyivstar.ua/sms/?lang=ru</pageurl>
-		<imageurl>eval('http://smsgate.kyivstar.ua/sms/images.jpg?id='+Html.RegExp('background-image: url\(''/sms/images.jpg\?id=(.*?)''',1))</imageurl>
-		<imagedescription>eval('Выберите'+Html.RegExp('укажите(.*?)картинки живой природы',1)+'картинки живой природы')</imagedescription>
+		<pageurl>http://www.kyivstar.ua/ru/kr/sms/</pageurl>
+		<imageurl>eval(begin
+				HTTP.HTTPMethod('GET','http://smsgate.kyivstar.ua/_sms/ajax/?callback=jsonCallback&amp;lang=ru&amp;_=' + VarToStr(DateTimeToUnix(Now())));
+				Stored['mid'] := HTML.RegExp('&quot;mid&quot;:&quot;(.*?)&quot;', 1);
+				Result:= 'http://smsgate.kyivstar.ua/_sms/captcha/?mid=' + Stored['mid'] + '&amp;r=' + '0.' + RandomString('0123456789',8);
+			end;)
+		</imageurl>
+		<imagedescription>Укажите картинки живой природы</imagedescription>
 		<clickimage>1</clickimage>
 		<clickimagewidth>70</clickimagewidth>
 		<clickimageheight>70</clickimageheight>
@@ -47,40 +51,75 @@
 							end;
 						)
 		</proccessimage>
-		<posturl>http://smsgate.kyivstar.ua/sms/?lang=ru</posturl>
+		<posturl>http://www.kyivstar.ua/_ajax/sms/?action=send</posturl>
 		<postdata>eval(
 						var
 							i: integer;
-							LiveCode: string;
+							Code: string;
 						begin
-							LiveCode:='';
-							for i:=1 to Length(SMS['Code']) do
-								LiveCode:=LiveCode+'0'+Copy(SMS['Code'],i,1);
-							PostData.Add('submitted','true');
-							PostData.Add('lang','ru');
-							PostData.Add('sms_adv',Html.RegExp('id=&quot;sms_adv&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('mobcode','0'+SMS['Phone_Def']);
-							PostData.Add('number',SMS['Phone_Number']);
-							PostData.Add('lat',iff(isAscii(SMS['Text']),'1','0'));
+							//Сортируем цифры в коде
+							Code := '';
+							for i:=1 to 9 do
+							begin
+								if Pos(VarToStr(i), SMS['Code'])>0 then
+									Code:=Code + VarToStr(i);
+							end;
+
+							PostData.Add('code','0'+SMS['Phone_Def']);
+							PostData.Add('phone',SMS['Phone_Number']);
 							PostData.Add('message',SMS['Text']);
-							PostData.Add('images_sid',Html.RegExp('&quot;images_sid&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('live_images',LiveCode);
+							PostData.Add('is_cyrillic',iff(isAscii(SMS['Text']),'0','1'));
+							PostData.Add('mid',Stored['mid']);
+							PostData.Add('captcha',Code);
 						end;
 					)
 		</postdata>
 		<success>eval(begin
-						Result:=HTML.ExistsStr('Сообщение принято и поставлено в очередь') or 
-								HTML.ExistsStr('Запросить статус сообщения');
+						Result:=HTML.ExistsStr('&quot;mid&quot;');
 					 end;)
 		</success>
-		<error>eval(Html.RegExp('&lt;p class=&quot;comment&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
+		<error>eval(
+			var
+				Error: string;
+			begin
+				Error:=Html.RegExp('&quot;error&quot;:&quot;(.*?)&quot;',1);
+				if Error = 'sms-limit-excceeded' then
+					Result:='Ваш лимит отправки коротких сообщений на сегодня исчерпан.'
+				else if Error = 'denied-mob-prefix' then
+					Result:='Неверный код оператора'
+				else if Error = 'wrong-number-format' then
+					Result:='Указан неверный номер телефона.'
+				else if Error = 'denied-mobile-number' then
+					Result:='Отправка SMS с сайта заблокирована по просьбе собственника телефона.'
+				else if Error = 'denied-content' then
+					Result:='Помилка'
+				else if Error = 'sms-length-overflow' then
+					Result:='Сообщение слишком длинное'
+				else if Error = 'error-while-sending' then
+					Result:='Произошла ошибка.'
+				else if Error = 'captcha-is-wrong' then
+					Result:='Картинки живой природы выбраны неверно'
+				else if Error = 'cpi-error' then
+					Result:='Во время отправления SMS произошла ошибка'
+				else if Error = 'sms-session-expired' then
+					Result:='Сессия завершена. Попробуйте еще раз.'
+				else if Error = 'unknown-error' then
+					Result:='Произошла ошибка.'
+				else if Error = 'limit-exceeded' then
+					Result:='Лимит сообщений на сегодня исчерпан.'
+				else
+					Result:='Произошла неизвестная ошибка';
+			end;)
+		</error>
 		<cd_method>GET</cd_method>
-		<cd_url>http://smsgate.kyivstar.ua/sms/?request_status=true&amp;lang=ru</cd_url>
+		<cd_url>eval('http://smsgate.kyivstar.ua/_sms/ajax/status/?callback=jsonCallback&amp;id=' + Stored['mid'] + '&amp;_=' + VarToStr(DateTimeToUnix(Now())))</cd_url>
 		<cd_success>eval(
 						begin
-							if HTML.ExistsStr('Сообщение отправлено') then
+							if HTML.ExistsStr('Delivered') then
 								Result:=true
-							else if Html.ExistsStr('Сообщение принято и поставлено в очередь') or HTML.ExistsStr('Запросить статус сообщения') then
+							else if Html.ExistsStr('Undeliverable') then
+								Result:=false
+							else if Html.ExistsStr('jsonCallback({})') then
 								Result:='WAIT'
 							else Result:=false;
 						end;	
@@ -88,9 +127,7 @@
 		</cd_success>
 		<cd_error>eval(
 				begin
-					Result:=Html.RegExp('&lt;p class=&quot;comment&quot;&gt;(.*?)&lt;/p&gt;',1);
-					if Result='' then
-						Result:='Ошибка подверждения доставки';
+					Result:='Ошибка подверждения доставки';
 				end;
 			)
 		</cd_error>
