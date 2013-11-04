@@ -5,7 +5,7 @@
 	<type>SMS</type>
 	<class>HTTP</class>
 	<version>5</version>
-	<priority>10</priority>
+	<priority>11</priority>
 	<country>Молдавия</country>
 	<prefixlist>
 		<prefix start="+373 68" end="+373 69" format="3.2.6"/>
@@ -29,14 +29,13 @@
 		<postdata>eval(
 					begin
 						PostData.Add('__VIEWSTATE',Html.RegExp('id=&quot;__VIEWSTATE&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('edtFrom','issms');
-						PostData.Add('prefix',SMS['Phone_Def']);
-						PostData.Add('edtMsisdn',SMS['Phone_Number']);
+						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
+						PostData.Add('edtFrom','websms');
+						PostData.Add('edtMsisdn','0' + SMS['Phone_Def'] + SMS['Phone_Number']);
 						PostData.Add('rest',SMS['LeaveSymbols']);
 						PostData.Add('edtMsg',SMS['Text']);
 						PostData.Add('edRandNumber',SMS['Code']);
 						PostData.Add('btnOK','отправь смс');
-						PostData.Add('__EVENTVALIDATION',Html.RegExp('id=&quot;__EVENTVALIDATION&quot; value=&quot;(.*?)&quot;',1));
 					end;
 					)
 		</postdata>
