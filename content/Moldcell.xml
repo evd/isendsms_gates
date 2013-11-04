@@ -4,7 +4,7 @@
 	<caption>Moldcell</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
@@ -23,12 +23,12 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.moldcell.md/rus/private/websms</pageurl>
-		<imageurl>eval('http://www.moldcell.md/rus/private/moldcell_captcha?' + HTML.RegExp('moldcell_captcha\?(.*?)&quot;',1))</imageurl>
+		<imageurl>eval('http://www.moldcell.md/rus/private/image_captcha/' + HTML.RegExp('image_captcha/(.*?)&quot;',1))</imageurl>
 		<posturl>http://www.moldcell.md/rus/private/websms</posturl>
 		<postdata>eval(
 					begin
-						PostData.Add('phone_prefix',SMS['Phone_Country'] + SMS['Phone_Def']);
-						PostData.Add('phone_number',SMS['Phone_Number']);
+						PostData.Add('phone',SMS['Phone_Def'] + SMS['Phone_Number']);
+						PostData.Add('name','websms');
 						PostData.Add('message',SMS['Text']);
 						PostData.Add('captcha_sid',Html.RegExp('name=&quot;captcha_sid&quot; value=&quot;(.*?)&quot;',1));
 						PostData.Add('captcha_token',Html.RegExp('name=&quot;captcha_token&quot; value=&quot;(.*?)&quot;',1));
@@ -36,6 +36,7 @@
 						PostData.Add('op','');
 						PostData.Add('form_build_id',Html.RegExp('name=&quot;form_build_id&quot; value=&quot;(.*?)&quot;',1));
 						PostData.Add('form_id','websms_main_form');
+
 					end;
 					)
 		</postdata>
