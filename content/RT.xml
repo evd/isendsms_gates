@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -69,14 +69,14 @@
 						end;
 					)	
 		</imageurl>
-		<posturl>http://www.perm.rt.ru/pages/proxy.jsp</posturl>
+		<posturl>http://www.perm.rt.ru/pages/proxySMS.jsp</posturl>
 		<postdata>eval(
 					var
 						DT: TDatetime;
 					begin
 						DT:=SMS['DeliveryTime'];
 						PostData.Add('action','ins');
-						PostData.Add('url','http://perm.u-tel.ru/pages/apps/addSMS.jsp');
+						PostData.Add('url','http://perm.u-tel.ru/pages/apps/addSMS3.jsp');
 						PostData.Add('mode','insSms');
 						PostData.Add('page','');
 						PostData.Add('delay_time','-60000');
@@ -98,11 +98,11 @@
 				end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('setSMSResult(''0'')'))</success>
+		<success>eval(HTML.ExistsStr('&lt;div id=''sms_send_result''&gt;0&lt;/div&gt;'))</success>
 		<error>eval(begin
-						if HTML.ExistsStr('setSMSResult(''1'')') then
+						if HTML.ExistsStr('&lt;div id=''sms_send_result''&gt;1&lt;/div&gt;') then
 							Result:='Неверно укзан код с картинки'
-						else if HTML.ExistsStr('setSMSResult(''2'')') then	
+						else if HTML.ExistsStr('&lt;div id=''sms_send_result''&gt;2&lt;/div&gt;') then	
 							Result:='Номер телефона указан в неверном формате'
 						else
 							Result:='Сообщение не может быть отправлено, на указанный номер';
