@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -20,14 +20,14 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.kyivstar.ua/ru/sms/</gateurl>
+		<gateurl>http://www.kyivstar.ua/ru/kr/sms/</gateurl>
 		<supportautorecognize>0</supportautorecognize>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.kyivstar.ua/ru/kr/sms/</pageurl>
 		<imageurl>eval(begin
-				HTTP.HTTPMethod('GET','http://smsgate.kyivstar.ua/_sms/ajax/?callback=jsonCallback&amp;lang=ru&amp;_=' + VarToStr(DateTimeToUnix(Now())));
+				HTTP.HTTPMethod('GET','http://smsgate.kyivstar.ua/_sms/ajax/?action=init&amp;callback=jsonCallback&amp;lang=ru&amp;_=' + VarToStr(DateTimeToUnix(Now())));
 				Stored['mid'] := HTML.RegExp('&quot;mid&quot;:&quot;(.*?)&quot;', 1);
 				Result:= 'http://smsgate.kyivstar.ua/_sms/captcha/?mid=' + Stored['mid'] + '&amp;r=' + '0.' + RandomString('0123456789',8);
 			end;)
