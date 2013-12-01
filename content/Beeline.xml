@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>39</version>
+	<version>40</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -68,53 +68,73 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>https://www.beeline.ru/sms/index.wbp</gateurl>
+		<gateurl>http://moskva.beeline.ru/customers/products/mobile/services/details/otpravka-sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>https://www.beeline.ru/sms/index.wbp</pageurl>
-		<imageurl>https://www.beeline.ru/sms/mamimg.aspx?width=240&amp;height=60</imageurl>
-		<posturl>https://www.beeline.ru/sms/index.wbp</posturl>
+		<pageurl>http://moskva.beeline.ru/customers/products/mobile/services/details/otpravka-sms/</pageurl>
+		<imageurl>eval(
+			begin
+				Stored['captchaKey'] := Html.RegExp('name=&quot;_captcha_key&quot; value=&quot;(.*?)&quot;', 1);
+				Result:='http://moskva.beeline.ru/captcha.ashx?' + 'w=148&amp;h=39&amp;key=' + Stored['captchaKey'] + '&amp;r=0.' + RandomString(DigitCaps,9);
+			end;)
+		</imageurl>
+		<posturl>eval(
+			var
+				url: string;
+			begin
+				if (Stored['url']='') then
+				begin
+					url := Html.RegExp('ControllerUrl : &quot;(.*?)&quot;',1);
+					url := 'http://moskva.beeline.ru' + ReplaceStr(url, '\u0026', '&amp;');
+					Stored['url'] := url;
+				end;	
+				Result:=ReplaceStr(Stored['url'], 'replacethisaction', 'SendSms');
+			end;)	
+		</posturl>
 		<postdata>eval(
-						begin
-							PostData.Add('send','');
-							PostData.Add('smstext',SMS['Text']);
-							PostData.Add('afcode',HTML.RegExp('name=&quot;afcode&quot; value=&quot;(.*?)&quot;',1));
-							PostData.Add('smstoprefix',SMS['Phone_Def']);
-							PostData.Add('smsto',SMS['Phone_Number']);
-							PostData.Add('dirtysmstext',SMS['Text']);
-							if IsAscii(SMS['Text']) then
-								PostData.Add('translit','on');
-							PostData.Add('confirm_key',HTML.RegExp('&quot;confirm_key&quot; VALUE=&quot;(.*?)&quot;',1));
-							PostData.Add('confirmcode',UpperCase(SMS['Code']));
-							PostData.Add('x','51');
-							PostData.Add('y','9');
-						end;
-					)
+			begin
+				HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
+
+				PostData.Add('PhoneCode',SMS['Phone_Def']);
+				PostData.Add('',SMS['Phone_Def']);
+				PostData.Add('','Отправить сообщение');
+				PostData.Add('ca3e1013-b580-a401-37fc-6213928b1656.PhoneComplexElement',
+					Copy(SMS['Phone_Number'], 1, 3) + '-' +
+					Copy(SMS['Phone_Number'], 4, 2) + '-' +
+					Copy(SMS['Phone_Number'], 6, 2)
+				);
+				PostData.Add('Phone',SMS['Phone_Number']);
+				PostData.Add('_captcha_key',Stored['captchaKey']);
+				PostData.Add('Captcha',SMS['Code']);
+				PostData.Add('CheckboxTransliterate',iff(IsAscii(SMS['Text']),'true','false'));
+				PostData.Add('Body',SMS['Text']);
+				PostData.Add('WidgetId',Html.RegExp('WidgetId: &quot;(.*?)&quot;', 1));
+
+			end;)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Сообщение помещено в очередь отправки'))</success>
-		<error>eval(begin
-						Result:=HTML.RegExp('CLASS=&quot;err&quot;&gt;(.*?)&lt;/',1);
-						if Result='' then
-							Result:=HTML.RegExp('class=&quot;err&quot;&gt;&lt;b&gt;(.*?)&lt;/',1);
-					end;		
-					)
-		</error>
+		<success>eval(
+			begin
+				Result := HTML.ExistsStr('&quot;IsSucceeded&quot;:true');
+				//if (Result) then
+					Stored['smsId'] := Html.RegExp('name=\\&quot;Id\\&quot;.*?value=\\&quot;(.*?)\\&quot;', 1);
+			end;)
+		</success>
+		<error>eval(Html.RegExp('&quot;ErrorMessage&quot;:&quot;(.*?)&quot;', 1))</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>https://www.beeline.ru/sms/index.wbp</cd_posturl>
+		<cd_posturl>eval(ReplaceStr(Stored['url'], 'replacethisaction', 'SendSmsStatus'))</cd_posturl>
 		<cd_postdata>eval(
-						begin
-							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
-							PostData.Add('x','75');
-							PostData.Add('y','10');
-						end;
-					)
+				begin
+					HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
+					PostData.Add('Id',Stored['smsId']);
+					PostData.Add('Phone','');
+				end;)
 		</cd_postdata>
 		<cd_success>eval(
 						begin
-							if Html.ExistsStr('Сообщение помещено в очередь отправки') then
+							if Html.ExistsStr('&quot;StatusText&quot;:&quot;ожидает отправки&quot;') then
 								Result:='WAIT'
-							else Result:=HTML.ExistsStr('Сообщение отправлено');
+							else Result:=Html.ExistsStr('&quot;StatusText&quot;:&quot;отправлено&quot;');
 						end;	
 					   )
 		</cd_success>
