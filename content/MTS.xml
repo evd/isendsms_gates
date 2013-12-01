@@ -197,7 +197,14 @@
 '		append: function(obj){' + sLineBreak +
 '		}' + sLineBreak +
 '	}	' + sLineBreak +
-'};' + sLineBreak +
+'}' + sLineBreak +
+'function dummyobj() {' + sLineBreak +
+'	return {' + sLineBreak +
+'		parents: function(selector){' + sLineBreak +
+'		  return jQuery(selector);' + sLineBreak +
+'		}' + sLineBreak +
+'	}' + sLineBreak +
+'}' + sLineBreak +
 'function input(){' + sLineBreak +
 '	var new_input = {' + sLineBreak +
 '		classes: [],' + sLineBreak +
@@ -273,8 +280,9 @@
 '	if (result!=null)' + sLineBreak +
 '		return result;' + sLineBreak +
 '	else' + sLineBreak +
-'		return new input();	' + sLineBreak +
-'}' + sLineBreak +
+'		return new dummyobj();	' + sLineBreak +
+'}' + sLineBreak;
+	Code := Code + 
 '' + sLineBreak +
 'function jQuery(selector, scope) {' + sLineBreak +
 '	switch (selector.toLowerCase()) {' + sLineBreak +
@@ -431,6 +439,13 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 '		}' + sLineBreak +
 '	}	' + sLineBreak +
 '};' + sLineBreak +
+'function dummyobj() {' + sLineBreak +
+'	return {' + sLineBreak +
+'		parents: function(selector){' + sLineBreak +
+'		  return jQuery(selector);' + sLineBreak +
+'		}' + sLineBreak +
+'	}' + sLineBreak +
+'};' + sLineBreak +
 'function input(){' + sLineBreak +
 '	var new_input = {' + sLineBreak +
 '		classes: [],' + sLineBreak +
@@ -506,8 +521,9 @@ JS.ResultName+'.SetValue(&quot;hidden&quot;,r);' + sLineBreak;
 '	if (result!=null)' + sLineBreak +
 '		return result;' + sLineBreak +
 '	else' + sLineBreak +
-'		return new input();	' + sLineBreak +
-'}' + sLineBreak +
+'		return new dummyobj();	' + sLineBreak +
+'}' + sLineBreak;
+	Code:=Code + 
 '' + sLineBreak +
 'function jQuery(selector, scope) {' + sLineBreak +
 '	switch (selector.toLowerCase()) {' + sLineBreak +
