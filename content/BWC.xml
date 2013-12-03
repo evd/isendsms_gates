@@ -4,7 +4,7 @@
 	<caption>Байкалвестком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -38,40 +38,33 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.bwc.ru/cgi-bin/smssend.cgi</gateurl>
+		<gateurl>https://sasgwapi.bwc.ru/bwc-smssend</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.bwc.ru/cgi-bin/smssend.cgi</pageurl>
-		<imageurl>eval('http://www.bwc.ru/cgi-bin/img2img.cgi?img=' + HTML.RegExp('img2img.cgi\?img=(.*?)&quot;',1))</imageurl>
-		<posturl>http://www.bwc.ru/cgi-bin/smssend.cgi</posturl>
+		<pageurl>https://sasgwapi.bwc.ru/bwc-smssend</pageurl>
+		<imageurl>eval('https://sasgwapi.bwc.ru/bwc-smssend/tmp/' + HTML.RegExp('/bwc-smssend/tmp/(.*?)''',1))</imageurl>
+		<posturl>https://sasgwapi.bwc.ru/bwc-smssend</posturl>
 		<postdata>eval(
 					var
 						DT: TDateTime;
-						SendDate: string;
-						M: string;
 					begin
-						DT:=SMS['DeliveryTime']+(480-TimeZoneBias)*OneMinute;
-						SendDate:=FormatDateTime('dd.',DT);
-						M:=VarToStr(VarAsType(FormatDateTime('mm',DT),varInteger)-1);
-						if Length(M)=1 then M:='0'+M;
-						SendDate:=SendDate + M;
-						SendDate:=SendDate + FormatDateTime('.yyyy',DT);
-						PostData.Add('phone_type',SMS['Phone_Def']);
-						PostData.Add('phone_number',SMS['Phone_Number']);
+						DT:=SMS['DeliveryTime']+(540-TimeZoneBias)*OneMinute;
+
+						PostData.Add('html','main_ajax.html');
+						PostData.Add('phone_number',Copy(SMS['Phone'], 2, 10));
 						PostData.Add('communication',SMS['Text']);
-						PostData.Add('defhours',FormatDateTime('hh',DT));
-						PostData.Add('defmin',FormatDateTime('nn',DT));
-						PostData.Add('defdate', SendDate);
+						PostData.Add('hours',FormatDateTime('hh',DT));
+						PostData.Add('minutes',FormatDateTime('nn',DT));
+						PostData.Add('defdate',FormatDateTime('dd.mm.yyyy',DT));
 						if SMS['Flash'] then
 							PostData.Add('send_to_screen','on');
 						PostData.Add('code',SMS['Code']);
-						PostData.Add('sid',Html.RegExp('name=&quot;sid&quot; value=&quot;(.*?)&quot;',1));
-						
+						PostData.Add('hcode',Html.RegExp('name=&quot;hcode&quot;.*?value=&quot;(.*?)&quot;',1));
 					end;
 					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('Сообщение отправлено.'))</success>
-		<error>eval(HTML.RegExp('&lt;font color=&quot;?red&quot;?&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1))</error>
+		<error>eval(HTML.RegExp('&lt;p style=&quot;color:red;&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
 	</classprops>
 </gate>
