@@ -4,8 +4,8 @@
 	<caption>МТС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>117</version>
-	<priority>10</priority>
+	<version>118</version>
+	<priority>1</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90259"/>
@@ -150,6 +150,7 @@
 		<required_yourphone>1</required_yourphone>
 	</info>
 	<classprops>
+		<error_unsupport>Отправка на МТС через официальный шлюз временно не работает, попробуйте отправить через альтернатиные шлюзы, подробнее в часто задаваемых вопросах на форуме</error_unsupport>
 		<encoding>UTF-8</encoding>
 		<handleredirects>0</handleredirects>
 		<sendinit>eval(begin HTTP.Protocol:='1.0'; end;)</sendinit>

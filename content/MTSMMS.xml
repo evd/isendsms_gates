@@ -4,7 +4,7 @@
 	<caption>МТС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>90</version>
+	<version>91</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -155,6 +155,7 @@
 		<required_yourphone>1</required_yourphone>
 	</info>
 	<classprops>
+		<error_unsupport>Отправка на МТС временно не работает</error_unsupport>
 		<encoding>UTF-8</encoding>
 		<pageurl>https://sendmms.ssl.mts.ru/</pageurl>
 		<captchacount>2</captchacount>

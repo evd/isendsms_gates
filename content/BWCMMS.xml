@@ -4,7 +4,7 @@
 	<caption>Байкалвестком ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -48,6 +48,7 @@
 		<maxmultimediasize>204800</maxmultimediasize>
 	</info>
 	<classprops>
+		<error_unsupport>Сервис отправки MMS у данного оператора временно не работает, подробнее на сайте оператора</error_unsupport>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://www.bwc.ru/cgi-bin/mmssend.cgi</pageurl>
 		<imageurl>eval('http://www.bwc.ru/cgi-bin/img2img.cgi?img=' + HTML.RegExp('img2img.cgi\?img=(.*?)&quot;',1))</imageurl>
