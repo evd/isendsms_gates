@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>12</version>
+	<version>14</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -38,23 +38,44 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://cell.motivtelecom.ru/ekb/smssend</pageurl>
-		<imageurl>http://cell.motivtelecom.ru/ekb/phpcaptcha/image</imageurl>
+		<customimage>1</customimage>
+		<clickimage>1</clickimage>
+		<clickimagewidth>50</clickimagewidth>
+		<clickimageheight>50</clickimageheight>
+		<proccessimage>eval(
+			var
+				i: integer;
+				colors: TRegExpMatches;
+			begin
+				Img.SetSize(200, 50);
+				colors:=TRegExpMatches.Create();
+				Html.RegExpAll('style=&quot;background-color: #(.*?)&quot;', colors);
+				for i:=0 to colors.MatchesCount-1 do
+				begin
+					Img.FillRect(i*50,0,50,50,Img.StringToColor(colors.GetCapture(i,1), true));
+					Stored['Image' + VarToStr(i+1)] := colors.GetCapture(i,1);
+				end;
+				Stored['ImageDesc'] := Html.RegExp('id=&quot;ycc_captcha&quot; class=&quot;.*?&quot;&gt;(.*?)&lt;/div&gt;', 1);
+				Stored['TrueCaptcha'] := Html.RegExp('name=&quot;true_captcha&quot; value=&quot;(.*?)&quot;',1);
+			end;)
+		</proccessimage>
+		<imagedescription>eval(Stored['ImageDesc'])</imagedescription>
 		<posturl>http://cell.motivtelecom.ru/ekb/smssend</posturl>
 		<postdata>eval(
-					var
-						DT: TDateTime;
-					begin
-							
-						DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false)-5*OneMinute;
-						PostData.Add('smssend[name]','websms');
-						PostData.Add('smssend[phone]',Copy(SMS['Phone'],2,10));
-						PostData.Add('smssend[txt]',SMS['Text']);
-						PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
-						PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
-						PostData.Add('smssend[mdelay]',FormatDateTime('nn',DT));
-						PostData.Add('smssend[captcha]',SMS['Code']);
-	end;
-					)
+			var
+				DT: TDateTime;
+			begin
+					
+				DT:=AdjustTimeZone(SMS['DeliveryTime'],360,false)-5*OneMinute;
+				PostData.Add('smssend[name]','websms');
+				PostData.Add('smssend[phone]',Copy(SMS['Phone'],2,10));
+				PostData.Add('smssend[txt]',SMS['Text']);
+				PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
+				PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
+				PostData.Add('smssend[mdelay]',FormatDateTime('nn',DT));
+				PostData.Add('smssend[captcha]',LowerCase(Stored['Image' + SMS['Code']]));
+				PostData.Add('true_captcha', Stored['TrueCaptcha']);
+			end;)
 		</postdata>
 		<success>eval(begin
 						Result:=HTML.ExistsStr('Сообщение отправлено') or HTML.ExistsStr('Сообщение будет отправлено');
