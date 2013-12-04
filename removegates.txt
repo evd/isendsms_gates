@@ -45,3 +45,4 @@ UtelMMS,
 FreeMMS,
 MLT,MegafonTJ
 NeoKZ,Tele2KZ
+Tele2,
