@@ -4,7 +4,7 @@
 	<caption>Смартс</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -36,32 +36,46 @@
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>70</maxunicodesymbols>
-		<supportflash>1</supportflash>
+		<maxunicodesymbols>61</maxunicodesymbols>
+		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://smarts.ru/help/send_sms/</gateurl>
+		<gateurl>http://smarts.ru/help/send-sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>Windows-1251</encoding>
-		<pageurl>http://smarts.ru/help/send_sms/</pageurl>
-		<imageurl>http://smarts.ru/_terminal/smssender/capcha.gif</imageurl>
-		<posturl>http://smarts.ru/help/send_sms/</posturl>
+		<pageurl>http://smarts.ru/help/send-sms/</pageurl>
+		<imageurl>eval('http://smarts.ru/bitrix/tools/captcha.php?captcha_sid=' + Html.RegExp('name=&quot;captcha_sid&quot;.*?value=&quot;(.*?)&quot;', 1))</imageurl>
+		<posturl>http://smarts.ru/help/send-sms/</posturl>
+		<multipart>1</multipart>
 		<postdata>eval(
+					var
+						DefCode: string;
 					begin
-						PostData.Add('object','smssender');
-						PostData.Add('mode','send_sms');
-						PostData.Add('chars','0');
-						PostData.Add('phone',SMS['Phone']);
-						if SMS['Flash'] then
-							PostData.Add('flash','ON');
-						PostData.Add('sendtext',SMS['Text']);
-						PostData.Add('ssc',SMS['Code']);
+						if (SMS['Phone_Def'] = '904') then
+							DefCode:='38'
+						else if	(SMS['Phone_Def'] = '908') then
+							DefCode:='39'
+						else if	(SMS['Phone_Def'] = '902') then
+							DefCode:='40'
+						else if	(SMS['Phone_Def'] = '950') then
+							DefCode:='41'
+						else
+							DefCode:='';	
+
+						PostData.Add('sessid', Html.RegExp('name=&quot;sessid&quot;.*?value=&quot;(.*?)&quot;', 1));
+						PostData.Add('WEB_FORM_ID','6');
+						PostData.Add('form_dropdown_code', DefCode);
+						PostData.Add('form_text_42', SMS['Phone_Number']);
+						PostData.Add('form_textarea_43',SMS['Text']);
+						PostData.Add('web_form_submit','Отправить');
+						PostData.Add('captcha_sid', Html.RegExp('name=&quot;captcha_sid&quot;.*?value=&quot;(.*?)&quot;', 1));
+						PostData.Add('captcha_word',SMS['Code']);
 					end;
 		)
 		</postdata>
-		<success>eval(Html.ExistsStr('Сообщение отправлено!'))</success>
-		<error>eval(Html.RegExp('&lt;p class=&quot;form-error&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
+		<success>eval(Html.ExistsStr('Сообщение отправлено'))</success>
+		<error>eval(Html.RegExp('&lt;font class=&quot;errortext&quot;&gt;(.*?)&lt;',1))</error>
 	</classprops>
 </gate>
