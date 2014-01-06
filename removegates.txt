@@ -46,3 +46,4 @@ FreeMMS,
 MLT,MegafonTJ
 NeoKZ,Tele2KZ
 Tele2,
+PenzaGSM,Smarts

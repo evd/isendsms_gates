@@ -4,7 +4,7 @@
 	<caption>Смартс</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -23,6 +23,16 @@
 		<prefix start="+7 950665" end="+7 950669"/>
 		<prefix start="+7 95088"/>
 		<prefix start="+7 950930" end="+7 950944"/>
+
+		<prefix start="+7 90208"/>
+		<prefix start="+7 902200"/>
+		<prefix start="+7 902203" end="+7 902209"/>
+		<prefix start="+7 90234"/>
+		<prefix start="+7 902352" end="+7 902354"/>
+		<prefix start="+7 9047299"/>
+		<prefix start="+7 90852" end="+7 90853"/>
+		<prefix start="+7 95023"/>
+
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
