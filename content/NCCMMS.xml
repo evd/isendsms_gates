@@ -4,7 +4,7 @@
 	<caption>НСС ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>24</version>
+	<version>25</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -58,6 +58,12 @@
 		<prefix start="7 908 470" end="7 908 491"/>
 		<prefix start="7 951 09"/>
 
+		<prefix start="+7 902247" end="+7 902248"/>
+		<prefix start="+7 902365" end="+7 902366"/>
+		<prefix start="+7 908320" end="+7 908324"/>
+		<prefix start="+7 95018"/>
+		<prefix start="+7 95103"/>
+		<prefix start="+7 95345"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>1000</maxsymbols>

@@ -4,7 +4,7 @@
 	<caption>НСС</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>18</version>
+	<version>19</version>
 	<priority>11</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -59,6 +59,12 @@
 		<prefix start="7 951 09"/>
 		<prefix start="7 8422"/>
 
+		<prefix start="+7 902247" end="+7 902248"/>
+		<prefix start="+7 902365" end="+7 902366"/>
+		<prefix start="+7 908320" end="+7 908324"/>
+		<prefix start="+7 95018"/>
+		<prefix start="+7 95103"/>
+		<prefix start="+7 95345"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>140</maxsymbols>
