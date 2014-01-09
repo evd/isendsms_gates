@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>OwapTele2</name>
+	<caption>Owap Tele2</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>9</priority>
+	<country>Россия</country>
+	<prefixlist>
+		<prefix start="+7 900219" end="+7 900298"/>
+		<prefix start="+7 900300" end="+7 900309"/>
+		<prefix start="+7 900345" end="+7 900374"/>
+		<prefix start="+7 9004715" end="+7 9004734"/>
+		<prefix start="+7 9004735" end="+7 9004834"/>
+		<prefix start="+7 90099"/>
+		<prefix start="+7 90213"/>
+		<prefix start="+7 902147" end="+7 902149"/>
+		<prefix start="+7 90219"/>
+		<prefix start="+7 902250" end="+7 902252"/>
+		<prefix start="+7 902281" end="+7 902286"/>
+		<prefix start="+7 902403" end="+7 902408"/>
+		<prefix start="+7 902504"/>
+		<prefix start="+7 902507"/>
+		<prefix start="+7 90400" end="+7 90410"/>
+		<prefix start="+7 904200" end="+7 904214"/>
+		<prefix start="+7 904218" end="+7 904239"/>
+		<prefix start="+7 904245" end="+7 904259"/>
+		<prefix start="+7 904260" end="+7 904261"/>
+		<prefix start="+7 90465"/>
+		<prefix start="+7 90427" end="+7 90434"/>
+		<prefix start="+7 90435" end="+7 90437"/>
+		<prefix start="+7 90439"/>
+		<prefix start="+7 90444"/>
+		<prefix start="+7 90450" end="+7 90453"/>
+		<prefix start="+7 90455"/>
+		<prefix start="+7 90457" end="+7 90461"/>
+		<prefix start="+7 90463" end="+7 90464"/>
+		<prefix start="+7 90468" end="+7 90469"/>
+		<prefix start="+7 90482" end="+7 90483"/>
+		<prefix start="+7 904857" end="+7 904859"/>
+		<prefix start="+7 90486"/>
+		<prefix start="+7 904955" end="+7 904959"/>
+		<prefix start="+7 90496" end="+7 90497"/>
+		<prefix start="+7 90499"/>
+		<prefix start="+7 90804" end="+7 90806"/>
+		<prefix start="+7 9081"/>
+		<prefix start="+7 908225" end="+7 908226"/>
+		<prefix start="+7 908228" end="+7 908229"/>
+		<prefix start="+7 90823"/>
+		<prefix start="+7 90828"/>
+		<prefix start="+7 908290" end="+7 908295"/>
+		<prefix start="+7 90831"/>
+		<prefix start="+7 908328" end="+7 908329"/>
+		<prefix start="+7 90850" end="+7 90851"/>
+		<prefix start="+7 90857" end="+7 90858"/>
+		<prefix start="+7 908605" end="+7 908607"/>
+		<prefix start="+7 908670" end="+7 908693"/>
+		<prefix start="+7 908715" end="+7 908719"/>
+		<prefix start="+7 90878" end="+7 90880"/>
+		<prefix start="+7 90894" end="+7 90895"/>
+		<prefix start="+7 95000" end="+7 95004"/>
+		<prefix start="+7 95015" end="+7 95017"/>
+		<prefix start="+7 95021" end="+7 95022"/>
+		<prefix start="+7 95025" end="+7 95027"/>
+		<prefix start="+7 950308"/>
+		<prefix start="+7 95033"/>
+		<prefix start="+7 950565" end="+7 950629"/>
+		<prefix start="+7 950660" end="+7 950661"/>
+		<prefix start="+7 95067" end="+7 95087"/>
+		<prefix start="+7 950962" end="+7 950963"/>
+		<prefix start="+7 95089"/>
+		<prefix start="+7 95090" end="+7 95092"/>
+		<prefix start="+7 95095"/>
+		<prefix start="+7 95107" end="+7 95108"/>
+		<prefix start="+7 95110" end="+7 95121"/>
+		<prefix start="+7 951295" end="+7 951297"/>
+		<prefix start="+7 95130" end="+7 95133"/>
+		<prefix start="+7 951347" end="+7 951356"/>
+		<prefix start="+7 95136" end="+7 95142"/>
+		<prefix start="+7 95144" end="+7 95161"/>
+		<prefix start="+7 95164" end="+7 95175"/>
+		<prefix start="+7 95176" end="+7 95187"/>
+		<prefix start="+7 952015" end="+7 952019"/>
+		<prefix start="+7 95205" end="+7 95206"/>
+		<prefix start="+7 95210" end="+7 95212"/>
+		<prefix start="+7 952150" end="+7 952189"/>
+		<prefix start="+7 95220" end="+7 95222"/>
+		<prefix start="+7 95223" end="+7 95230"/>
+		<prefix start="+7 95235" end="+7 95239"/>
+		<prefix start="+7 95240" end="+7 95245"/>
+		<prefix start="+7 95248" end="+7 95260"/>
+		<prefix start="+7 95276" end="+7 95294"/>
+		<prefix start="+7 95296" end="+7 95299"/>
+		<prefix start="+7 953059" end="+7 953118"/>
+		<prefix start="+7 95312" end="+7 95319"/>
+		<prefix start="+7 953230" end="+7 953254"/>
+		<prefix start="+7 95326" end="+7 95329"/>
+		<prefix start="+7 95330" end="+7 95337"/>
+		<prefix start="+7 95339"/>
+		<prefix start="+7 953419" end="+7 953443"/>
+		<prefix start="+7 95346" end="+7 95347"/>
+		<prefix start="+7 953500" end="+7 953579"/>
+		<prefix start="+7 95361" end="+7 95362"/>
+		<prefix start="+7 95364" end="+7 95381"/>
+		<prefix start="+7 953857" end="+7 953896"/>
+		<prefix start="+7 95390" end="+7 95394"/>
+		<prefix start="+7 953950" end="+7 953974"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>533</maxsymbols>
+		<maxunicodesymbols>533</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://sms.owap.biz/tele2/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://sms.owap.biz/tele2/</pageurl>
+		<imageurl>eval('http://sms.owap.biz/tele2/img.php?sid='+Html.RegExp('&lt;img src=&quot;img\.php\?sid=(.*?)&quot;',1))</imageurl>
+		<posturl>eval('http://sms.owap.biz/tele2/index.php?tmp='+Html.RegExp('action=&quot;/tele2/index\.php\?tmp=(.*?)&quot;',1))</posturl>
+		<postdata>eval(
+			begin
+				PostData.Add('code',SMS['Code']);
+				PostData.Add('phone', Copy(SMS['Phone'],2,10));
+				PostData.Add('text',SMS['Text']);
+				PostData.Add('sid',Html.RegExp('name=&quot;sid&quot; value=&quot;(.*?)&quot;',1));
+			end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('Ваше сообщение отправлено'))</success>
+		<error>eval(
+			begin
+				if Html.ExistsStr('Не удалось подключиться к SMS-центру оператора') then
+					Result:='Не удалось подключиться к SMS-центру оператора. Попробуйте позже'
+				else	
+					Result:=Html.RegExp('&lt;div&gt;(.*?)&lt;',1);
+			end;	
+			)</error>
+	</classprops>
+</gate>
