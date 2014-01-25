@@ -4,7 +4,7 @@
 	<caption>МТС Беларусь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Беларусь</country>
 	<prefixlist>
@@ -13,6 +13,7 @@
 		<prefix start="+375 297" end="+375 298" format="3.2.7"/>
 		<prefix start="+375 333" format="3.2.7"/>
 		<prefix start="+375 336" format="3.2.7"/>
+		<prefix start="+375 339" format="3.2.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
