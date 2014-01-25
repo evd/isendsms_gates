@@ -4,7 +4,7 @@
 	<caption>Unite</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
