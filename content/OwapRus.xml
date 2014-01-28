@@ -4,7 +4,7 @@
 	<caption>Owap rus</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>9</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -130,7 +130,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://sms.owap.biz/rus/?y</pageurl>
-		<imageurl>eval('http://sms.owap.biz/rus/img.php?id='+Html.RegExp('&lt;img src=&quot;img\.php\?id=(.*?)&quot;',1))</imageurl>
+		<imageurl>eval('http://sms.owap.biz/rus/img.php?it='+Html.RegExp('img\.php\?it=(.*?)&quot;',1))</imageurl>
 		<posturl>eval('http://sms.owap.biz/rus/index.php?tmp='+Html.RegExp('action=&quot;/rus/index\.php\?tmp=(.*?)&quot;',1))</posturl>
 		<postdata>eval(
 			begin
@@ -139,7 +139,7 @@
 				PostData.Add('text',SMS['Text']);
 				if (isAscii(SMS['Text'])) then
 					PostData.Add('tr','on');
-				PostData.Add('id',Html.RegExp('name=&quot;id&quot; value=&quot;(.*?)&quot;',1));
+				PostData.Add('it',Html.RegExp('name=&quot;it&quot; value=&quot;(.*?)&quot;',1));
 			end;
 		)
 		</postdata>
