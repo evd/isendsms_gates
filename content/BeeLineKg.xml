@@ -4,7 +4,7 @@
 	<caption>БиЛайн Кыргызстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -22,7 +22,7 @@
 	<classprops>
 		<encoding>Windows-1251</encoding>
 		<pageurl>http://sms.beeline.kg/</pageurl>
-		<imageurl>eval('http://sms.beeline.kg/capcha/CaptchaImage.php?uid='+DecodeFormElem(Html.RegExp('CaptchaImage.php\?uid=(.*?)&quot;',1)))</imageurl>
+		<imageurl>http://sms.beeline.kg/kcaptcha/index.php</imageurl>
 		<posturl>http://sms.beeline.kg/</posturl>
 		<postdata>eval(
 						var
@@ -32,14 +32,13 @@
 							DT:=AdjustTimeZone(DT,360,false);;
 							PostData.Add('code',SMS['Phone_Def']);
 							PostData.Add('phone',SMS['Phone_Number']);
-							PostData.Add('uid',SMS['Code']);
+							PostData.Add('keystring',SMS['Code']);
 							PostData.Add('date',FormatDateTime('dd"."mm"."yyyy',DT));
 							PostData.Add('hour',FormatDateTime('h',DT));
 							PostData.Add('minute',FormatDateTime('n',DT));
 							PostData.Add('message1',SMS['Text']);
 							PostData.Add('message2',SMS['Text']);
 							PostData.Add('message',SMS['Text']);
-							PostData.Add('cid',HTML.RegExp('name=&quot;cid&quot; value=&quot;(.*?)&quot;',1));
 						end;
 					)
 		</postdata>
