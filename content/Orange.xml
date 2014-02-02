@@ -4,8 +4,8 @@
 	<caption>Orange</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
-	<priority>11</priority>
+	<version>6</version>
+	<priority>10</priority>
 	<country>Молдавия</country>
 	<prefixlist>
 		<prefix start="+373 68" end="+373 69" format="3.2.6"/>
