@@ -4,8 +4,8 @@
 	<caption>Owap Tele2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
-	<priority>9</priority>
+	<version>2</version>
+	<priority>8</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 900219" end="+7 900298"/>
