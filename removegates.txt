@@ -51,3 +51,4 @@ Tele2,
 PenzaGSM,Smarts
 OrenburgGSM,NCC
 Skebby,
+NTK,Beeline
