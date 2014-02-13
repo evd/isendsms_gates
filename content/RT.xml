@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -53,7 +53,7 @@
 		<maxsymbols>300</maxsymbols>
 		<maxunicodesymbols>300</maxunicodesymbols>
 		<supportflash>0</supportflash>
-		<supportdtdelivery>1</supportdtdelivery>
+		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
 		<gateurl>http://www.perm.rt.ru/services/sendsms</gateurl>
@@ -79,7 +79,7 @@
 						PostData.Add('url','http://perm.u-tel.ru/pages/apps/addSMS3.jsp');
 						PostData.Add('mode','insSms');
 						PostData.Add('page','');
-						PostData.Add('delay_time','-60000');
+						PostData.Add('delay_time','');
 						PostData.Add('offset_time','-'+VarToStr(TimeZoneBias));
 						PostData.Add('message_text_trans','');
 						PostData.Add('subsc_pwd','');
@@ -90,11 +90,15 @@
 						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
 						PostData.Add('recaptcha_response_field',SMS['Code']);
 						if SMS['Delivery'] then
+						begin
 							PostData.Add('delay_send','1');
-						PostData.Add('send_hour',FormatDateTime('hh',DT));
-						PostData.Add('send_minute',FormatDateTime('nn',DT));
-						PostData.Add('send_day',FormatDateTime('dd',DT));
-						PostData.Add('send_month',FormatDateTime('mm',DT));
+							PostData.Add('send_hour',FormatDateTime('hh',DT));
+							PostData.Add('send_minute',FormatDateTime('nn',DT));
+							PostData.Add('send_day',FormatDateTime('dd',DT));
+							PostData.Add('send_month',FormatDateTime('mm',DT));
+						end;
+						PostData.Add('auto_trans','');
+
 				end;
 					)
 		</postdata>
