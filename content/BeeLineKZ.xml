@@ -4,12 +4,12 @@
 	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>12</version>
 	<priority>10</priority>
 	<country>Казахстан</country>
 	<prefixlist>
 		<prefix start="+7 771"/>
-		<prefix start="+7 777"/>
+		<prefix start="+7 776" end="+7 777"/>
 		<prefix start="+7 705"/>
 	</prefixlist>
 	<info>
