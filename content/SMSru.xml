@@ -4,7 +4,7 @@
 	<caption>sms.ru</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>9</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -44,8 +44,10 @@
 				Result:=Html.RegExp('&lt;div style=&quot;font-weight:bold;color:red&quot;&gt;(.*?)&lt;/div&gt;',1);
 				if (Result='') AND Html.ExistsStr('К сожалению, ваш лимит на сегодня уже истек.') then
 					Result:='К сожалению, ваш лимит на сегодня уже истек. Попробуйте воспользоваться другим шлюзом';
+				if (Result='') AND Html.ExistsStr('временно недоступен') then
+					Result:='К сожалению шлюз sms.ru временно недоступен. Попробуйте воспользоваться другим шлюзом';
 				if (Result='') AND (not Html.ExistsStr('&gt;')) then
-					Result = Html.RegExp('FINAL(.+)', 1);
+					Result:=Html.RegExp('FINAL(.+)', 1);
 				if (Result='') then
 					Result:='Произошла неизвестная ошибка';
 			end;)	
