@@ -37,6 +37,7 @@ Owap12,
 Owap14,
 Owap17,
 Owap22,
+Owap26,
 VPost,
 UUCNMMS,BWCMMS
 Cheb,
