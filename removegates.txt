@@ -55,3 +55,4 @@ OrenburgGSM,NCC
 Skebby,
 NTK,Beeline
 Tele2KZ,
+OwapTele2,
