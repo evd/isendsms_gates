@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Beeline2KZ</name>
+	<caption>БиЛайн Казахстан 2</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>15</priority>
+	<country>Казахстан</country>
+	<prefixlist>
+		<prefix start="+7 771"/>
+		<prefix start="+7 776" end="+7 777"/>
+		<prefix start="+7 705"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>0</captcha>
+		<gateurl>http://beeline.kz/ru/mobile#help_and_services</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://beeline.kz/ru/mobile</pageurl>
+		<posturl>http://beeline.kz/ru/account/sms/deliver</posturl>
+		<postdata>eval(
+						begin
+							PostData.Add('utf8','%E2%9C%93');
+							PostData.Add('authenticity_token',Html.RegExp('name=&quot;authenticity_token&quot; type=&quot;hidden&quot; value=&quot;(.*?)&quot;', 1));
+							PostData.Add('short_message[code]',SMS['Phone_Def']);
+							PostData.Add('short_message[phone_number]',SMS['Phone_Number']);
+							if isAscii(SMS['Text']) then
+								PostData.Add('short_message[translit]','true');
+							PostData.Add('short_message[body]',SMS['Text']);
+						end;
+					)
+		</postdata>
+		<success>eval(HTML.ExistsStr('{}'))</success>
+		<error>eval(begin
+						Result:='Неизвестная ошибка';
+					end;		
+					)</error>
+	</classprops>
+</gate>
