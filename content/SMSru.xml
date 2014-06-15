@@ -4,7 +4,7 @@
 	<caption>sms.ru</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>9</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -57,7 +57,7 @@
 		<cd_success>eval(begin
 							if Html.ExistsStr('Сообщение в пути') then
 								Result:='WAIT'
-							else Result:=HTML.ExistsStr('Сообщение доставлено');	
+							else Result:=HTML.ExistsStr('Сообщение отправлено');	
 						end;
 					)
 		</cd_success>
