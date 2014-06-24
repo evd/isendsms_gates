@@ -4,7 +4,7 @@
 	<caption>sms.ru</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>9</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -41,11 +41,15 @@
 		</success>
 		<error>eval(
 			begin
-				Result:=Html.RegExp('&lt;div style=&quot;font-weight:bold;color:red&quot;&gt;(.*?)&lt;/div&gt;',1);
+				Result:='';
 				if (Result='') AND Html.ExistsStr('К сожалению, ваш лимит на сегодня уже истек.') then
 					Result:='К сожалению, ваш лимит на сегодня уже истек. Попробуйте воспользоваться другим шлюзом';
 				if (Result='') AND Html.ExistsStr('временно недоступен') then
 					Result:='К сожалению шлюз sms.ru временно недоступен. Попробуйте воспользоваться другим шлюзом';
+				if (Result='') AND Html.ExistsStr('Тестовый период ограничен') then
+					Result:='Превышен лимит шлюза sms.ru: на каждый номер одно бесплатное сообщение в час. Попробуйте позже или воспользуйтесь другим шлюзом';
+				if (Result='') then
+					Result:=Html.RegExp('&lt;div style=&quot;font-weight:bold;color:red&quot;&gt;(.*?)&lt;/div&gt;',1);
 				if (Result='') AND (not Html.ExistsStr('&gt;')) then
 					Result:=Html.RegExp('FINAL(.+)', 1);
 				if (Result='') then
