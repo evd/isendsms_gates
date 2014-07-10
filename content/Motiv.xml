@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>14</version>
+	<version>15</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -38,28 +38,14 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://cell.motivtelecom.ru/ekb/smssend</pageurl>
-		<customimage>1</customimage>
-		<clickimage>1</clickimage>
-		<clickimagewidth>50</clickimagewidth>
-		<clickimageheight>50</clickimageheight>
-		<proccessimage>eval(
-			var
-				i: integer;
-				colors: TRegExpMatches;
+		<imageurl>eval(
 			begin
-				Img.SetSize(200, 50);
-				colors:=TRegExpMatches.Create();
-				Html.RegExpAll('style=&quot;background-color: #(.*?)&quot;', colors);
-				for i:=0 to colors.MatchesCount-1 do
-				begin
-					Img.FillRect(i*50,0,50,50,Img.StringToColor(colors.GetCapture(i,1), true));
-					Stored['Image' + VarToStr(i+1)] := colors.GetCapture(i,1);
-				end;
-				Stored['ImageDesc'] := Html.RegExp('id=&quot;ycc_captcha&quot; class=&quot;.*?&quot;&gt;(.*?)&lt;/div&gt;', 1);
-				Stored['TrueCaptcha'] := Html.RegExp('name=&quot;true_captcha&quot; value=&quot;(.*?)&quot;',1);
-			end;)
-		</proccessimage>
-		<imagedescription>eval(Stored['ImageDesc'])</imagedescription>
+				HTTP.Referer:='http://cell.motivtelecom.ru/ekb/smssend';
+				HTTP.HTTPMethod('GET','http://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+				Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
+				Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+			end;)	
+		</imageurl>
 		<posturl>http://cell.motivtelecom.ru/ekb/smssend</posturl>
 		<postdata>eval(
 			var
@@ -73,8 +59,8 @@
 				PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
 				PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
 				PostData.Add('smssend[mdelay]',FormatDateTime('nn',DT));
-				PostData.Add('smssend[captcha]',LowerCase(Stored['Image' + SMS['Code']]));
-				PostData.Add('true_captcha', Stored['TrueCaptcha']);
+				PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+				PostData.Add('recaptcha_response_field',SMS['Code']);
 			end;)
 		</postdata>
 		<success>eval(begin
