@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>17</version>
+	<version>18</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -36,7 +36,8 @@
 		<pageurl>https://sendsms.megafon.ru</pageurl>
 		<imageurl>eval(
 						begin
-							HTTP.HTTPMethod('GET','http://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+							HTTP.Referer:='http://sendsms.megafon.ru/';
+							HTTP.HTTPMethod('GET','http://captcha.isendsms.ru/recaptcha/?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
 							Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
 							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
 						end;
