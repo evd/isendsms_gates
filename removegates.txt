@@ -56,3 +56,7 @@ Skebby,
 NTK,Beeline
 Tele2KZ,
 OwapTele2,
+SMSru,
+ItSoft,
+zaSMS,
+OwapRus,
