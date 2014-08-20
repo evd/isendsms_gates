@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -19,7 +19,7 @@
 		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://wap.infan.ru/send/</gateurl>
-		<description>Требуется активация номера. Подробнее на сайте оператора</description>
+		<description>Требуется активация номера. Подробнее на сайте оператора http://www.infan.ru/faq/?14#a14</description>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
@@ -63,6 +63,8 @@
 						Result:=Html.RegExp('&lt;img src=/im/error\.gif width=16&gt;&lt;td&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1)
 					else
 						Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;/b&gt;',1);
+						if (Result='Ha дaнный нoмep oтпpaвкa SMS-cooбщeний нe aктивиpoвaнa') then
+							Result:=Result + '. Для aктивaции нoмepa нeoбxoдимo c нeгo пocлaть SMS c тeкcтoм infan нa нoмep ' + Html.RegExp('c тeкcтoм infan нa нoмep &lt;b&gt;(.*?)&lt;/b&gt;',1);
 					end;	
 		</error>
 		<cd_method>GET</cd_method>
