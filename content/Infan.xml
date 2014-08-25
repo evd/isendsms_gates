@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -64,7 +64,10 @@
 					else
 						Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;/b&gt;',1);
 						if (Result='Ha дaнный нoмep oтпpaвкa SMS-cooбщeний нe aктивиpoвaнa') then
+						begin
 							Result:=Result + '. Для aктивaции нoмepa нeoбxoдимo c нeгo пocлaть SMS c тeкcтoм infan нa нoмep ' + Html.RegExp('c тeкcтoм infan нa нoмep &lt;b&gt;(.*?)&lt;/b&gt;',1);
+							Result:=Result + '. Подробнее на http://infan.ru/faq/?14#a14';
+						end;	
 					end;	
 		</error>
 		<cd_method>GET</cd_method>
