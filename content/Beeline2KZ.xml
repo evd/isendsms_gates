@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>15</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -25,7 +25,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://beeline.kz/ru/mobile</pageurl>
-		<posturl>http://beeline.kz/ru/account/sms/deliver</posturl>
+		<posturl>http://beeline.kz/ru/account/sms</posturl>
 		<postdata>eval(
 						begin
 							PostData.Add('utf8','%E2%9C%93');
