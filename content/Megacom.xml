@@ -4,7 +4,7 @@
 	<caption>Megacom</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -16,7 +16,7 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<supportcheckdelivery>1</supportcheckdelivery>
+		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://megacom.kg/rus/freesms/</gateurl>
 	</info>
@@ -50,17 +50,5 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('Ваше сообщение принято к доставке абоненту'))</success>
 		<error>eval(Html.RegExp('&lt;ul class=&quot;errors&quot;&gt;&lt;li&gt;(.*?)&lt;/li&gt;&lt;/ul&gt;',1))</error>
-		<cd_method>GET</cd_method>
-		<cd_url>http://megacom.kg/rus/freesms/index/list/</cd_url>
-		<cd_success>eval(
-						begin
-							if Html.ExistsStr('в обработке') then
-								Result:='WAIT'
-							else Result:=HTML.ExistsStr('доставлено');
-						end;	
-					   )
-		</cd_success>
-		<cd_error>Ошибка при подтверждении статуса доставки</cd_error>
-							
 	</classprops>
 </gate>
