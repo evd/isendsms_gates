@@ -4,13 +4,14 @@
 	<caption>Акос</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="+7 90248"/>
 		<prefix start="+7 902505" end="+7 902506"/>
 		<prefix start="+7 95028" end="+7 95029"/>
+		<prefix start="+7 994000" end="+7 994014"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
