@@ -4,12 +4,13 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>12</version>
+	<version>13</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
 		<prefix start="7 920" end="7 934"/>
 		<prefix start="7 936" end="7 938"/>
+		<prefix start="+7 939 70" end="+7 939 75"/>
 		<prefix start="+7 997" end="+7 997"/>
 
 		<prefix start="+7 812 90" end="+7 812 91"/>
