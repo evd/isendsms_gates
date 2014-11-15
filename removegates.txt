@@ -60,3 +60,4 @@ SMSru,
 ItSoft,
 zaSMS,
 OwapRus,
+BeelineKZ,Beeline2KZ
