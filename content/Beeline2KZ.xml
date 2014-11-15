@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>15</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -19,12 +19,21 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>0</supportcheckdelivery>
-		<captcha>0</captcha>
+		<captcha>1</captcha>
 		<gateurl>http://beeline.kz/ru/mobile#help_and_services</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://beeline.kz/ru/mobile</pageurl>
+		<imageurl>eval(
+						begin
+							HTTP.Referer:='http://sendsms.megafon.ru/';
+							HTTP.HTTPMethod('GET','http://captcha.isendsms.ru/recaptcha/?k='+Html.RegExp('Recaptcha\.create\(&quot;(.*?)&quot;',1));
+							Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
+							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
+						end;
+					)	
+		</imageurl>
 		<posturl>http://beeline.kz/ru/account/sms</posturl>
 		<postdata>eval(
 						begin
@@ -35,6 +44,8 @@
 							if isAscii(SMS['Text']) then
 								PostData.Add('short_message[translit]','true');
 							PostData.Add('short_message[body]',SMS['Text']);
+							PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+							PostData.Add('recaptcha_response_field',SMS['Code']);
 						end;
 					)
 		</postdata>
