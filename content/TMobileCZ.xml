@@ -4,7 +4,7 @@
 	<caption>T-Mobile CZ</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Чешская Республика</country>
 	<prefixlist>
@@ -18,13 +18,13 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>0</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://sms.t-zones.cz/open.jsp</gateurl>
+		<gateurl>http://sms.t-mobile.cz/open.jsp</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://sms.t-zones.cz/open.jsp</pageurl>
-		<imageurl>http://sms.t-zones.cz/open/captcha.jpg</imageurl>
-		<posturl>http://sms.t-zones.cz/open.jsp</posturl>
+		<pageurl>http://sms.t-mobile.cz/open.jsp</pageurl>
+		<imageurl>http://sms.t-mobile.cz/open/captcha.jpg</imageurl>
+		<posturl>http://sms.t-mobile.cz/open.jsp</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('counter',Html.RegExp('name=&quot;counter&quot; value=&quot;(.*?)&quot;',1));
@@ -38,6 +38,6 @@
 					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('SMS was sent'))</success>
-		<error>eval(HTML.RegExp('&lt;div id=&quot;gt-errorWindow&quot;&gt;.*?&lt;ul&gt;.*?&lt;li&gt;(.*?)&lt;/li&gt;',1))</error>
+		<error>eval(HTML.RegExp('&lt;p class=&quot;text-red text-size-2&quot;&gt;(.*?)&lt;/p&gt;',1))</error>
 	</classprops>
 </gate>
