@@ -4,16 +4,16 @@
 	<caption>БиЛайн Грузия</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>10</priority>
 	<country>Грузия</country>
 	<prefixlist>
-		<prefix start="+995 68" format="3.2.6"/>
-		<prefix start="+995 71" format="3.2.6"/>
-		<prefix start="+995 74" format="3.2.6"/>
-		<prefix start="+995 79" format="3.2.6"/>
-		<prefix start="+995 92" format="3.2.6"/>
-		<prefix start="+995 97" format="3.2.6"/>
+		<prefix start="+995 568" format="3.3.6"/>
+		<prefix start="+995 571" format="3.3.6"/>
+		<prefix start="+995 574" format="3.3.6"/>
+		<prefix start="+995 579" format="3.3.6"/>
+		<prefix start="+995 592" format="3.3.6"/>
+		<prefix start="+995 597" format="3.3.6"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>100</maxsymbols>
@@ -27,14 +27,14 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://mobile.beeline.ge/ru/main/sms/send.wbp</pageurl>
-		<imageurl>http://mobile.beeline.ge/ru/main/sms/mamimg.aspx</imageurl>
-		<posturl>http://mobile.beeline.ge/ru/main/sms/send.wbp</posturl>
+		<pageurl>https://mobile.beeline.ge/ru/main/sms/send.wbp</pageurl>
+		<imageurl>https://mobile.beeline.ge/ru/main/sms/mamimg.aspx</imageurl>
+		<posturl>https://mobile.beeline.ge/ru/main/sms/send.wbp</posturl>
 		<postdata>eval(
 						begin
 							PostData.Add('send','');
 							PostData.Add('smstext',SMS['Text']);
-							PostData.Add('smstoprefix',SMS['Phone_Country']+SMS['Phone_Def']);
+							PostData.Add('smstoprefix',SMS['Phone_Def']);
 							PostData.Add('smsto',SMS['Phone_Number']);
 							PostData.Add('dirtysmstext',SMS['Text']);
 							if IsAscii(SMS['Text']) then
@@ -47,7 +47,7 @@
 						end;
 					)
 		</postdata>
-		<success>eval(HTML.ExistsStr('Сообщение перешло в режим ожидания'))</success>
+		<success>eval(HTML.ExistsStr('Message is in waiting status'))</success>
 		<error>eval(begin
 						Result:=Html.RegExp('&lt;DIV style=&quot;margin-bottom: 20px&quot; CLASS=&quot;err&quot;&gt;(.*?)&lt;/DIV&gt;',1);
 					end;		
@@ -56,7 +56,7 @@
 		<cd_delay>7000</cd_delay>
 		<cd_delta>3000</cd_delta>
 		<cd_maxcheckdelivery>20</cd_maxcheckdelivery>
-		<cd_posturl>http://mobile.beeline.ge/ru/main/sms/send.wbp</cd_posturl>
+		<cd_posturl>https://mobile.beeline.ge/ru/main/sms/send.wbp</cd_posturl>
 		<cd_postdata>eval(
 						begin
 							PostData.Add('smsid',Html.RegExp('name=&quot;smsid&quot; value=&quot;(.*?)&quot;>',1));
@@ -67,9 +67,9 @@
 		</cd_postdata>
 		<cd_success>eval(
 						begin
-							if Html.ExistsStr('Сообщение перешло в режим ожидания') then
+							if Html.ExistsStr('Message is in waiting status') then
 								Result:='WAIT'
-							else Result:=HTML.ExistsStr('Сообщение отправлено');
+							else Result:=HTML.ExistsStr('Message is sent');
 						end;	
 					   )
 		</cd_success>
