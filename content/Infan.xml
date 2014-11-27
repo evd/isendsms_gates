@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -62,7 +62,7 @@
 					if SMS['Delivery'] then
 						Result:=Html.RegExp('&lt;img src=/im/error\.gif width=16&gt;&lt;td&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1)
 					else
-						Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;/b&gt;',1);
+						Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;',1);
 						if (Result='Ha дaнный нoмep oтпpaвкa SMS-cooбщeний нe aктивиpoвaнa') then
 						begin
 							Result:=Result + '. Для aктивaции нoмepa нeoбxoдимo c нeгo пocлaть SMS c тeкcтoм infan нa нoмep ' + Html.RegExp('c тeкcтoм infan нa нoмep &lt;b&gt;(.*?)&lt;/b&gt;',1);
