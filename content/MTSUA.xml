@@ -4,7 +4,7 @@
 	<caption>МТС Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -34,6 +34,7 @@
 						begin
 							//Cookies['PHPSESSID']:=Html.RegExp('PHPSESSID=(.*?)&amp;',1);
 							PostData.UnsafeFormName:= '&lt;&gt;&quot;%{}|\^~`'+NonAsciiChar;
+							PostData.Add('YII_CSRF_TOKEN', Html.RegExp('value=&quot;(\w*)&quot; name=&quot;YII_CSRF_TOKEN&quot;',1));
 							PostData.Add('widgetId', 'messager');
 							PostData.Add('MessageForm[network]', SMS['Phone_Country'] + SMS['Phone_Def']);
 							PostData.Add('MessageForm[phone]', Copy(SMS['Phone_Number'],1,3) + '-' + Copy(SMS['Phone_Number'],4,2) + '-' + Copy(SMS['Phone_Number'],6,2));
