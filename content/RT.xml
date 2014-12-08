@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -48,6 +48,68 @@
 		<prefix start="+7 952640" end="+7 952664"/>
 		<prefix start="+7 952670" end="+7 952724"/>
 		<prefix start="+7 95382"/>
+
+		<prefix start="+7 900315" end="+7 900334"/>
+		<prefix start="+7 90204"/>
+		<prefix start="+7 90221"/>
+		<prefix start="+7 902230" end="+7 902234"/>
+		<prefix start="+7 902287" end="+7 902288"/>
+		<prefix start="+7 90230"/>
+		<prefix start="+7 902666" end="+7 902669"/>
+		<prefix start="+7 90268"/>
+		<prefix start="+7 90278"/>
+		<prefix start="+7 904240" end="+7 904244"/>
+		<prefix start="+7 904263" end="+7 904269"/>
+		<prefix start="+7 90466" end="+7 90467"/>
+		<prefix start="+7 90476"/>
+		<prefix start="+7 90478" end="+7 90479"/>
+		<prefix start="+7 904850" end="+7 904855"/>
+		<prefix start="+7 90490" end="+7 90492"/>
+		<prefix start="+7 90830"/>
+		<prefix start="+7 90854" end="+7 90855"/>
+		<prefix start="+7 90872" end="+7 90876"/>
+		<prefix start="+7 95031" end="+7 95032"/>
+		<prefix start="+7 95034" end="+7 95037"/>
+		<prefix start="+7 950945" end="+7 950949"/>
+		<prefix start="+7 950969"/>
+		<prefix start="+7 95105" end="+7 95106"/>
+		<prefix start="+7 951298" end="+7 951299"/>
+		<prefix start="+7 951340" end="+7 951343"/>
+		<prefix start="+7 951357" end="+7 951359"/>
+		<prefix start="+7 95188" end="+7 95191"/>
+		<prefix start="+7 95202" end="+7 95204"/>
+		<prefix start="+7 95207"/>
+		<prefix start="+7 95219"/>
+		<prefix start="+7 95246" end="+7 95247"/>
+
+		<prefix start="+7 953010" end="+7 953034"/>
+		<prefix start="+7 953400" end="+7 953410"/>
+		<prefix start="+7 953413" end="+7 953415"/>
+		<prefix start="+7 953444" end="+7 953447"/>
+		<prefix start="+7 95348" end="+7 95349"/>
+		<prefix start="+7 95363"/>
+		<prefix start="+7 953975" end="+7 953989"/>
+
+		<prefix start="7 902 00"/>
+		<prefix start="7 902 120" end="7 902 123"/>
+		<prefix start="7 902 125" end="7 902 129"/>
+		<prefix start="7 902 244" end="7 902 246"/>
+		<prefix start="7 902 355" end="7 902 357"/>
+		<prefix start="7 902 582"/>
+		<prefix start="7 902 588" end="7 902 589"/>
+		<prefix start="7 904 18" end="7 904 19"/>
+		<prefix start="7 908 470" end="7 908 491"/>
+		<prefix start="7 951 09"/>
+		<prefix start="7 8422"/>
+
+		<prefix start="+7 902247" end="+7 902248"/>
+		<prefix start="+7 902365" end="+7 902366"/>
+		<prefix start="+7 908320" end="+7 908324"/>
+		<prefix start="+7 95018"/>
+		<prefix start="+7 95103"/>
+		<prefix start="+7 95345"/>
+
+
 	</prefixlist>
 	<info>
 		<maxsymbols>300</maxsymbols>

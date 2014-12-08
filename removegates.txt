@@ -62,3 +62,5 @@ zaSMS,
 OwapRus,
 BeelineKZ,Beeline2KZ
 Life,
+NCC,RT
+NCCMMS,
