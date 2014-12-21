@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -122,10 +122,10 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.perm.rt.ru</pageurl>
+		<pageurl>http://perm.rt.ru/</pageurl>
 		<imageurl>eval(
 						begin
-							HTTP.Referer:='http://www.perm.rt.ru';
+							HTTP.Referer:='http://perm.rt.ru/';
 							HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
 							Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
 							Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
