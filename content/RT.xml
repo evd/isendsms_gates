@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -109,7 +109,7 @@
 		<prefix start="+7 95103"/>
 		<prefix start="+7 95345"/>
 
-
+		
 	</prefixlist>
 	<info>
 		<maxsymbols>300</maxsymbols>
@@ -118,62 +118,74 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://www.perm.rt.ru/services/sendsms</gateurl>
+		<gateurl>http://perm.rt.ru/#send-sms</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://www.perm.rt.ru/services/sendsms</pageurl>
+		<pageurl>http://www.perm.rt.ru</pageurl>
 		<imageurl>eval(
 						begin
-							HTTP.Referer:='http://www.perm.rt.ru/services/sendsms';
+							HTTP.Referer:='http://www.perm.rt.ru';
 							HTTP.HTTPMethod('GET','http://captcha.isendsms.ru/recaptcha/?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
 							Stored['challenge']:=Html.RegExp('challenge.*?:.*?''(.*?)''',1);
 							Result:='http://api.recaptcha.net/image?c='+Stored['challenge'];
 						end;
 					)	
 		</imageurl>
-		<posturl>http://www.perm.rt.ru/pages/proxySMS.jsp</posturl>
+		<posturl>http://perm.rt.ru/ajax/sms/send</posturl>
 		<postdata>eval(
-					var
-						DT: TDatetime;
-					begin
-						DT:=SMS['DeliveryTime'];
-						PostData.Add('action','ins');
-						PostData.Add('url','http://perm.u-tel.ru/pages/apps/addSMS3.jsp');
-						PostData.Add('mode','insSms');
-						PostData.Add('page','');
-						PostData.Add('delay_time','');
-						PostData.Add('offset_time','-'+VarToStr(TimeZoneBias));
-						PostData.Add('message_text_trans','');
-						PostData.Add('subsc_pwd','');
-						PostData.Add('phone_number_list','');
-						PostData.Add('phone_number',SMS['Phone']);
-						PostData.Add('phone_post_number','+7('+Copy(SMS['Phone'],2,3)+')'+Copy(SMS['Phone'],5,3)+'-'+Copy(SMS['Phone'],8,2) + '-' + Copy(SMS['Phone'],10,2));
-						PostData.Add('message_text',SMS['Text']);
-						PostData.Add('recaptcha_challenge_field',Stored['challenge']);
-						PostData.Add('recaptcha_response_field',SMS['Code']);
-						if SMS['Delivery'] then
-						begin
-							PostData.Add('delay_send','1');
-							PostData.Add('send_hour',FormatDateTime('hh',DT));
-							PostData.Add('send_minute',FormatDateTime('nn',DT));
-							PostData.Add('send_day',FormatDateTime('dd',DT));
-							PostData.Add('send_month',FormatDateTime('mm',DT));
-						end;
-						PostData.Add('auto_trans','');
-
-				end;
-					)
+			var
+				DT: TDatetime;
+			begin
+				DT:=SMS['DeliveryTime'];
+				PostData.Add('phone_number',SMS['Phone']);
+				PostData.Add('message_text',SMS['Text']);
+				PostData.Add('recaptcha_response_field',SMS['Code']);
+				PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+				PostData.Add('message_text_trans','');
+				if SMS['Delivery'] then
+				begin
+					//var delta = d_date.getTime() - n_date.getTime() - ((240 + d_date.getTimezoneOffset()) * 60 * 1000);
+					PostData.Add('delay_time','');
+					PostData.Add('delay_send','1');
+				end else
+					PostData.Add('delay_send','');
+				PostData.Add('region_id','28');
+				PostData.Add('offset_time','-'+VarToStr(TimeZoneBias));
+				PostData.Add('action','ins');
+				PostData.Add('mode','insSms');
+				PostData.Add('auto_trans','');
+				PostData.Add('page','');
+				PostData.Add('phone_number_list','');
+				PostData.Add('subsc_pwd','');
+			end;
+		)
 		</postdata>
-		<success>eval(HTML.ExistsStr('&lt;div id=''sms_send_result''&gt;0&lt;/div&gt;'))</success>
-		<error>eval(begin
-						if HTML.ExistsStr('&lt;div id=''sms_send_result''&gt;1&lt;/div&gt;') then
-							Result:='Неверно укзан код с картинки'
-						else if HTML.ExistsStr('&lt;div id=''sms_send_result''&gt;2&lt;/div&gt;') then	
-							Result:='Номер телефона указан в неверном формате'
-						else
-							Result:='Сообщение не может быть отправлено, на указанный номер';
-					end;	
-					)</error>
+		<success>eval(HTML.ExistsStr('&quot;result&quot;: &quot;0&quot;'))</success>
+		<error>eval(
+			var
+				Code: string;
+			begin
+            	Code := Html.RegExp('&quot;result&quot;: &quot;(.*?)&quot;', 1);
+            	if Code = '1' then
+            		Result := 'Неверно указан код с картинки'
+            	else if Code = '2' then
+            		Result := 'Номер телефона указан в неверном формате'
+            	else if Code = '3' then
+            		Result := 'Сообщение не может быть отправлено на указанный номер'
+            	else if Code = '4' then
+            		Result := 'Сообщение не принято к отправке'
+            	else if Code = '5' then
+            		Result := 'Сообщение не может быть отправлено на указанный номер'
+            	else if Code = '6' then
+            		Result := 'Отправка сообщения невозможна. Абонент заблокировал прием SMS сообщений через WEB-сервис'
+            	else if Code = '7' then
+            		Result := 'Отправка SMS-сообщений возможна только абонентам мобильной связи Ростелеком'
+            	else if Code = '8' then
+            		Result := 'Сообщение не содержит текст';
+            	if Result = '' then
+            		Result := 'Неизвестная ошибка';
+            end;		
+		)</error>
 	</classprops>
 </gate>
