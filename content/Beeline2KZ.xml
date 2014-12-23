@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>15</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -29,13 +29,14 @@
 						begin
 							Stored['authenticity_token']:=Html.RegExp('name=&quot;authenticity_token&quot;.*?value=&quot;(.*?)&quot;', 1);
 							HTTP.Referer:='http://www.beeline.kz/ru/mobile';
-							HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
+							HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('Recaptcha.create\(&quot;(.*?)&quot;',1));
 							Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
 							Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
 						end;
 					)	
 		</imageurl>
 		<posturl>http://www.beeline.kz/ru/account/sms</posturl>
+		<handlehttperrors>1</handlehttperrors>
 		<postdata>eval(
 						begin
 							HTTP.Headers['X-Requested-With']:='XMLHttpRequest';
@@ -56,7 +57,10 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('{}'))</success>
 		<error>eval(begin
-						Result:='Неизвестная ошибка';
+						if HTML.ExistsStr('invalid_capthca') then
+							Result:='Код введен неверно'
+						else	
+							Result:='Неизвестная ошибка';
 					end;		
 					)</error>
 	</classprops>
