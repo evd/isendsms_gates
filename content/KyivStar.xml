@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -29,6 +29,8 @@
 		<imageurl>eval(begin
 				HTTP.HTTPMethod('GET','http://smsgate.kyivstar.ua/_sms/ajax/?action=init&amp;callback=jsonCallback&amp;lang=ru&amp;_=' + VarToStr(DateTimeToUnix(Now())));
 				Stored['mid'] := HTML.RegExp('&quot;mid&quot;:&quot;(.*?)&quot;', 1);
+				if Stored['mid'] = '' then
+					Stored['error']:='Превышен лимит в 5 сообщений в сутки';
 				Result:= 'http://smsgate.kyivstar.ua/_sms/captcha/?mid=' + Stored['mid'] + '&amp;r=' + '0.' + RandomString('0123456789',8);
 			end;)
 		</imageurl>
@@ -36,6 +38,7 @@
 		<clickimage>1</clickimage>
 		<clickimagewidth>70</clickimagewidth>
 		<clickimageheight>70</clickimageheight>
+		<gateerror>eval(Stored['error'])</gateerror>
 		<proccessimage>eval(
 							var
 								x,y,srcy: integer;
