@@ -4,7 +4,7 @@
 	<caption>МТС Беларусь</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Беларусь</country>
 	<prefixlist>
@@ -19,7 +19,7 @@
 		<maxsymbols>160</maxsymbols>
 		<maxunicodesymbols>160</maxunicodesymbols>
 		<supportflash>0</supportflash>
-		<supportdtdelivery>1</supportdtdelivery>
+		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
@@ -34,7 +34,7 @@
 						var
 							DT: TDateTime;
 						begin
-							DT:=SMS['DeliveryTime']+(300-TimeZoneBias)*OneMinute;
+							DT:=Now()+6*OneHour;
 							PostData.Add('MMObjectType','0');
 							PostData.Add('isFree','1');
 							PostData.Add('MMObjectID','');
