@@ -4,7 +4,7 @@
 	<caption>Мотив</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>17</version>
+	<version>18</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -57,8 +57,8 @@
 				PostData.Add('smssend[phone]',Copy(SMS['Phone'],2,10));
 				PostData.Add('smssend[txt]',SMS['Text']);
 				PostData.Add('smssend[send_date]',FormatDateTime('dd.mm.yyyy',DT));
-				PostData.Add('smssend[hdelay]',FormatDateTime('hh',DT));
-				PostData.Add('smssend[mdelay]',FormatDateTime('nn',DT));
+				PostData.Add('smssend[hdelay]','0');
+				PostData.Add('smssend[mdelay]','0');
 				PostData.Add('recaptcha_challenge_field',Stored['challenge']);
 				PostData.Add('recaptcha_response_field',SMS['Code']);
 			end;)
