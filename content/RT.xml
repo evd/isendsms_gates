@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
+	<version>10</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -123,15 +123,7 @@
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://perm.rt.ru/</pageurl>
-		<imageurl>eval(
-						begin
-							HTTP.Referer:='http://perm.rt.ru/';
-							HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
-							Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
-							Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
-						end;
-					)	
-		</imageurl>
+		<imageurl>eval('http://rt.ru/captcha.png?rnd' + RandomString(DigitCaps,9))</imageurl>
 		<posturl>http://perm.rt.ru/ajax/sms/send</posturl>
 		<postdata>eval(
 			var
@@ -140,9 +132,8 @@
 				DT:=SMS['DeliveryTime'];
 				PostData.Add('phone_number',SMS['Phone']);
 				PostData.Add('message_text',SMS['Text']);
-				PostData.Add('recaptcha_response_field',SMS['Code']);
-				PostData.Add('recaptcha_challenge_field',Stored['challenge']);
 				PostData.Add('message_text_trans','');
+				PostData.Add('captcha', SMS['Code']);
 				if SMS['Delivery'] then
 				begin
 					//var delta = d_date.getTime() - n_date.getTime() - ((240 + d_date.getTimezoneOffset()) * 60 * 1000);
@@ -184,6 +175,8 @@
             	else if Code = '8' then
             		Result := 'Сообщение не содержит текст';
             	if Result = '' then
+            		Result:=Html.RegExp('&quot;errorMsg&quot;: &quot;(.*?)&quot;', 1);
+            	if Result = '' then	
             		Result := 'Неизвестная ошибка';
             end;		
 		)</error>
