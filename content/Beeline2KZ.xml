@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>15</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -57,9 +57,10 @@
 		</postdata>
 		<success>eval(HTML.ExistsStr('{}'))</success>
 		<error>eval(begin
-						if HTML.ExistsStr('invalid_capthca') then
-							Result:='Код введен неверно'
-						else	
+						Result:=HTML.RegExp('\[&quot;(.*?)&quot;\]',1);
+						if Result='invalid_capthca' then
+							Result:='Код введен неверно';
+						if Result='' then
 							Result:='Неизвестная ошибка';
 					end;		
 					)</error>
