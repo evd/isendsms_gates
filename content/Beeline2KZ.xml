@@ -4,7 +4,7 @@
 	<caption>БиЛайн Казахстан 2</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>15</priority>
 	<country>Казахстан</country>
 	<prefixlist>
@@ -13,8 +13,8 @@
 		<prefix start="+7 705"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>160</maxsymbols>
-		<maxunicodesymbols>70</maxunicodesymbols>
+		<maxsymbols>135</maxsymbols>
+		<maxunicodesymbols>45</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
