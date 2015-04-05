@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>20</version>
+	<version>21</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -26,78 +26,94 @@
 		<maxsymbols>150</maxsymbols>
 		<maxunicodesymbols>150</maxunicodesymbols>
 		<supportflash>0</supportflash>
-		<supportdtdelivery>1</supportdtdelivery>
+		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
 		<supportcheckdelivery>1</supportcheckdelivery>
-		<gateurl>http://sendsms.megafon.ru/</gateurl>
+		<gateurl>http://moscow.megafon.ru/help/info/message/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>https://sendsms.megafon.ru</pageurl>
+		<pageurl>http://moscow.megafon.ru/help/info/message/</pageurl>
 		<imageurl>eval(
-						begin
-							HTTP.Referer:='http://sendsms.megafon.ru/';
-							HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('challenge\?k=(.*?)&quot;',1));
-							Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
-							Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
-						end;
-					)	
-		</imageurl>
-		<posturl>https://sendsms.megafon.ru/sms.action</posturl>
-		<multipart>1</multipart>
+			begin
+				HTTP.Referer := 'http://moscow.megafon.ru/help/info/message/';
+				HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
+				PostData.Add('action', 'get_code');
+				HTTP.HttpMethod('POST', 'http://moscow.megafon.ru/captcha/');
+				Stored['Captcha_key'] := HTML.Text;
+				Result := 'http://moscow.megafon.ru/captcha/' + Stored['Captcha_key'] + '/';
+			end;)
+		</imageurl>	
+		<posturl>http://moscow.megafon.ru/sms.json</posturl>
 		<postdata>eval(
-						var
-							DT: TDateTime;
-							Prefix: string;
-						begin
-							DT:=AdjustTimeZone(SMS['DeliveryTime'],240,true);
-							if SMS['Phone_Def']='812' then
-								Prefix:='921'
-							else if SMS['Phone_Def']='495' then
-								Prefix:='925'
-							else
-								Prefix:=SMS['Phone_Def'];
-							PostData.Add('charcheck',HTML.RegExp('name=&quot;charcheck&quot;   value=&quot;(.*?)&quot;',1));
-							PostData.Add('lang',HTML.RegExp('name=&quot;lang&quot;   value=&quot;(.*?)&quot;',1));
-							PostData.Add('prefix',SMS['Phone_Country']+Prefix);
-							PostData.Add('addr',SMS['Phone_Number']);
-							PostData.Add('message',SMS['Text']);
-							if SMS['Delivery'] then
-								PostData.Add('send_after_flag','on');
-							PostData.Add('send_day',FormatDateTime('d',DT));
-							PostData.Add('send_month',FormatDateTime('m',DT));
-							PostData.Add('send_hour',FormatDateTime('h',DT));
-							PostData.Add('send_minute',FormatDateTime('n',DT));
-							PostData.Add('send_year',FormatDateTime('yyyy',DT));
-							PostData.Add('recaptcha_challenge_field',Stored['challenge']);
-							PostData.Add('recaptcha_response_field',SMS['Code']);
-						end;
-					)
+			var
+				DT: TDateTime;
+			begin
+				DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
+				PostData.Add('phone', '+7+' + SMS['Phone_Def'] + '+' + Copy(SMS['Phone_Number'], 1,3) + '+' + Copy(SMS['Phone_Number'], 4,2) + '+' + Copy(SMS['Phone_Number'], 6,2));
+				PostData.Add('message',SMS['Text']);
+				if SMS['Delivery'] then
+				begin
+					PostData.Add('shedule_date', FormatDateTime('dd.mm.yyyy',DT));
+					PostData.Add('shedule_time', FormatDateTime('hh+++nn',DT));
+				end else
+					PostData.Add('shedule_date', '');
+					PostData.Add('shedule_time', '');
+				begin
+				end;
+				PostData.Add('__captcha[codekey]', Stored['Captcha_key']);
+				PostData.Add('__captcha[codeval]', SMS['Code']);
+				PostData.Add('action', 'sendsms');
+			end;)
 		</postdata>
-		<handleredirects>1</handleredirects>
-		<success>eval(Html.ExistsStr('Проверить статус'))</success>
-		<error>eval(begin
-						if Stored['Error']&lt;&gt;'' then
-							Result:=Stored['Error']
-						else	
-							Result:=HTML.RegExp('&lt;h1 class=&quot;error&quot;&gt;(.*?)&lt;/h1&gt;',1);
-					end;		
-		)</error>
-		<cd_method>GET</cd_method>
-		<cd_url>https://sendsms.megafon.ru/send/status/</cd_url>
-		<cd_success>eval(begin
-							if Html.ExistsStr('Сообщение в процессе доставки') then
-								Result:='WAIT'
-							else Result:=HTML.ExistsStr('Сообщение доставлено');	
-						end;
-					)
+		<success>eval(
+			begin
+				Result:=Html.ExistsStr('&quot;type&quot;:&quot;sms&quot;');
+				Stored['cd_cookie_value'] := Html.Text;
+			end;)
+		</success>
+		<error>eval(
+			begin
+				if Html.ExistsStr('captcha') then
+					Result := 'Неправильно введены символы с картинки'
+				else if Html.ExistsStr('phone') then
+					Result := 'Некорректно введен номер телефона'
+				else if Html.ExistsStr('message') then
+					Result := 'Некорректно введено сообщение'
+				else if Html.ExistsStr('server') then
+					Result := 'Произошла ошибка на сервер оператора. Попробуйте позже.'
+				else 
+					Result := 'Неизвестная ошибка';
+			end;)
+		</error>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://moscow.megafon.ru/sms.json</cd_posturl>
+		<cd_postdata>eval(
+			begin
+				Cookies['sendsms_uk'] := EncodeFormElemEx(Stored['cd_cookie_value'], NonAsciiChar + URLSpecialChar + URLFullSpecialChar + ',');
+				PostData.Add('action', 'statussms');
+			end;)
+		</cd_postdata>
+		<cd_success>eval(
+			var
+				Status: string;
+			begin
+				if not Html.ExistsStr('&quot;type&quot;:&quot;sms&quot;') then
+					Result:=false
+				else begin
+					Status := Html.RegExp('&quot;status&quot;:&quot;(.*?)&quot;',1);
+					if (Status = '') or (Status = '30') then
+						Result:=true
+					else	
+						Result:='WAIT';
+				end;	
+			end;)
 		</cd_success>
-		<cd_error>eval(begin
-						Result:=Html.RegExp('&lt;label&gt;состояние&lt;/label&gt;&lt;p.*?&gt;(.*?)&lt;/p&gt;',1);
-						if Result='' then
-							Result:='Ошибка при проверке подтверждения доставки';
-					end;)
+		<cd_error>eval(
+			begin
+				Result:='Ошибка при проверке подтверждения доставки';
+			end;	
 		</cd_error>
 	</classprops>
 </gate>
