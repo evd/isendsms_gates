@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>22</version>
+	<version>23</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -29,7 +29,7 @@
 		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<supportcheckdelivery>0</supportcheckdelivery>
+		<supportcheckdelivery>1</supportcheckdelivery>
 		<gateurl>http://moscow.megafon.ru/help/info/message/</gateurl>
 	</info>
 	<classprops>
@@ -37,21 +37,23 @@
 		<pageurl>http://moscow.megafon.ru/help/info/message/</pageurl>
 		<imageurl>eval(
 			begin
-				HTTP.Referer := 'http://moscow.megafon.ru/help/info/message/';
-				HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
-				PostData.Add('action', 'get_code');
-				HTTP.HttpMethod('POST', 'http://moscow.megafon.ru/captcha/');
-				Stored['Captcha_key'] := HTML.Text;
-				Result := 'http://moscow.megafon.ru/captcha/' + Stored['Captcha_key'] + '/';
-			end;)
-		</imageurl>	
-		<posturl>http://moscow.megafon.ru/sms.json</posturl>
+				HTTP.Referer:='http://moscow.megafon.ru/help/info/message/';
+				HTTP.HTTPMethod('GET', 'http://moscow.megafon.ru/api/sms/captcha');
+				HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('&quot;pub&quot;:&quot;(.*?)&quot;',1));
+				Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
+				Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
+			end;)	
+		</imageurl>
+		<posturl>http://moscow.megafon.ru/api/sms/send</posturl>
 		<postdata>eval(
 			var
 				DT: TDateTime;
 			begin
 				DT:=AdjustTimeZone(SMS['DeliveryTime'],180,true);
-				PostData.Add('phone', '+7+' + SMS['Phone_Def'] + '+' + Copy(SMS['Phone_Number'], 1,3) + '+' + Copy(SMS['Phone_Number'], 4,2) + '+' + Copy(SMS['Phone_Number'], 6,2));
+				HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
+				HTTP.Headers.RemoveNamed('Accept');
+				HTTP.Headers['Accept']:='application/json, text/javascript, */*; q=0.01';
+				PostData.Add('addr', SMS['Phone_Def'] + SMS['Phone_Number']);
 				PostData.Add('message',SMS['Text']);
 				if SMS['Delivery'] then
 				begin
@@ -62,15 +64,14 @@
 					PostData.Add('shedule_time', '');
 				begin
 				end;
-				PostData.Add('__captcha[codekey]', Stored['Captcha_key']);
-				PostData.Add('__captcha[codeval]', SMS['Code']);
-				PostData.Add('action', 'sendsms');
+				PostData.Add('recaptcha_challenge_field',Stored['challenge']);
+				PostData.Add('recaptcha_response_field',SMS['Code']);
 			end;)
 		</postdata>
 		<success>eval(
 			begin
-				Result:=Html.ExistsStr('&quot;type&quot;:&quot;sms&quot;');
-				Stored['cd_cookie_value'] := Html.Text;
+				Result:=Html.ExistsStr('&quot;unique_key&quot;');
+				Stored['unique_key'] := Html.RegExp('&quot;unique_key&quot;:&quot;(.*?)&quot;', 1);
 			end;)
 		</success>
 		<error>eval(
@@ -79,27 +80,32 @@
 					Result := 'Неправильно введены символы с картинки'
 				else if Html.ExistsStr('phone') then
 					Result := 'Некорректно введен номер телефона'
+				else if Html.ExistsStr('non-mf') then
+					Result := 'Номер не принадлежит Мегафону'
 				else if Html.ExistsStr('message') then
 					Result := 'Некорректно введено сообщение'
+				else if Html.ExistsStr('black-words') then
+					Result := 'Сообщение нарушает правила пользовательского соглашения и не будет отправлено'
 				else if Html.ExistsStr('server') then
 					Result := 'Произошла ошибка на сервер оператора. Попробуйте позже.'
+				else if Html.ExistsStr('datetime') then
+					Result := 'Неверно указана дата или время'
 				else 
 					Result := 'Неизвестная ошибка';
 			end;)
 		</error>
 		<cd_method>POST</cd_method>
-		<cd_posturl>http://moscow.megafon.ru/sms.json</cd_posturl>
+		<cd_posturl>http://moscow.megafon.ru/api/sms/status</cd_posturl>
 		<cd_postdata>eval(
 			begin
-				Cookies['sendsms_uk'] := EncodeFormElemEx(Stored['cd_cookie_value'], NonAsciiChar + URLSpecialChar + URLFullSpecialChar + ',');
-				PostData.Add('action', 'statussms');
+				PostData.Add('unique_key', Stored['unique_key']);
 			end;)
 		</cd_postdata>
 		<cd_success>eval(
 			var
 				Status: string;
 			begin
-				if not Html.ExistsStr('&quot;type&quot;:&quot;sms&quot;') then
+				if (not Html.ExistsStr('&quot;unique_key&quot;')) or (Html.ExistsStr('&quot;errors&quot;')) then
 					Result:=false
 				else begin
 					Status := Html.RegExp('&quot;status&quot;:&quot;(.*?)&quot;',1);
