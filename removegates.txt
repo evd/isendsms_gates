@@ -64,3 +64,4 @@ BeelineKZ,Beeline2KZ
 Life,
 NCC,RT
 NCCMMS,
+MTSUZ,UMSUZ
