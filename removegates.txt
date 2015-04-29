@@ -60,9 +60,9 @@ SMSru,
 ItSoft,
 zaSMS,
 OwapRus,
-BeelineKZ,Beeline2KZ
 Life,
 NCC,RT
 NCCMMS,
 MTSUZ,UMSUZ
 GastroGuideDE,
+Beeline2KZ, BeelineKZ

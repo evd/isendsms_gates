@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>Beeline2KZ</name>
+	<caption>БиЛайн Казахстан 2</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>9</version>
+	<priority>15</priority>
+	<country>Казахстан</country>
+	<prefixlist>
+		<prefix start="+7 771"/>
+		<prefix start="+7 776" end="+7 777"/>
+		<prefix start="+7 705"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>135</maxsymbols>
+		<maxunicodesymbols>45</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://www.beeline.kz/ru/mobile#help_and_services</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://www.beeline.kz/ru/mobile</pageurl>
+		<imageurl>eval(
+			begin
+				HTTP.Referer:='http://www.beeline.kz/ru/mobile';
+				Stored['key'] := Html.RegExp('data-sitekey=&quot;(.*?)&quot;',1);
+				HTTP.HTTPMethod('GET', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
+				Stored['challenge'] := Html.RegExp('name=&quot;c&quot; value=&quot;(.*?)&quot;', 1);
+				Result := 'www.google.com' + ReplaceStr(Html.RegExp('src=&quot;(.*?)&quot;', 1), 'amp;', '');
+			end;)	
+		</imageurl>
+		<posturl>http://www.beeline.kz/ru/account/sms</posturl>
+		<handlehttperrors>1</handlehttperrors>
+		<postdata>eval(
+			var
+				CaptchaResponse: string;
+			begin
+				PostData.Add('c',Stored['challenge']);
+				PostData.Add('response',SMS['Code']);
+				Http.HTTPMethod('POST', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
+				CaptchaResponse := Html.RegExp('&lt;textarea.*?onclick=&quot;this.select\(\)&quot;&gt;(.*?)&lt;/textarea&gt;', 1);
+				HTTP.Headers['X-Requested-With']:='XMLHttpRequest';
+				HTTP.Headers['X-CSRF-Token']:=Stored['authenticity_token'];
+				HTTP.Headers.RemoveNamed('Accept');
+				HTTP.Headers['Accept']:='application/json, text/javascript, */*; q=0.01';
+				PostData.AddRawData('utf8=%E2%9C%93');
+				//PostData.Add('authenticity_token',Stored['authenticity_token']);
+				PostData.Add('short_message[code]',SMS['Phone_Def']);
+				PostData.Add('short_message[phone_number]',SMS['Phone_Number']);
+				if isAscii(SMS['Text']) then
+					PostData.Add('short_message[translit]','true');
+				PostData.Add('short_message[body]',SMS['Text']);
+				PostData.Add('g-recaptcha-response',CaptchaResponse);
+			end;)
+		</postdata>
+		<success>eval(HTML.ExistsStr('{}'))</success>
+		<error>eval(begin
+						Result:=HTML.RegExp('\[&quot;(.*?)&quot;\]',1);
+						if Result='invalid_capthca' then
+							Result:='Код введен неверно';
+						if Result='' then
+							Result:='Неизвестная ошибка';
+					end;		
+					)</error>
+	</classprops>
+</gate>
