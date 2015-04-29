@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>13</version>
+	<version>14</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -22,34 +22,47 @@
 		<prefix start="7 495 771" end="7 495 772"/>
 	</prefixlist>
 	<info>
-		<maxsymbols>1000</maxsymbols>
-		<maxunicodesymbols>1000</maxunicodesymbols>
+		<maxsymbols>150</maxsymbols>
+		<maxunicodesymbols>150</maxunicodesymbols>
 		<maxsubjectsymbols>30</maxsubjectsymbols>
 		<supportflash>0</supportflash>
-		<supportdtdelivery>0</supportdtdelivery>
+		<supportdtdelivery>1</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>https://sendmms.megafon.ru</gateurl>
 		<supportcheckdelivery>1</supportcheckdelivery>
+		<gateurl>http://moscow.megafon.ru/help/info/message/</gateurl>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>1</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<captcha>1</captcha>
 		<supportmultimedia>1</supportmultimedia>
-		<supportaudio>1</supportaudio>
+		<supportaudio>0</supportaudio>
 		<supportimage>1</supportimage>
 		<multimediacount>1</multimediacount>
-		<maxmultimediasize>102400</maxmultimediasize>
+		<maxmultimediasize>81920</maxmultimediasize>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<multipart>1</multipart>
-		<pageurl>https://sendmms.megafon.ru</pageurl>
-		<imageurl>eval('https://sendmms.megafon.ru/captcha/'+Html.RegExp('captcha/(.*?)&quot;',1))</imageurl>
-		<posturl>https://sendmms.megafon.ru/action.phtml</posturl>
-		<handleredirects>0</handleredirects>
+		<pageurl>http://moscow.megafon.ru/help/info/message/</pageurl>
+		<imageurl>eval(
+			begin
+				HTTP.HTTPMethod('GET', 'http://moscow.megafon.ru/api/mms/captcha');
+				Stored['captcha_key'] := Html.RegExp('&quot;key&quot;:(.*?),', 1);
+				Result:='http://moscow.megafon.ru/api/mms/' + ReplaceStr(Html.RegExp('&quot;url&quot;:&quot;(.*?)&quot;', 1), '\/', '/');
+			end;
+			)
+		</imageurl>
+		<posturl>http://moscow.megafon.ru/api/mms/send</posturl>
 		<postdata>eval(
 					begin
+						HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
+						HTTP.Headers.RemoveNamed('Accept');
+						HTTP.Headers['Accept']:='application/json, text/javascript, */*; q=0.01';
+
 						PostData.Add('selectedTab','dir-image');
 						PostData.Add('selImage','-1');
 						PostData.Add('selVideo','-1');
-						PostData.Add('selAudio','-1');
 						PostData.Add('preview','');
 						PostData.Add('delete_img','');
 						PostData.Add('area','mms');
@@ -59,52 +72,70 @@
 						PostData.Add('number',MMS['Phone_Number']);
 						PostData.Add('subject',MMS['Subject']);
 						PostData.Add('body',MMS['Text']);
+						PostData.Add('MAX_FILE_SIZE','4000000');
+						PostData.Add('imagesize','0');
 						PostData.Add('imagetext','');
 						PostData.Add('fontsize','9');
 						PostData.Add('fontcolor','Черный');
-						PostData.Add('MAX_FILE_SIZE','4000000');
+						PostData.Add('captcha_key', Stored['captcha_key']);
+						PostData.Add('captcha',MMS['Code']);
 						if Assigned(MMS['MultiMedia']) then
 							PostData.AddData('uploaded_file',MMS['MultiMedia']);
-						PostData.Add('imageSize','0');
-						PostData.Add('captcha_key',HTML.RegExp('name=&quot;captcha_key&quot; value=&quot;(.*?)&quot;',1));
-						PostData.Add('captcha',MMS['Code']);
 					end;
 					)
 		</postdata>
-		<success>eval(Pos('view=sent',HTTP['Location'])>0)</success>
+		<success>eval(
+			begin
+				Result:=Html.ExistsStr('&quot;unique_key&quot;');
+				Stored['unique_key'] := Html.RegExp('&quot;unique_key&quot;:&quot;(.*?)&quot;', 1);
+			end;)
+		</success>
 		<error>eval(
-				begin
-					if Pos('captcha',HTTP['error'])>0 then
-						Result:='Неправильный код потверждения'
-					else if Pos('msisdn',HTTP['error'])>0 then
-						Result:='Неверный номер получателя'
-					else if Pos('size',HTTP['error'])>0 then
-						Result:='Общий вес сообщения не должен превышать 100Кбайт'
-					else if Pos('file',HTTP['error'])>0 then
-						Result:='Данный файл не может быть отправлен'
-					else if Pos('ip',HTTP['error'])>0 then
-						Result:='Вы превысили допустимый лимит на отправку сообщений (одно сообщение в минуту; десять сообщений в час)'
-					else if Pos('bl_subject',HTTP['error'])>0 then
-						Result:='Тема содержит недопустимые слова'
-					else if Pos('bl_body',HTTP['error'])>0 then
-						Result:='Текст содержит недопустимые слова'
-					else
-						Result:='Неизвестная ошибка отправки';
-				end;
-				)
+			begin
+				if Html.ExistsStr('captcha') then
+					Result := 'Неправильно введены символы с картинки'
+				else if Html.ExistsStr('phone') then
+					Result := 'Некорректно введен номер телефона'
+				else if Html.ExistsStr('non-mf') then
+					Result := 'Номер не принадлежит Мегафону'
+				else if Html.ExistsStr('message') then
+					Result := 'Некорректно введено сообщение'
+				else if Html.ExistsStr('black-words') then
+					Result := 'Сообщение нарушает правила пользовательского соглашения и не будет отправлено'
+				else if Html.ExistsStr('server') then
+					Result := 'Произошла ошибка на сервер оператора. Попробуйте позже.'
+				else if Html.ExistsStr('datetime') then
+					Result := 'Неверно указана дата или время'
+				else 
+					Result := 'Неизвестная ошибка';
+			end;)
 		</error>
-		<cd_method>GET</cd_method>
-		<cd_url>https://sendmms.megafon.ru/?view=status</cd_url>
+		<cd_method>POST</cd_method>
+		<cd_posturl>http://moscow.megafon.ru/api/mms/status</cd_posturl>
+		<cd_postdata>eval(
+			begin
+				PostData.Add('unique_key', Stored['unique_key']);
+			end;)
+		</cd_postdata>
 		<cd_success>eval(
-							begin
-								if HTML.ExistsStr('Сообщение поставлено в очередь') then
-									Result:='WAIT'
-								else if HTML.ExistsStr('Сообщение в процессе доставки') then
-									Result:='WAIT'
-								else Result:=HTML.ExistsStr('Сообщение доставлено');
-							end;
-						)
+			var
+				Status: string;
+			begin
+				if (not Html.ExistsStr('&quot;unique_key&quot;')) or (Html.ExistsStr('&quot;errors&quot;')) then
+					Result:=false
+				else begin
+					Status := Html.RegExp('&quot;status&quot;:&quot;(.*?)&quot;',1);
+					if (Status = '') or (Status = '30') then
+						Result:=true
+					else	
+						Result:='WAIT';
+				end;	
+			end;)
 		</cd_success>
-		<cd_error>Ошибка подтверждения доставки</cd_error>
+		<cd_error>eval(
+			begin
+				Result:='Ошибка при проверке подтверждения доставки';
+			end;	
+		</cd_error>
 	</classprops>
 </gate>
