@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gate>
-	<name>Beeline2KZ</name>
-	<caption>БиЛайн Казахстан 2</caption>
+	<name>BeelineKZ</name>
+	<caption>БиЛайн Казахстан</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>9</version>
-	<priority>15</priority>
+	<version>10</version>
+	<priority>10</priority>
 	<country>Казахстан</country>
 	<prefixlist>
 		<prefix start="+7 771"/>
