@@ -63,8 +63,7 @@
 		<imageurl>eval(
 			begin
 				HTTP.Referer:='http://www.etk.ru/etc_send_sms';
-				HTTP.HTTPMethod('GET', 'http://moscow.megafon.ru/api/sms/captcha');
-				Stored['key'] := Html.RegExp('&quot;pub&quot;:&quot;(.*?)&quot;',1);
+				Stored['key'] := Html.RegExp('challenge\?k=(.*?)&quot;',1);
 				HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+ Stored['key'] + '&amp;cachestop=0.' + RandomString('0123456789', 17));
 				Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
 				HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/reload?c=' + Stored['challenge'] + '&amp;k=' + Stored['key'] + '&amp;reason=i&amp;type=image&amp;lang=ru');
