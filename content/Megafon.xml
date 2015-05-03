@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>23</version>
+	<version>24</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -39,9 +39,12 @@
 			begin
 				HTTP.Referer:='http://moscow.megafon.ru/help/info/message/';
 				HTTP.HTTPMethod('GET', 'http://moscow.megafon.ru/api/sms/captcha');
-				HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+Html.RegExp('&quot;pub&quot;:&quot;(.*?)&quot;',1));
+				Stored['key'] := Html.RegExp('&quot;pub&quot;:&quot;(.*?)&quot;',1);
+				HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/challenge?k='+ Stored['key'] + '&amp;cachestop=0.' + RandomString('0123456789', 17));
 				Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
-				Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
+				HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/reload?c=' + Stored['challenge'] + '&amp;k=' + Stored['key'] + '&amp;reason=i&amp;type=image&amp;lang=ru');
+				Stored['challenge']:=Html.RegExp('finish_reload\(''(.*?)''',1);
+				Result:='https://www.google.com/recaptcha/api/image?c='+Stored['challenge'];
 			end;)	
 		</imageurl>
 		<posturl>http://moscow.megafon.ru/api/sms/send</posturl>
