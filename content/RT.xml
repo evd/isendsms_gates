@@ -4,7 +4,7 @@
 	<caption>Ростелеком</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>10</version>
+	<version>11</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -121,6 +121,7 @@
 		<gateurl>http://perm.rt.ru/#send-sms</gateurl>
 	</info>
 	<classprops>
+		<error_unsupport>Ростелеком убрал с сайта форму отправки СМС. Возможно временно. В данный момент отправить можно только через Infan</error_unsupport>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://perm.rt.ru/</pageurl>
 		<imageurl>eval('http://rt.ru/captcha.png?rnd' + RandomString(DigitCaps,9))</imageurl>
