@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>11</version>
+	<version>14</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -21,61 +21,58 @@
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
 		<gateurl>http://www.kyivstar.ua/ru/kr/sms/</gateurl>
-		<supportautorecognize>0</supportautorecognize>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.kyivstar.ua/ru/kr/sms/</pageurl>
-		<imageurl>eval(begin
+		<imageurl>eval(
+			begin
+				Stored['key'] := Html.RegExp('data-sitekey=&quot;(.*?)&quot;',1);
+
 				HTTP.HTTPMethod('GET','http://smsgate.kyivstar.ua/_sms/ajax/?action=init&amp;callback=jsonCallback&amp;lang=ru&amp;_=' + VarToStr(DateTimeToUnix(Now())));
 				Stored['mid'] := HTML.RegExp('&quot;mid&quot;:&quot;(.*?)&quot;', 1);
 				if Stored['mid'] = '' then
 					Stored['error']:='Превышен лимит в 5 сообщений в сутки';
-				Result:= 'http://smsgate.kyivstar.ua/_sms/captcha/?mid=' + Stored['mid'] + '&amp;r=' + '0.' + RandomString('0123456789',8);
-			end;)
+
+				HTTP.Referer:='http://www.kyivstar.ua/ru/kr/sms/';
+				HTTP.HTTPMethod('GET', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
+				Stored['challenge'] := Html.RegExp('name=&quot;c&quot; value=&quot;(.*?)&quot;', 1);
+				Result := 'www.google.com' + ReplaceStr(Html.RegExp('src=&quot;(.*?)&quot;', 1), 'amp;', '');
+			end;)	
 		</imageurl>
-		<imagedescription>Укажите картинки живой природы</imagedescription>
-		<clickimage>1</clickimage>
-		<clickimagewidth>70</clickimagewidth>
-		<clickimageheight>70</clickimageheight>
 		<gateerror>eval(Stored['error'])</gateerror>
-		<proccessimage>eval(
-							var
-								x,y,srcy: integer;
-							begin
-								Img.SetSize(350,140);
-								for y:=0 to 1 do
-									for x:=0 to 4 do
-									begin
-										if srcy&gt;=630 then break;
-										Img.CopyRect(x*70,y*70,Bounds(0,srcy,70,70));
-										srcy:=srcy+70;
-									end;
-							end;
-						)
-		</proccessimage>
 		<posturl>http://www.kyivstar.ua/_ajax/sms/?action=send</posturl>
 		<postdata>eval(
-						var
-							i: integer;
-							Code: string;
-						begin
-							//Сортируем цифры в коде
-							Code := '';
-							for i:=1 to 9 do
-							begin
-								if Pos(VarToStr(i), SMS['Code'])>0 then
-									Code:=Code + VarToStr(i);
-							end;
+			var
+				i: integer;
+				Code: string;
+				CaptchaResponse: string;
+			begin
+				PostData.Add('c',Stored['challenge']);
+				PostData.Add('response',SMS['Code']);
+				Http.HTTPMethod('POST', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
+				CaptchaResponse := Html.RegExp('&lt;textarea.*?onclick=&quot;this.select\(\)&quot;&gt;(.*?)&lt;/textarea&gt;', 1);
 
-							PostData.Add('code','0'+SMS['Phone_Def']);
-							PostData.Add('phone',SMS['Phone_Number']);
-							PostData.Add('message',SMS['Text']);
-							PostData.Add('is_cyrillic',iff(isAscii(SMS['Text']),'0','1'));
-							PostData.Add('mid',Stored['mid']);
-							PostData.Add('captcha',Code);
-						end;
-					)
+				HTTP.Headers['X-Requested-With']:='XMLHttpRequest';
+				HTTP.Headers['X-CSRF-Token']:=Stored['authenticity_token'];
+				HTTP.Headers.RemoveNamed('Accept');
+				HTTP.Headers['Accept']:='application/json, text/javascript, */*; q=0.01';
+
+				//Сортируем цифры в коде
+				Code := '';
+				for i:=1 to 9 do
+				begin
+					if Pos(VarToStr(i), SMS['Code'])>0 then
+						Code:=Code + VarToStr(i);
+				end;
+
+				PostData.Add('code','0'+SMS['Phone_Def']);
+				PostData.Add('phone',SMS['Phone_Number']);
+				PostData.Add('message',SMS['Text']);
+				PostData.Add('is_cyrillic',iff(isAscii(SMS['Text']),'0','1'));
+				PostData.Add('g-recaptcha-response',CaptchaResponse);
+				PostData.Add('mid',Stored['mid']);
+			end;)
 		</postdata>
 		<success>eval(begin
 						Result:=HTML.ExistsStr('&quot;mid&quot;');
@@ -95,13 +92,13 @@
 				else if Error = 'denied-mobile-number' then
 					Result:='Отправка SMS с сайта заблокирована по просьбе собственника телефона.'
 				else if Error = 'denied-content' then
-					Result:='Помилка'
+					Result:='Ошибка'
 				else if Error = 'sms-length-overflow' then
 					Result:='Сообщение слишком длинное'
 				else if Error = 'error-while-sending' then
 					Result:='Произошла ошибка.'
 				else if Error = 'captcha-is-wrong' then
-					Result:='Картинки живой природы выбраны неверно'
+					Result:='Код с изображения введен неверно'
 				else if Error = 'cpi-error' then
 					Result:='Во время отправления SMS произошла ошибка'
 				else if Error = 'sms-session-expired' then
