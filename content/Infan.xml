@@ -4,7 +4,7 @@
 	<caption>Infan</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>8</version>
+	<version>9</version>
 	<priority>4</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -58,17 +58,15 @@
 			 	end;	
 				)
 		</success>
-		<error>eval(begin
-					if SMS['Delivery'] then
-						Result:=Html.RegExp('&lt;img src=/im/error\.gif width=16&gt;&lt;td&gt;&lt;b&gt;(.*?)&lt;/b&gt;',1)
-					else
-						Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;',1);
-						if (Result='Ha дaнный нoмep oтпpaвкa SMS-cooбщeний нe aктивиpoвaнa') then
-						begin
-							Result:=Result + '. Для aктивaции нoмepa нeoбxoдимo c нeгo пocлaть SMS c тeкcтoм infan нa нoмep ' + Html.RegExp('c тeкcтoм infan нa нoмep &lt;b&gt;(.*?)&lt;/b&gt;',1);
-							Result:=Result + '. Подробнее на http://infan.ru/faq/?14#a14';
-						end;	
-					end;	
+		<error>eval(
+			begin
+				Result:=Html.RegExp('&lt;b class=&quot;r&quot;&gt;(.*?)&lt;',1);
+				if (Result='Ha дaнный нoмep oтпpaвкa SMS-cooбщeний нe aктивиpoвaнa') then
+				begin
+					Result:=Result + '. Для aктивaции нoмepa нeoбxoдимo c нeгo пocлaть SMS c тeкcтoм infan нa нoмep ' + Html.RegExp('c тeкcтoм infan нa нoмep &lt;b&gt;(.*?)&lt;/b&gt;',1);
+					Result:=Result + '. Подробнее на http://infan.ru/faq/?14#a14';
+				end;	
+			end;)
 		</error>
 		<cd_method>GET</cd_method>
 		<cd_url>eval('http://wap.infan.ru/send/status/?r='+RandomString(DigitCaps,4)+'&amp;id='+Stored['MsgID'])</cd_url>
