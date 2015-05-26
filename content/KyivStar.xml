@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>15</version>
+	<version>16</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -49,8 +49,9 @@
 				Code: string;
 				CaptchaResponse: string;
 			begin
+				PostData.UnsafeFormElem:= URLSpecialChar + ' ' + NonAsciiChar;
 				PostData.Add('c',Stored['challenge']);
-				PostData.Add('response',SMS['Code']);
+				PostData.Add('response', ReplaceStr(SMS['Code'], ' ','+'));
 				Http.HTTPMethod('POST', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
 				CaptchaResponse := Html.RegExp('&lt;textarea.*?onclick=&quot;this.select\(\)&quot;&gt;(.*?)&lt;/textarea&gt;', 1);
 
