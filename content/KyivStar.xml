@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>16</version>
+	<version>17</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -24,6 +24,7 @@
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
+		<error_unsupport>Отправка на Киевстар временно не поддерживается в связи усложнением защиты на сайте Киевстара</error_unsupport>
 		<pageurl>http://www.kyivstar.ua/ru/kr/sms/</pageurl>
 		<imageurl>eval(
 			begin
