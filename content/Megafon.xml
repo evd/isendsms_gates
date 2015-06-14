@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>24</version>
+	<version>25</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -122,7 +122,7 @@
 		<cd_error>eval(
 			begin
 				Result:='Ошибка при проверке подтверждения доставки';
-			end;	
+			end;)	
 		</cd_error>
 	</classprops>
 </gate>
