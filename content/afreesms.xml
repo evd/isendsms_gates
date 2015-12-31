@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gate>
+	<name>afreesms</name>
+	<caption>afreeSms</caption>
+	<type>SMS</type>
+	<class>HTTP</class>
+	<version>1</version>
+	<priority>7</priority>
+	<country>Глобальный</country>
+	<prefixlist>
+		<prefix start="+7 900 000" end="+7 999 999"/>
+		<prefix start="+7 700 000" end="+7 799 999"/>
+		<prefix start="+38 000000" end="+38 999999" format="3.2.7"/>
+	</prefixlist>
+	<info>
+		<maxsymbols>160</maxsymbols>
+		<maxunicodesymbols>70</maxunicodesymbols>
+		<supportflash>0</supportflash>
+		<supportdtdelivery>0</supportdtdelivery>
+		<supportunicode>1</supportunicode>
+		<supportcheckdelivery>0</supportcheckdelivery>
+		<captcha>1</captcha>
+		<gateurl>http://afreesms.com/freesms/</gateurl>
+	</info>
+	<classprops>
+		<encoding>UTF-8</encoding>
+		<pageurl>http://afreesms.com/freesms/</pageurl>
+		<imageurl>eval('http://afreesms.com/image.php?o=' + RandomString('0123456789', 20))/</imageurl>
+		<posturl>http://afreesms.com/freesms/</posturl>
+		<postdata>eval(
+			var 
+				PostStr: string;
+				CountryStr: string;
+				TextField: string;
+			begin
+				TextField := Html.RegExp('&lt;textarea.*?name=(.*?)\s', 1);
+				if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '9') then
+					CountryStr := 'RU'
+				else if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '7') then
+					CountryStr := 'KZ'
+				else if (SMS['Phone_Country'] = '380') then
+					CountryStr := 'UA';
+
+				PostData.add('xajax', 'sel');
+				PostData.add('xajaxr', VarToStr(DateTimeToUnix(Now())));
+				PostData.Add('xajaxargs[]', CountryStr);
+				HTTP.HTTPMethod('Post', 'http://afreesms.com/freesms/');
+
+				PostStr := '&lt;xjxquery&gt;&lt;q&gt;IL_IN_TAG=1';
+				PostStr := PostStr + '&amp;countrycode=' + CountryStr;
+				PostStr := PostStr + '&amp;smsto=' + SMS['Phone_Def'] + SMS['Phone_Number'];
+				PostStr := PostStr + '&amp;' + TextField + '=' + SMS['Text'];
+				PostStr := PostStr + '&amp;msgLen=' + VarToStr(SMS['MaxSymbols'] - Length(SMS['Text']));
+				PostStr := PostStr + '&amp;imgcode=' + SMS['Code'];
+				PostStr := PostStr + '&amp;IL_IN_TAG=1&lt;/q&gt;&lt;/xjxquery&gt;';
+
+				Http.Headers['Origin'] := 'http://afreesms.com';
+				Http.Headers['Method'] := 'POST http://afreesms.com/freesms/ HTTP/1.1';
+				Cookies['rd'] := 'afreesms.com';
+
+				PostData.add('xajax', 'processMsg');
+				PostData.add('xajaxr', VarToStr(DateTimeToUnix(Now())));
+				PostData.Add('xajaxargs[]', PostStr);
+			end;
+		)
+		</postdata>
+		<success>eval(Html.ExistsStr('/report/'))</success>
+		<error>eval(
+			begin
+				if (Html.ExistsStr('Verification Code')) then
+					Result := 'Проверочный код введен неверно'
+				else	
+					Result:=Html.RegExp('alt=&quot;close&quot; /&gt;(.*?)\]', 1);
+				if Result='' then
+					Result := 'Неизвестная ошибка';
+			end;
+		)</error>
+	</classprops>
+</gate>
