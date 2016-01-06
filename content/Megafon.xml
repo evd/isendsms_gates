@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>25</version>
+	<version>26</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -87,14 +87,28 @@
 					Result := 'Номер не принадлежит Мегафону'
 				else if Html.ExistsStr('message') then
 					Result := 'Некорректно введено сообщение'
-				else if Html.ExistsStr('black-words') then
+				else if Html.ExistsStr('black_words') then
 					Result := 'Сообщение нарушает правила пользовательского соглашения и не будет отправлено'
 				else if Html.ExistsStr('server') then
 					Result := 'Произошла ошибка на сервер оператора. Попробуйте позже.'
 				else if Html.ExistsStr('datetime') then
 					Result := 'Неверно указана дата или время'
+				else if Html.ExistsStr('black_phone') then
+					Result := 'На указанный номер телефона нельзя отправлять sms сообщения'
+				else if Html.ExistsStr('black_links') then
+					Result := 'Отправка ссылок запрещена. Сообщение не будет отправлено'
+				else if Html.ExistsStr('similar_text') then
+					Result := 'Ваши сообщения нарушают правила пользовательского соглашения и не будут отправлены'
+				else if Html.ExistsStr('daily_limit') then
+					Result := 'Лимит отправленных сообщений на сегодня для вас исчерпан, попробуйте завтра'
+				else if Html.ExistsStr('not_megafon') then
+					Result := 'Вы можете отправлять сообщения только абонентам МегаФон'
+				else if Html.ExistsStr('banned_ip') then
+					Result := 'В ближайшие сутки отправка сообщений с вашего IP невозможна.'
+				else if Html.ExistsStr('black_phones') then
+					Result := 'Этот абонент не желает получать сообщения с сайта, ваше сообщение не будет доставлено'
 				else 
-					Result := 'Неизвестная ошибка';
+					Result := 'Неизвестная ошибка ' + Html.RegExp('[&quot;(.*?)&quot;]', 1);
 			end;)
 		</error>
 		<cd_method>POST</cd_method>
