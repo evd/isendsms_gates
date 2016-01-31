@@ -68,3 +68,4 @@ GastroGuideDE,
 Beeline2KZ, BeelineKZ
 MTSUAMMS,
 Bomgovka,
+BeelineKZ,afreesms
