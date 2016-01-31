@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>18</version>
+	<version>19</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -37,7 +37,7 @@
 				HTTP.Referer:='http://www.kyivstar.ua/ru/kr/sms/';
 				HTTP.HTTPMethod('GET', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
 				Stored['challenge'] := Html.RegExp('name=&quot;c&quot; value=&quot;(.*?)&quot;', 1);
-				Result := 'www.google.com' + ReplaceStr(Html.RegExp('src=&quot;(.*?)&quot;', 1), 'amp;', '');
+				Result := 'www.google.com' + ReplaceStr(Html.RegExp('fbc-imageselect-payload.*?src=&quot;(.*?)&quot;', 1), 'amp;', '');
 			end;)	
 		</imageurl>
 		<clickimage>1</clickimage>
