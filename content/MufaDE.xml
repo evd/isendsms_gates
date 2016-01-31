@@ -4,7 +4,7 @@
 	<caption>Mufa DE</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>7</priority>
 	<country>Германия</country>
 	<prefixlist>
@@ -16,46 +16,17 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>0</supportunicode>
-		<captcha>1</captcha>
+		<captcha>0</captcha>
 		<gateurl>http://www.mufa.de/free-sms.html</gateurl>
 	</info>
 	<classprops>
 		<encoding>ISO-8859-1</encoding>
 		<pageurl>http://www.mufa.de/free-sms.html</pageurl>
-		<imageurl>eval(
-			var
-				ImageUrl: string;
-			begin
-				HTTP.Referer:='http://www.mufa.de/free-sms.html';
-				Stored['key'] := Html.RegExp('data-sitekey=&quot;(.*?)&quot;',1);
-				HTTP.HTTPMethod('GET', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
-				Stored['challenge'] := Html.RegExp('name=&quot;c&quot; value=&quot;(.*?)&quot;', 1);
-				Result := 'www.google.com' + ReplaceStr(Html.RegExp('src=&quot;(.*?)&quot;', 1), 'amp;', '');
-				//HTTP.HTTPMethod('GET', 'https://www.google.com/recaptcha/api/noscript?k=' + Stored['key']);
-				//Stored['challenge']:=Html.RegExp('challenge : ''(.*?)''',1);
-				//HTTP.HTTPMethod('GET','https://www.google.com/recaptcha/api/reload?c=' + Stored['challenge'] + '&amp;k=' + Stored['key'] + '&amp;reason=i&amp;type=image&amp;lang=ru');
-				//Stored['challenge']:=Html.RegExp('finish_reload\(''(.*?)''',1);
-				//Result:='www.google.com/recaptcha/api/image?c='+Stored['challenge'];
-			end;
-						
-		)</imageurl>
 		<posturl>http://www.mufa.de/free-sms.html</posturl>
 		<postdata>eval(
-					var
-						CaptchaResponse: string;
 					begin
-						PostData.Add('c',Stored['challenge']);
-						PostData.Add('response',SMS['Code']);
-						Http.HTTPMethod('POST', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
-						CaptchaResponse := Html.RegExp('&lt;textarea.*?onclick=&quot;this.select\(\)&quot;&gt;(.*?)&lt;/textarea&gt;', 1);
-
-						HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
-						HTTP.Headers.RemoveNamed('Accept');
-						HTTP.Headers['Accept']:='application/json, text/javascript, */*; q=0.01';
-
 						PostData.Add('input_recipient',SMS['Phone_Def']+SMS['Phone_Number']);
 						PostData.Add('input_message',SMS['Text']);
-						PostData.Add('g-recaptcha-response', CaptchaResponse);
 					end;
 					)
 		</postdata>
