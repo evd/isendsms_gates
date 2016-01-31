@@ -40,7 +40,6 @@
 				Result := 'www.google.com' + ReplaceStr(Html.RegExp('src=&quot;(.*?)&quot;', 1), 'amp;', '');
 			end;)	
 		</imageurl>
-		<gateerror>eval(Stored['error'])</gateerror>
 		<clickimage>1</clickimage>
 		<clickimagewidth>100</clickimagewidth>
 		<clickimageheight>100</clickimageheight>
@@ -70,12 +69,11 @@
 		<postdata>eval(
 			var
 				i: integer;
-				Code: string;
 				CaptchaResponse: string;
 			begin
-				//Сортируем цифры в коде
 				PostData.UnsafeFormElem:= URLSpecialChar + ' ' + NonAsciiChar;
 				PostData.Add('c',Stored['challenge']);
+				//Отправляем выбранные картинки
 				for i:=1 to 9 do
 				begin
 					if Pos(VarToStr(i), SMS['Code'])>0 then
