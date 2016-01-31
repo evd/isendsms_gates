@@ -4,7 +4,7 @@
 	<caption>Киевстар</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>17</version>
+	<version>18</version>
 	<priority>30</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -20,12 +20,11 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>1</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://www.kyivstar.ua/ru/kr/sms/</gateurl>
+		<gateurl>http://www.kyivstar.ua/ru/kr-620/sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<error_unsupport>Отправка на Киевстар временно не поддерживается в связи с усложнением защиты на сайте Киевстара</error_unsupport>
-		<pageurl>http://www.kyivstar.ua/ru/kr/sms/</pageurl>
+		<pageurl>http://www.kyivstar.ua/ru/kr-620/sms/</pageurl>
 		<imageurl>eval(
 			begin
 				Stored['key'] := Html.RegExp('data-sitekey=&quot;(.*?)&quot;',1);
@@ -41,7 +40,31 @@
 				Result := 'www.google.com' + ReplaceStr(Html.RegExp('src=&quot;(.*?)&quot;', 1), 'amp;', '');
 			end;)	
 		</imageurl>
-		<imagedescription>Введите код, указанный на изображении (изображение с сайта Киевстара)</imagedescription>
+		<gateerror>eval(Stored['error'])</gateerror>
+		<clickimage>1</clickimage>
+		<clickimagewidth>100</clickimagewidth>
+		<clickimageheight>100</clickimageheight>
+		<proccessimage>eval(
+			var
+				x,y,dstx,dsty: integer;
+			begin
+				Img.SetSize(500, 200);
+				dstx := 0; dsty := 0;
+				for y:=0 to 2 do
+					for x:=0 to 2 do
+					begin
+						Img.CopyRect(dstx, dsty, Bounds(x*100,y*100,100,100));
+						dstx := dstx + 100;
+						if dstx = 500 then
+						begin
+							dstx := 0;
+							dsty := dsty + 100;
+						end;
+					end;
+			end;
+		)
+		</proccessimage>		
+		<imagedescription>eval(CleanMessageText(Html.RegExp('class=&quot;fbc-imageselect-message-text&quot;&gt;(.*?)&lt;/label&gt;', 1)))</imagedescription>
 		<gateerror>eval(Stored['error'])</gateerror>
 		<posturl>http://www.kyivstar.ua/_ajax/sms/?action=send</posturl>
 		<postdata>eval(
@@ -50,9 +73,14 @@
 				Code: string;
 				CaptchaResponse: string;
 			begin
+				//Сортируем цифры в коде
 				PostData.UnsafeFormElem:= URLSpecialChar + ' ' + NonAsciiChar;
 				PostData.Add('c',Stored['challenge']);
-				PostData.Add('response', ReplaceStr(SMS['Code'], ' ','+'));
+				for i:=1 to 9 do
+				begin
+					if Pos(VarToStr(i), SMS['Code'])>0 then
+						PostData.Add('response', VarToStr(i-1));
+				end;
 				Http.HTTPMethod('POST', 'https://www.google.com/recaptcha/api/fallback?k=' + Stored['key']);
 				CaptchaResponse := Html.RegExp('&lt;textarea.*?onclick=&quot;this.select\(\)&quot;&gt;(.*?)&lt;/textarea&gt;', 1);
 
@@ -60,14 +88,6 @@
 				HTTP.Headers['X-CSRF-Token']:=Stored['authenticity_token'];
 				HTTP.Headers.RemoveNamed('Accept');
 				HTTP.Headers['Accept']:='application/json, text/javascript, */*; q=0.01';
-
-				//Сортируем цифры в коде
-				Code := '';
-				for i:=1 to 9 do
-				begin
-					if Pos(VarToStr(i), SMS['Code'])>0 then
-						Code:=Code + VarToStr(i);
-				end;
 
 				PostData.Add('code','0'+SMS['Phone_Def']);
 				PostData.Add('phone',SMS['Phone_Number']);
@@ -101,7 +121,7 @@
 				else if Error = 'error-while-sending' then
 					Result:='Произошла ошибка.'
 				else if Error = 'captcha-is-wrong' then
-					Result:='Код с изображения введен неверно (изображение с кодом с сайта Киевстара)'
+					Result:='Неверно выбраны изображения. Попробуйте еще раз.'
 				else if Error = 'cpi-error' then
 					Result:='Во время отправления SMS произошла ошибка'
 				else if Error = 'sms-session-expired' then
