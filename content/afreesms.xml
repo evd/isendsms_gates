@@ -4,13 +4,13 @@
 	<caption>afreeSms</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>7</priority>
 	<country>Глобальный</country>
 	<prefixlist>
 		<prefix start="+7 900 000" end="+7 999 999"/>
 		<prefix start="+7 700 000" end="+7 799 999"/>
-		<prefix start="+38 000000" end="+38 999999" format="3.2.7"/>
+		<prefix start="+380 00 000" end="+380 99 999" format="3.2.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
@@ -35,8 +35,17 @@
 				TokenCookieStr: string;
 			begin
 				TokenCookieStr := Html.RegExp('&quot;token&quot;,&quot;(.*?)&quot;', 1);
+				Stored['CountryField'] := Html.RegExp('&lt;strong&gt;Country:.*?&lt;select.*?name=&quot;(.*?)&quot;', 1);
+				Stored['TextField'] := Html.RegExp('&lt;strong&gt;Message:.*?&lt;textarea.*?name=&quot;(.*?)&quot;', 1);
+				Stored['PhoneField'] := Html.RegExp('&lt;strong&gt;Mobile Number:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1);
+				Stored['CodeField'] := Html.RegExp('&lt;strong&gt;Verification Code:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1);
+				Stored['MsgLenField'] := 'msgLen';
+				Stored['csrfNameField'] := 'csrf_name';
+				Stored['csrfTokenField'] := 'csrf_token';
 
-				TextField := Html.RegExp('&lt;textarea.*?name=(.*?)\s', 1);
+				Stored['csrfNameValue'] := Html.RegExp('&lt;input.*?name=&quot;csrf_name&quot; value=&quot;(.*?)&quot;', 1);
+				Stored['csrfTokenValue'] := Html.RegExp('&lt;input.*?name=&quot;csrf_token&quot; value=&quot;(.*?)&quot;', 1);
+
 				if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '9') then
 					CountryStr := 'RU'
 				else if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '7') then
@@ -50,11 +59,13 @@
 				HTTP.HTTPMethod('Post', 'http://afreesms.com/freesms/');
 
 				PostStr := '&lt;xjxquery&gt;&lt;q&gt;IL_IN_TAG=1';
-				PostStr := PostStr + '&amp;countrycode=' + CountryStr;
-				PostStr := PostStr + '&amp;smsto=' + SMS['Phone_Def'] + SMS['Phone_Number'];
-				PostStr := PostStr + '&amp;' + TextField + '=' + SMS['Text'];
-				PostStr := PostStr + '&amp;msgLen=' + VarToStr(SMS['MaxSymbols'] - Length(SMS['Text']));
-				PostStr := PostStr + '&amp;imgcode=' + SMS['Code'];
+				PostStr := PostStr + '&amp;' + Stored['CountryField'] + '=' + CountryStr;
+				PostStr := PostStr + '&amp;' + Stored['PhoneField'] + '=' + SMS['Phone_Def'] + SMS['Phone_Number'];
+				PostStr := PostStr + '&amp;' + Stored['TextField'] + '=' + SMS['Text'];
+				PostStr := PostStr + '&amp;' + Stored['MsgLenField'] + '=' + VarToStr(SMS['MaxSymbols'] - Length(SMS['Text']));
+				PostStr := PostStr + '&amp;' + Stored['CodeField'] + '=' + SMS['Code'];
+				PostStr := PostStr + '&amp;' + Stored['csrfNameField'] + '=' + Stored['csrfNameValue'];
+				PostStr := PostStr + '&amp;' + Stored['csrfTokenField'] + '=' + Stored['csrfTokenValue'];
 				PostStr := PostStr + '&amp;IL_IN_TAG=1&lt;/q&gt;&lt;/xjxquery&gt;';
 
 				Http.Headers['Origin'] := 'http://afreesms.com';
