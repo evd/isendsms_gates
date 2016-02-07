@@ -4,7 +4,7 @@
 	<caption>afreeSms</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>3</version>
+	<version>4</version>
 	<priority>7</priority>
 	<country>Глобальный</country>
 	<prefixlist>
@@ -33,6 +33,9 @@
 				CountryStr: string;
 				TextField: string;
 				TokenCookieStr: string;
+				TmpStr: string;
+				Matches: TRegExpMatches;
+				i,j: integer;
 			begin
 				TokenCookieStr := Html.RegExp('&quot;token&quot;,&quot;(.*?)&quot;', 1);
 				Stored['CountryField'] := Html.RegExp('&lt;strong&gt;Country:.*?&lt;select.*?name=&quot;(.*?)&quot;', 1);
@@ -40,11 +43,16 @@
 				Stored['PhoneField'] := Html.RegExp('&lt;strong&gt;Mobile Number:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1);
 				Stored['CodeField'] := Html.RegExp('&lt;strong&gt;Verification Code:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1);
 				Stored['MsgLenField'] := 'msgLen';
-				Stored['csrfNameField'] := 'csrf_name';
-				Stored['csrfTokenField'] := 'csrf_token';
 
-				Stored['csrfNameValue'] := Html.RegExp('&lt;input.*?name=&quot;csrf_name&quot; value=&quot;(.*?)&quot;', 1);
-				Stored['csrfTokenValue'] := Html.RegExp('&lt;input.*?name=&quot;csrf_token&quot; value=&quot;(.*?)&quot;', 1);
+				Matches := TRegExpMatches.Create;
+				Html.RegExpAll('&lt;input.*?&gt;', Matches);
+				if (Matches.MatchesCount >= 6) then
+				begin
+					Stored['csrfNameField'] := RegExp('name=&quot;(.*?)&quot;', Matches.GetCapture(5, 0), 1);
+					Stored['csrfNameValue'] := RegExp('value=&quot;(.*?)&quot;', Matches.GetCapture(5, 0), 1);
+					Stored['csrfTokenField'] := RegExp('name=&quot;(.*?)&quot;', Matches.GetCapture(6, 0), 1);
+					Stored['csrfTokenValue'] := RegExp('value=&quot;(.*?)&quot;', Matches.GetCapture(6, 0), 1);
+				end;
 
 				if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '9') then
 					CountryStr := 'RU'
