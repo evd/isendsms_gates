@@ -4,7 +4,7 @@
 	<caption>Мегафон ММС</caption>
 	<type>MMS</type>
 	<class>HTTP</class>
-	<version>15</version>
+	<version>16</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -42,7 +42,7 @@
 		<maxmultimediasize>81920</maxmultimediasize>
 	</info>
 	<classprops>
-		<error_unsupport>Мегафон изменил условия бесплатной отправки SMS и теперь сообщение могут отправить только абоненты Мегафон (подтверждение через код по SMS). Сервиса отправки MMS на сайте оператора пока нет, поэтому отправить MMS из программы в данный момент нет возможности</error_unsupport>
+		<error_unsupport>Мегафон изменил условия бесплатной отправки SMS и теперь сообщение могут отправить только абоненты Мегафон. Сервиса отправки MMS на сайте оператора пока нет</error_unsupport>
 		<encoding>UTF-8</encoding>
 		<multipart>1</multipart>
 		<pageurl>http://moscow.megafon.ru/help/info/message/</pageurl>
