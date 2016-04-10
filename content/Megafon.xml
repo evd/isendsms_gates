@@ -4,7 +4,7 @@
 	<caption>Мегафон</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>26</version>
+	<version>27</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -33,6 +33,7 @@
 		<gateurl>http://moscow.megafon.ru/help/info/message/</gateurl>
 	</info>
 	<classprops>
+		<error_unsupport>Мегафон изменил условия бесплатной отправки SMS и теперь сообщение могут отправить только абоненты Мегафон (подтверждение через код по SMS). В ближайшее время отправка из программы будет возоблена, но отправить смогут только абоненты Мегафона</error_unsupport>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://moscow.megafon.ru/help/info/message/</pageurl>
 		<imageurl>eval(
