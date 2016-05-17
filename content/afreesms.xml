@@ -4,11 +4,10 @@
 	<caption>afreeSms</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>4</version>
+	<version>5</version>
 	<priority>7</priority>
 	<country>Глобальный</country>
 	<prefixlist>
-		<prefix start="+7 900 000" end="+7 999 999"/>
 		<prefix start="+7 700 000" end="+7 799 999"/>
 		<prefix start="+380 00 000" end="+380 99 999" format="3.2.7"/>
 	</prefixlist>
