@@ -4,11 +4,12 @@
 	<caption>UzMobile</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>1</version>
+	<version>2</version>
 	<priority>10</priority>
 	<country>Узбекистан</country>
 	<prefixlist>
 		<prefix start="+998 95" format="3.2.7"/>
+		<prefix start="+998 99" format="3.2.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>156</maxsymbols>
