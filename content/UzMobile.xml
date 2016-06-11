@@ -4,7 +4,7 @@
 	<caption>UzMobile</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>2</version>
+	<version>3</version>
 	<priority>10</priority>
 	<country>Узбекистан</country>
 	<prefixlist>
@@ -18,18 +18,18 @@
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
 		<captcha>1</captcha>
-		<gateurl>http://sms.uzcdma.uz/</gateurl>
+		<gateurl>https://sms.uzcdma.uz/</gateurl>
 	</info>
 	<classprops>
-		<encoding>Windows-1251</encoding>
-		<pageurl>http://sms.uzcdma.uz/</pageurl>
-		<imageurl>eval('http://sms.uzcdma.uz/tmp/'+HTML.RegExp('tmp\/(.*?\.png)&quot;',1))</imageurl>
-		<posturl>http://sms.uzcdma.uz/index1.php</posturl>
+		<encoding>UTF-8</encoding>
+		<pageurl>https://sms.uzcdma.uz/</pageurl>
+		<imageurl>eval('https://sms.uzcdma.uz/tmp/'+HTML.RegExp('tmp\/(.*?\.png)&quot;',1))</imageurl>
+		<posturl>https://sms.uzcdma.uz/index.php</posturl>
 		<postdata>eval(
 					begin
 						PostData.Add('act','3');
 						PostData.Add('Subscriber',SMS['Phone_Number']);
-						PostData.Add('gmess',SMS['Code']);
+						PostData.Add('gmess',SMS['Text']);
 						PostData.Add('gip','127.0.0.1');
 						PostData.Add('Count','1');
 						PostData.Add('askod1',SMS['Code']);
