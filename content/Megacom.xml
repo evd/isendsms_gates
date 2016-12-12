@@ -4,7 +4,7 @@
 	<caption>Megacom</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>6</version>
+	<version>7</version>
 	<priority>10</priority>
 	<country>Кыргызстан</country>
 	<prefixlist>
@@ -18,37 +18,46 @@
 		<supportunicode>1</supportunicode>
 		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://megacom.kg/rus/freesms/</gateurl>
+		<gateurl>https://www.megacom.kg/pages/sendsms-ru?locale=ru</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://megacom.kg/rus/freesms/</pageurl>
-		<imageurl>eval('http://megacom.kg/captcha/index/'+Html.RegExp('src=&quot;\/captcha\/index\/(.*?)&quot;',1))</imageurl>
-		<posturl>http://megacom.kg/rus/freesms/index/sendsms/</posturl>
-		<multipart>1</multipart>
+		<pageurl>https://megapage.megacom.kg/sms/sendsms.php?lang=rus</pageurl>
+		<imageurl>eval('https://megapage.megacom.kg'+Html.RegExp('src=&quot;(\/kcaptcha\/\?captcha_code=(.*?))&quot;',1))</imageurl>
+		<posturl>https://megapage.megacom.kg/sms/sendsms.php?lang=rus</posturl>
 		<postdata>eval(
 						var
 							DT: TDateTime;
 						begin
 							DT:=SMS['DeliveryTime'];
-							PostData.Add('prefix',Copy(SMS['Phone_Def'],3,1));
-							PostData.Add('msisdn',SMS['Phone_Number']);
-							PostData.Add('messege',SMS['Text']);
-							if SMS['Delivery'] then
-							begin
-								PostData.Add('send_time','send_late');
-								PostData.Add('send_date',VarAsType(DT-Now,varInteger));
-								PostData.Add('hour',FormatDateTime('h',DT));
-								PostData.Add('minute',FormatDateTime('n',DT));
-							end
-							else 
-								PostData.Add('send_time','send_now');
+							PostData.Add('buttonpress', 'ok');
+							PostData.Add('msisdnprefix',Copy(SMS['Phone_Def'],3,1));
+							PostData.Add('msisdnbody',SMS['Phone_Number']);
+							PostData.Add('message',SMS['Text']);
+							PostData.Add('send_date',VarAsType(DT-Now,varInteger));
+							PostData.Add('hour',FormatDateTime('h',DT));
+							PostData.Add('minute',FormatDateTime('n',DT));
 							PostData.Add('captcha',SMS['Code']);
-							PostData.Add('submit','Отправить');
 						end;
 					)
 		</postdata>
 		<success>eval(HTML.ExistsStr('Ваше сообщение принято к доставке абоненту'))</success>
-		<error>eval(Html.RegExp('&lt;ul class=&quot;errors&quot;&gt;&lt;li&gt;(.*?)&lt;/li&gt;&lt;/ul&gt;',1))</error>
+		<error>eval(
+			var
+				ErrorCode: string;
+			begin
+				ErrorCode := Html.RegExp('var error_code = &quot;(.*?)&quot;', 1);
+				if ErrorCode = '1' then
+					Result := 'Секретный код введен неверно'
+				else if ErrorCode = '6'	then
+					Result := 'Номер введен неверно'
+				else if ErrorCode = '11' then
+					Result := 'Номер введен неверно'
+				else if ErrorCode = '7' then
+					Result := 'Неверный текст сообщения'
+				else
+					Result := 'Неизвестная ошибка ' + ErrorCode;
+			end;)
+		</error>
 	</classprops>
 </gate>
