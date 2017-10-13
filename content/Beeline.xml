@@ -4,7 +4,7 @@
 	<caption>БиЛайн</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>44</version>
+	<version>45</version>
 	<priority>10</priority>
 	<country>Россия</country>
 	<prefixlist>
@@ -76,78 +76,40 @@
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
 		<supportunicode>1</supportunicode>
-		<supportcheckdelivery>1</supportcheckdelivery>
+		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://moskva.beeline.ru/customers/products/mobile/services/details/otpravka-sms/</gateurl>
+		<gateurl>https://moskva.beeline.ru/customers/products/mobile/services/details/otpravka-sms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://moskva.beeline.ru/customers/products/mobile/services/details/otpravka-sms/</pageurl>
+		<pageurl>https://moskva.beeline.ru/customers/products/mobile/services/details/otpravka-sms/</pageurl>
 		<imageurl>eval(
 			begin
 				Stored['captchaKey'] := Html.RegExp('name=&quot;_captcha_key&quot; value=&quot;(.*?)&quot;', 1);
-				Result:='http://moskva.beeline.ru/captcha.ashx?' + 'w=148&amp;h=39&amp;key=' + Stored['captchaKey'] + '&amp;r=0.' + RandomString(DigitCaps,9);
+				Result:='https://moskva.beeline.ru/captcha.ashx?' + 'w=148&amp;h=39&amp;key=' + Stored['captchaKey'] + '&amp;r=0.' + RandomString(DigitCaps,9);
 			end;)
 		</imageurl>
-		<posturl>eval(
-			var
-				url: string;
-			begin
-				if (Stored['url']='') then
-				begin
-					url := Html.RegExp('ControllerUrl : &quot;(.*?)&quot;',1);
-					url := 'http://moskva.beeline.ru' + ReplaceStr(url, '\u0026', '&amp;');
-					Stored['url'] := url;
-				end;	
-				Result:=ReplaceStr(Stored['url'], 'replacethisaction', 'SendSms');
-			end;)	
-		</posturl>
+		<posturl>https://moskva.beeline.ru/smssend/SendSms/?ui-part=442090</posturl>
 		<postdata>eval(
 			begin
 				HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
 
 				PostData.Add('PhoneCode',SMS['Phone_Def']);
-				PostData.Add('',SMS['Phone_Def']);
-				PostData.Add('','Отправить сообщение');
-				PostData.Add('ca3e1013-b580-a401-37fc-6213928b1656.PhoneComplexElement',
-					Copy(SMS['Phone_Number'], 1, 3) + '-' +
-					Copy(SMS['Phone_Number'], 4, 2) + '-' +
-					Copy(SMS['Phone_Number'], 6, 2)
-				);
 				PostData.Add('Phone',SMS['Phone_Number']);
 				PostData.Add('_captcha_key',Stored['captchaKey']);
 				PostData.Add('Captcha',SMS['Code']);
 				PostData.Add('CheckboxTransliterate',iff(IsAscii(SMS['Text']),'true','false'));
 				PostData.Add('Body',SMS['Text']);
 				PostData.Add('WidgetId',Html.RegExp('WidgetId: &quot;(.*?)&quot;', 1));
+				PostData.Add('clearJson', true);
 
 			end;)
 		</postdata>
 		<success>eval(
 			begin
-				Result := HTML.ExistsStr('&quot;IsSucceeded&quot;:true');
-				//if (Result) then
-					Stored['smsId'] := Html.RegExp('name=\\&quot;Id\\&quot;.*?value=\\&quot;(.*?)\\&quot;', 1);
+				Result := HTML.ExistsStr('ожидает отправки');
 			end;)
 		</success>
-		<error>eval(Html.RegExp('&quot;ErrorMessage&quot;:&quot;(.*?)&quot;', 1))</error>
-		<cd_method>POST</cd_method>
-		<cd_posturl>eval(ReplaceStr(Stored['url'], 'replacethisaction', 'SendSmsStatus'))</cd_posturl>
-		<cd_postdata>eval(
-				begin
-					HTTP.Headers['X-Requested-With'] := 'XMLHttpRequest';
-					PostData.Add('Id',Stored['smsId']);
-					PostData.Add('Phone','');
-				end;)
-		</cd_postdata>
-		<cd_success>eval(
-						begin
-							if Html.ExistsStr('&quot;StatusText&quot;:&quot;ожидает отправки&quot;') then
-								Result:='WAIT'
-							else Result:=Html.ExistsStr('&quot;StatusText&quot;:&quot;отправлено&quot;');
-						end;	
-					   )
-		</cd_success>
-		<cd_error>Ошибка подверждения доставки</cd_error>
-	</classprops>
+		<error>eval(Html.RegExp('&quot;errors&quot;:{&quot;\w+&quot;:&quot;(.*?)&quot;', 1))</error>
+	</classprops>	
 </gate>
