@@ -4,80 +4,74 @@
 	<caption>afreeSms</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>5</version>
+	<version>6</version>
 	<priority>7</priority>
 	<country>Глобальный</country>
 	<prefixlist>
+		<prefix start="+7 900 000" end="+7 999 999"/>
 		<prefix start="+7 700 000" end="+7 799 999"/>
 		<prefix start="+380 00 000" end="+380 99 999" format="3.2.7"/>
+		<prefix start="+375 00 000" end="+375 99 999" format="3.2.7"/>
 	</prefixlist>
 	<info>
 		<maxsymbols>160</maxsymbols>
 		<maxunicodesymbols>70</maxunicodesymbols>
 		<supportflash>0</supportflash>
 		<supportdtdelivery>0</supportdtdelivery>
-		<supportunicode>1</supportunicode>
+		<supportunicode>0</supportunicode>
 		<supportcheckdelivery>0</supportcheckdelivery>
 		<captcha>1</captcha>
-		<gateurl>http://afreesms.com/freesms/</gateurl>
+		<gateurl>http://www.afreesms.com/freesms/</gateurl>
 	</info>
 	<classprops>
 		<encoding>UTF-8</encoding>
-		<pageurl>http://afreesms.com/freesms/</pageurl>
-		<imageurl>eval('http://afreesms.com/image.php?o=' + RandomString('0123456789', 20))/</imageurl>
-		<posturl>http://afreesms.com/freesms/</posturl>
+		<pageurl>http://www.afreesms.com/freesms/</pageurl>
+		<imageurl>eval('http://www.afreesms.com/image.php?o=' + RandomString('0123456789', 20))/</imageurl>
+		<posturl>http://www.afreesms.com/freesms/</posturl>
 		<postdata>eval(
 			var 
 				PostStr: string;
 				CountryStr: string;
-				TextField: string;
 				TokenCookieStr: string;
-				TmpStr: string;
 				Matches: TRegExpMatches;
 				i,j: integer;
 			begin
-				TokenCookieStr := Html.RegExp('&quot;token&quot;,&quot;(.*?)&quot;', 1);
-				Stored['CountryField'] := Html.RegExp('&lt;strong&gt;Country:.*?&lt;select.*?name=&quot;(.*?)&quot;', 1);
-				Stored['TextField'] := Html.RegExp('&lt;strong&gt;Message:.*?&lt;textarea.*?name=&quot;(.*?)&quot;', 1);
-				Stored['PhoneField'] := Html.RegExp('&lt;strong&gt;Mobile Number:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1);
-				Stored['CodeField'] := Html.RegExp('&lt;strong&gt;Verification Code:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1);
-				Stored['MsgLenField'] := 'msgLen';
+				if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '9') then
+					CountryStr := 'RU'
+				else if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '7') then
+					CountryStr := 'KZ'
+				else if (SMS['Phone_Country'] = '375') then
+					CountryStr := 'BY'
+				else if (SMS['Phone_Country'] = '380') then
+					CountryStr := 'UA';
+
+				PostStr := '&lt;xjxquery&gt;&lt;q&gt;IL_IN_TAG=1&amp;';
+				PostStr := PostStr + Html.RegExp('&lt;strong&gt;Country:.*?&lt;select.*?name=&quot;(.*?)&quot;', 1) + '=' + CountryStr + '&amp;';
+				PostStr := PostStr + Html.RegExp('&lt;strong&gt;Mobile Number:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1) + '=' + SMS['Phone_Def'] + SMS['Phone_Number'] + '&amp;';
+				PostStr := PostStr + Html.RegExp('&lt;strong&gt;Message:.*?&lt;textarea.*?name=&quot;(.*?)&quot;', 1) + '=' + SMS['Text'] + '&amp;';
+				PostStr := PostStr + 'msgLen' + '=' + VarToStr(SMS['MaxSymbols'] - Length(SMS['Text'])) + '&amp;';
+				PostStr := PostStr + 'smsFrom' + '=' + '' + '&amp;';
+				PostStr := PostStr + Html.RegExp('&lt;strong&gt;Verification Code:.*?&lt;input.*?name=&quot;(.*?)&quot;', 1) + '=' + SMS['Code'] + '&amp;';
 
 				Matches := TRegExpMatches.Create;
 				Html.RegExpAll('&lt;input.*?&gt;', Matches);
 				if (Matches.MatchesCount >= 6) then
 				begin
-					Stored['csrfNameField'] := RegExp('name=&quot;(.*?)&quot;', Matches.GetCapture(5, 0), 1);
-					Stored['csrfNameValue'] := RegExp('value=&quot;(.*?)&quot;', Matches.GetCapture(5, 0), 1);
-					Stored['csrfTokenField'] := RegExp('name=&quot;(.*?)&quot;', Matches.GetCapture(6, 0), 1);
-					Stored['csrfTokenValue'] := RegExp('value=&quot;(.*?)&quot;', Matches.GetCapture(6, 0), 1);
+					PostStr := PostStr + RegExp('name=&quot;(.*?)&quot;', Matches.GetCapture(5, 0), 1) + '=' + RegExp('value=&quot;(.*?)&quot;', Matches.GetCapture(5, 0), 1) + '&amp;';
+					PostStr := PostStr + RegExp('name=&quot;(.*?)&quot;', Matches.GetCapture(6, 0), 1) + '=' + RegExp('value=&quot;(.*?)&quot;', Matches.GetCapture(6, 0), 1) + '&amp;';
 				end;
-
-				if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '9') then
-					CountryStr := 'RU'
-				else if (SMS['Phone_Country'] = '7') and (Copy(SMS['Phone_Def'], 1, 1) = '7') then
-					CountryStr := 'KZ'
-				else if (SMS['Phone_Country'] = '380') then
-					CountryStr := 'UA';
+				TokenCookieStr := Html.RegExp('&quot;token&quot;,&quot;(.*?)&quot;', 1);
 
 				PostData.add('xajax', 'sel');
 				PostData.add('xajaxr', VarToStr(DateTimeToUnix(Now())));
 				PostData.Add('xajaxargs[]', CountryStr);
-				HTTP.HTTPMethod('Post', 'http://afreesms.com/freesms/');
+				HTTP.HTTPMethod('Post', 'http://www.afreesms.com/freesms/');
 
-				PostStr := '&lt;xjxquery&gt;&lt;q&gt;IL_IN_TAG=1';
-				PostStr := PostStr + '&amp;' + Stored['CountryField'] + '=' + CountryStr;
-				PostStr := PostStr + '&amp;' + Stored['PhoneField'] + '=' + SMS['Phone_Def'] + SMS['Phone_Number'];
-				PostStr := PostStr + '&amp;' + Stored['TextField'] + '=' + SMS['Text'];
-				PostStr := PostStr + '&amp;' + Stored['MsgLenField'] + '=' + VarToStr(SMS['MaxSymbols'] - Length(SMS['Text']));
-				PostStr := PostStr + '&amp;' + Stored['CodeField'] + '=' + SMS['Code'];
-				PostStr := PostStr + '&amp;' + Stored['csrfNameField'] + '=' + Stored['csrfNameValue'];
-				PostStr := PostStr + '&amp;' + Stored['csrfTokenField'] + '=' + Stored['csrfTokenValue'];
-				PostStr := PostStr + '&amp;IL_IN_TAG=1&lt;/q&gt;&lt;/xjxquery&gt;';
+				PostStr := PostStr + 'IL_IN_TAG=1&lt;/q&gt;&lt;/xjxquery&gt;';
 
-				Http.Headers['Origin'] := 'http://afreesms.com';
-				Http.Headers['Method'] := 'POST http://afreesms.com/freesms/ HTTP/1.1';
-				Cookies['rd'] := 'afreesms.com';
+				Http.Headers['Origin'] := 'http://www.afreesms.com';
+				Http.Headers['Method'] := 'POST http://www.afreesms.com/freesms/ HTTP/1.1';
+				Cookies['rd'] := 'www.afreesms.com';
 
 				TokenCookieStr := ReplaceStr(TokenCookieStr, '\x', '');
 				TokenCookieStr := DecodeHex(TokenCookieStr);
