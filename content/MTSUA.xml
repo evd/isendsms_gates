@@ -4,7 +4,7 @@
 	<caption>МТС Украина</caption>
 	<type>SMS</type>
 	<class>HTTP</class>
-	<version>7</version>
+	<version>8</version>
 	<priority>10</priority>
 	<country>Украина</country>
 	<prefixlist>
@@ -23,7 +23,7 @@
 		<gateurl>http://www.mts.ua/ru/online-services/send-sms/</gateurl>
 	</info>
 	<classprops>
-		<error_unsupport>Не работает, т.к. на сайте у Киевстара теперь более сложная защита и отправить можно только из браузера. Решения как обойти пока нет.</error_unsupport>
+		<error_unsupport>Не работает, т.к. на сайте у МТС теперь более сложная защита и отправить можно только из браузера. Решения как обойти пока нет.</error_unsupport>
 		<encoding>UTF-8</encoding>
 		<pageurl>http://www.mts.ua/ru/online-services/send-sms/</pageurl>
 		<imageurl>eval('http://www.mts.ua'+ ReplaceStr(HTML.RegExp('id=&quot;captcha1&quot;.*?src=&quot;(.*?)&quot;',1),'amp;','') )</imageurl>
